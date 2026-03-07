@@ -11,5 +11,16 @@ kramdown:
 
 theme: minima
 
-# Suppress auto-nav — only show Home in header
+# Only the README (index) appears in nav - all other pages hidden
 header_pages: []
+
+# Set defaults so chapter pages don't get title auto-detected for nav
+defaults:
+  - scope:
+      path: "chapters-md"
+    values:
+      sitemap: false
+
+# Suppress auto-nav by excluding chapters folder from site pages list
+exclude_from_nav:
+  - chapters-md
