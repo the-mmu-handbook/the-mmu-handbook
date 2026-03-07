@@ -10,3 +10,6 @@ kramdown:
   parse_block_html: true
 
 theme: minima
+
+# Suppress auto-nav — only show Home in header
+header_pages: []
