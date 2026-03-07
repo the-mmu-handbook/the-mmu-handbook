@@ -1,3 +1,8 @@
+---
+nav_exclude: true
+sitemap: false
+---
+
 ::: {#title-block-header}
 # Chapter 15: Beyond Traditional MMU - Alternative Translation Architectures {#chapter-15-beyond-traditional-mmu---alternative-translation-architectures .title}
 :::

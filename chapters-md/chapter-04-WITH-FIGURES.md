@@ -1,3 +1,8 @@
+---
+nav_exclude: true
+sitemap: false
+---
+
 ::: {#title-block-header}
 # Chapter 4: Translation Lookaside Buffer (TLB) - Deep Dive {#chapter-4-translation-lookaside-buffer-tlb---deep-dive .title}
 :::

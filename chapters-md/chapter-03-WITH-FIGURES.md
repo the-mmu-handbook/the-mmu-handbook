@@ -1,3 +1,8 @@
+---
+nav_exclude: true
+sitemap: false
+---
+
 # Chapter 3: Page Table Structures and Implementation
 
 - [Chapter 3: Page Table Structures and

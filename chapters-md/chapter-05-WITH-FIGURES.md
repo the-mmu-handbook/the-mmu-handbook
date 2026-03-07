@@ -1,3 +1,8 @@
+---
+nav_exclude: true
+sitemap: false
+---
+
 ::: {#title-block-header}
 # Chapter 5: IOMMU and DMA Remapping - Deep Dive {#chapter-5-iommu-and-dma-remapping---deep-dive .title}
 :::
