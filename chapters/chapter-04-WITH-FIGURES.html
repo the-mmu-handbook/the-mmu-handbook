@@ -760,7 +760,7 @@ set requirements - Optimal TLB organization differs by page size -
 Solution: Multiple TLBs or flexible entries supporting multiple
 sizes</p>
 <h4 id="typical-tlb-hierarchy">Typical TLB Hierarchy</h4>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-4-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -834,7 +834,7 @@ sizes</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 4.tlb-hier:</strong> TLB hierarchy: L1 ITLB and DTLB serve in 1 cycle; misses fall to L2 STLB (8–12 cycles); STLB misses trigger the hardware page table walker (50–200 ns).
+    <strong>Figure 4.1:</strong> TLB hierarchy: L1 ITLB and DTLB serve in 1 cycle; misses fall to L2 STLB (8–12 cycles); STLB misses trigger the hardware page table walker (50–200 ns).
   </figcaption>
 </figure>
 <p><strong>L1 TLBs (Instruction and Data):</strong> -
@@ -1209,7 +1209,7 @@ implications for performance, complexity, flexibility, and OS design.
 Modern architectures take different approaches, each with compelling
 rationales.</p>
 
-<figure id="fig-4-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-4-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -1354,7 +1354,7 @@ rationales.</p>
   <text x="670" y="499" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#E65100">Latency: 100–1,000 cycles (OS exception overhead)</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;font-style:italic;text-align:center;">Figure 4.4: Hardware-managed vs software-managed TLB. Left: x86-64/ARM64 hardware page walker automatically traverses PML4→PDPT→PD→PT on a TLB miss (10–50 cycles, no OS involvement). Right: RISC-V/MIPS software-managed TLB raises a TLB-miss exception and invokes the OS handler to walk page tables and write the entry via SFENCE.VMA (100–1,000 cycles).</figcaption>
+  <figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;font-style:italic;text-align:center;">Figure 4.2: Hardware-managed vs software-managed TLB. Left: x86-64/ARM64 hardware page walker automatically traverses PML4→PDPT→PD→PT on a TLB miss (10–50 cycles, no OS involvement). Right: RISC-V/MIPS software-managed TLB raises a TLB-miss exception and invokes the OS handler to walk page tables and write the entry via SFENCE.VMA (100–1,000 cycles).</figcaption>
 </figure>
 <h3 id="hardware-managed-tlbs-the-x86-and-arm-approach">4.3.1
 Hardware-Managed TLBs: The x86 and ARM Approach</h3>
@@ -1602,7 +1602,7 @@ explores three mechanisms: ASID (ARM), PCID (x86), and VMID
 (virtualization).</p>
 <h3 id="the-context-switch-problem">4.4.1 The Context Switch
 Problem</h3>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<figure id="fig-4-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
 <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1565C0"/></marker></defs>
 <text x="450" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">TLB Entry Structure and ASID/PCID Context Tagging</text>
@@ -1674,7 +1674,7 @@ Problem</h3>
 <text x="750" y="420" text-anchor="middle" font-size="13" fill="#212121">SFENCE.VMA rs1, rs2</text>
 <text x="750" y="438" text-anchor="middle" font-size="12" fill="#616161">VMID in hgatp register</text>
 <text x="750" y="456" text-anchor="middle" font-size="12" fill="#616161">Priv spec 1.10+</text>
-</svg></div><figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 4.2:</strong> TLB entry structure and ASID/PCID context tagging. Each entry stores VPN, PFN, permission bits, page-size flag, and an ASID/PCID tag. Without context identifiers a full TLB flush is required on every context switch; PCID (x86-64) and ASID (ARM64/RISC-V) let entries from multiple processes coexist, saving 10-30% of context-switch overhead.</figcaption></figure>
+</svg></div><figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 4.3:</strong> TLB entry structure and ASID/PCID context tagging. Each entry stores VPN, PFN, permission bits, page-size flag, and an ASID/PCID tag. Without context identifiers a full TLB flush is required on every context switch; PCID (x86-64) and ASID (ARM64/RISC-V) let entries from multiple processes coexist, saving 10-30% of context-switch overhead.</figcaption></figure>
 <p>Without address space identifiers, context switching requires:</p>
 <pre><code>Old Behavior:
 1. Process A is running
@@ -1837,7 +1837,7 @@ exhausted</p>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">// etc.</span></span></code></pre></div>
 <p>Ensures critical processes never lose their TLB entries.</p>
 
-<figure id="fig-4-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-4-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -2012,7 +2012,7 @@ exhausted</p>
   <text x="512" y="537" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#212121">VMID: 8/16-bit, in VTTBR_EL2 (ARM)</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;font-style:italic;text-align:center;">Figure 4.5: Address space identifiers across architectures. Left: ARM64 ASID (8/16-bit in TTBR0_EL1) tags TLB entries per process, enabling context switches without a full TLB flush. Centre: x86-64 PCID (12-bit in CR3[11:0]) with no-flush CR3 writes and INVPCID selective invalidation, used by KPTI. Right: VMID adds a second tagging level for virtualization — each VM gets a VMID, each process within a VM retains its ASID, enabling nested context switching without TLB flushes.</figcaption>
+  <figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;font-style:italic;text-align:center;">Figure 4.4: Address space identifiers across architectures. Left: ARM64 ASID (8/16-bit in TTBR0_EL1) tags TLB entries per process, enabling context switches without a full TLB flush. Centre: x86-64 PCID (12-bit in CR3[11:0]) with no-flush CR3 writes and INVPCID selective invalidation, used by KPTI. Right: VMID adds a second tagging level for virtualization — each VM gets a VMID, each process within a VM retains its ASID, enabling nested context switching without TLB flushes.</figcaption>
 </figure>
 <h3 id="pcid-x86-64s-process-context-identifier">4.4.3 PCID: x86-64's
 Process Context Identifier</h3>
@@ -2163,7 +2163,7 @@ Understanding these operations is essential for OS developers
 implementing memory management and for anyone debugging TLB-related
 issues.</p>
 
-<figure id="fig-4-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-4-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -2331,7 +2331,7 @@ issues.</p>
   <text x="30" y="527" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#616161">Note: Core 0 must NOT free the physical page until ALL ACKs received. This is the invariant the shootdown protocol enforces.</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;font-style:italic;text-align:center;">Figure 4.6: TLB shootdown protocol on a 4-core system. Core 0 unmaps a page and broadcasts an IPI to all other cores (①②). Each core receives the interrupt, executes INVLPG (x86) or TLBI (ARM) to invalidate the specific TLB entry (③), then sends an ACK (④). Core 0 waits for all ACKs before freeing the physical page (⑤) — this ordering invariant prevents stale-translation memory corruption. The batching optimization amortizes IPI cost across N invalidations.</figcaption>
+  <figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;font-style:italic;text-align:center;">Figure 4.5: TLB shootdown protocol on a 4-core system. Core 0 unmaps a page and broadcasts an IPI to all other cores (①②). Each core receives the interrupt, executes INVLPG (x86) or TLBI (ARM) to invalidate the specific TLB entry (③), then sends an ACK (④). Core 0 waits for all ACKs before freeing the physical page (⑤) — this ordering invariant prevents stale-translation memory corruption. The batching optimization amortizes IPI cost across N invalidations.</figcaption>
 </figure>
 <h3 id="tlb-invalidation-instructions">4.5.1 TLB Invalidation
 Instructions</h3>
@@ -3519,7 +3519,7 @@ Unification</li>
 <p><strong>Point of Unification (PoU):</strong></p>
 <p>The point in the cache hierarchy where instruction and data caches
 are guaranteed to see the same copy of memory:</p>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-4-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3604,7 +3604,7 @@ are guaranteed to see the same copy of memory:</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 4.pou-poc:</strong> Cache and TLB coherence points (ARM PoU/PoC): PoU is where L1 I$ and D$ converge; PoC (LLC) is visible to all system agents including DMA.
+    <strong>Figure 4.6:</strong> Cache and TLB coherence points (ARM PoU/PoC): PoU is where L1 I$ and D$ converge; PoC (LLC) is visible to all system agents including DMA.
   </figcaption>
 </figure>
 <p><strong>ITLB/DTLB coherency:</strong></p>
