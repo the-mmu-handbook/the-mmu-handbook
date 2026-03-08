@@ -230,7 +230,137 @@
     figure{page-break-inside:avoid;}
     figure svg{max-width:100%;height:auto;}
     @media print{figure{page-break-inside:avoid;margin:1.5em 0;}figcaption{font-size:9pt;}}
-  
+  </style>
+    <style>
+        body {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 30px;
+        }
+        h4 {
+            color: #666;
+            margin-top: 20px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin-left: 0;
+            color: #555;
+            font-style: italic;
+            background-color: #f9f9f9;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #TOC {
+            background-color: #f0f7ff;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        #TOC ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        #TOC > ul {
+            padding-left: 0;
+        }
+        #TOC a {
+            color: #2980b9;
+            text-decoration: none;
+        }
+        #TOC a:hover {
+            text-decoration: underline;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .error-box {
+            background-color: #f8d7da;
+            border: 2px solid #dc3545;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .info-box {
+            background-color: #d1ecf1;
+            border: 2px solid #17a2b8;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    
 
 /* ── Sidebar (injected) ── */
 
@@ -631,9 +761,10 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   #sb { display: none !important; }
   body { margin-left: 0 !important; }
 }
-
 </style>
-    <style>
+</head>
+
+<style>
         body {
             max-width: 900px;
             margin: 40px auto;
@@ -763,9 +894,6 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
             margin: 20px 0;
         }
     </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
 <body>
 <div class="container">
 <header id="title-block-header">
@@ -1360,6 +1488,152 @@ allocation. There were no page tables, no TLB, no virtual address
 translation, and no page faults. For workloads where predictability
 matters more than flexibility—neural network inference and training—this
 radical simplification delivered extraordinary efficiency.</p>
+<h2 id="section-11.2">11.2 Google TPU: Compiler-Managed Memory</h2>
+
+<figure id="fig-11-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620">
+<defs>
+  <style>text { font-family: Arial, Helvetica, sans-serif; }</style>
+  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0, 8 3, 0 6" style="fill:#5E81AC;"/>
+  </marker>
+  <marker id="arr-acc" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0, 8 3, 0 6" style="fill:#4A8A99;"/>
+  </marker>
+  <marker id="arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0, 8 3, 0 6" style="fill:#BF616A;"/>
+  </marker>
+  <filter id="shadow">
+    <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+  </filter>
+</defs>
+
+<!-- Background -->
+<rect width="900" height="620" style="fill:#FFFFFF;"/>
+
+<!-- Title -->
+<text x="450" y="38" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">TPU Compiler-Managed Static Memory Layout</text>
+<text x="450" y="60" style="font-size:14px;fill:#616161;text-anchor:middle;">XLA eliminates runtime page tables — all tensors statically placed at compile time</text>
+
+<!-- ── LEFT COLUMN: CPU path (PyTorch/JAX) ── -->
+<!-- Host CPU box -->
+<rect x="30" y="90" width="170" height="70" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<text x="115" y="121" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">Host CPU</text>
+<text x="115" y="141" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">JAX / PyTorch</text>
+
+<!-- XLA Compiler box -->
+<rect x="30" y="210" width="170" height="70" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<text x="115" y="241" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">XLA Compiler</text>
+<text x="115" y="261" style="font-size:13px;fill:#CCE8EC;text-anchor:middle;">Static allocation</text>
+
+<!-- Arrow CPU → XLA -->
+<line x1="115" y1="160" x2="115" y2="208" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<text x="125" y="188" style="font-size:12px;fill:#5E81AC;">HLO graph</text>
+
+<!-- Memory map output arrow XLA → TPU -->
+<line x1="115" y1="280" x2="115" y2="318" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-acc)"/>
+<text x="125" y="305" style="font-size:12px;fill:#4A8A99;">fixed offsets</text>
+
+<!-- Static memory map label -->
+<rect x="30" y="318" width="170" height="50" rx="4" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:1.5;"/>
+<text x="115" y="340" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">Static Memory Map</text>
+<text x="115" y="357" style="font-size:12px;fill:#5A7A9C;text-anchor:middle;">no page table needed</text>
+
+<!-- Arrow to PCIe -->
+<line x1="200" y1="343" x2="258" y2="343" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red)"/>
+<text x="220" y="333" style="font-size:12px;fill:#BF616A;">PCIe / HBM</text>
+
+<!-- ── RIGHT: TPU Chip ── -->
+<!-- TPU outer boundary -->
+<rect x="258" y="80" width="610" height="490" rx="10" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:2;"/>
+<text x="563" y="104" style="font-size:16px;font-weight:bold;fill:#212121;text-anchor:middle;">TPU v3/v4 Chip</text>
+
+<!-- HBM memory (bottom of chip) -->
+<rect x="275" y="492" width="576" height="64" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<text x="563" y="521" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">High Bandwidth Memory (HBM)</text>
+<text x="563" y="542" style="font-size:13px;fill:#CCE8EC;text-anchor:middle;">32 GB (v3) / 32 GB (v4) — 900 GB/s bandwidth</text>
+
+<!-- Memory regions inside HBM area -->
+<!-- Weights region -->
+<rect x="280" y="400" width="140" height="80" rx="4" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1.5;"/>
+<text x="350" y="435" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">Model Weights</text>
+<text x="350" y="452" style="font-size:12px;fill:#5A7A9C;text-anchor:middle;">0x0000_0000</text>
+<text x="350" y="468" style="font-size:12px;fill:#5A7A9C;text-anchor:middle;">fixed at compile</text>
+
+<!-- Activations region -->
+<rect x="432" y="400" width="140" height="80" rx="4" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1.5;"/>
+<text x="502" y="435" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">Activations</text>
+<text x="502" y="452" style="font-size:12px;fill:#5A7A9C;text-anchor:middle;">0x0800_0000</text>
+<text x="502" y="468" style="font-size:12px;fill:#5A7A9C;text-anchor:middle;">double-buffered</text>
+
+<!-- Scratch region -->
+<rect x="584" y="400" width="140" height="80" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1.5;"/>
+<text x="654" y="435" style="font-size:13px;font-weight:bold;fill:#7A2020;text-anchor:middle;">Scratch / Temp</text>
+<text x="654" y="452" style="font-size:12px;fill:#8A4040;text-anchor:middle;">0x1000_0000</text>
+<text x="654" y="468" style="font-size:12px;fill:#8A4040;text-anchor:middle;">per-layer buffers</text>
+
+<!-- Arrows from regions to HBM -->
+<line x1="350" y1="480" x2="350" y2="490" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="502" y1="480" x2="502" y2="490" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-acc)"/>
+<line x1="654" y1="480" x2="654" y2="490" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red)"/>
+
+<!-- MXU (Matrix Unit) -->
+<rect x="275" y="120" width="220" height="100" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<text x="385" y="155" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">MXU</text>
+<text x="385" y="175" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">Systolic Array</text>
+<text x="385" y="193" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">128×128 bfloat16</text>
+
+<!-- VPU (Vector Unit) -->
+<rect x="510" y="120" width="180" height="100" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<text x="600" y="155" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">VPU</text>
+<text x="600" y="175" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">Vector Processing</text>
+<text x="600" y="193" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">activations / norms</text>
+
+<!-- Transpose / Reduce -->
+<rect x="705" y="120" width="148" height="100" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<text x="779" y="155" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">XBar</text>
+<text x="779" y="175" style="font-size:13px;fill:#CCE8EC;text-anchor:middle;">ICI Interconnect</text>
+<text x="779" y="193" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">chip-to-chip</text>
+
+<!-- Scratchpad SRAM (on-chip) -->
+<rect x="275" y="250" width="576" height="60" rx="6" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:2;"/>
+<text x="563" y="275" style="font-size:14px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">On-Chip SRAM Scratchpad — 32 MB (v4)</text>
+<text x="563" y="296" style="font-size:13px;fill:#5A7A9C;text-anchor:middle;">XLA pre-tiles tensors into scratchpad at compile time — no cache evictions, no TLB lookups</text>
+
+<!-- No MMU callout -->
+<rect x="275" y="330" width="576" height="52" rx="6" style="fill:#F5F5F5;stroke:#BF616A;stroke-width:2;stroke-dasharray:6,3;"/>
+<text x="563" y="353" style="font-size:14px;font-weight:bold;fill:#BF616A;text-anchor:middle;">⚠  No Hardware MMU / No Page Tables</text>
+<text x="563" y="373" style="font-size:13px;fill:#BF616A;text-anchor:middle;">Physical addresses used directly — isolation enforced by compiler + process boundary</text>
+
+<!-- Arrows: MXU/VPU to SRAM -->
+<line x1="385" y1="220" x2="385" y2="248" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="600" y1="220" x2="600" y2="248" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+
+<!-- Arrow: SRAM to HBM regions -->
+<line x1="563" y1="310" x2="563" y2="328" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-acc)"/>
+
+<!-- Arrows: HBM regions down to HBM strip -->
+<!-- already drawn above -->
+
+<!-- Bandwidth annotation -->
+<text x="870" y="465" style="font-size:12px;fill:#4A8A99;text-anchor:middle;">900</text>
+<text x="870" y="480" style="font-size:12px;fill:#4A8A99;text-anchor:middle;">GB/s</text>
+
+<!-- Legend -->
+<rect x="30" y="420" width="200" height="120" rx="6" style="fill:#F5F5F5;stroke:#DDE4EE;stroke-width:1;"/>
+<text x="130" y="440" style="font-size:13px;font-weight:bold;fill:#212121;text-anchor:middle;">Key Insight</text>
+<text x="40" y="460" style="font-size:12px;fill:#3A5070;">• Weights: loaded once, fixed addr</text>
+<text x="40" y="478" style="font-size:12px;fill:#3A5070;">• Activations: double-buffered</text>
+<text x="40" y="496" style="font-size:12px;fill:#3A5070;">• No runtime VA→PA translation</text>
+<text x="40" y="514" style="font-size:12px;fill:#3A5070;">• 0 page fault overhead</text>
+<text x="40" y="532" style="font-size:12px;fill:#3A5070;">• ~2× compute efficiency vs GPU</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.1:</strong> TPU compiler-managed static memory layout. The XLA compiler assigns fixed physical addresses to weights, activations, and scratch buffers at compile time, eliminating hardware page tables and achieving approximately 2× compute efficiency relative to GPU UVM approaches on systolic-array workloads.</figcaption>
+</figure>
+
+
 <h3 id="why-systolic-arrays-demand-predictable-memory-access">Why
 Systolic Arrays Demand Predictable Memory Access</h3>
 <p>To understand why Google eliminated the MMU, we must first understand
@@ -1819,6 +2093,190 @@ they occur in typical AI/ML workloads, why they cascade into
 catastrophic performance degradation, and how to structure memory
 management to eliminate them without sacrificing the flexibility that
 virtual memory provides.</p>
+<h2 id="section-11.3">11.3 NVIDIA GPU Unified Virtual Memory</h2>
+
+<figure id="fig-11-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640">
+<defs>
+  <style>text { font-family: Arial, Helvetica, sans-serif; }</style>
+  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0, 8 3, 0 6" style="fill:#5E81AC;"/>
+  </marker>
+  <marker id="arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0, 8 3, 0 6" style="fill:#BF616A;"/>
+  </marker>
+  <marker id="arr-grn" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0, 8 3, 0 6" style="fill:#4A8A99;"/>
+  </marker>
+  <filter id="shadow">
+    <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+  </filter>
+</defs>
+
+<rect width="900" height="640" style="fill:#FFFFFF;"/>
+
+<!-- Title -->
+<text x="450" y="36" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">GPU UVM Page Fault Storm: Anatomy and Mitigation</text>
+<text x="450" y="57" style="font-size:14px;fill:#616161;text-anchor:middle;">cudaMallocManaged allocates lazily — faults hit on first access, causing cascading stalls</text>
+
+<!-- ── TOP SECTION: Normal Training Loop ── -->
+<rect x="20" y="72" width="860" height="28" rx="4" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:1;"/>
+<text x="450" y="91" style="font-size:14px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">A: Normal Training Loop — No Fault Storm</text>
+
+<!-- Timeline bar (normal) -->
+<rect x="30" y="108" width="840" height="38" rx="4" style="fill:#F5F5F5;stroke:#DDE4EE;stroke-width:1;"/>
+<!-- Compute blocks -->
+<rect x="38" y="112" width="130" height="30" rx="3" style="fill:#5E81AC;"/>
+<text x="103" y="131" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Forward Pass</text>
+<rect x="178" y="112" width="110" height="30" rx="3" style="fill:#4A8A99;"/>
+<text x="233" y="131" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Backward</text>
+<rect x="298" y="112" width="80" height="30" rx="3" style="fill:#4A8A99;"/>
+<text x="338" y="131" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Update</text>
+<rect x="388" y="112" width="130" height="30" rx="3" style="fill:#5E81AC;"/>
+<text x="453" y="131" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Forward Pass</text>
+<rect x="528" y="112" width="110" height="30" rx="3" style="fill:#4A8A99;"/>
+<text x="583" y="131" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Backward</text>
+<rect x="648" y="112" width="80" height="30" rx="3" style="fill:#4A8A99;"/>
+<text x="688" y="131" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Update</text>
+<text x="800" y="131" style="font-size:13px;fill:#212121;">≈2 ms/iter</text>
+
+<!-- ── MIDDLE SECTION: Fault Storm ── -->
+<rect x="20" y="158" width="860" height="28" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+<text x="450" y="177" style="font-size:14px;font-weight:bold;fill:#BF616A;text-anchor:middle;">B: Page Fault Storm — First Epoch Without Prefetching</text>
+
+<!-- Timeline with stalls -->
+<rect x="30" y="194" width="840" height="38" rx="4" style="fill:#F5F5F5;stroke:#DDE4EE;stroke-width:1;"/>
+
+<!-- Fault blocks (red) -->
+<rect x="38" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<text x="65" y="217" style="font-size:11px;font-weight:bold;fill:#fff;text-anchor:middle;">PF×N</text>
+<!-- small compute block -->
+<rect x="100" y="198" width="40" height="30" rx="3" style="fill:#5E81AC;opacity:0.6;"/>
+<!-- more faults -->
+<rect x="147" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<text x="174" y="217" style="font-size:11px;font-weight:bold;fill:#fff;text-anchor:middle;">PF×N</text>
+<rect x="209" y="198" width="35" height="30" rx="3" style="fill:#4A8A99;opacity:0.6;"/>
+<rect x="251" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<text x="278" y="217" style="font-size:11px;font-weight:bold;fill:#fff;text-anchor:middle;">PF×N</text>
+<rect x="313" y="198" width="30" height="30" rx="3" style="fill:#5E81AC;opacity:0.6;"/>
+<!-- Etc. repeating pattern showing dominance of faults -->
+<rect x="350" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<text x="377" y="217" style="font-size:11px;font-weight:bold;fill:#fff;text-anchor:middle;">PF×N</text>
+<rect x="412" y="198" width="35" height="30" rx="3" style="fill:#4A8A99;opacity:0.6;"/>
+<rect x="454" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<rect x="516" y="198" width="35" height="30" rx="3" style="fill:#5E81AC;opacity:0.6;"/>
+<rect x="558" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<rect x="620" y="198" width="35" height="30" rx="3" style="fill:#4A8A99;opacity:0.6;"/>
+<rect x="662" y="198" width="55" height="30" rx="3" style="fill:#BF616A;"/>
+<text x="800" y="217" style="font-size:13px;fill:#BF616A;">≈40 ms/iter</text>
+
+<!-- Legend for B -->
+<text x="38" y="244" style="font-size:12px;fill:#BF616A;">PF×N = page fault handler ×N pages migrated CPU→GPU per call (each ~10 µs)</text>
+
+<!-- ── FAULT ANATOMY DETAIL ── -->
+<rect x="20" y="258" width="860" height="28" rx="4" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:1;"/>
+<text x="450" y="277" style="font-size:14px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">C: Single Page Fault Event — Detailed Sequence</text>
+
+<!-- Flow boxes -->
+<!-- GPU kernel stalls -->
+<rect x="30" y="296" width="130" height="54" rx="6" style="fill:#BF616A;stroke:#8A2020;stroke-width:2;" filter="url(#shadow)"/>
+<text x="95" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">GPU Kernel</text>
+<text x="95" y="334" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Stalls on unmapped</text>
+<text x="95" y="349" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">virtual address</text>
+
+<line x1="160" y1="323" x2="196" y2="323" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red)"/>
+<text x="178" y="315" style="font-size:11px;fill:#BF616A;text-anchor:middle;">fault</text>
+
+<!-- UVM fault handler -->
+<rect x="196" y="296" width="130" height="54" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<text x="261" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">UVM Driver</text>
+<text x="261" y="334" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Fault handler</text>
+<text x="261" y="349" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">invoked (~2 µs)</text>
+
+<line x1="326" y1="323" x2="362" y2="323" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<text x="344" y="315" style="font-size:11px;fill:#5E81AC;text-anchor:middle;">pin req</text>
+
+<!-- CPU memory -->
+<rect x="362" y="296" width="130" height="54" rx="6" style="fill:#9E9E9E;stroke:#616161;stroke-width:2;" filter="url(#shadow)"/>
+<text x="427" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU DRAM</text>
+<text x="427" y="334" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">Source page</text>
+<text x="427" y="349" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">located + pinned</text>
+
+<line x1="492" y1="323" x2="528" y2="323" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-grn)"/>
+<text x="510" y="315" style="font-size:11px;fill:#4A8A99;text-anchor:middle;">DMA</text>
+
+<!-- PCIe copy -->
+<rect x="528" y="296" width="130" height="54" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<text x="593" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">PCIe DMA</text>
+<text x="593" y="334" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">4KB page copy</text>
+<text x="593" y="349" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">~8 µs latency</text>
+
+<line x1="658" y1="323" x2="694" y2="323" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-grn)"/>
+<text x="676" y="315" style="font-size:11px;fill:#4A8A99;text-anchor:middle;">mapped</text>
+
+<!-- GPU resumes -->
+<rect x="694" y="296" width="130" height="54" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<text x="759" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">GPU Resumes</text>
+<text x="759" y="334" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">TLB updated,</text>
+<text x="759" y="349" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">SM unblocked</text>
+
+<!-- Total latency callout -->
+<rect x="30" y="362" width="810" height="28" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1.5;stroke-dasharray:5,3;"/>
+<text x="435" y="381" style="font-size:13px;fill:#BF616A;text-anchor:middle;">Total per-fault latency: ~10–15 µs × (thousands of faults) = seconds of stall per training step</text>
+
+<!-- ── MITIGATION SECTION ── -->
+<rect x="20" y="402" width="860" height="28" rx="4" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:1;"/>
+<text x="450" y="421" style="font-size:14px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">D: Mitigation Strategies — Ranked by Effectiveness</text>
+
+<!-- Strategy boxes -->
+<!-- 1: Prefetch -->
+<rect x="28" y="440" width="190" height="80" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:2;"/>
+<text x="123" y="460" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">① cudaMemPrefetchAsync</text>
+<text x="123" y="477" style="font-size:12px;fill:#3A5070;text-anchor:middle;">Async pipeline migration</text>
+<text x="123" y="493" style="font-size:12px;fill:#3A5070;text-anchor:middle;">before kernel launch</text>
+<text x="123" y="512" style="font-size:13px;font-weight:bold;fill:#5E81AC;text-anchor:middle;">★★★★★ Best</text>
+
+<!-- 2: Advise -->
+<rect x="230" y="440" width="190" height="80" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:2;"/>
+<text x="325" y="460" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">② cudaMemAdvise</text>
+<text x="325" y="477" style="font-size:12px;fill:#3A5070;text-anchor:middle;">Hint read-mostly /</text>
+<text x="325" y="493" style="font-size:12px;fill:#3A5070;text-anchor:middle;">preferred location</text>
+<text x="325" y="512" style="font-size:13px;font-weight:bold;fill:#5E81AC;text-anchor:middle;">★★★★☆ Good</text>
+
+<!-- 3: Pin -->
+<rect x="432" y="440" width="190" height="80" rx="6" style="fill:#DDEAF5;stroke:#4A8A99;stroke-width:2;"/>
+<text x="527" y="460" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">③ cudaHostRegister</text>
+<text x="527" y="477" style="font-size:12px;fill:#3A5070;text-anchor:middle;">Pin critical structures</text>
+<text x="527" y="493" style="font-size:12px;fill:#3A5070;text-anchor:middle;">(weights, static bufs)</text>
+<text x="527" y="512" style="font-size:13px;font-weight:bold;fill:#4A8A99;text-anchor:middle;">★★★☆☆ Moderate</text>
+
+<!-- 4: Loop restructure -->
+<rect x="634" y="440" width="246" height="80" rx="6" style="fill:#DDEAF5;stroke:#4A8A99;stroke-width:2;"/>
+<text x="757" y="460" style="font-size:13px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">④ Training Loop Structure</text>
+<text x="757" y="477" style="font-size:12px;fill:#3A5070;text-anchor:middle;">Warm-up epochs with smaller</text>
+<text x="757" y="493" style="font-size:12px;fill:#3A5070;text-anchor:middle;">batches to populate TLB</text>
+<text x="757" y="512" style="font-size:13px;font-weight:bold;fill:#4A8A99;text-anchor:middle;">★★★☆☆ Situational</text>
+
+<!-- Performance summary bar -->
+<rect x="28" y="534" width="852" height="40" rx="4" style="fill:#F5F5F5;stroke:#DDE4EE;stroke-width:1;"/>
+<text x="440" y="550" style="font-size:13px;font-weight:bold;fill:#212121;text-anchor:middle;">Stable Diffusion Inference: 512×512 image, RTX 3090 (cudaMallocManaged, batch=4)</text>
+<text x="100" y="566" style="font-size:13px;fill:#BF616A;text-anchor:middle;">Without mitigation: 4.8 s/image</text>
+<text x="100" y="566" style="font-size:13px;fill:#BF616A;"/>
+<rect x="28" y="534" width="0" height="0"/>
+<!-- Left label -->
+<text x="128" y="568" style="font-size:13px;fill:#BF616A;">No prefetch: 4.8 s/image</text>
+<text x="490" y="568" style="font-size:13px;fill:#4A8A99;">With prefetch + advise: 0.6 s/image</text>
+<text x="790" y="568" style="font-size:13px;font-weight:bold;fill:#5E81AC;">8× faster</text>
+
+<!-- Separator line -->
+<line x1="450" y1="558" x2="450" y2="572" style="stroke:#9E9E9E;stroke-width:1;"/>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.2:</strong> GPU UVM page fault storm anatomy and mitigation strategies. Each unmapped virtual address triggers a ~10–15 µs fault handler involving PCIe DMA migration. Without prefetching, thousands of faults per training step raise per-iteration time from ~2 ms to ~40 ms; cudaMemPrefetchAsync with cudaMemAdvise eliminates over 95% of fault overhead.</figcaption>
+</figure>
+
+
 <h3 id="anatomy-of-a-page-fault-storm">Anatomy of a Page Fault
 Storm</h3>
 <p>Consider a typical deep learning training loop processing batches of
@@ -2285,6 +2743,82 @@ correctness.</p>
 how naive approaches fail, how NVSwitch and NVLink enable hardware
 broadcast, and what the synchronization protocol looks like in
 production systems.</p>
+<h2 id="section-11.4">11.4 Multi-GPU TLB Synchronization: NVLink and NVSwitch</h2>
+
+<figure id="fig-11-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
+    </marker>
+    <marker id="arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#5E81AC"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
+    </filter>
+  </defs>
+
+  <text x="450" y="30" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">NVSwitch: Hardware-Accelerated TLB Broadcast (DGX H100)</text>
+
+  <!-- NVSwitch central hub -->
+  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2" filter="url(#sh)"/>
+  <text x="450" y="87" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">NVSwitch (×4 per DGX)</text>
+  <text x="450" y="107" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F0D9D9" text-anchor="middle">Non-blocking crossbar • 13.6 TB/s bisection BW</text>
+  <text x="450" y="124" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F0D9D9" text-anchor="middle">Hardware TLB invalidation broadcast</text>
+
+  <!-- GPU 0 -->
+  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <text x="82" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 0</text>
+  <text x="82" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
+  <text x="82" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+
+  <!-- GPU 1 -->
+  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <text x="227" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 1</text>
+  <text x="227" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
+  <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+
+  <!-- GPU 2-5 (middle) -->
+  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="450" y="274" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU 2 … GPU 5</text>
+  <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">Same configuration</text>
+  <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
+
+  <!-- GPU 6 -->
+  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <text x="652" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 6</text>
+  <text x="652" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
+  <text x="652" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+
+  <!-- GPU 7 -->
+  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <text x="797" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 7</text>
+  <text x="797" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
+  <text x="797" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+
+  <!-- NVLink connections (bidirectional arrows, blue) -->
+  <line x1="82" y1="240" x2="380" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="227" y1="240" x2="400" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="450" y1="240" x2="450" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="652" y1="240" x2="500" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="797" y1="240" x2="520" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+
+  <!-- NVLink bandwidth labels -->
+  <text x="195" y="200" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">NVLink 4.0</text>
+  <text x="195" y="216" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">900 GB/s total</text>
+
+  <!-- TLB invalidation broadcast annotation -->
+  <rect x="20" y="355" width="860" height="55" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="450" y="376" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB Invalidation Broadcast Flow</text>
+  <text x="450" y="397" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">GPU issues TLBI → NVSwitch replicates to all peers in hardware → each GPU invalidates matching TLB entries atomically</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.3:</strong> NVSwitch hardware-accelerated TLB broadcast in a DGX H100 system. Each GPU connects via NVLink 4.0 (900 GB/s bidirectional), enabling parallel TLB invalidation broadcast across all 8 GPUs simultaneously rather than the serial O(N) pattern required over PCIe.</figcaption>
+</figure>
+
+
 <h3
 id="the-scale-problem-why-multi-gpu-tlb-invalidation-differs-from-multi-core">The
 Scale Problem: Why Multi-GPU TLB Invalidation Differs from
@@ -2399,7 +2933,7 @@ up to 32 GPUs in a single server. Originally designed for data transfers
 (enabling 600 GB/s per GPU bandwidth), NVSwitch also supports TLB
 invalidation broadcast.</p>
 <p><strong>NVSwitch Architecture:</strong></p>
-<figure id="fig-11-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -2407,7 +2941,7 @@ invalidation broadcast.</p>
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
     <marker id="arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#5E81AC"/>
+      <path d="M0,0 L0,6 L9,3 z" fill="#1565C0"/>
     </marker>
     <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
@@ -2417,55 +2951,55 @@ invalidation broadcast.</p>
   <text x="450" y="30" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">NVSwitch: Hardware-Accelerated TLB Broadcast (DGX H100)</text>
 
   <!-- NVSwitch central hub -->
-  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2" filter="url(#sh)"/>
+  <rect x="330" y="55" width="240" height="80" rx="6" fill="#E65100" stroke="#BF360C" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="87" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">NVSwitch (×4 per DGX)</text>
-  <text x="450" y="107" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F0D9D9" text-anchor="middle">Non-blocking crossbar • 13.6 TB/s bisection BW</text>
-  <text x="450" y="124" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F0D9D9" text-anchor="middle">Hardware TLB invalidation broadcast</text>
+  <text x="450" y="107" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">Non-blocking crossbar • 13.6 TB/s bisection BW</text>
+  <text x="450" y="124" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">Hardware TLB invalidation broadcast</text>
 
   <!-- GPU 0 -->
-  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="20" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="82" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 0</text>
-  <text x="82" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
-  <text x="82" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+  <text x="82" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
+  <text x="82" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 1 -->
-  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="165" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="227" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 1</text>
-  <text x="227" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
-  <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+  <text x="227" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
+  <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 2-5 (middle) -->
-  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="240" width="240" height="80" rx="6" fill="#00796B" stroke="#004D40" stroke-width="1.5" filter="url(#sh)"/>
   <text x="450" y="274" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU 2 … GPU 5</text>
-  <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">Same configuration</text>
-  <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
+  <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#B2DFDB" text-anchor="middle">Same configuration</text>
+  <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#B2DFDB" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
 
   <!-- GPU 6 -->
-  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="590" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="652" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 6</text>
-  <text x="652" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
-  <text x="652" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+  <text x="652" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
+  <text x="652" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 7 -->
-  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="735" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="797" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 7</text>
-  <text x="797" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
-  <text x="797" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
+  <text x="797" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
+  <text x="797" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- NVLink connections (bidirectional arrows, blue) -->
-  <line x1="82" y1="240" x2="380" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
-  <line x1="227" y1="240" x2="400" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
-  <line x1="450" y1="240" x2="450" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
-  <line x1="652" y1="240" x2="500" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
-  <line x1="797" y1="240" x2="520" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="82" y1="240" x2="380" y2="135" stroke="#1565C0" stroke-width="2.5"/>
+  <line x1="227" y1="240" x2="400" y2="135" stroke="#1565C0" stroke-width="2.5"/>
+  <line x1="450" y1="240" x2="450" y2="135" stroke="#1565C0" stroke-width="2.5"/>
+  <line x1="652" y1="240" x2="500" y2="135" stroke="#1565C0" stroke-width="2.5"/>
+  <line x1="797" y1="240" x2="520" y2="135" stroke="#1565C0" stroke-width="2.5"/>
 
   <!-- NVLink bandwidth labels -->
-  <text x="195" y="200" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">NVLink 4.0</text>
-  <text x="195" y="216" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">900 GB/s total</text>
+  <text x="195" y="200" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#1565C0" text-anchor="middle">NVLink 4.0</text>
+  <text x="195" y="216" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#1565C0" text-anchor="middle">900 GB/s total</text>
 
   <!-- TLB invalidation broadcast annotation -->
-  <rect x="20" y="355" width="860" height="55" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
-  <text x="450" y="376" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB Invalidation Broadcast Flow</text>
+  <rect x="20" y="355" width="860" height="55" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="450" y="376" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#E65100" text-anchor="middle">TLB Invalidation Broadcast Flow</text>
   <text x="450" y="397" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">GPU issues TLBI → NVSwitch replicates to all peers in hardware → each GPU invalidates matching TLB entries atomically</text>
 </svg>
   </div>
@@ -2823,6 +3357,8 @@ translation overhead entirely.</p>
 calculating TLB coverage for real models, understanding why huge pages
 aren't always the answer, and developing a decision framework for
 different tensor types.</p>
+<h2 id="section-11.5">11.5 Page Size Strategy for AI Workloads</h2>
+
 <h3 id="the-tlb-coverage-calculation">The TLB Coverage Calculation</h3>
 <p>TLB coverage—the total amount of memory addressable with TLB
 entries—depends on both TLB size and page size:</p>
@@ -3152,11 +3688,11 @@ Tree</h3>
 <strong style="font-size:15px;color:#4A148C;">Page Size Decision Tree for AI/ML Tensors</strong><br><br>
 <strong>Is the tensor large (&gt;10 GB) and long-lived (&gt;1 hour)?</strong><br>
 &nbsp;&nbsp;├─ <strong>Yes:</strong> Will it be reallocated frequently (&gt;once/minute)?<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <strong>No →</strong> <span style="color:#5E81AC;font-weight:bold;">1 GB pages</span> — model parameters, long-lived optimizer state<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <strong>Yes →</strong> <span style="color:#4A8A99;font-weight:bold;">2 MB pages</span> — gradient buffers with frequent accumulation cycles<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <strong>No →</strong> <span style="color:#1565C0;font-weight:bold;">1 GB pages</span> — model parameters, long-lived optimizer state<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <strong>Yes →</strong> <span style="color:#00796B;font-weight:bold;">2 MB pages</span> — gradient buffers with frequent accumulation cycles<br>
 &nbsp;&nbsp;└─ <strong>No:</strong> Is the tensor accessed in tight loops (&lt;10 ms lifetime)?<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <strong>Yes →</strong> <span style="color:#BF616A;font-weight:bold;">4 KB pages</span> — activations, temporary buffers (avoid fragmentation)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <strong>No →</strong> <span style="color:#4A8A99;font-weight:bold;">2 MB pages</span> — medium tensors, batch data, KV caches
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ <strong>Yes →</strong> <span style="color:#E65100;font-weight:bold;">4 KB pages</span> — activations, temporary buffers (avoid fragmentation)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ <strong>No →</strong> <span style="color:#00796B;font-weight:bold;">2 MB pages</span> — medium tensors, batch data, KV caches
 </div>
 <p><strong>Rule of Thumb:</strong> - <strong>1 GB pages:</strong> Model
 parameters (allocated once, used forever) - <strong>2 MB pages:</strong>
@@ -3184,10 +3720,9 @@ coordinate access to a shared 192 GB address space?</p>
 share page tables or maintain independent ones, how TLB invalidations
 propagate across the Infinity Fabric interconnect, and why the 192 GB
 address space requires huge pages to achieve adequate TLB coverage.</p>
-<h3 id="the-chiplet-architecture-challenge">The Chiplet Architecture
-Challenge</h3>
-<p>The MI300X's 3D stacked architecture looks like this:</p>
-<figure id="fig-11-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<h2 id="section-11.6">11.6 AMD MI300X: Chiplet Architecture and Unified Memory</h2>
+
+<figure id="fig-11-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3272,6 +3807,108 @@ Challenge</h3>
   <text x="615" y="256" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">to all 6 chiplets.</text>
 
   <text x="610" y="285" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">Key stats (MI300X):</text>
+  <text x="615" y="305" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">304 GB total HBM3</text>
+  <text x="615" y="323" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">5.3 TB/s bandwidth</text>
+  <text x="615" y="341" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">14,080 shader procs</text>
+  <text x="615" y="359" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">Single unified VA space</text>
+  <text x="615" y="377" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">via ROCm HMM</text>
+
+  <!-- Foot note -->
+  <text x="450" y="432" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">Chiplets communicate via Infinity Fabric on a silicon interposer; HBM3 stacks are directly beneath compute chiplets for minimal access latency</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.4:</strong> AMD MI300X chiplet package cross-section showing 6–8 CDNA3 GPU compute chiplets interconnected via Infinity Fabric. The unified 192 GB HBM address space shared across all chiplets requires a distributed TLB coherency protocol to maintain translation consistency across die boundaries.</figcaption>
+</figure>
+
+
+<h3 id="the-chiplet-architecture-challenge">The Chiplet Architecture
+Challenge</h3>
+<p>The MI300X's 3D stacked architecture looks like this:</p>
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
+    </filter>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#E65100"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">AMD MI300X Chiplet Package Cross-Section</text>
+
+  <!-- Package outline -->
+  <rect x="20" y="45" width="560" height="370" rx="8" fill="#ECEFF1" stroke="#607D8B" stroke-width="2.5" filter="url(#sh)"/>
+  <text x="300" y="68" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#607D8B" text-anchor="middle">AMD MI300X Package (2.5D Interposer + HBM3)</text>
+
+  <!-- Row 1 compute chiplets -->
+  <rect x="40" y="80" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="120" y="115" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
+  <text x="120" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 0</text>
+  <text x="120" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">CDNA3 GPU</text>
+
+  <rect x="210" y="80" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="290" y="115" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
+  <text x="290" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 1</text>
+  <text x="290" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">CDNA3 GPU</text>
+
+  <rect x="380" y="80" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="460" y="115" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
+  <text x="460" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 2</text>
+  <text x="460" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">CDNA3 GPU</text>
+
+  <!-- Row 2 -->
+  <rect x="40" y="185" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="120" y="225" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
+  <text x="120" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 3</text>
+
+  <rect x="210" y="185" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="290" y="225" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
+  <text x="290" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 4</text>
+
+  <rect x="380" y="185" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="460" y="225" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
+  <text x="460" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 5</text>
+
+  <!-- HBM3 Stacks -->
+  <rect x="40" y="295" width="500" height="100" rx="5" fill="#00796B" stroke="#004D40" stroke-width="1.5"/>
+  <text x="290" y="325" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">HBM3 Memory Stacks (×8 stacks, 192 GB total)</text>
+  <text x="290" y="347" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#B2DFDB" text-anchor="middle">5.2 TB/s aggregate bandwidth • 2.5D interposer connects all chiplets</text>
+  <text x="290" y="367" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#B2DFDB" text-anchor="middle">Unified virtual address space spans all 6 compute chiplets via Infinity Fabric</text>
+
+  <!-- Infinity Fabric arrows between chiplets -->
+  <line x1="200" y1="125" x2="210" y2="125" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="370" y1="125" x2="380" y2="125" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="200" y1="230" x2="210" y2="230" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="370" y1="230" x2="380" y2="230" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <!-- Vertical connections -->
+  <line x1="120" y1="170" x2="120" y2="185" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="290" y1="170" x2="290" y2="185" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="460" y1="170" x2="460" y2="185" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Infinity Fabric label -->
+  <text x="548" y="155" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#E65100" text-anchor="middle">Infinity</text>
+  <text x="548" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#E65100" text-anchor="middle">Fabric</text>
+  <text x="548" y="188" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">cross-die</text>
+  <text x="548" y="204" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">interconnect</text>
+
+  <!-- Right panel: TLB challenge -->
+  <rect x="600" y="45" width="285" height="370" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="742" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#E65100" text-anchor="middle">Chiplet TLB Challenge</text>
+
+  <text x="610" y="95" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Per-Chiplet TLB Hierarchy:</text>
+  <text x="615" y="115" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">L1 DTLB: ~64 entries</text>
+  <text x="615" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">L2 TLB: ~2,048 entries</text>
+  <text x="615" y="151" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">L3 TLB: ~16,384 shared</text>
+  <text x="615" y="172" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">(spans all chiplets)</text>
+
+  <text x="610" y="200" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#C62828">Cross-chiplet invalidation:</text>
+  <text x="615" y="220" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">TLBI must propagate</text>
+  <text x="615" y="238" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">across Infinity Fabric</text>
+  <text x="615" y="256" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">to all 6 chiplets.</text>
+
+  <text x="610" y="285" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">Key stats (MI300X):</text>
   <text x="615" y="305" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">304 GB total HBM3</text>
   <text x="615" y="323" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">5.3 TB/s bandwidth</text>
   <text x="615" y="341" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">14,080 shader procs</text>
@@ -3578,9 +4215,9 @@ cache while RDMA engines DMA those gradients to remote devices? If no,
 how do you avoid the complexity of pinned memory and manual address
 translation? This section explores Gaudi's solution and its implications
 for distributed training.</p>
-<h3 id="the-integration-challenge">The Integration Challenge</h3>
-<p><strong>Traditional Architecture (NVIDIA + Mellanox):</strong></p>
-<figure id="fig-11-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<h2 id="section-11.7">11.7 Intel Gaudi 2 and RDMA Integration</h2>
+
+<figure id="fig-11-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3671,15 +4308,10 @@ for distributed training.</p>
   <text x="450" y="418" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">Solution direction: CXL 3.0 memory pooling + P2P RDMA (GPUDirect RDMA) closes the gap for discrete topologies</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 11.gpu-rdma:</strong> GPU + RDMA NIC integration: discrete PCIe-attached devices use separate address spaces (GPU page tables + CPU IOMMU), forcing costly buffer copies for GPU→NIC transfers. Integrated designs (AMD MI300A, Intel Gaudi) share a single MMU, enabling zero-copy RDMA directly from HBM.
-  </figcaption>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.5:</strong> GPU and RDMA NIC integration showing the heterogeneous address space challenge. Discrete PCIe-attached devices use separate page tables and require explicit ibv_reg_mr memory registration to create RDMA-accessible windows; GPU-Direct RDMA bypasses the CPU copy path while still requiring pinned, DMA-mapped pages.</figcaption>
 </figure>
-<p>This separation simplifies coherency: GPU and NIC cannot share cache,
-so there's no cache coherency to maintain. But PCIe limits bandwidth
-(16-32 GB/s) and adds latency (~1-2 µs per transfer).</p>
-<p><strong>Gaudi Architecture:</strong></p>
-<figure id="fig-11-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+
+<figure id="fig-11-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3760,6 +4392,194 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <!-- Network ports at bottom -->
   <rect x="60" y="385" width="540" height="28" rx="4" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
   <text x="330" y="403" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">24 × 100 GbE ports → external fabric (used for AllReduce in LLM training)</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.6:</strong> Intel Gaudi 2 integrated die with 21 Tensor Processing Cores and 24×100 GbE RDMA engines sharing a single MMU and address space. The integrated design enables compiler-managed cache coherency and eliminates the cross-device TLB synchronization overhead inherent in discrete GPU+NIC configurations.</figcaption>
+</figure>
+
+
+<h3 id="the-integration-challenge">The Integration Challenge</h3>
+<p><strong>Traditional Architecture (NVIDIA + Mellanox):</strong></p>
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
+    </marker>
+    <marker id="arrc" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <path d="M0,0 L0,10 L10,5 z" fill="#1565C0"/>
+    </marker>
+    <marker id="arro" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#E65100"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
+    </filter>
+  </defs>
+
+  <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">GPU + RDMA NIC Integration: Heterogeneous Address Space Challenge</text>
+
+  <!-- Left: Integrated (desired) -->
+  <rect x="20" y="50" width="400" height="340" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" filter="url(#sh)"/>
+  <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#2E7D32" text-anchor="middle">✓ Integrated: Unified Address Space</text>
+  <text x="220" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(AMD MI300A / Apple M-series approach)</text>
+
+  <rect x="40" y="105" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="120" y="138" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU Die</text>
+  <text x="120" y="158" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">Compute + MMU</text>
+  <text x="120" y="176" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">Shared page tables</text>
+
+  <rect x="230" y="105" width="160" height="90" rx="5" fill="#E65100" stroke="#BF360C" stroke-width="1.5"/>
+  <text x="310" y="138" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">RDMA NIC</text>
+  <text x="310" y="158" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">IOMMU shares</text>
+  <text x="310" y="176" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">CPU page tables</text>
+
+  <!-- Shared memory pool -->
+  <rect x="40" y="220" width="350" height="60" rx="5" fill="#00796B" stroke="#004D40" stroke-width="1.5"/>
+  <text x="215" y="248" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Unified Memory Pool (CPU + GPU + NIC)</text>
+  <text x="215" y="267" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#B2DFDB" text-anchor="middle">Single virtual address space — zero-copy transfers</text>
+
+  <!-- Arrows integrated -->
+  <line x1="120" y1="195" x2="120" y2="218" stroke="#4CAF50" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="310" y1="195" x2="310" y2="218" stroke="#4CAF50" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="40" y="300" width="350" height="75" rx="5" fill="#C8E6C9"/>
+  <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">Benefits:</text>
+  <text x="215" y="342" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GPU tensor → NIC DMA with zero copy</text>
+  <text x="215" y="360" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Single TLB invalidation covers all devices</text>
+
+  <!-- Right: Discrete (challenge) -->
+  <rect x="440" y="50" width="440" height="340" rx="8" fill="#FFEBEE" stroke="#EF5350" stroke-width="2" filter="url(#sh)"/>
+  <text x="660" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#C62828" text-anchor="middle">⚠ Discrete: Separate Address Spaces</text>
+  <text x="660" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(PCIe-attached GPU + separate NIC)</text>
+
+  <rect x="460" y="105" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="540" y="132" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU Die</text>
+  <text x="540" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">Compute + MMU</text>
+  <text x="540" y="168" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">GPU page tables</text>
+
+  <!-- PCIe bus -->
+  <line x1="620" y1="150" x2="680" y2="150" stroke="#9E9E9E" stroke-width="3" marker-end="url(#arrc)"/>
+  <text x="650" y="143" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">PCIe</text>
+  <text x="650" y="167" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">32 GB/s</text>
+
+  <rect x="690" y="105" width="160" height="90" rx="5" fill="#E65100" stroke="#BF360C" stroke-width="1.5"/>
+  <text x="770" y="132" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">RDMA NIC</text>
+  <text x="770" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">Separate device</text>
+  <text x="770" y="168" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">CPU IOMMU</text>
+
+  <!-- Separate memory -->
+  <rect x="460" y="220" width="160" height="55" rx="5" fill="#9E9E9E" stroke="#757575" stroke-width="1.5"/>
+  <text x="540" y="244" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">HBM (GPU)</text>
+  <text x="540" y="260" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">GPU VA space</text>
+
+  <rect x="690" y="220" width="160" height="55" rx="5" fill="#9E9E9E" stroke="#757575" stroke-width="1.5"/>
+  <text x="770" y="244" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Host DRAM</text>
+  <text x="770" y="260" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">CPU/NIC VA space</text>
+
+  <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="460" y="295" width="390" height="80" rx="5" fill="#FFCDD2"/>
+  <text x="655" y="316" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#C62828" text-anchor="middle">Problems:</text>
+  <text x="655" y="336" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GPU→NIC requires buffer copy through host memory</text>
+  <text x="655" y="354" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Two separate TLB shootdowns per migration</text>
+  <text x="655" y="372" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GDRCopy / GPUDirect partially mitigates copy cost</text>
+
+  <!-- Bottom note -->
+  <text x="450" y="418" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">Solution direction: CXL 3.0 memory pooling + P2P RDMA (GPUDirect RDMA) closes the gap for discrete topologies</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 11.gpu-rdma:</strong> GPU + RDMA NIC integration: discrete PCIe-attached devices use separate address spaces (GPU page tables + CPU IOMMU), forcing costly buffer copies for GPU→NIC transfers. Integrated designs (AMD MI300A, Intel Gaudi) share a single MMU, enabling zero-copy RDMA directly from HBM.
+  </figcaption>
+</figure>
+<p>This separation simplifies coherency: GPU and NIC cannot share cache,
+so there's no cache coherency to maintain. But PCIe limits bandwidth
+(16-32 GB/s) and adds latency (~1-2 µs per transfer).</p>
+<p><strong>Gaudi Architecture:</strong></p>
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
+    </marker>
+    <marker id="bi" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+      <path d="M9,0 L9,6 L0,3 z" fill="#00796B"/>
+    </marker>
+    <marker id="bi2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#00796B"/>
+    </marker>
+    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
+    </filter>
+  </defs>
+
+  <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">Intel Gaudi 2: Integrated Compute + RDMA on a Single Die</text>
+
+  <!-- Gaudi 2 Die outer package -->
+  <rect x="60" y="50" width="540" height="320" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5" filter="url(#sh)"/>
+  <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#2E7D32" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
+
+  <!-- Compute Cores block -->
+  <rect x="80" y="90" width="220" height="230" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2"/>
+  <text x="190" y="118" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Compute Cores</text>
+  <text x="190" y="140" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">21 × TPC (Tensor Processor)</text>
+  <text x="190" y="160" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Matrix engines + vector</text>
+  <!-- MMU sub-block -->
+  <rect x="95" y="185" width="190" height="60" rx="4" fill="#0D47A1"/>
+  <text x="190" y="210" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">MMU</text>
+  <text x="190" y="228" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">Shared page tables</text>
+  <!-- HBM label -->
+  <text x="190" y="278" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">96 GB HBM2E</text>
+  <text x="190" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">2.45 TB/s BW</text>
+
+  <!-- Bidirectional arrow between compute and RDMA -->
+  <line x1="300" y1="195" x2="360" y2="195" stroke="#00796B" stroke-width="2.5" marker-start="url(#bi)" marker-end="url(#bi2)"/>
+  <text x="330" y="185" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#00796B" text-anchor="middle">on-die</text>
+  <text x="330" y="215" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#00796B" text-anchor="middle">fabric</text>
+
+  <!-- RDMA Engines block -->
+  <rect x="360" y="90" width="220" height="230" rx="6" fill="#E65100" stroke="#BF360C" stroke-width="2"/>
+  <text x="470" y="118" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">RDMA Engines</text>
+  <text x="470" y="140" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">24 × 100 GbE ports</text>
+  <text x="470" y="160" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">= 2.4 Tb/s fabric BW</text>
+  <!-- Shared MMU reference -->
+  <rect x="375" y="185" width="190" height="60" rx="4" fill="#BF360C"/>
+  <text x="470" y="210" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Shares MMU</text>
+  <text x="470" y="228" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFCCBC" text-anchor="middle">Same VA → PA mapping</text>
+  <!-- RoCEv2 label -->
+  <text x="470" y="278" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">RoCEv2 protocol</text>
+  <text x="470" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">Zero-copy DMA</text>
+
+  <!-- HBM stacks at bottom of die -->
+  <rect x="80" y="335" width="500" height="25" rx="4" fill="#00796B"/>
+  <text x="330" y="352" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">HBM2E Stack — shared by compute cores and RDMA engines</text>
+
+  <!-- Right side: benefits panel -->
+  <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="752" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Integration Benefits</text>
+
+  <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">✓ Zero-copy tensor transfer:</text>
+  <text x="640" y="118" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">RDMA engine DMA-reads</text>
+  <text x="640" y="136" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">directly from HBM using</text>
+  <text x="640" y="154" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">shared page tables.</text>
+
+  <text x="635" y="180" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">✓ Single TLB invalidation:</text>
+  <text x="640" y="198" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">One TLBI flushes both</text>
+  <text x="640" y="216" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">compute and network MMU</text>
+  <text x="640" y="234" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">simultaneously.</text>
+
+  <text x="635" y="260" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">Vs. discrete GPU+NIC:</text>
+  <text x="640" y="278" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161">Eliminates 2× buffer copy</text>
+  <text x="640" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161">and PCIe bottleneck</text>
+  <text x="640" y="314" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161">(32 GB/s → 2.4 Tb/s).</text>
+
+  <!-- Network ports at bottom -->
+  <rect x="60" y="385" width="540" height="28" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="330" y="403" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#1565C0" text-anchor="middle">24 × 100 GbE ports → external fabric (used for AllReduce in LLM training)</text>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
@@ -4054,6 +4874,8 @@ architectural concept—CPU and GPU share physical RAM with zero-copy data
 transfers. This section examines the MMU challenges that emerge when
 three fundamentally different processors contend for the same memory
 bandwidth while maintaining TLB coherency.</p>
+<h2 id="section-11.8">11.8 Apple M-Series Unified Memory Architecture</h2>
+
 <h3 id="bandwidth-arbitration-across-three-device-types">Bandwidth
 Arbitration Across Three Device Types</h3>
 <p>The M2 Ultra provides 800 GB/s of unified memory bandwidth serving
@@ -4364,6 +5186,8 @@ emerge—mistakes that degrade performance predictably and solutions that
 restore efficiency. This section catalogs six critical pitfalls with
 root cause analysis, detection strategies, and proven mitig</p>
 <p>ations.</p>
+<h2 id="section-11.9">11.9 Common Pitfalls and Production Best Practices</h2>
+
 <h3
 id="pitfall-1-training-without-prefetching-page-fault-storms">Pitfall 1:
 Training Without Prefetching (Page Fault Storms)</h3>
@@ -4804,16 +5628,18 @@ class="sourceCode swift"><code class="sourceCode swift"><span id="cb182-1"><a hr
 <span id="cb182-20"><a href="#cb182-20" aria-hidden="true" tabindex="-1"></a>    defer_npu_inference<span class="op">()</span></span>
 <span id="cb182-21"><a href="#cb182-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <hr />
+<h2 id="chapter-11-summary">11.10 Chapter Summary</h2>
+<p>This chapter examined how AI and machine learning accelerators—spanning the full spectrum from Google's no-MMU TPU architecture to NVIDIA's unified virtual memory, AMD's chiplet-based MI300X, Intel's Gaudi 2, and Apple's M-series—each make fundamentally different memory management design decisions driven by their target workloads.</p>
+<p>Google's TPU architecture demonstrates that for pure matrix-multiply workloads, eliminating the MMU entirely is the right engineering choice. The XLA compiler statically allocates every tensor to a fixed physical address at compile time, removing page table overhead and enabling sustained 900 GB/s HBM bandwidth utilization. The tradeoff is inflexibility: models must fit within statically known memory bounds, and runtime dynamic allocation is not possible.</p>
+<p>NVIDIA's Unified Virtual Memory (UVM) takes the opposite approach, providing a shared address space between CPU and GPU with hardware-managed migration. The benefit is programming simplicity—<code>cudaMallocManaged</code> allocates memory that migrates on demand. The cost is page fault storms during the first training epoch, which can inflate per-iteration time by 20× without careful use of <code>cudaMemPrefetchAsync</code> and <code>cudaMemAdvise</code>. Production deployments rely heavily on these mitigation strategies.</p>
+<p>Multi-GPU TLB synchronization scales poorly with naive serial invalidation. NVSwitch enables hardware-accelerated TLB broadcast across all GPUs in a DGX system simultaneously, reducing O(N) serial invalidation to a single parallel operation. At multi-server scale, combining NVSwitch with RDMA introduces a two-phase protocol: local NVSwitch broadcast followed by inter-node RDMA fence operations.</p>
+<p>Page size selection has an outsized impact on TLB coverage for large models. A 175B-parameter model with 4 KB pages requires over 87 million TLB entries—far exceeding any hardware TLB. Configuring 2 MB huge pages reduces this to 45,000 entries, fitting comfortably within GPU TLBs and eliminating the TLB miss overhead that otherwise dominates memory-bound inference workloads.</p>
+<p>AMD's MI300X unified 192 GB HBM package presents a unique challenge: Infinity Fabric must maintain TLB coherency across 6–8 compute chiplets sharing a single address space. The distributed coherency protocol incurs measurable overhead on fine-grained sharing workloads but provides substantial benefits for large LLM inference where the model fits entirely in HBM without PCIe transfers.</p>
+<p>Intel Gaudi 2's integration of 21 Tensor Processing Cores and 24×100 GbE RDMA engines on a single die enables compiler-managed cache coherency—a significant operational simplification compared to discrete GPU+NIC configurations that require explicit cache flush sequences. The tradeoff is reduced flexibility: the integrated design fixes the compute-to-networking ratio.</p>
+<p>Apple's M-series unified memory architecture eliminates CPU–GPU bandwidth bottlenecks by giving both processors equal access to the same LPDDR5 pool. This is highly effective for sequential access patterns where bandwidth is the constraint, but TLB coherency maintenance across CPU, GPU, and Neural Engine cores introduces overhead that can dominate performance on concurrent mixed-workload applications.</p>
+<p>The practical lessons from this chapter apply directly to production AI/ML deployments: always prefetch with <code>cudaMemPrefetchAsync</code> before training loops, configure huge pages for large models, understand the TLB coherency overhead of multi-chiplet architectures, and select the memory management model that matches your workload's access pattern—static allocation for predictable matrix workloads, UVM with careful prefetching for dynamic models.</p>
 
-<h2 id="chapter-11-summary">11.2 Chapter Summary</h2>
-<p>Chapter 11 analysed how artificial intelligence and machine learning workloads stress memory management units in ways that differ fundamentally from traditional computing. The central finding is that scale changes everything: where a typical server process accesses gigabytes of data, a trillion-parameter language model must manage terabytes of parameter tensors in structured, repetitive patterns—exposing MMU failure modes invisible at smaller scales.</p>
-<p>Three architectural approaches to virtual memory in AI/ML accelerators were systematically compared. Software-managed systems, exemplified by Google's first-generation TPUs, eliminate the hardware MMU entirely. The XLA compiler statically allocates all memory at program start; hardware operates exclusively on physical addresses. This approach yields exceptional compute-to-bandwidth efficiency—50 to 100 times lower translation overhead compared to full virtual memory—but imposes strict constraints: no dynamic allocation, no demand paging, and no fault tolerance for memory failures. The approach is only viable when workloads fit entirely within statically-known memory regions.</p>
-<p>The limited MMU approach, adopted by TPU v4 and v5, adds virtual address support while deliberately excluding demand paging and page fault handling. Addresses are mapped at program load time through a privileged software interface, providing isolation between co-resident models without the operational overhead of full virtual memory. The area cost is low—0.1 to 0.5 percent of total die area—yet the multi-tenancy and reliability benefits are significant. The key insight is that an MMU's most valuable property for datacenter operators is not demand paging but address space isolation, which the limited MMU delivers at minimal cost.</p>
-<p>Full page-fault-capable virtual memory, as implemented in NVIDIA's Unified Virtual Memory (UVM), represents the third approach and the one most familiar to general-purpose programmers. The chapter dissected UVM's page fault storm failure mode in detail. When a large language model begins training, thousands of CUDA threads simultaneously access tensor pages not yet resident in GPU memory; each thread generates a page fault that serialises through the GPU's fault-handling engine. The result is a 10 to 100 times throughput collapse during the initialisation phase—catastrophic in production training runs but invisible in synthetic benchmarks that pre-populate memory.</p>
-<p>Four mitigation strategies were evaluated: tensor prefetching to overlap data movement with computation, pinning critical structures such as embedding tables and attention weights in GPU memory to eliminate fault paths entirely, cudaMemAdvise annotations that provide the runtime with access-pattern hints enabling proactive migration, and training loop restructuring to avoid cold-start fault storms during the first gradient step. In combination, these strategies can reduce fault-storm duration from minutes to seconds for GPT-scale models.</p>
-<p>The scale problem was quantified concretely: a 175-billion-parameter model in FP16 requires 350 GB of storage—exceeding the memory capacity of any single accelerator and necessitating careful sharding across device meshes where every cross-device reference involves an IOMMU translation and potentially a PCIe ATS lookup. As models continue scaling toward 10 trillion parameters, memory management becomes the dominant systems challenge, not arithmetic throughput.</p>
-<p><strong>Chapter 12</strong> builds on this foundation to examine the specific TLB shootdown and invalidation challenges that arise in multi-GPU and multi-accelerator configurations, where maintaining coherent virtual address spaces across device boundaries requires new invalidation protocols beyond those sufficient for single-CPU systems.</p>
-
+<hr />
 <h2 id="references">References</h2>
 <h3 id="gpu-mmu-architecture-and-virtual-memory">GPU MMU Architecture
 and Virtual Memory</h3>
@@ -4961,9 +5787,6 @@ workload predictability, model size, and multi-device scaling
 requirements—there is no universal best answer, only carefully
 considered trade-offs.</p>
 </div><!-- container -->
-
-
-
 <script>
 
 (function() {
@@ -5527,18 +6350,17 @@ considered trade-offs.</p>
     "file": "chapter-11-WITH-FIGURES.html",
     "short": "Virtual Memory Challenges in AI/ML Accelerators",
     "sections": [
-      {
-        "text": "11.1 Introduction: Scale Changes Everything",
-        "id": "introduction-scale-changes-everything"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      },
-      {
-        "text": "11.2 Chapter Summary",
-        "id": "chapter-11-summary"
-      }
+      {"text": "11.1 Introduction: Scale Changes Everything", "id": "introduction-scale-changes-everything"},
+      {"text": "11.2 Google TPU: Compiler-Managed Memory", "id": "section-11.2"},
+      {"text": "11.3 NVIDIA GPU Unified Virtual Memory", "id": "section-11.3"},
+      {"text": "11.4 Multi-GPU TLB Synchronization", "id": "section-11.4"},
+      {"text": "11.5 Page Size Strategy for AI Workloads", "id": "section-11.5"},
+      {"text": "11.6 AMD MI300X: Chiplet Architecture", "id": "section-11.6"},
+      {"text": "11.7 Intel Gaudi 2 and RDMA Integration", "id": "section-11.7"},
+      {"text": "11.8 Apple M-Series Unified Memory", "id": "section-11.8"},
+      {"text": "11.9 Common Pitfalls and Best Practices", "id": "section-11.9"},
+      {"text": "11.10 Chapter Summary", "id": "chapter-11-summary"},
+      {"text": "References", "id": "references"}
     ]
   },
   {
