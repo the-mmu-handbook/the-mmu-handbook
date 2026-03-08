@@ -2,6 +2,8 @@
 
 A comprehensive technical reference covering Memory Management Units (MMU), Translation Lookaside Buffers (TLB), and modern memory systems — from foundational concepts through cutting-edge AI/ML accelerator implementations.
 
+**Live site:** [the-mmu-handbook.github.io/the-mmu-handbook](https://the-mmu-handbook.github.io/the-mmu-handbook/)
+
 ---
 
 ## About This Book
@@ -18,24 +20,24 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 
 | # | Title | Figures | Size |
 |---|-------|:-------:|-----:|
-| [01](chapters/chapter-01-WITH-FIGURES.html) | Memory Hierarchy and the Translation Problem | 20 | 254 KB |
-| [02](chapters/chapter-02-WITH-FIGURES.html) | Virtual Memory Concepts | 7 | 193 KB |
-| [03](chapters/chapter-03-WITH-FIGURES.html) | Page Table Structures and Implementation | 12 | 249 KB |
-| [04](chapters/chapter-04-WITH-FIGURES.html) | TLB Architecture and Organization | 3 | 246 KB |
-| [05](chapters/chapter-05-WITH-FIGURES.html) | IOMMU and Device Address Translation | 5 | 321 KB |
-| [06](chapters/chapter-06-WITH-FIGURES.html) | Memory Protection and Access Control | 5 | 296 KB |
-| [07](chapters/chapter-07-WITH-FIGURES.html) | Page Faults and Exception Handling | 2 | 675 KB |
-| [08](chapters/chapter-08-WITH-FIGURES.html) | Memory Reclaim and Page Replacement | 2 | 524 KB |
-| [09](chapters/chapter-09-WITH-FIGURES.html) | Advanced Page Table Optimizations | 1 | 263 KB |
-| [10](chapters/chapter-10-WITH-FIGURES.html) | Device Memory and Peripheral Translation | 1 | 291 KB |
-| [11](chapters/chapter-11-WITH-FIGURES.html) | AI/ML Accelerator Memory Systems | 4 | 318 KB |
-| [12](chapters/chapter-12-WITH-FIGURES.html) | Multi-GPU TLB Coordination at Scale | 1 | 182 KB |
-| [13](chapters/chapter-13-WITH-FIGURES.html) | Machine Learning for MMU Optimization | 1 | 63 KB |
-| [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for LLM Serving | 1 | 154 KB |
-| [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 1 | 91 KB |
-| [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 3 | 119 KB |
+| [01](chapters/chapter-01-WITH-FIGURES.html) | Memory Hierarchy and the Translation Problem | 20 | 291 KB |
+| [02](chapters/chapter-02-WITH-FIGURES.html) | Virtual Memory Concepts | 7 | 230 KB |
+| [03](chapters/chapter-03-WITH-FIGURES.html) | Page Table Structures and Implementation | 12 | 290 KB |
+| [04](chapters/chapter-04-WITH-FIGURES.html) | TLB Architecture and Organization | 6 | 326 KB |
+| [05](chapters/chapter-05-WITH-FIGURES.html) | IOMMU and Device Address Translation | 5 | 358 KB |
+| [06](chapters/chapter-06-WITH-FIGURES.html) | Memory Protection and Access Control | 5 | 333 KB |
+| [07](chapters/chapter-07-WITH-FIGURES.html) | Page Faults and Exception Handling | 2 | 715 KB |
+| [08](chapters/chapter-08-WITH-FIGURES.html) | Memory Reclaim and Page Replacement | 2 | 231 KB |
+| [09](chapters/chapter-09-WITH-FIGURES.html) | Advanced Page Table Optimizations | 1 | 302 KB |
+| [10](chapters/chapter-10-WITH-FIGURES.html) | Device Memory and Peripheral Translation | 1 | 331 KB |
+| [11](chapters/chapter-11-WITH-FIGURES.html) | AI/ML Accelerator Memory Systems | 4 | 359 KB |
+| [12](chapters/chapter-12-WITH-FIGURES.html) | Multi-GPU TLB Coordination at Scale | 1 | 219 KB |
+| [13](chapters/chapter-13-WITH-FIGURES.html) | Machine Learning for MMU Optimization | 1 | 103 KB |
+| [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for LLM Serving | 1 | 191 KB |
+| [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 1 | 152 KB |
+| [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 3 | 156 KB |
 
-**Total: 69 embedded SVG figures across 16 chapters (~4.2 MB)**
+**Total: 72 embedded SVG figures across 16 chapters (~4.5 MB)**
 
 ---
 
@@ -48,7 +50,7 @@ Why address translation exists, the full memory hierarchy from registers to DRAM
 Demand paging, working set theory, page replacement algorithms (OPT, LRU, Clock), and the OS–hardware contract that makes virtual memory possible.
 
 **Chapter 3 — Page Table Structures and Implementation**
-Single-level through four-level page tables. x86-64 CR3/PML4E structure, ARM64 TTBR0/TTBR1, RISC-V satp register. Inverted and hashed page tables. Size calculations and memory overhead.
+Single-level through four-level page tables. x86-64 CR3/PML4E structure, ARM64 TTBR0/TTBR1, RISC-V satp register. Two-stage translation for virtualisation (Intel EPT, AMD NPT, ARM Stage-2, RISC-V G-stage). Inverted and hashed page tables. Size calculations and memory overhead.
 
 **Chapter 4 — TLB Architecture and Organization**
 L1 iTLB/dTLB, L2 unified STLB, page walk caches. TLB entry structure (VPN, PFN, permission bits). ASID, PCID, and VMID context identifiers. TLB shootdown protocol and IPI coordination across cores.
@@ -95,9 +97,10 @@ COLT entry-level coalescing (production-deployed). Pichai request-level coalesci
 
 | Processor Family | Key Structures Covered |
 |---|---|
-| **x86-64 (Intel/AMD)** | CR3, PML4/PDPT/PD/PT, PCID, INVPCID, INVLPG, KPTI, SGX, VT-d |
+| **x86-64 (Intel/AMD)** | CR3, PML4/PDPT/PD/PT, PCID, INVPCID, INVLPG, KPTI, SGX, VT-d, EPT, AMD NPT |
 | **ARM64 (ARMv8/v9)** | TTBR0/TTBR1_EL1, ASID, TLBI, TrustZone, Stage-2 (IPA→PA), SMMUv3 |
-| **RISC-V** | satp, Sv39/Sv48/Sv57, ASID, SFENCE.VMA, VMID in hgatp |
+| **RISC-V** | satp, Sv39/Sv48/Sv57, ASID, SFENCE.VMA, VMID in hgatp, G-stage translation |
+| **GPU / AI Accelerators** | NVIDIA UVM, NVLink/NVSwitch, TPU HBM, Intel Gaudi2, PagedAttention |
 
 ---
 
@@ -120,11 +123,12 @@ Each chapter is a **self-contained HTML file** with:
 - Print-optimised CSS (`@media print` with page-break controls)
 - Linked Table of Contents
 - Pandoc-standard typography
+- Collapsible sidebar navigation (keyboard shortcut: `\`)
 
-Files can be opened directly in any browser, converted to PDF via browser print, or hosted as GitHub Pages.
+The `index.html` at the repo root is the GitHub Pages landing page with full sidebar navigation. Files can be opened directly in any browser, converted to PDF via browser print, or hosted on GitHub Pages.
 
 ---
 
 ## Citation Standards
 
-Technical content cites peer-reviewed literature, processor architecture manuals (Intel SDM, ARM ARM, RISC-V Privileged Spec), and production system papers. Speculative claims about proprietary implementations are avoided.
+Technical content cites peer-reviewed literature, processor architecture manuals (Intel SDM, ARM ARM, RISC-V Privileged Spec), and production system papers. Every chapter includes IEEE-style references (minimum 8 per chapter; AI/ML chapters ≥ 12). Speculative claims about proprietary implementations are avoided.

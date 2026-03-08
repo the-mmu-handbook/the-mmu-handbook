@@ -601,6 +601,20 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   font-weight: 500;
 }
 
+
+/* ── Home link ── */
+#sb-home-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; cursor: pointer;
+  border-bottom: 1px solid var(--sb-border);
+  white-space: nowrap; color: var(--sb-text) !important;
+  font-size: 12px; font-weight: 500;
+  transition: background 0.12s;
+}
+#sb-home-link:hover { background: var(--sb-hover-bg); color: var(--sb-active-text) !important; }
+#sb.collapsed #sb-home-link span { display: none; }
+#sb.collapsed #sb-home-link { justify-content: center; padding: 9px 0; }
+
 /* ── Collapsed mode ── */
 #sb.collapsed .sb-ch-head { justify-content: center; padding: 8px 0; }
 #sb.collapsed .sb-ch-link,
@@ -5759,6 +5773,14 @@ considered trade-offs.</p>
     + '</svg></button></div>'
     + '<div id="sb-scroll">' + html + '</div>';
   document.body.insertBefore(nav, document.body.firstChild);
+
+
+  /* Inject Home link before scroll area */
+  var homeLink = document.createElement('a');
+  homeLink.id = 'sb-home-link';
+  homeLink.href = '../index.html';
+  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
+  nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
 
   /* Restore state */
   if (localStorage.getItem('sb-off') === '1') {

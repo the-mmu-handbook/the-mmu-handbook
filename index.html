@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MMU Handbook — Memory Management Units and TLBs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR — MMU Handbook v5
+══════════════════════════════════════════════════════════ */
+:root {
+  --sb-w: 280px;
+  --sb-bg: #F5F7FA;
+  --sb-border: #DDE4EE;
+  --sb-text: #3A5070;
+  --sb-muted: #7A92AA;
+  --sb-accent: #4A7BAC;
+  --sb-hover-bg: #EAF0F8;
+  --sb-active-bg: #DDE8F4;
+  --sb-active-text: #1E3A5A;
+  --sb-toc-active: #B05A00;
+  --sb-toc-inactive: #5A7A9C;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  margin-left: var(--sb-w);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: #f8f9fb;
+  color: #212121;
+  line-height: 1.65;
+  transition: margin-left 0.26s cubic-bezier(.4,0,.2,1);
+}
+body.sb-collapsed { margin-left: 44px; }
+
+/* ── Sidebar shell ── */
+#sb {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sb-w);
+  background: var(--sb-bg);
+  border-right: 1px solid var(--sb-border);
+  display: flex; flex-direction: column;
+  z-index: 1000; overflow: hidden;
+  transition: width 0.26s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+}
+#sb.collapsed { width: 44px; }
+
+#sb a, #sb a:link, #sb a:visited, #sb a:hover, #sb a:active, #sb a:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+/* Header */
+#sb-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 12px; border-bottom: 1px solid var(--sb-border);
+  flex-shrink: 0; min-height: 50px;
+}
+#sb-logo { display: flex; align-items: center; gap: 9px; overflow: hidden; }
+#sb-icon {
+  width: 28px; height: 28px; background: var(--sb-accent);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+}
+#sb-wordmark {
+  color: #4A6882; font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; line-height: 1.3; white-space: nowrap;
+  opacity: 1; transition: opacity 0.2s;
+}
+#sb.collapsed #sb-wordmark { opacity: 0; pointer-events: none; }
+
+#sb-btn {
+  background: none; border: none; cursor: pointer; padding: 5px;
+  border-radius: 4px; color: #8AADCC; flex-shrink: 0;
+  display: flex; align-items: center;
+  transition: color 0.14s, background 0.14s;
+}
+#sb-btn:hover { color: var(--sb-active-text); background: var(--sb-hover-bg); }
+#sb-btn svg { width: 17px; height: 17px; }
+
+/* Home link in sidebar */
+#sb-home {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; cursor: pointer;
+  background: var(--sb-active-bg);
+  border-bottom: 1px solid var(--sb-border);
+  white-space: nowrap;
+}
+#sb-home:hover { background: var(--sb-hover-bg); }
+#sb-home-icon {
+  width: 20px; height: 20px; flex-shrink: 0;
+  color: var(--sb-accent); display: flex; align-items: center; justify-content: center;
+}
+#sb-home-label {
+  font-size: 12px; font-weight: 600; color: var(--sb-active-text);
+  letter-spacing: 0.02em;
+}
+#sb.collapsed #sb-home-label, #sb.collapsed #sb-home-icon { display: none; }
+#sb.collapsed #sb-home { justify-content: center; }
+
+/* Scroll */
+#sb-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden; padding: 4px 0 20px;
+  scrollbar-width: thin; scrollbar-color: var(--sb-border) transparent;
+}
+#sb-scroll::-webkit-scrollbar { width: 4px; }
+#sb-scroll::-webkit-scrollbar-thumb { background: var(--sb-border); border-radius: 2px; }
+#sb.collapsed #sb-scroll { overflow: hidden; }
+
+/* Chapter row */
+.sb-ch { border-bottom: 1px solid var(--sb-border); }
+.sb-ch-head {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 11px; cursor: pointer; user-select: none;
+  transition: background 0.12s; white-space: nowrap;
+}
+.sb-ch-head:hover { background: var(--sb-hover-bg); }
+
+.sb-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  color: #4A7BAC; background: rgba(74,123,172,0.1);
+  border-radius: 3px; padding: 1px 5px; flex-shrink: 0;
+  min-width: 24px; text-align: center;
+}
+.sb-ch-link {
+  color: var(--sb-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.3;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.sb-ch-head:hover .sb-ch-link { color: var(--sb-active-text) !important; }
+.sb-arrow {
+  margin-left: auto; flex-shrink: 0; color: #4E6B8C;
+  transition: transform 0.2s, color 0.12s; width: 13px; height: 13px;
+}
+.sb-ch.open .sb-arrow { transform: rotate(90deg); color: var(--sb-accent); }
+
+/* TOC */
+.sb-toc { max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(.4,0,.2,1); background: rgba(0,0,0,0.03); }
+.sb-ch.open .sb-toc { max-height: 2400px; }
+#sb.collapsed .sb-toc { max-height: 0 !important; }
+
+.sb-sec {
+  display: block; padding: 5px 12px 5px 26px;
+  color: var(--sb-toc-inactive) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, background 0.1s, border-color 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sb-sec:hover {
+  color: var(--sb-active-text) !important;
+  background: rgba(74,123,172,0.1);
+  border-left-color: var(--sb-accent);
+}
+
+/* Collapsed */
+#sb.collapsed .sb-ch-head { justify-content: center; padding: 8px 0; }
+#sb.collapsed .sb-ch-link, #sb.collapsed .sb-arrow { display: none; }
+
+/* Mobile / print */
+@media (max-width: 860px) {
+  :root { --sb-w: 250px; }
+  body { margin-left: 44px; }
+  #sb { width: 44px; }
+  #sb.mob-open { width: var(--sb-w); }
+}
+@media print {
+  #sb { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LANDING PAGE CONTENT
+══════════════════════════════════════════════════════════ */
+
+.page-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #1E2E42 0%, #2A4A6B 60%, #1A3A55 100%);
+  border-radius: 12px;
+  padding: 48px 48px 44px;
+  margin-bottom: 48px;
+  color: #E8F0F8;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(94,129,172,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #7AABCC; margin-bottom: 14px;
+}
+.hero h1 {
+  font-size: 28px; font-weight: 700; line-height: 1.25;
+  color: #EEF4FA; margin: 0 0 16px;
+}
+.hero-sub {
+  font-size: 15px; color: #9BB8D0; line-height: 1.6; max-width: 620px;
+  margin-bottom: 28px;
+}
+.hero-stats {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat-num { font-size: 22px; font-weight: 700; color: #5E81AC; }
+.stat-label { font-size: 11px; color: #7A9AB8; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* Arch badges */
+.arch-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+.arch-badge {
+  display: inline-block; padding: 4px 10px;
+  background: rgba(94,129,172,0.18); border: 1px solid rgba(94,129,172,0.35);
+  border-radius: 4px; font-size: 11.5px; font-weight: 600;
+  color: #8BBFD4; letter-spacing: 0.04em;
+}
+
+/* Section headers */
+.section-title {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #5E81AC;
+  margin: 0 0 18px; padding-bottom: 8px;
+  border-bottom: 2px solid #DDE8F4;
+}
+
+/* Chapter grid */
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.ch-card {
+  background: #fff;
+  border: 1px solid #DDE4EE;
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex; gap: 14px; align-items: flex-start;
+  transition: border-color 0.14s, box-shadow 0.14s, transform 0.12s;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+.ch-card:hover {
+  border-color: #4A7BAC;
+  box-shadow: 0 2px 12px rgba(74,123,172,0.14);
+  transform: translateY(-1px);
+}
+.ch-badge {
+  flex-shrink: 0; width: 36px; height: 36px;
+  background: rgba(74,123,172,0.1);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #4A7BAC; letter-spacing: 0.04em;
+}
+.ch-body { flex: 1; min-width: 0; }
+.ch-title {
+  font-size: 13px; font-weight: 600; color: #1E3A5A;
+  line-height: 1.35; margin-bottom: 5px;
+}
+.ch-meta {
+  font-size: 11px; color: #8AADCC;
+  display: flex; gap: 10px;
+}
+.ch-meta span { display: flex; align-items: center; gap: 3px; }
+
+/* Info boxes */
+.info-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+  margin-bottom: 48px;
+}
+@media (max-width: 700px) { .info-grid { grid-template-columns: 1fr; } }
+
+.info-box {
+  background: #fff; border: 1px solid #DDE4EE; border-radius: 8px;
+  padding: 22px 24px;
+}
+.info-box h3 { font-size: 14px; font-weight: 700; color: #1E3A5A; margin: 0 0 12px; }
+.info-box p { font-size: 13.5px; color: #4A6070; margin: 0 0 8px; }
+.info-box ul { margin: 0; padding-left: 18px; }
+.info-box li { font-size: 13px; color: #4A6070; margin-bottom: 5px; }
+
+/* Architecture table */
+.arch-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 48px; }
+.arch-table th {
+  background: #EAF0F8; color: #1E3A5A; font-weight: 600;
+  padding: 10px 14px; text-align: left; border: 1px solid #DDE4EE;
+}
+.arch-table td {
+  padding: 9px 14px; border: 1px solid #DDE4EE; vertical-align: top;
+  color: #3A5070; background: #fff;
+}
+.arch-table tr:nth-child(even) td { background: #F8FAFB; }
+
+/* Reading paths */
+.reading-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px; margin-bottom: 48px;
+}
+.path-card {
+  background: #fff; border: 1px solid #DDE4EE; border-radius: 8px;
+  padding: 16px 18px;
+}
+.path-card h4 { font-size: 13px; font-weight: 700; color: #1E3A5A; margin: 0 0 8px; }
+.path-card p { font-size: 12px; color: #5A7A9C; margin: 0; line-height: 1.5; }
+.path-icon { font-size: 20px; margin-bottom: 8px; }
+
+/* Footer */
+.footer {
+  border-top: 1px solid #DDE4EE; padding-top: 24px;
+  font-size: 12px; color: #8AADCC; display: flex; gap: 24px; flex-wrap: wrap;
+  justify-content: space-between; align-items: center;
+}
+.footer a { color: #5E81AC !important; }
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar injected by JS below -->
+
+<div class="page-wrap">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Technical Reference — 16 Chapters</div>
+    <h1>Memory Management Units<br>and TLBs</h1>
+    <p class="hero-sub">
+      A rigorous, implementation-level guide to address translation — from foundational virtual memory
+      concepts through AI/ML accelerator memory systems. Targets systems engineers, OS developers,
+      hardware architects, and ML infrastructure teams.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">16</span><span class="stat-label">Chapters</span></div>
+      <div class="stat"><span class="stat-num">70</span><span class="stat-label">SVG Figures</span></div>
+      <div class="stat"><span class="stat-num">3</span><span class="stat-label">Architectures</span></div>
+      <div class="stat"><span class="stat-num">~160K</span><span class="stat-label">Words</span></div>
+    </div>
+    <div class="arch-badges">
+      <span class="arch-badge">x86-64</span>
+      <span class="arch-badge">ARM64</span>
+      <span class="arch-badge">RISC-V</span>
+      <span class="arch-badge">GPU / AI Accelerators</span>
+    </div>
+  </div>
+
+  <!-- Chapter grid -->
+  <div class="section-title">Chapters</div>
+  <div class="chapter-grid">
+
+    <a class="ch-card" href="chapters/chapter-01-WITH-FIGURES.html">
+      <div class="ch-badge">01</div>
+      <div class="ch-body">
+        <div class="ch-title">Memory Hierarchy and the Translation Problem</div>
+        <div class="ch-meta"><span>20 figures</span><span>291 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-02-WITH-FIGURES.html">
+      <div class="ch-badge">02</div>
+      <div class="ch-body">
+        <div class="ch-title">Virtual Memory Concepts</div>
+        <div class="ch-meta"><span>7 figures</span><span>230 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-03-WITH-FIGURES.html">
+      <div class="ch-badge">03</div>
+      <div class="ch-body">
+        <div class="ch-title">Page Table Structures and Implementation</div>
+        <div class="ch-meta"><span>12 figures</span><span>290 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-04-WITH-FIGURES.html">
+      <div class="ch-badge">04</div>
+      <div class="ch-body">
+        <div class="ch-title">TLB Architecture and Organization</div>
+        <div class="ch-meta"><span>6 figures</span><span>326 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-05-WITH-FIGURES.html">
+      <div class="ch-badge">05</div>
+      <div class="ch-body">
+        <div class="ch-title">IOMMU and Device Address Translation</div>
+        <div class="ch-meta"><span>5 figures</span><span>358 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-06-WITH-FIGURES.html">
+      <div class="ch-badge">06</div>
+      <div class="ch-body">
+        <div class="ch-title">Memory Protection and Access Control</div>
+        <div class="ch-meta"><span>5 figures</span><span>333 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-07-WITH-FIGURES.html">
+      <div class="ch-badge">07</div>
+      <div class="ch-body">
+        <div class="ch-title">Page Faults and Exception Handling</div>
+        <div class="ch-meta"><span>2 figures</span><span>715 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-08-WITH-FIGURES.html">
+      <div class="ch-badge">08</div>
+      <div class="ch-body">
+        <div class="ch-title">Memory Reclaim and Page Replacement</div>
+        <div class="ch-meta"><span>2 figures</span><span>231 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-09-WITH-FIGURES.html">
+      <div class="ch-badge">09</div>
+      <div class="ch-body">
+        <div class="ch-title">Advanced Page Table Optimizations</div>
+        <div class="ch-meta"><span>1 figure</span><span>302 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-10-WITH-FIGURES.html">
+      <div class="ch-badge">10</div>
+      <div class="ch-body">
+        <div class="ch-title">Device Memory and Peripheral Translation</div>
+        <div class="ch-meta"><span>1 figure</span><span>331 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-11-WITH-FIGURES.html">
+      <div class="ch-badge">11</div>
+      <div class="ch-body">
+        <div class="ch-title">AI/ML Accelerator Memory Systems</div>
+        <div class="ch-meta"><span>4 figures</span><span>359 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-12-WITH-FIGURES.html">
+      <div class="ch-badge">12</div>
+      <div class="ch-body">
+        <div class="ch-title">Multi-GPU TLB Coordination at Scale</div>
+        <div class="ch-meta"><span>1 figure</span><span>219 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-13-WITH-FIGURES.html">
+      <div class="ch-badge">13</div>
+      <div class="ch-body">
+        <div class="ch-title">Machine Learning for MMU Optimization</div>
+        <div class="ch-meta"><span>1 figure</span><span>103 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-14-WITH-FIGURES.html">
+      <div class="ch-badge">14</div>
+      <div class="ch-body">
+        <div class="ch-title">Software-Managed Memory for LLM Serving</div>
+        <div class="ch-meta"><span>1 figure</span><span>191 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-15-WITH-FIGURES.html">
+      <div class="ch-badge">15</div>
+      <div class="ch-body">
+        <div class="ch-title">Alternative Translation Architectures</div>
+        <div class="ch-meta"><span>1 figure</span><span>152 KB</span></div>
+      </div>
+    </a>
+
+    <a class="ch-card" href="chapters/chapter-16-WITH-FIGURES.html">
+      <div class="ch-badge">16</div>
+      <div class="ch-body">
+        <div class="ch-title">Advanced TLB Optimization Techniques</div>
+        <div class="ch-meta"><span>3 figures</span><span>156 KB</span></div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Reading paths -->
+  <div class="section-title">Reading Paths</div>
+  <div class="reading-grid">
+    <div class="path-card">
+      <div class="path-icon">🖥️</div>
+      <h4>Systems / OS Developers</h4>
+      <p>Chapters 1–9 form a complete foundation covering paging, faults, reclaim, and optimizations.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-icon">⚙️</div>
+      <h4>Hardware Architects</h4>
+      <p>Chapters 4, 5, 10, 15, 16 cover translation hardware, IOMMUs, and advanced TLB design.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-icon">🤖</div>
+      <h4>AI/ML Infrastructure</h4>
+      <p>Chapters 11–14 address GPU and accelerator memory, LLM serving, and ML-based optimization.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-icon">🔒</div>
+      <h4>Security Researchers</h4>
+      <p>Chapter 6 covers the full protection model; Chapters 5 and 12 cover device and multi-tenant isolation.</p>
+    </div>
+  </div>
+
+  <!-- Architecture coverage -->
+  <div class="section-title">Architecture Coverage</div>
+  <table class="arch-table">
+    <thead>
+      <tr>
+        <th>Processor Family</th>
+        <th>Key Structures Covered</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>x86-64 (Intel / AMD)</strong></td>
+        <td>CR3, PML4/PDPT/PD/PT, PCID, INVPCID, INVLPG, KPTI, SGX, VT-d, EPT, AMD NPT</td>
+      </tr>
+      <tr>
+        <td><strong>ARM64 (ARMv8 / v9)</strong></td>
+        <td>TTBR0/TTBR1_EL1, ASID, TLBI, TrustZone, Stage-2 (IPA→PA), SMMUv3</td>
+      </tr>
+      <tr>
+        <td><strong>RISC-V</strong></td>
+        <td>satp, Sv39/Sv48/Sv57, ASID, SFENCE.VMA, VMID in hgatp, G-stage translation</td>
+      </tr>
+      <tr>
+        <td><strong>GPU / AI Accelerators</strong></td>
+        <td>NVIDIA UVM, NVLink/NVSwitch peer-to-peer, TPU HBM, Intel Gaudi2, PagedAttention</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- About -->
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>Format</h3>
+      <p>Each chapter is a self-contained HTML file with:</p>
+      <ul>
+        <li>All SVG diagrams embedded inline</li>
+        <li>Print-optimised CSS with page-break controls</li>
+        <li>Linked Table of Contents</li>
+        <li>Pandoc-standard typography</li>
+        <li>Sidebar navigation (this sidebar)</li>
+      </ul>
+      <p style="margin-top:10px; font-size:12px; color:#7A92AA;">
+        Open any chapter directly in a browser, print to PDF, or host as GitHub Pages.
+      </p>
+    </div>
+    <div class="info-box">
+      <h3>Citations</h3>
+      <p>Content cites peer-reviewed literature, processor architecture manuals, and production system papers:</p>
+      <ul>
+        <li>Intel SDM, AMD64 APM, ARM ARM, RISC-V Privileged Spec</li>
+        <li>ISCA, MICRO, ASPLOS, USENIX papers</li>
+        <li>IEEE-style references in every chapter</li>
+        <li>Minimum 8 references per chapter; AI chapters ≥ 12</li>
+      </ul>
+      <p style="margin-top:10px; font-size:12px; color:#7A92AA;">
+        Speculative claims about proprietary implementations are avoided.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Memory Management Units and TLBs — Architecture, Implementation, and AI Workloads</span>
+    <span><a href="https://github.com/the-mmu-handbook/the-mmu-handbook">GitHub Repository</a></span>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var CHAPTERS = [
+  {
+    "num": 1,
+    "file": "chapters/chapter-01-WITH-FIGURES.html",
+    "short": "Memory Management Basics",
+    "sections": []
+  },
+  {
+    "num": 2,
+    "file": "chapters/chapter-02-WITH-FIGURES.html",
+    "short": "Virtual Memory Concepts",
+    "sections": []
+  },
+  {
+    "num": 3,
+    "file": "chapters/chapter-03-WITH-FIGURES.html",
+    "short": "Page Table Structures",
+    "sections": []
+  },
+  {
+    "num": 4,
+    "file": "chapters/chapter-04-WITH-FIGURES.html",
+    "short": "TLB Architecture — Deep Dive",
+    "sections": []
+  },
+  {
+    "num": 5,
+    "file": "chapters/chapter-05-WITH-FIGURES.html",
+    "short": "IOMMU and DMA Remapping",
+    "sections": []
+  },
+  {
+    "num": 6,
+    "file": "chapters/chapter-06-WITH-FIGURES.html",
+    "short": "Memory Protection and Access Control",
+    "sections": []
+  },
+  {
+    "num": 7,
+    "file": "chapters/chapter-07-WITH-FIGURES.html",
+    "short": "Page Faults and Exception Handling",
+    "sections": []
+  },
+  {
+    "num": 8,
+    "file": "chapters/chapter-08-WITH-FIGURES.html",
+    "short": "Memory Reclaim and Page Replacement",
+    "sections": []
+  },
+  {
+    "num": 9,
+    "file": "chapters/chapter-09-WITH-FIGURES.html",
+    "short": "Advanced Page Table Optimizations",
+    "sections": []
+  },
+  {
+    "num": 10,
+    "file": "chapters/chapter-10-WITH-FIGURES.html",
+    "short": "Device Memory and Peripheral Translation",
+    "sections": []
+  },
+  {
+    "num": 11,
+    "file": "chapters/chapter-11-WITH-FIGURES.html",
+    "short": "AI/ML Accelerator Memory Systems",
+    "sections": []
+  },
+  {
+    "num": 12,
+    "file": "chapters/chapter-12-WITH-FIGURES.html",
+    "short": "Multi-GPU TLB Coordination",
+    "sections": []
+  },
+  {
+    "num": 13,
+    "file": "chapters/chapter-13-WITH-FIGURES.html",
+    "short": "ML for MMU Optimization",
+    "sections": []
+  },
+  {
+    "num": 14,
+    "file": "chapters/chapter-14-WITH-FIGURES.html",
+    "short": "Software-Managed Memory for LLMs",
+    "sections": []
+  },
+  {
+    "num": 15,
+    "file": "chapters/chapter-15-WITH-FIGURES.html",
+    "short": "Alternative Translation Architectures",
+    "sections": []
+  },
+  {
+    "num": 16,
+    "file": "chapters/chapter-16-WITH-FIGURES.html",
+    "short": "Advanced TLB Optimization Techniques",
+    "sections": []
+  }
+];
+
+  /* Build sidebar HTML */
+  var html = '';
+  CHAPTERS.forEach(function(ch) {
+    var n = ch.num < 10 ? '0' + ch.num : '' + ch.num;
+    html += '<div class="sb-ch" data-c="' + ch.num + '">'
+      + '<div class="sb-ch-head" onclick="location.href=\'' + ch.file + '\'">'
+      + '<span class="sb-num">' + n + '</span>'
+      + '<a class="sb-ch-link" href="' + ch.file + '" onclick="event.stopPropagation()">' + ch.short + '</a>'
+      + '</div></div>';
+  });
+
+  var nav = document.createElement('nav');
+  nav.id = 'sb';
+  nav.innerHTML =
+    '<div id="sb-head">'
+    + '<div id="sb-logo"><div id="sb-icon">M</div>'
+    + '<div id="sb-wordmark">MMU<br>Handbook</div></div>'
+    + '<button id="sb-btn" onclick="sbCollapse()" title="Toggle sidebar [\\]">'
+    + '<svg viewBox="0 0 18 18" fill="currentColor">'
+    + '<rect x="1" y="3" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="8" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="13" width="16" height="2" rx="1"/>'
+    + '</svg></button></div>'
+    + '<a id="sb-home" href="index.html">'
+    + '<div id="sb-home-icon"><svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg></div>'
+    + '<span id="sb-home-label">Home</span>'
+    + '</a>'
+    + '<div id="sb-scroll">' + html + '</div>';
+  document.body.insertBefore(nav, document.body.firstChild);
+
+  /* Restore collapsed state */
+  if (localStorage.getItem('sb-off') === '1') {
+    nav.classList.add('collapsed');
+    document.body.classList.add('sb-collapsed');
+  }
+
+  /* Keyboard shortcut */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === '\\' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') sbCollapse();
+  });
+
+  window.sbCollapse = function() {
+    var s = document.getElementById('sb');
+    s.classList.toggle('collapsed');
+    document.body.classList.toggle('sb-collapsed');
+    localStorage.setItem('sb-off', s.classList.contains('collapsed') ? '1' : '0');
+  };
+})();
+</script>
+
+</body>
+</html>
