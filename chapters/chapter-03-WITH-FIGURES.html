@@ -1198,7 +1198,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.intro:</strong> TLB with VPID/VMID tagging for virtualization: each TLB entry carries a VM identifier, allowing guest and host translations to coexist without full flushes on VM-exit.
+    <strong>Figure 3.1:</strong> TLB with VPID/VMID tagging for virtualization: each TLB entry carries a VM identifier, allowing guest and host translations to coexist without full flushes on VM-exit.
   </figcaption>
 </figure>
 
@@ -1361,7 +1361,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.walk:</strong> Page table walk flowchart with TLB and page walk cache: a TLB hit returns the physical address immediately; a miss triggers a hardware walk through up to four levels, with intermediate levels cached in the page walk cache.
+    <strong>Figure 3.2:</strong> Page table walk flowchart with TLB and page walk cache: a TLB hit returns the physical address immediately; a miss triggers a hardware walk through up to four levels, with intermediate levels cached in the page walk cache.
   </figcaption>
 </figure>
 
@@ -1466,7 +1466,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.1:</strong> Single-level page table: the virtual page number (VPN) indexes directly into a flat array of PTEs. Simple but impractical for 64-bit spaces — a 4 KB page size with 48-bit VAs requires a 256 TB table.
+    <strong>Figure 3.3:</strong> Single-level page table: the virtual page number (VPN) indexes directly into a flat array of PTEs. Simple but impractical for 64-bit spaces — a 4 KB page size with 48-bit VAs requires a 256 TB table.
   </figcaption>
 </figure>
 
@@ -1800,7 +1800,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.2:</strong> Two-level page table (x86 32-bit): the 20-bit VPN splits into a 10-bit directory index and a 10-bit table index. Only populated second-level tables need physical frames, dramatically reducing memory overhead.
+    <strong>Figure 3.4:</strong> Two-level page table (x86 32-bit): the 20-bit VPN splits into a 10-bit directory index and a 10-bit table index. Only populated second-level tables need physical frames, dramatically reducing memory overhead.
   </figcaption>
 </figure>
 
@@ -2390,7 +2390,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.overhead:</strong> Page table memory overhead across architectures: single-level tables require contiguous allocation; multi-level designs allocate only second-level tables for mapped regions, achieving near-zero overhead for sparse address spaces.
+    <strong>Figure 3.5:</strong> Page table memory overhead across architectures: single-level tables require contiguous allocation; multi-level designs allocate only second-level tables for mapped regions, achieving near-zero overhead for sparse address spaces.
   </figcaption>
 </figure>
 
@@ -3231,7 +3231,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.pte:</strong> PTE bit-field layout comparison across x86-64, ARM64, and RISC-V Sv39: all share Present/Valid, R/W, User, Dirty, and Accessed bits; x86-64 adds NX; ARM64 uses AP fields; RISC-V consolidates R/W/X as separate bits.
+    <strong>Figure 3.6:</strong> PTE bit-field layout comparison across x86-64, ARM64, and RISC-V Sv39: all share Present/Valid, R/W, User, Dirty, and Accessed bits; x86-64 adds NX; ARM64 uses AP fields; RISC-V consolidates R/W/X as separate bits.
   </figcaption>
 </figure>
 
@@ -3416,7 +3416,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.riscv:</strong> RISC-V Sv39 three-level page table: 39-bit virtual addresses split into three 9-bit VPN fields indexing 512-entry page tables. Sv48 and Sv57 add fourth and fifth levels for larger address spaces.
+    <strong>Figure 3.7:</strong> RISC-V Sv39 three-level page table: 39-bit virtual addresses split into three 9-bit VPN fields indexing 512-entry page tables. Sv48 and Sv57 add fourth and fifth levels for larger address spaces.
   </figcaption>
 </figure>
 
@@ -3619,7 +3619,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.arm64:</strong> ARM64 four-level page table with 4 KB pages and 48-bit virtual addresses: L0–L3 tables each hold 512 entries. TTBR0_EL1 points to user-space tables; TTBR1_EL1 to kernel tables, split at the canonical address hole.
+    <strong>Figure 3.8:</strong> ARM64 four-level page table with 4 KB pages and 48-bit virtual addresses: L0–L3 tables each hold 512 entries. TTBR0_EL1 points to user-space tables; TTBR1_EL1 to kernel tables, split at the canonical address hole.
   </figcaption>
 </figure>
 
@@ -3832,7 +3832,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.5level:</strong> x86-64 five-level page table (LA57): adds a fifth PGD level, extending virtual address space to 57 bits (128 PB). Linux enables LA57 at boot when the CPU supports it; the extra walk adds ~1 cycle of TLB-miss latency.
+    <strong>Figure 3.9:</strong> x86-64 five-level page table (LA57): adds a fifth PGD level, extending virtual address space to 57 bits (128 PB). Linux enables LA57 at boot when the CPU supports it; the extra walk adds ~1 cycle of TLB-miss latency.
   </figcaption>
 </figure>
 
@@ -4032,7 +4032,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.4level:</strong> x86-64 four-level page table: 48-bit virtual addresses split into PGD (9b) → PUD (9b) → PMD (9b) → PTE (9b) → page offset (12b). Each level maps 512 GB, 1 GB, 2 MB, and 4 KB regions respectively.
+    <strong>Figure 3.10:</strong> x86-64 four-level page table: 48-bit virtual addresses split into PGD (9b) → PUD (9b) → PMD (9b) → PTE (9b) → page offset (12b). Each level maps 512 GB, 1 GB, 2 MB, and 4 KB regions respectively.
   </figcaption>
 </figure>
 
@@ -4682,7 +4682,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.2stage:</strong> Two-stage address translation for virtualization: Stage 1 (guest OS) maps guest virtual → guest physical; Stage 2 (hypervisor) maps guest physical → host physical. Intel EPT and ARM stage-2 tables implement this in hardware.
+    <strong>Figure 3.11:</strong> Two-stage address translation for virtualization: Stage 1 (guest OS) maps guest virtual → guest physical; Stage 2 (hypervisor) maps guest physical → host physical. Intel EPT and ARM stage-2 tables implement this in hardware.
   </figcaption>
 </figure>
 
@@ -5233,7 +5233,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 3.cache:</strong> TLB vs. page walk cache: the TLB caches complete virtual→physical translations; the page walk cache stores intermediate page-directory entries, short-circuiting multi-level walks to one or two memory accesses on a TLB miss.
+    <strong>Figure 3.12:</strong> TLB vs. page walk cache: the TLB caches complete virtual→physical translations; the page walk cache stores intermediate page-directory entries, short-circuiting multi-level walks to one or two memory accesses on a TLB miss.
   </figcaption>
 </figure>
 

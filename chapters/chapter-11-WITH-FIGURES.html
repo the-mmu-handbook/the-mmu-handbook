@@ -2822,7 +2822,7 @@ up to 32 GPUs in a single server. Originally designed for data transfers
 (enabling 600 GB/s per GPU bandwidth), NVSwitch also supports TLB
 invalidation broadcast.</p>
 <p><strong>NVSwitch Architecture:</strong></p>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;" id="fig-11-4">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -2893,7 +2893,7 @@ invalidation broadcast.</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 11.nvswitch:</strong> NVSwitch hardware-accelerated TLB broadcast in DGX H100: each GPU connects via NVLink 4.0 (900 GB/s bidirectional) to NVSwitch crossbars; TLB invalidation commands are replicated in hardware to all 8 GPUs simultaneously, eliminating software broadcast overhead.
+    <strong>Figure 11.4:</strong> NVSwitch hardware-accelerated TLB broadcast in DGX H100: each GPU connects via NVLink 4.0 (900 GB/s bidirectional) to NVSwitch crossbars; TLB invalidation commands are replicated in hardware to all 8 GPUs simultaneously, eliminating software broadcast overhead.
   </figcaption>
 </figure>
 <p><strong>Broadcast Mechanism:</strong></p>
@@ -3611,7 +3611,7 @@ propagate across the Infinity Fabric interconnect, and why the 192 GB
 address space requires huge pages to achieve adequate TLB coverage.</p>
 <h2 id="section-11.6">11.6 AMD MI300X: Chiplet Architecture and Unified Memory</h2>
 
-<figure id="fig-11-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-11-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3706,14 +3706,14 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <text x="450" y="432" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">Chiplets communicate via Infinity Fabric on a silicon interposer; HBM3 stacks are directly beneath compute chiplets for minimal access latency</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.4:</strong> AMD MI300X chiplet package cross-section showing 6–8 CDNA3 GPU compute chiplets interconnected via Infinity Fabric. The unified 192 GB HBM address space shared across all chiplets requires a distributed TLB coherency protocol to maintain translation consistency across die boundaries.</figcaption>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.5:</strong> AMD MI300X chiplet package cross-section showing 6–8 CDNA3 GPU compute chiplets interconnected via Infinity Fabric. The unified 192 GB HBM address space shared across all chiplets requires a distributed TLB coherency protocol to maintain translation consistency across die boundaries.</figcaption>
 </figure>
 
 
 <h3 id="the-chiplet-architecture-challenge">The Chiplet Architecture
 Challenge</h3>
 <p>The MI300X's 3D stacked architecture looks like this:</p>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;" id="fig-11-6">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3809,7 +3809,7 @@ Challenge</h3>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 11.chiplet:</strong> AMD MI300X chiplet package cross-section: 6–8 compute chiplets (CDNA3 GPU dies) interconnected via Infinity Fabric on a 2.5D silicon interposer, with HBM3 stacks directly beneath each chiplet. A single unified virtual address space spans all chiplets via ROCm HMM.
+    <strong>Figure 11.6:</strong> AMD MI300X chiplet package cross-section: 6–8 compute chiplets (CDNA3 GPU dies) interconnected via Infinity Fabric on a 2.5D silicon interposer, with HBM3 stacks directly beneath each chiplet. A single unified virtual address space spans all chiplets via ROCm HMM.
   </figcaption>
 </figure>
 <p>Each compute chiplet contains: - GPU cores (compute units, caches) -
@@ -4106,7 +4106,7 @@ translation? This section explores Gaudi's solution and its implications
 for distributed training.</p>
 <h2 id="section-11.7">11.7 Intel Gaudi 2 and RDMA Integration</h2>
 
-<figure id="fig-11-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-11-7" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -4197,10 +4197,10 @@ for distributed training.</p>
   <text x="450" y="418" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">Solution direction: CXL 3.0 memory pooling + P2P RDMA (GPUDirect RDMA) closes the gap for discrete topologies</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.5:</strong> GPU and RDMA NIC integration showing the heterogeneous address space challenge. Discrete PCIe-attached devices use separate page tables and require explicit ibv_reg_mr memory registration to create RDMA-accessible windows; GPU-Direct RDMA bypasses the CPU copy path while still requiring pinned, DMA-mapped pages.</figcaption>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.7:</strong> GPU and RDMA NIC integration showing the heterogeneous address space challenge. Discrete PCIe-attached devices use separate page tables and require explicit ibv_reg_mr memory registration to create RDMA-accessible windows; GPU-Direct RDMA bypasses the CPU copy path while still requiring pinned, DMA-mapped pages.</figcaption>
 </figure>
 
-<figure id="fig-11-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-11-8" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -4283,13 +4283,13 @@ for distributed training.</p>
   <text x="330" y="403" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">24 × 100 GbE ports → external fabric (used for AllReduce in LLM training)</text>
 </svg>
   </div>
-  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.6:</strong> Intel Gaudi 2 integrated die with 21 Tensor Processing Cores and 24×100 GbE RDMA engines sharing a single MMU and address space. The integrated design enables compiler-managed cache coherency and eliminates the cross-device TLB synchronization overhead inherent in discrete GPU+NIC configurations.</figcaption>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 11.8:</strong> Intel Gaudi 2 integrated die with 21 Tensor Processing Cores and 24×100 GbE RDMA engines sharing a single MMU and address space. The integrated design enables compiler-managed cache coherency and eliminates the cross-device TLB synchronization overhead inherent in discrete GPU+NIC configurations.</figcaption>
 </figure>
 
 
 <h3 id="the-integration-challenge">The Integration Challenge</h3>
 <p><strong>Traditional Architecture (NVIDIA + Mellanox):</strong></p>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;" id="fig-11-9">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -4381,14 +4381,14 @@ for distributed training.</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 11.gpu-rdma:</strong> GPU + RDMA NIC integration: discrete PCIe-attached devices use separate address spaces (GPU page tables + CPU IOMMU), forcing costly buffer copies for GPU→NIC transfers. Integrated designs (AMD MI300A, Intel Gaudi) share a single MMU, enabling zero-copy RDMA directly from HBM.
+    <strong>Figure 11.9:</strong> GPU + RDMA NIC integration: discrete PCIe-attached devices use separate address spaces (GPU page tables + CPU IOMMU), forcing costly buffer copies for GPU→NIC transfers. Integrated designs (AMD MI300A, Intel Gaudi) share a single MMU, enabling zero-copy RDMA directly from HBM.
   </figcaption>
 </figure>
 <p>This separation simplifies coherency: GPU and NIC cannot share cache,
 so there's no cache coherency to maintain. But PCIe limits bandwidth
 (16-32 GB/s) and adds latency (~1-2 µs per transfer).</p>
 <p><strong>Gaudi Architecture:</strong></p>
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;" id="fig-11-10">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -4472,7 +4472,7 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 11.gaudi2:</strong> Intel Gaudi 2 integrated die: 21 Tensor Processing Cores and 24×100 GbE RDMA engines share a single MMU and HBM2E (96 GB, 2.45 TB/s). RDMA engines DMA directly from HBM using the same page tables as compute cores, achieving zero-copy collective transfers without PCIe bottleneck.
+    <strong>Figure 11.10:</strong> Intel Gaudi 2 integrated die: 21 Tensor Processing Cores and 24×100 GbE RDMA engines share a single MMU and HBM2E (96 GB, 2.45 TB/s). RDMA engines DMA directly from HBM using the same page tables as compute cores, achieving zero-copy collective transfers without PCIe bottleneck.
   </figcaption>
 </figure>
 <p>Now compute cores and RDMA engines can potentially access the same

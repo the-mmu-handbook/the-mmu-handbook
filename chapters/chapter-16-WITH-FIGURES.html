@@ -2349,7 +2349,7 @@ Single TLB entry covers ENTIRE 2.1 GB tensor!
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 16.flexpointer:</strong> FlexPointer TLB entry format (128 bytes): stores a VA base, VA limit, and PA base, enabling a single entry to cover an arbitrary-size contiguous range. Translation checks VA ∈ [VBase, VLimit) and computes PA = PBase + (VA − VBase) in hardware, reducing 256K classic entries for a 1 GB tensor to a single range entry.
+    <strong>Figure 16.3:</strong> FlexPointer TLB entry format (128 bytes): stores a VA base, VA limit, and PA base, enabling a single entry to cover an arbitrary-size contiguous range. Translation checks VA ∈ [VBase, VLimit) and computes PA = PBase + (VA − VBase) in hardware, reducing 256K classic entries for a 1 GB tensor to a single range entry.
   </figcaption>
 </figure>
 

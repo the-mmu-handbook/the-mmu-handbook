@@ -1073,7 +1073,7 @@ hardware with limited physical RAM.</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 2.4:</strong> The virtual memory illusion: each process sees a private, contiguous 64-bit address space far larger than physical RAM. The OS and MMU transparently map virtual pages to physical frames, with inactive pages spilled to disk.
+    <strong>Figure 2.1:</strong> The virtual memory illusion: each process sees a private, contiguous 64-bit address space far larger than physical RAM. The OS and MMU transparently map virtual pages to physical frames, with inactive pages spilled to disk.
   </figcaption>
 </figure>
 <h2 id="demand-paging-loading-pages-on-demand">2.2 Demand Paging:
@@ -1224,7 +1224,7 @@ physical memory only when they’re accessed, not when the program starts
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 2.1:</strong> Demand paging page fault handling flow: TLB hit returns physical address in 1–5 cycles; TLB miss triggers a page table walk; if the page is absent, the OS page fault handler loads it from disk/swap, costing millions of cycles.
+    <strong>Figure 2.2:</strong> Demand paging page fault handling flow: TLB hit returns physical address in 1–5 cycles; TLB miss triggers a page table walk; if the page is absent, the OS page fault handler loads it from disk/swap, costing millions of cycles.
   </figcaption>
 </figure>
 <h3 id="how-demand-paging-works">2.2.2 How Demand Paging Works</h3>
@@ -1717,7 +1717,7 @@ problem</strong> [Belady, 1966].</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 2.2:</strong> Page replacement algorithms: FIFO evicts the oldest page (simple but can evict frequently used pages); LRU evicts the least recently used page (near-optimal, exploits temporal locality); Clock/Second-Chance approximates LRU using a reference bit and circular scan.
+    <strong>Figure 2.3:</strong> Page replacement algorithms: FIFO evicts the oldest page (simple but can evict frequently used pages); LRU evicts the least recently used page (near-optimal, exploits temporal locality); Clock/Second-Chance approximates LRU using a reference bit and circular scan.
   </figcaption>
 </figure>
 <h3 id="the-optimal-algorithm-theoretical">2.3.1 The Optimal Algorithm
@@ -2142,7 +2142,7 @@ Working Set Model</h2>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 2.5:</strong> Thrashing and the working set model: CPU utilization collapses when total working set sizes exceed physical RAM. The working set W(t, Δ) defines pages actively used in the last Δ references; allocating fewer frames than the working set triggers thrashing.
+    <strong>Figure 2.4:</strong> Thrashing and the working set model: CPU utilization collapses when total working set sizes exceed physical RAM. The working set W(t, Δ) defines pages actively used in the last Δ references; allocating fewer frames than the working set triggers thrashing.
   </figcaption>
 </figure>
 <h3 id="what-is-thrashing">2.4.1 What is Thrashing?</h3>
@@ -2451,7 +2451,7 @@ a new program</p>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 2.3:</strong> Copy-on-Write (COW): after fork(), parent and child share physical pages marked read-only. On the first write by either process, the MMU raises a protection fault; the OS copies only the written page to a new frame, leaving all other pages shared.
+    <strong>Figure 2.5:</strong> Copy-on-Write (COW): after fork(), parent and child share physical pages marked read-only. On the first write by either process, the MMU raises a protection fault; the OS copies only the written page to a new frame, leaving all other pages shared.
   </figcaption>
 </figure>
 <h3 id="how-copy-on-write-works">2.5.2 How Copy-on-Write Works</h3>

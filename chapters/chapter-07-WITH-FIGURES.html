@@ -1686,7 +1686,7 @@ mechanisms, refined over decades from the original 80386. Understanding
 x86-64 page faults in detail provides a reference point for comparing
 other architectures.</p>
 
-<figure id="fig-7-3" style="text-align:center;margin:2em auto;">
+<figure id="fig-7-2" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
 <defs>
   <style>text{font-family:Arial,Helvetica,sans-serif;}</style>
@@ -1839,7 +1839,7 @@ other architectures.</p>
 <text x="66" y="512" style="font-size:12px;fill:#444;">• Swap: read from swap device, map</text>
 <text x="66" y="527" style="font-size:12px;fill:#444;">• File-backed: read from VFS, map</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 7.3:</strong> The x86-64 page fault error code bit field and decision tree. Bit 0 (P) distinguishes not-present faults from protection violations; bits 1–4 encode write/read, user/supervisor, reserved-bit, and instruction-fetch faults.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 7.2:</strong> The x86-64 page fault error code bit field and decision tree. Bit 0 (P) distinguishes not-present faults from protection violations; bits 1–4 encode write/read, user/supervisor, reserved-bit, and instruction-fetch faults.</figcaption>
 </figure>
 
 
@@ -4541,7 +4541,7 @@ let's examine how operating systems actually handle page faults from
 start to finish. Understanding this flow ties together all the concepts
 from previous sections.</p>
 
-<figure id="fig-7-4" style="text-align:center;margin:2em auto;">
+<figure id="fig-7-3" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580">
 <defs>
   <style>text{font-family:Arial,Helvetica,sans-serif;}</style>
@@ -4684,7 +4684,7 @@ from previous sections.</p>
 <text x="30" y="516" style="font-size:12px;fill:#444;">Pages are shared read-only at fork time; private copies are created lazily only when a process actually writes.</text>
 <text x="30" y="532" style="font-size:12px;fill:#444;">exec() immediately discards the mapping, so COW work is skipped entirely in the common fork+exec pattern.</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 7.4:</strong> Copy-on-Write fork sequence. Phase 1: fork() marks all pages read-only in both parent and child. Phase 2: a write triggers error code 0x0007 and enters do_wp_page(). Phase 3: a private copy is allocated and the child PTE is upgraded to read-write.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 7.3:</strong> Copy-on-Write fork sequence. Phase 1: fork() marks all pages read-only in both parent and child. Phase 2: a write triggers error code 0x0007 and enters do_wp_page(). Phase 3: a private copy is allocated and the child PTE is upgraded to read-write.</figcaption>
 </figure>
 
 
@@ -5674,7 +5674,7 @@ class="sourceCode c"><code class="sourceCode c"><span id="cb142-1"><a href="#cb1
 crucial for writing efficient systems software and diagnosing
 performance problems.</p>
 
-<figure id="fig-7-5" style="text-align:center;margin:2em auto;">
+<figure id="fig-7-4" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs>
   <style>text{font-family:Arial,Helvetica,sans-serif;}</style>
@@ -5806,7 +5806,7 @@ performance problems.</p>
 <text x="630" y="528" style="font-size:12px;fill:#BF616A;text-anchor:middle;">Yes</text>
 <text x="800" y="528" style="font-size:12px;fill:#212121;text-anchor:middle;">rotational media read</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 7.5:</strong> Minor versus major page fault cost comparison. Minor faults resolve in 0.5–10 µs without I/O; major faults require a blocking device read and take 100 µs (SSD) to 15 ms (HDD), during which the faulting task is descheduled.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 7.4:</strong> Minor versus major page fault cost comparison. Minor faults resolve in 0.5–10 µs without I/O; major faults require a blocking device read and take 100 µs (SSD) to 15 ms (HDD), during which the faulting task is descheduled.</figcaption>
 </figure>
 
 
@@ -6671,7 +6671,7 @@ all page fault types. Less detail means more work for software, but
 simpler hardware.</p>
 <h3 id="hardware-vs-software-responsibility">7.13.2 Hardware vs Software
 Responsibility</h3>
-<figure id="fig-7-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-7-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -6757,7 +6757,7 @@ Responsibility</h3>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 7.hw-sw:</strong> Page fault handling split by ISA: x86-64 and ARM64 use full hardware page-table walkers (detect → walk → load TLB), leaving only policy decisions (allocation, swap, replacement) to the OS. RISC-V and MIPS use software-managed TLBs — the OS handler also performs the page-table walk and TLB load, enabling custom page-table formats at the cost of higher fault latency.
+    <strong>Figure 7.5:</strong> Page fault handling split by ISA: x86-64 and ARM64 use full hardware page-table walkers (detect → walk → load TLB), leaving only policy decisions (allocation, swap, replacement) to the OS. RISC-V and MIPS use software-managed TLBs — the OS handler also performs the page-table walk and TLB load, enabling custom page-table formats at the cost of higher fault latency.
   </figcaption>
 </figure>
 <p><strong>TLB Miss Handling:</strong></p>

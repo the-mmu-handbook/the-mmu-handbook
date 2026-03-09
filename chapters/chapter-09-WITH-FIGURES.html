@@ -1583,7 +1583,7 @@ a fundamental challenge in kernel design: how do you safely modify
 shared data structures when hundreds of threads might be accessing them
 simultaneously?</p>
 
-<figure id="fig-9-4" style="text-align:center;margin:2em auto;">
+<figure id="fig-9-2" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-width:sans-serif;}</style>
 <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
@@ -1688,7 +1688,7 @@ simultaneously?</p>
 <text x="590" y="500" style="font-size:12px;fill:#444;">• THP collapse blocks all faults:</text>
 <text x="600" y="516" style="font-size:12px;fill:#BF616A;">  → mmap_lock write starvation</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 9.4:</strong> Linux page table locking hierarchy. mmap_lock (rwsem) is the outermost lock protecting VMA tree modifications. The per-PTE-page spinlock (pte_lock) is the innermost lock used during fault handling and reclaim. THP operations additionally hold pmd_lock. Locks must always be acquired in outer-to-inner order.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 9.2:</strong> Linux page table locking hierarchy. mmap_lock (rwsem) is the outermost lock protecting VMA tree modifications. The per-PTE-page spinlock (pte_lock) is the innermost lock used during fault handling and reclaim. THP operations additionally hold pmd_lock. Locks must always be acquired in outer-to-inner order.</figcaption>
 </figure>
 
 
@@ -2562,7 +2562,7 @@ on database workloads. But those benchmarks shared a common
 characteristic: they were freshly started systems with ample free
 memory.</p>
 
-<figure id="fig-9-2" style="text-align:center;margin:2em auto;">
+<figure id="fig-9-4" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
 <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
@@ -2651,7 +2651,7 @@ memory.</p>
 <rect x="20" y="532" width="860" height="22" rx="4" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:1;"/>
 <text x="450" y="547" style="font-size:13px;fill:#1E3A5A;text-anchor:middle;font-weight:bold;">Rule of thumb: Use THP for general workloads; HugeTLBfs for latency-critical (databases, DPDK, JVM heap &gt;8 GB)</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 9.2:</strong> Transparent Huge Pages versus HugeTLBfs. THP automatically collapses 512 × 4 KB pages into a 2 MB mapping via khugepaged; HugeTLBfs requires explicit reservation at boot and mmap(MAP_HUGETLB) opt-in but guarantees availability and eliminates compaction overhead.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 9.4:</strong> Transparent Huge Pages versus HugeTLBfs. THP automatically collapses 512 × 4 KB pages into a 2 MB mapping via khugepaged; HugeTLBfs requires explicit reservation at boot and mmap(MAP_HUGETLB) opt-in but guarantees availability and eliminates compaction overhead.</figcaption>
 </figure>
 
 

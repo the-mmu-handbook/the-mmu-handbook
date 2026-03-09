@@ -1253,7 +1253,7 @@ handle memory accesses from dozens of independent devices
 simultaneously—network cards, GPUs, storage controllers, and more. This
 fundamental difference shapes its architecture.</p>
 
-<figure id="fig-10-2" style="text-align:center;margin:2em auto;">
+<figure id="fig-10-1" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
 <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.14"/></filter>
@@ -1374,7 +1374,7 @@ fundamental difference shapes its architecture.</p>
 <text x="50" y="532" style="font-size:12px;fill:#3A5070;">• VFIO framework (Linux): exposes IOMMU domains to userspace for DPDK, QEMU device passthrough</text>
 <text x="50" y="550" style="font-size:12px;fill:#3A5070;">• Performance: zero-copy DMA eliminates memcpy overhead between kernel bounce buffers and device memory</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.2:</strong> IOMMU VT-d DMA remapping architecture. The IOMMU maintains per-device IO page tables, an IOTLB for caching translations, and a root/context table mapping PCIe Bus:Device:Function identifiers to isolated DMA domains. Each device is confined to its own IOVA space, preventing rogue DMA and enabling safe VM device passthrough.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.1:</strong> IOMMU VT-d DMA remapping architecture. The IOMMU maintains per-device IO page tables, an IOTLB for caching translations, and a root/context table mapping PCIe Bus:Device:Function identifiers to isolated DMA domains. Each device is confined to its own IOVA space, preventing rogue DMA and enabling safe VM device passthrough.</figcaption>
 </figure>
 
 
@@ -1836,7 +1836,7 @@ Virtualized mode:
 <hr />
 <h2 id="pcie-ats-and-address-translation-services">10.3 PCIe ATS and
 Address Translation Services</h2>
-<figure id="fig-10-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<figure id="fig-10-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
 <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
 <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
@@ -1904,7 +1904,7 @@ Address Translation Services</h2>
 <text x="665" y="464" text-anchor="middle" font-size="12" fill="#616161">PCIe peer-to-peer DMA to GPU</text>
 <text x="665" y="482" text-anchor="middle" font-size="12" fill="#4A8A99">Zero-copy: NIC DMA direct to GPU VRAM</text>
 <text x="665" y="500" text-anchor="middle" font-size="12" fill="#616161">BlueField-3: 400 Gbps, 16 ARM cores</text>
-</svg></div><figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.1:</strong> PCIe ATS and RDMA memory registration. ATS lets ATS-capable devices (NICs, GPUs) cache their own VA→PA translations in a device-side Address Translation Cache (ATC), eliminating per-DMA IOMMU lookups. RDMA memory registration (ibv_reg_mr) pins pages and programs the IOMMU once; subsequent DMA operations use the cached lkey/rkey without OS involvement. SmartNIC/DPU architectures add ARM cores on the NIC for packet offload and zero-copy GPU-direct paths.</figcaption></figure>
+</svg></div><figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.2:</strong> PCIe ATS and RDMA memory registration. ATS lets ATS-capable devices (NICs, GPUs) cache their own VA→PA translations in a device-side Address Translation Cache (ATC), eliminating per-DMA IOMMU lookups. RDMA memory registration (ibv_reg_mr) pins pages and programs the IOMMU once; subsequent DMA operations use the cached lkey/rkey without OS involvement. SmartNIC/DPU architectures add ARM cores on the NIC for packet offload and zero-copy GPU-direct paths.</figcaption></figure>
 <p>The IOMMU provides translation, but it's fundamentally a bottleneck.
 Every device access must go through the IOMMU's IOTLB, and with only
 256-512 entries shared across all devices, misses are frequent. Address
@@ -2336,7 +2336,7 @@ creates a fundamental tension: RDMA NICs need stable physical addresses,
 while virtual memory allows pages to move. Memory registration is how we
 resolve this conflict.</p>
 
-<figure id="fig-10-5" style="text-align:center;margin:2em auto;">
+<figure id="fig-10-4" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
 <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
@@ -2432,7 +2432,7 @@ resolve this conflict.</p>
 <rect x="36" y="480" width="820" height="36" rx="4" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
 <text x="446" y="502" style="font-size:12px;fill:#1E3A5A;text-anchor:middle;">ODP supported: Mellanox ConnectX-4+, Intel Omni-Path; requires kernel ib_umem_odp module; implicit ODP (iODP) in ConnectX-6+</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.5:</strong> RDMA On-Demand Paging (ODP). Traditional ibv_reg_mr pins all pages upfront, locking them in RAM. ODP registers memory regions without pinning; page translations are resolved lazily when the NIC issues a fault, then pushed to the NIC MMU by the kernel ODP fault handler, enabling RDMA over demand-paged virtual memory.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.4:</strong> RDMA On-Demand Paging (ODP). Traditional ibv_reg_mr pins all pages upfront, locking them in RAM. ODP registers memory regions without pinning; page translations are resolved lazily when the NIC issues a fault, then pushed to the NIC MMU by the kernel ODP fault handler, enabling RDMA over demand-paged virtual memory.</figcaption>
 </figure>
 
 
@@ -2822,7 +2822,7 @@ Unlike traditional NICs that offload specific functions (TCP checksum,
 RDMA), Smart NICs can run arbitrary software, making them programmable
 infrastructure accelerators.</p>
 
-<figure id="fig-10-4" style="text-align:center;margin:2em auto;">
+<figure id="fig-10-5" style="text-align:center;margin:2em auto;">
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
 <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
@@ -2924,7 +2924,7 @@ infrastructure accelerators.</p>
 <text x="30" y="500" style="font-size:12px;fill:#444;">• Storage: NVMe-oF target runs on DPU ARM cores</text>
 <text x="30" y="520" style="font-size:12px;fill:#444;">• Security: encryption/keys never visible to host OS</text>
 </svg>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.4:</strong> SmartNIC / DPU memory architecture. The DPU (e.g., NVIDIA BlueField-3) integrates ARM cores, local LPDDR5 DRAM, packet processing engines, and crypto/compress offload engines behind a PCIe endpoint interface. The DPU runs its own Linux kernel and maintains its own IOMMU, isolating DPU DMA from host memory.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 10.5:</strong> SmartNIC / DPU memory architecture. The DPU (e.g., NVIDIA BlueField-3) integrates ARM cores, local LPDDR5 DRAM, packet processing engines, and crypto/compress offload engines behind a PCIe endpoint interface. The DPU runs its own Linux kernel and maintains its own IOMMU, isolating DPU DMA from host memory.</figcaption>
 </figure>
 
 
