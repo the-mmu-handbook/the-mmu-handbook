@@ -957,6 +957,94 @@ Translation overhead = 87,500 × 0.999 × 200ns ≈ 17.5ms per forward pass
 
 <p>To understand why software-managed memory systems are necessary for LLM workloads, we must examine precisely how traditional memory management approaches fail. This section analyzes three specific failure modes documented in recent research: fragmentation in pre-allocation systems, page granularity mismatch, and the fundamental differences between LLM access patterns and those of traditional memory-intensive applications.</p>
 
+<figure id="fig-14-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arr-14-2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#212121;"/></marker>
+    <marker id="arr-red-14-2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#BF616A;"/></marker>
+  </defs>
+  <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">TLB Reach Crisis: LLM Working Set vs Hardware TLB Coverage</text>
+
+  <!-- Left: TLB capacity breakdown -->
+  <rect x="25" y="50" width="390" height="450" rx="8" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:2;"/>
+  <text x="220" y="73" text-anchor="middle" font-size="15" font-weight="bold" fill="#5E81AC">Hardware TLB Reach (4KB pages)</text>
+
+  <rect x="50" y="88" width="340" height="50" rx="6" style="fill:#5E81AC;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="220" y="109" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">L1 TLB: 64 entries</text>
+  <text x="220" y="128" text-anchor="middle" font-size="13" fill="#FFF">64 × 4 KB = 256 KB coverage</text>
+
+  <rect x="50" y="153" width="340" height="50" rx="6" style="fill:#4A8A99;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="220" y="174" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFF">L2 TLB: 1,536 entries</text>
+  <text x="220" y="193" text-anchor="middle" font-size="13" fill="#FFF">1,536 × 4 KB = 6.4 MB coverage</text>
+
+  <!-- Gap arrow -->
+  <line x1="220" y1="218" x2="220" y2="275" style="stroke:#BF616A;stroke-width:3;" marker-end="url(#arr-red-14-2)"/>
+  <rect x="60" y="245" width="320" height="28" rx="4" style="fill:#FDECEA;stroke:#BF616A;stroke-width:1;"/>
+  <text x="220" y="263" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">GAP: 109,000× between L2 TLB and LLaMA 70B</text>
+
+  <!-- Model working sets -->
+  <rect x="50" y="285" width="340" height="40" rx="5" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:2;"/>
+  <text x="220" y="301" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">GPT-2 (117M params): 1.4 GB</text>
+  <text x="220" y="318" text-anchor="middle" font-size="12" fill="#212121">TLB miss rate: ~60% without huge pages</text>
+
+  <rect x="50" y="338" width="340" height="40" rx="5" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:2.5;"/>
+  <text x="220" y="354" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">LLaMA 7B: 14 GB working set</text>
+  <text x="220" y="371" text-anchor="middle" font-size="12" fill="#212121">TLB miss rate: ~85% without huge pages</text>
+
+  <rect x="50" y="391" width="340" height="50" rx="5" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:3;"/>
+  <text x="220" y="409" text-anchor="middle" font-size="14" font-weight="bold" fill="#BF616A">LLaMA 70B: 700 GB working set</text>
+  <text x="220" y="427" text-anchor="middle" font-size="13" fill="#BF616A">TLB miss rate: 99.999%</text>
+  <text x="220" y="445" text-anchor="middle" font-size="12" fill="#212121">5× slowdown from translation alone</text>
+
+  <rect x="50" y="458" width="340" height="30" rx="4" style="fill:#FDECEA;stroke:#BF616A;stroke-width:1;"/>
+  <text x="220" y="477" text-anchor="middle" font-size="12" fill="#BF616A">Every attention operation: near-certain TLB miss</text>
+
+  <!-- Right: solutions comparison -->
+  <rect x="475" y="50" width="390" height="450" rx="8" style="fill:#F8FFF8;stroke:#4A8A99;stroke-width:2;"/>
+  <text x="670" y="73" text-anchor="middle" font-size="15" font-weight="bold" fill="#4A8A99">Mitigation Strategies</text>
+
+  <!-- 2MB huge pages -->
+  <rect x="495" y="88" width="350" height="90" rx="6" style="fill:#E8F5E9;stroke:#4A8A99;stroke-width:1.5;"/>
+  <text x="670" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">2 MB Huge Pages</text>
+  <text x="670" y="128" text-anchor="middle" font-size="13" fill="#212121">Coverage: 1,536 × 2MB = 3.1 GB</text>
+  <text x="670" y="148" text-anchor="middle" font-size="12" fill="#212121">Requirement: 512 contiguous 4KB frames</text>
+  <text x="670" y="168" text-anchor="middle" font-size="12" fill="#BF616A">Problem: contiguity fails at 700GB scale</text>
+
+  <!-- 1GB huge pages -->
+  <rect x="495" y="193" width="350" height="90" rx="6" style="fill:#E8F5E9;stroke:#4A8A99;stroke-width:1.5;"/>
+  <text x="670" y="213" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">1 GB Huge Pages</text>
+  <text x="670" y="233" text-anchor="middle" font-size="13" fill="#212121">Coverage: 1,536 × 1GB = 1.5 TB</text>
+  <text x="670" y="253" text-anchor="middle" font-size="12" fill="#212121">Requirement: 262,144 contiguous frames</text>
+  <text x="670" y="273" text-anchor="middle" font-size="12" fill="#BF616A">Problem: almost impossible to allocate</text>
+
+  <!-- PagedAttention -->
+  <rect x="495" y="298" width="350" height="90" rx="6" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;"/>
+  <text x="670" y="318" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">vLLM PagedAttention (Software)</text>
+  <text x="670" y="338" text-anchor="middle" font-size="13" fill="#212121">Non-contiguous 16-token KV blocks</text>
+  <text x="670" y="358" text-anchor="middle" font-size="12" fill="#212121">Eliminates contiguity requirement</text>
+  <text x="670" y="378" text-anchor="middle" font-size="12" fill="#4A8A99">2–4× throughput improvement</text>
+
+  <!-- Direct segments -->
+  <rect x="495" y="403" width="350" height="85" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1.5;"/>
+  <text x="670" y="423" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">Direct Segments (HW)</text>
+  <text x="670" y="443" text-anchor="middle" font-size="13" fill="#212121">BASE/LIMIT register: no translation</text>
+  <text x="670" y="463" text-anchor="middle" font-size="12" fill="#212121">Eliminates TLB entirely for mapped region</text>
+  <text x="670" y="483" text-anchor="middle" font-size="12" fill="#5E81AC">Works if contiguous region available</text>
+
+  <!-- Legend -->
+  <rect x="25" y="512" width="840" height="24" rx="4" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <rect x="40" y="519" width="12" height="12" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+  <text x="57" y="530" font-size="12" fill="#212121">Problem scope (LLM working sets vs TLB reach)</text>
+  <rect x="330" y="519" width="12" height="12" style="fill:#E8F5E9;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="347" y="530" font-size="12" fill="#212121">Mitigation strategies (HW + SW)</text>
+  <text x="600" y="530" font-size="12" fill="#616161">Source: vLLM (SOSP 2023), Basu et al. (ISCA 2013)</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 14.1:</strong> TLB reach crisis for LLM workloads: the L2 TLB covers only 6.4 MB with 4KB pages — a 109,000× gap below LLaMA 70B's 700 GB working set. Near-certain TLB misses on every attention operation cause 5× slowdown from translation overhead alone. Mitigation strategies range from hardware huge pages (limited by contiguity) to software PagedAttention and Direct Segments.</figcaption>
+</figure>
+
+
 <h3 id="section-14.2.1">14.2.1 Fragmentation in Pre-Allocation Systems</h3>
 
 <p>Prior to recent innovations in LLM memory management, serving systems addressed the variable-length sequence problem through pre-allocation: reserving a fixed-size contiguous memory buffer for each request, sized to accommodate the maximum possible sequence length the system would support. This approach, while simple to implement, results in severe memory waste.</p>
@@ -1155,7 +1243,7 @@ Memory_per_token = 2 × L × H × d_h × bytes_per_element
 <hr>
 
 <h2 id="section-14.3">14.3 Software-Managed Memory: The vLLM System</h2>
-<figure id="fig-14-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<figure id="fig-14-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
 <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
 <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
@@ -1236,13 +1324,152 @@ Memory_per_token = 2 × L × H × d_h × bytes_per_element
 <text x="665" y="444" text-anchor="middle" font-size="13" fill="#4A8A99">TLB miss rate for weights: ~0% (one segment covers all)</text>
 <text x="665" y="462" text-anchor="middle" font-size="13" fill="#4A8A99">8-16% total inference throughput improvement</text>
 <text x="665" y="492" text-anchor="middle" font-size="12" fill="#616161">Tradeoff: loses fine-grained per-page protection for that region</text>
-</svg></div><figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 14.1:</strong> vLLM PagedAttention: software memory management bypassing MMU fragmentation limits. Traditional LLM serving pre-allocates contiguous KV-cache regions per request, wasting 60-70% of GPU memory. PagedAttention divides the KV cache into fixed-size blocks managed by a software block table analogous to OS page tables. Direct Segment Addressing extends this by mapping the entire 70 GB model weights to a single hardware register, eliminating TLB misses for weight tensors entirely.</figcaption></figure>
+</svg></div><figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 14.2:</strong> vLLM PagedAttention: software memory management bypassing MMU fragmentation limits. Traditional LLM serving pre-allocates contiguous KV-cache regions per request, wasting 60-70% of GPU memory. PagedAttention divides the KV cache into fixed-size blocks managed by a software block table analogous to OS page tables. Direct Segment Addressing extends this by mapping the entire 70 GB model weights to a single hardware register, eliminating TLB misses for weight tensors entirely.</figcaption></figure>
 
 <p>The vLLM system, introduced by Kwon et al. at SOSP 2023, represents a fundamental rethinking of memory management for LLM serving. Rather than relying on operating system paging mechanisms, vLLM implements a complete software-managed memory system operating entirely in user space. This section provides a comprehensive technical analysis of vLLM's architecture, algorithm, and experimental results as documented in the SOSP 2023 publication.</p>
 
 <h3 id="section-14.3.1">14.3.1 The PagedAttention Algorithm</h3>
 
 <p>At the core of vLLM is the PagedAttention algorithm, which applies virtual memory concepts to GPU KV cache management. The key insight, as stated by the authors, is that "the memory allocation and management problem in LLM serving is fundamentally similar to the classical virtual memory and paging problem in operating systems" (Kwon et al., 2023, Section 1).</p>
+
+<figure id="fig-14-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="550" viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arr-14-3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#212121;"/></marker>
+    <marker id="arr-red-14-3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#BF616A;"/></marker>
+    <marker id="arr-teal-14-3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#4A8A99;"/></marker>
+  </defs>
+  <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">KV-Cache Memory: Pre-Allocation Waste vs PagedAttention Blocks</text>
+
+  <!-- LEFT: Pre-allocation -->
+  <rect x="25" y="50" width="395" height="460" rx="8" style="fill:#FFF8F8;stroke:#BF616A;stroke-width:2;"/>
+  <text x="222" y="73" text-anchor="middle" font-size="15" font-weight="bold" fill="#BF616A">Pre-Allocation (Orca, FasterTransformer)</text>
+
+  <!-- 3 request buffers -->
+  <text x="222" y="100" text-anchor="middle" font-size="13" fill="#212121">GPU memory divided among active requests:</text>
+
+  <!-- Request 1 -->
+  <rect x="50" y="112" width="340" height="50" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="85" y="130" font-size="12" fill="#212121">Req 1 (max 2048 tok):</text>
+  <!-- used portion -->
+  <rect x="195" y="115" width="96" height="40" rx="2" style="fill:#5E81AC;"/>
+  <text x="243" y="139" text-anchor="middle" font-size="11" fill="#FFF">used 768</text>
+  <!-- reserved unused -->
+  <rect x="291" y="115" width="94" height="40" rx="2" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+  <text x="338" y="133" text-anchor="middle" font-size="10" fill="#BF616A">reserved</text>
+  <text x="338" y="148" text-anchor="middle" font-size="10" fill="#BF616A">unused</text>
+
+  <!-- Request 2 -->
+  <rect x="50" y="172" width="340" height="50" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="85" y="190" font-size="12" fill="#212121">Req 2 (max 2048 tok):</text>
+  <rect x="195" y="175" width="28" height="40" rx="2" style="fill:#5E81AC;"/>
+  <text x="209" y="199" text-anchor="middle" font-size="9" fill="#FFF">224t</text>
+  <rect x="223" y="175" width="162" height="40" rx="2" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+  <text x="304" y="192" text-anchor="middle" font-size="10" fill="#BF616A">reserved but unused</text>
+  <text x="304" y="207" text-anchor="middle" font-size="10" fill="#BF616A">(waiting for generation)</text>
+
+  <!-- Request 3 -->
+  <rect x="50" y="232" width="340" height="50" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="85" y="250" font-size="12" fill="#212121">Req 3 (max 2048 tok):</text>
+  <rect x="195" y="235" width="160" height="40" rx="2" style="fill:#5E81AC;"/>
+  <text x="275" y="259" text-anchor="middle" font-size="11" fill="#FFF">used 1,280 tok</text>
+  <rect x="355" y="235" width="30" height="40" rx="2" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+
+  <!-- Fragmentation summary -->
+  <rect x="50" y="295" width="340" height="60" rx="5" style="fill:#FDECEA;stroke:#BF616A;stroke-width:1.5;"/>
+  <text x="220" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">Memory Utilization: ~60%</text>
+  <text x="220" y="335" text-anchor="middle" font-size="12" fill="#212121">40% reserved but never used per-request</text>
+  <text x="220" y="352" text-anchor="middle" font-size="12" fill="#212121">Cannot serve new requests: memory "full"</text>
+
+  <!-- External fragmentation -->
+  <rect x="50" y="368" width="340" height="50" rx="5" style="fill:#FFF0F0;stroke:#BF616A;stroke-width:1;stroke-dasharray:4,2;"/>
+  <text x="220" y="387" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">External Fragmentation</text>
+  <text x="220" y="405" text-anchor="middle" font-size="12" fill="#212121">Gaps between finished requests cannot be reused</text>
+
+  <rect x="50" y="430" width="340" height="65" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="220" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Throughput Impact (Kwon et al. 2023)</text>
+  <text x="220" y="466" text-anchor="middle" font-size="12" fill="#212121">Max concurrent requests severely limited</text>
+  <text x="220" y="484" text-anchor="middle" font-size="12" fill="#BF616A">GPU runs at 30–40% of capacity</text>
+
+  <!-- RIGHT: PagedAttention -->
+  <rect x="480" y="50" width="390" height="460" rx="8" style="fill:#F8FFF8;stroke:#4A8A99;stroke-width:2;"/>
+  <text x="675" y="73" text-anchor="middle" font-size="15" font-weight="bold" fill="#4A8A99">PagedAttention (vLLM) — Fixed Blocks</text>
+
+  <text x="675" y="100" text-anchor="middle" font-size="13" fill="#212121">Physical KV memory: fixed 16-token blocks</text>
+
+  <!-- Physical memory blocks grid -->
+  <rect x="500" y="112" width="350" height="155" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="675" y="130" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Physical KV Block Pool</text>
+  <!-- Block grid 5 cols × 4 rows -->
+  <rect x="510" y="138" width="58" height="28" rx="3" style="fill:#5E81AC;"/>
+  <text x="539" y="157" text-anchor="middle" font-size="10" fill="#FFF">R1-B0</text>
+  <rect x="573" y="138" width="58" height="28" rx="3" style="fill:#5E81AC;"/>
+  <text x="602" y="157" text-anchor="middle" font-size="10" fill="#FFF">R1-B1</text>
+  <rect x="636" y="138" width="58" height="28" rx="3" style="fill:#4A8A99;"/>
+  <text x="665" y="157" text-anchor="middle" font-size="10" fill="#FFF">R2-B0</text>
+  <rect x="699" y="138" width="58" height="28" rx="3" style="fill:#5E81AC;"/>
+  <text x="728" y="157" text-anchor="middle" font-size="10" fill="#FFF">R1-B2</text>
+  <rect x="762" y="138" width="58" height="28" rx="3" style="fill:#7B68AC;"/>
+  <text x="791" y="157" text-anchor="middle" font-size="10" fill="#FFF">R3-B0</text>
+
+  <rect x="510" y="171" width="58" height="28" rx="3" style="fill:#4A8A99;"/>
+  <text x="539" y="190" text-anchor="middle" font-size="10" fill="#FFF">R2-B1</text>
+  <rect x="573" y="171" width="58" height="28" rx="3" style="fill:#7B68AC;"/>
+  <text x="602" y="190" text-anchor="middle" font-size="10" fill="#FFF">R3-B1</text>
+  <rect x="636" y="171" width="58" height="28" rx="3" style="fill:#9E9E9E;stroke:#9E9E9E;stroke-dasharray:3,2;"/>
+  <text x="665" y="190" text-anchor="middle" font-size="10" fill="#FFF">free</text>
+  <rect x="699" y="171" width="58" height="28" rx="3" style="fill:#5E81AC;"/>
+  <text x="728" y="190" text-anchor="middle" font-size="10" fill="#FFF">R1-B3</text>
+  <rect x="762" y="171" width="58" height="28" rx="3" style="fill:#9E9E9E;stroke:#9E9E9E;stroke-dasharray:3,2;"/>
+  <text x="791" y="190" text-anchor="middle" font-size="10" fill="#FFF">free</text>
+
+  <rect x="510" y="204" width="58" height="28" rx="3" style="fill:#9E9E9E;stroke:#9E9E9E;stroke-dasharray:3,2;"/>
+  <text x="539" y="223" text-anchor="middle" font-size="10" fill="#FFF">free</text>
+  <rect x="573" y="204" width="58" height="28" rx="3" style="fill:#4A8A99;"/>
+  <text x="602" y="223" text-anchor="middle" font-size="10" fill="#FFF">R2-B2</text>
+  <rect x="636" y="204" width="58" height="28" rx="3" style="fill:#7B68AC;"/>
+  <text x="665" y="223" text-anchor="middle" font-size="10" fill="#FFF">R3-B2</text>
+  <rect x="699" y="204" width="58" height="28" rx="3" style="fill:#9E9E9E;stroke:#9E9E9E;stroke-dasharray:3,2;"/>
+  <text x="728" y="223" text-anchor="middle" font-size="10" fill="#FFF">free</text>
+  <rect x="762" y="204" width="58" height="28" rx="3" style="fill:#5E81AC;"/>
+  <text x="791" y="223" text-anchor="middle" font-size="10" fill="#FFF">R1-B4</text>
+
+  <text x="675" y="255" text-anchor="middle" font-size="12" fill="#4A8A99">Non-contiguous blocks per request — no waste</text>
+
+  <!-- Block table -->
+  <rect x="500" y="268" width="350" height="70" rx="5" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="675" y="286" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">Block Table (software page table)</text>
+  <text x="675" y="304" text-anchor="middle" font-size="12" fill="#212121">Req 1: logical B0→phy 0, B1→phy 1, B2→phy 3, B3→phy 7...</text>
+  <text x="675" y="322" text-anchor="middle" font-size="12" fill="#212121">Req 2: logical B0→phy 2, B1→phy 5, B2→phy 9...</text>
+
+  <!-- Memory utilization -->
+  <rect x="500" y="353" width="350" height="60" rx="5" style="fill:#E8F5E9;stroke:#4A8A99;stroke-width:1.5;"/>
+  <text x="675" y="373" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">Memory Utilization: ~96%</text>
+  <text x="675" y="393" text-anchor="middle" font-size="12" fill="#212121">Only last block per request partially filled</text>
+  <text x="675" y="411" text-anchor="middle" font-size="12" fill="#212121">All free blocks immediately reusable</text>
+
+  <rect x="500" y="428" width="350" height="65" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="675" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Throughput (A100 80GB)</text>
+  <text x="675" y="466" text-anchor="middle" font-size="12" fill="#212121">2–4× more concurrent requests vs Orca</text>
+  <text x="675" y="484" text-anchor="middle" font-size="12" fill="#4A8A99">GPU fully utilized</text>
+
+  <!-- Legend -->
+  <rect x="25" y="522" width="840" height="24" rx="4" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <rect x="40" y="529" width="12" height="12" style="fill:#5E81AC;"/>
+  <text x="57" y="540" font-size="12" fill="#212121">Request 1 KV blocks</text>
+  <rect x="200" y="529" width="12" height="12" style="fill:#4A8A99;"/>
+  <text x="217" y="540" font-size="12" fill="#212121">Request 2</text>
+  <rect x="310" y="529" width="12" height="12" style="fill:#7B68AC;"/>
+  <text x="327" y="540" font-size="12" fill="#212121">Request 3</text>
+  <rect x="420" y="529" width="12" height="12" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+  <text x="437" y="540" font-size="12" fill="#BF616A">Wasted reservation</text>
+  <text x="630" y="540" font-size="12" fill="#616161">Source: Kwon et al., SOSP 2023</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 14.3:</strong> KV-cache memory fragmentation: pre-allocation systems (left) reserve contiguous buffers per request sized to the maximum sequence length, leaving 40% of GPU memory unused while blocking new requests. PagedAttention (right) allocates fixed 16-token non-contiguous blocks via a software block table, achieving ~96% memory utilization and 2–4× higher concurrent request throughput on A100 80GB.</figcaption>
+</figure>
+
 
 <p><strong>Conceptual Foundation:</strong> Traditional attention mechanisms in transformers assume that key and value vectors are stored in contiguous memory. For a sequence of length <em>n</em>, computing attention for a query at position <em>i</em> requires accessing keys and values from all positions 1 through <em>i</em>. In standard implementations, these are stored in contiguous tensors, which creates the fragmentation problems documented in Section 14.2.</p>
 
@@ -1788,6 +2015,110 @@ function append_token_to_request(request_id, token):
 
 <p>While vLLM demonstrates that software-managed memory can dramatically improve efficiency for LLM workloads, it still performs address translation—albeit in software rather than hardware. An alternative approach eliminates translation entirely for certain memory regions through direct segment addressing. This section examines the Direct Segments architecture introduced by Basu et al. at ISCA 2013 and explores its potential applicability to LLM workloads.</p>
 
+<figure id="fig-14-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arr-14-5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#212121;"/></marker>
+    <marker id="arr-teal-14-5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#4A8A99;"/></marker>
+    <marker id="arr-red-14-5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#BF616A;"/></marker>
+  </defs>
+  <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Direct Segment Addressing: BASE/LIMIT/OFFSET Translation Bypass</text>
+
+  <!-- Traditional path (top) -->
+  <rect x="25" y="50" width="850" height="175" rx="8" style="fill:#FFF8F8;stroke:#BF616A;stroke-width:2;"/>
+  <text x="450" y="73" text-anchor="middle" font-size="15" font-weight="bold" fill="#BF616A">Traditional Path: Virtual Address → 4-Level Page Walk</text>
+
+  <!-- VA box -->
+  <rect x="45" y="88" width="100" height="110" rx="5" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1.5;"/>
+  <text x="95" y="108" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Virtual</text>
+  <text x="95" y="124" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Address</text>
+  <text x="95" y="145" text-anchor="middle" font-size="12" fill="#5E81AC">0x7F</text>
+  <text x="95" y="163" text-anchor="middle" font-size="12" fill="#5E81AC">00000000</text>
+  <text x="95" y="181" text-anchor="middle" font-size="12" fill="#5E81AC">00000</text>
+
+  <!-- Page walk steps -->
+  <line x1="145" y1="143" x2="170" y2="143" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red-14-5)"/>
+  <rect x="173" y="100" width="80" height="40" rx="4" style="fill:#BF616A;"/>
+  <text x="213" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">PGD</text>
+  <line x1="253" y1="120" x2="275" y2="120" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red-14-5)"/>
+  <rect x="278" y="100" width="80" height="40" rx="4" style="fill:#BF616A;"/>
+  <text x="318" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">PUD</text>
+  <line x1="358" y1="120" x2="380" y2="120" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red-14-5)"/>
+  <rect x="383" y="100" width="80" height="40" rx="4" style="fill:#BF616A;"/>
+  <text x="423" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">PMD</text>
+  <line x1="463" y1="120" x2="485" y2="120" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red-14-5)"/>
+  <rect x="488" y="100" width="80" height="40" rx="4" style="fill:#BF616A;"/>
+  <text x="528" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">PTE</text>
+  <line x1="568" y1="120" x2="590" y2="120" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red-14-5)"/>
+  <rect x="593" y="88" width="100" height="110" rx="5" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1.5;"/>
+  <text x="643" y="128" text-anchor="middle" font-size="12" fill="#BF616A">Physical</text>
+  <text x="643" y="146" text-anchor="middle" font-size="12" fill="#BF616A">Address</text>
+
+  <text x="213" y="155" text-anchor="middle" font-size="11" fill="#212121">Miss → mem</text>
+  <text x="318" y="155" text-anchor="middle" font-size="11" fill="#212121">Miss → mem</text>
+  <text x="423" y="155" text-anchor="middle" font-size="11" fill="#212121">Miss → mem</text>
+  <text x="528" y="155" text-anchor="middle" font-size="11" fill="#212121">Miss → mem</text>
+
+  <rect x="720" y="88" width="140" height="110" rx="5" style="fill:#FDECEA;stroke:#BF616A;stroke-width:1;"/>
+  <text x="790" y="108" text-anchor="middle" font-size="12" fill="#BF616A">Latency:</text>
+  <text x="790" y="126" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">4 × 64ns</text>
+  <text x="790" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">= 256ns</text>
+  <text x="790" y="162" text-anchor="middle" font-size="12" fill="#212121">per access</text>
+  <text x="790" y="180" text-anchor="middle" font-size="12" fill="#BF616A">on TLB miss</text>
+
+  <!-- Direct segments path (bottom) -->
+  <rect x="25" y="245" width="850" height="260" rx="8" style="fill:#F8FFF8;stroke:#4A8A99;stroke-width:2;"/>
+  <text x="450" y="268" text-anchor="middle" font-size="15" font-weight="bold" fill="#4A8A99">Direct Segments: BASE/LIMIT Register Bypass (ISCA 2013)</text>
+
+  <!-- Register file -->
+  <rect x="45" y="280" width="200" height="120" rx="6" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;"/>
+  <text x="145" y="300" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">Segment Registers</text>
+  <rect x="60" y="310" width="170" height="26" rx="3" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="145" y="328" text-anchor="middle" font-size="12" fill="#212121">BASE = 0x200000000000</text>
+  <rect x="60" y="340" width="170" height="26" rx="3" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="145" y="358" text-anchor="middle" font-size="12" fill="#212121">LIMIT = 0x200000000000</text>
+  <text x="145" y="386" text-anchor="middle" font-size="12" fill="#4A8A99">(set by OS at mmap time)</text>
+
+  <!-- Check logic -->
+  <rect x="290" y="280" width="200" height="120" rx="6" style="fill:#E8F5E9;stroke:#4A8A99;stroke-width:1.5;"/>
+  <text x="390" y="300" text-anchor="middle" font-size="14" font-weight="bold" fill="#212121">Range Check</text>
+  <text x="390" y="322" text-anchor="middle" font-size="13" fill="#212121">VA ≥ BASE?</text>
+  <text x="390" y="342" text-anchor="middle" font-size="13" fill="#212121">VA &lt; BASE+LIMIT?</text>
+  <text x="390" y="368" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">→ Direct access</text>
+  <text x="390" y="386" text-anchor="middle" font-size="12" fill="#212121">1 cycle, no table walk</text>
+
+  <!-- PA computation -->
+  <rect x="545" y="280" width="200" height="120" rx="6" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;"/>
+  <text x="645" y="300" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">PA Computation</text>
+  <text x="645" y="325" text-anchor="middle" font-size="13" fill="#212121">OFFSET = VA − BASE</text>
+  <text x="645" y="345" text-anchor="middle" font-size="13" fill="#212121">PA = PHY_BASE + OFFSET</text>
+  <text x="645" y="370" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">Single subtract + add</text>
+  <text x="645" y="388" text-anchor="middle" font-size="12" fill="#212121">~1ns vs 256ns page walk</text>
+
+  <!-- Arrows -->
+  <line x1="245" y1="340" x2="288" y2="340" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-14-5)"/>
+  <line x1="490" y1="340" x2="543" y2="340" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-14-5)"/>
+  <line x1="745" y1="340" x2="820" y2="340" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-14-5)"/>
+  <rect x="823" y="315" width="45" height="50" rx="4" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="845" y="335" text-anchor="middle" font-size="11" fill="#212121">PA</text>
+  <text x="845" y="355" text-anchor="middle" font-size="11" fill="#4A8A99">ready</text>
+
+  <!-- Result comparison -->
+  <rect x="45" y="420" width="810" height="65" rx="5" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="450" y="442" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Results (Basu et al., ISCA 2013 — graph analytics, big-memory workloads)</text>
+  <text x="225" y="465" text-anchor="middle" font-size="12" fill="#212121">TLB miss overhead: eliminated for mapped region</text>
+  <text x="450" y="465" text-anchor="middle" font-size="12" fill="#4A8A99">Speedup: 1.3–2.5× on graph500, genome</text>
+  <text x="700" y="465" text-anchor="middle" font-size="12" fill="#212121">Limitation: requires contiguous phys alloc</text>
+
+  <!-- Separator line -->
+  <line x1="25" y1="237" x2="875" y2="237" style="stroke:#9E9E9E;stroke-width:1;stroke-dasharray:5,3;"/>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 14.4:</strong> Direct Segment addressing (Basu et al., ISCA 2013): the traditional four-level page walk (top) incurs up to 256 ns of memory latency on a TLB miss. Direct Segments (bottom) add BASE and LIMIT registers to the MMU; for virtual addresses within the mapped region, the physical address is computed in one cycle as PHY_BASE + (VA − BASE), eliminating the entire page table walk. Measured speedups of 1.3–2.5× on big-memory graph and genomics workloads.</figcaption>
+</figure>
+
+
 <h3 id="section-14.4.1">14.4.1 Motivation and Design Principles</h3>
 
 <p>The Direct Segments work emerged from analysis of "big-memory" workloads in high-performance computing and graph analytics—applications with working sets measuring hundreds of gigabytes that far exceed TLB reach. Basu et al. (2013, Section 2) observed that many such workloads access memory in predictable patterns over large contiguous regions, yet still incur continuous translation overhead.</p>
@@ -2093,6 +2424,85 @@ Segment 1: KV cache pool (200GB allocation for multiple requests)
 <h2 id="section-14.5">14.5 Comparative Analysis and Design Trade-offs</h2>
 
 <p>Having examined software-managed memory (vLLM) and translation-bypass mechanisms (Direct Segments) in detail, this section provides a systematic comparison of these approaches. The analysis draws exclusively on experimental results from the respective papers and explores design trade-offs that inform system architecture decisions.</p>
+
+<figure id="fig-14-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="545" viewBox="0 0 900 545" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arr-14-6" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" style="fill:#212121;"/></marker>
+  </defs>
+  <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">vLLM vs Orca: Throughput Comparison (A100 80GB)</text>
+
+  <!-- Bar chart area -->
+  <rect x="100" y="55" width="640" height="380" rx="5" style="fill:#F9F9F9;stroke:#E0E0E0;stroke-width:1;"/>
+
+  <!-- Y axis label -->
+  <text x="50" y="250" text-anchor="middle" font-size="14" fill="#212121" transform="rotate(-90 50 250)">Throughput (requests/second)</text>
+
+  <!-- Y axis gridlines and labels -->
+  <line x1="150" y1="385" x2="690" y2="385" style="stroke:#E0E0E0;stroke-width:1;"/>
+  <line x1="150" y1="335" x2="690" y2="335" style="stroke:#E0E0E0;stroke-width:1;stroke-dasharray:3,3;"/>
+  <line x1="150" y1="285" x2="690" y2="285" style="stroke:#E0E0E0;stroke-width:1;stroke-dasharray:3,3;"/>
+  <line x1="150" y1="235" x2="690" y2="235" style="stroke:#E0E0E0;stroke-width:1;stroke-dasharray:3,3;"/>
+  <line x1="150" y1="185" x2="690" y2="185" style="stroke:#E0E0E0;stroke-width:1;stroke-dasharray:3,3;"/>
+  <line x1="150" y1="135" x2="690" y2="135" style="stroke:#E0E0E0;stroke-width:1;stroke-dasharray:3,3;"/>
+  <line x1="150" y1="85" x2="690" y2="85" style="stroke:#E0E0E0;stroke-width:1;stroke-dasharray:3,3;"/>
+  <text x="140" y="389" text-anchor="end" font-size="12" fill="#616161">0</text>
+  <text x="140" y="339" text-anchor="end" font-size="12" fill="#616161">5</text>
+  <text x="140" y="289" text-anchor="end" font-size="12" fill="#616161">10</text>
+  <text x="140" y="239" text-anchor="end" font-size="12" fill="#616161">15</text>
+  <text x="140" y="189" text-anchor="end" font-size="12" fill="#616161">20</text>
+  <text x="140" y="139" text-anchor="end" font-size="12" fill="#616161">25</text>
+  <text x="140" y="89" text-anchor="end" font-size="12" fill="#616161">30</text>
+
+  <!-- X axis -->
+  <line x1="150" y1="385" x2="150" y2="75" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+
+  <!-- 3 workload groups: OPT-13B, LLaMA-13B, LLaMA-70B -->
+  <!-- OPT-13B: Orca=7.5, vLLM=18 req/s -->
+  <text x="225" y="415" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">OPT-13B</text>
+  <rect x="170" y="235" width="55" height="150" rx="3" style="fill:#BF616A;"/>
+  <text x="197" y="228" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF616A">7.5</text>
+  <rect x="235" y="145" width="55" height="240" rx="3" style="fill:#5E81AC;"/>
+  <text x="262" y="138" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">18</text>
+
+  <!-- LLaMA-13B: Orca=8, vLLM=21 req/s -->
+  <text x="400" y="415" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">LLaMA-13B</text>
+  <rect x="345" y="225" width="55" height="160" rx="3" style="fill:#BF616A;"/>
+  <text x="372" y="218" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF616A">8</text>
+  <rect x="410" y="125" width="55" height="260" rx="3" style="fill:#5E81AC;"/>
+  <text x="437" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">21</text>
+
+  <!-- LLaMA-70B: Orca=2.5, vLLM=6 req/s -->
+  <text x="575" y="415" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">LLaMA-70B</text>
+  <rect x="520" y="310" width="55" height="75" rx="3" style="fill:#BF616A;"/>
+  <text x="547" y="303" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF616A">2.5</text>
+  <rect x="585" y="265" width="55" height="120" rx="3" style="fill:#5E81AC;"/>
+  <text x="612" y="258" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">6</text>
+
+  <!-- Improvement labels -->
+  <rect x="155" y="60" width="130" height="22" rx="3" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="220" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A8A99">2.4× improvement</text>
+  <rect x="330" y="60" width="130" height="22" rx="3" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="395" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A8A99">2.6× improvement</text>
+  <rect x="505" y="60" width="130" height="22" rx="3" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="570" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A8A99">2.4× improvement</text>
+
+  <!-- Legend -->
+  <rect x="100" y="450" width="640" height="35" rx="5" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <rect x="200" y="460" width="16" height="16" rx="2" style="fill:#BF616A;"/>
+  <text x="222" y="472" font-size="13" fill="#212121">Orca (pre-allocation baseline)</text>
+  <rect x="420" y="460" width="16" height="16" rx="2" style="fill:#5E81AC;"/>
+  <text x="442" y="472" font-size="13" fill="#212121">vLLM PagedAttention</text>
+
+  <!-- Annotation -->
+  <text x="450" y="510" text-anchor="middle" font-size="12" fill="#616161">Source: Kwon et al., SOSP 2023, Figure 8. ShareGPT conversation dataset. A100 80GB SXM5.</text>
+  <text x="450" y="528" text-anchor="middle" font-size="12" fill="#212121">PagedAttention achieves 2–4× higher throughput by eliminating KV-cache fragmentation.</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 14.5:</strong> Throughput comparison of vLLM PagedAttention vs Orca pre-allocation baseline on three models (A100 80GB, ShareGPT dataset). PagedAttention achieves 2.4–2.6× higher request throughput across all model sizes by eliminating KV-cache fragmentation and enabling near-full GPU memory utilization. The improvement is largest for mid-size models (LLaMA-13B: 2.6×) where memory efficiency most constrains batch size.</figcaption>
+</figure>
+
 
 <h3 id="section-14.5.1">14.5.1 Design Space Taxonomy</h3>
 
