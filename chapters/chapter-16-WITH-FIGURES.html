@@ -2253,7 +2253,7 @@ Power: Negligible (accessed only on TLB miss)
   <rect x="20" y="52" width="860" height="68" rx="6" style="fill:#FFF8F8;stroke:#BF616A;stroke-width:1.5;"/>
   <text x="450" y="74" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#BF616A;">The Contiguity Problem</text>
   <text x="450" y="92" text-anchor="middle" font-size="13" style="fill:#212121;">Traditional huge pages (2MB, 1GB) require physically contiguous DRAM frames. After allocation, memory becomes fragmented — huge pages impossible.</text>
-  <text x="450" y="110" text-anchor="middle" font-size="13" style="fill:#212121;">Mosaic (ASPLOS 2023 Best Paper, IEEE Micro Top Picks 2024) achieves huge-page TLB reach with <strong>non-contiguous</strong> 4KB frames using iceberg hashing.</text>
+  <text x="450" y="110" text-anchor="middle" font-size="13" style="fill:#212121;">Mosaic (ASPLOS 2023 Best Paper, IEEE Micro Top Picks 2024) achieves huge-page TLB reach with non-contiguous 4KB frames using iceberg hashing.</text>
 
   <!-- Memory layout comparison -->
   <!-- Left: fragmented physical memory (cannot use huge page) -->
@@ -2752,7 +2752,7 @@ Single TLB entry covers ENTIRE 2.1 GB tensor!
   <text x="710" y="248" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#BF616A" text-anchor="middle">Capacity Advantage</text>
 
   <text x="555" y="272" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Classic TLB (1,024 entries, 4 KB):</text>
-  <text x="560" y="292" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">Covers: 1,024 × 4 KB = <strong>4 MB</strong></text>
+  <text x="560" y="292" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">Covers: 1,024 × 4 KB = 4 MB</text>
   <text x="560" y="312" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#C62828">1 GB weight tensor → 256K PTEs missed!</text>
 
   <text x="555" y="342" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">FlexPointer TLB (1,024 entries):</text>
