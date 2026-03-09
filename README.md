@@ -34,10 +34,10 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [12](chapters/chapter-12-WITH-FIGURES.html) | Multi-GPU TLB Coordination at Scale | 1 | 221 KB |
 | [13](chapters/chapter-13-WITH-FIGURES.html) | Machine Learning for MMU Optimization | 1 | 105 KB |
 | [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for LLM Serving | 1 | 193 KB |
-| [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 1 | 155 KB |
+| [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 6 | 212 KB |
 | [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 3 | 158 KB |
 
-**Total: 94 embedded SVG figures across 16 chapters (~4.0 MB)**
+**Total: 99 embedded SVG figures across 16 chapters (~4.0 MB)**
 
 ---
 

@@ -847,6 +847,134 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <h2 id="section-15.2">15.2 Network-Level Translation</h2>
 
 <p>Traditional memory management assumes a processor-centric model: the CPU or GPU that needs data must translate the virtual address to a physical address, then fetch the data. This model made sense when processors had local memory. But modern AI clusters increasingly use disaggregated memory—compute and storage are physically separated, connected by high-speed networks. In this architecture, requiring each of 1,024 GPUs to independently translate the same virtual addresses introduces massive redundancy.</p>
+<figure id="fig-15-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="580" viewBox="0 0 900 580" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr-15-2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#212121;"/>
+    </marker>
+    <marker id="arr-blue-15-2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#5E81AC;"/>
+    </marker>
+    <marker id="arr-red-15-2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#BF616A;"/>
+    </marker>
+    <marker id="arr-teal-15-2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#4A8A99;"/>
+    </marker>
+    <filter id="shadow-15-2">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="580" style="fill:#FFFFFF;"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" style="fill:#212121;">MIND: In-Network MMU — Network-Level Translation Architecture</text>
+
+  <!-- Traditional model (left) -->
+  <g id="traditional">
+    <rect x="20" y="60" width="390" height="480" rx="8" style="fill:#FFF8F8;stroke:#BF616A;stroke-width:1.5;"/>
+    <text x="215" y="84" text-anchor="middle" font-size="15" font-weight="bold" style="fill:#BF616A;">Traditional: Per-GPU Translation</text>
+
+    <!-- 4 GPUs -->
+    <rect x="40" y="100" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="90" y="122" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 0</text>
+    <text x="90" y="140" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">TLB + PTW</text>
+
+    <rect x="160" y="100" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="210" y="122" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 1</text>
+    <text x="210" y="140" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">TLB + PTW</text>
+
+    <rect x="40" y="180" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="90" y="202" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 2</text>
+    <text x="90" y="220" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">TLB + PTW</text>
+
+    <rect x="160" y="180" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="210" y="202" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 3</text>
+    <text x="210" y="220" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">TLB + PTW</text>
+
+    <!-- Each GPU does its own walk - redundant arrows down to shared memory -->
+    <line x1="90" y1="236" x2="90" y2="290" style="stroke:#BF616A;stroke-width:2;stroke-dasharray:5,3;" marker-end="url(#arr-red-15-2)"/>
+    <line x1="210" y1="236" x2="210" y2="290" style="stroke:#BF616A;stroke-width:2;stroke-dasharray:5,3;" marker-end="url(#arr-red-15-2)"/>
+    <text x="150" y="270" text-anchor="middle" font-size="12" style="fill:#BF616A;">4× redundant walks</text>
+
+    <!-- Network switch (dumb) -->
+    <rect x="55" y="295" width="250" height="50" rx="6" style="fill:#9E9E9E;filter:url(#shadow-15-2);"/>
+    <text x="180" y="317" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Network Switch</text>
+    <text x="180" y="334" text-anchor="middle" font-size="12" style="fill:#F5F5F5;">(routes packets only)</text>
+
+    <!-- Shared memory -->
+    <rect x="55" y="375" width="250" height="55" rx="6" style="fill:#4A8A99;filter:url(#shadow-15-2);"/>
+    <text x="180" y="398" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Disaggregated Memory</text>
+    <text x="180" y="416" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Page tables + data</text>
+
+    <line x1="180" y1="345" x2="180" y2="375" style="stroke:#212121;stroke-width:2;" marker-end="url(#arr-15-2)"/>
+
+    <!-- Problem annotation -->
+    <rect x="40" y="448" width="310" height="76" rx="6" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
+    <text x="195" y="467" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#BF616A;">Problem: O(N) Redundancy</text>
+    <text x="195" y="484" text-anchor="middle" font-size="12" style="fill:#212121;">1024 GPUs × same VA → 1024 identical</text>
+    <text x="195" y="500" text-anchor="middle" font-size="12" style="fill:#212121;">page table walks to same PA</text>
+    <text x="195" y="516" text-anchor="middle" font-size="12" style="fill:#BF616A;">Latency: 200–500 ns per GPU</text>
+  </g>
+
+  <!-- MIND model (right) -->
+  <g id="mind">
+    <rect x="490" y="60" width="390" height="480" rx="8" style="fill:#F0F8FF;stroke:#5E81AC;stroke-width:1.5;"/>
+    <text x="685" y="84" text-anchor="middle" font-size="15" font-weight="bold" style="fill:#5E81AC;">MIND: In-Network Translation (Once)</text>
+
+    <!-- 4 GPUs (no PTW) -->
+    <rect x="510" y="100" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="560" y="122" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 0</text>
+    <text x="560" y="140" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">send VA only</text>
+
+    <rect x="630" y="100" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="680" y="122" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 1</text>
+    <text x="680" y="140" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">send VA only</text>
+
+    <rect x="510" y="180" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="560" y="202" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 2</text>
+    <text x="560" y="220" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">send VA only</text>
+
+    <rect x="630" y="180" width="100" height="56" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="680" y="202" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 3</text>
+    <text x="680" y="220" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">send VA only</text>
+
+    <!-- Lines from GPUs to smart switch -->
+    <line x1="560" y1="236" x2="620" y2="290" style="stroke:#5E81AC;stroke-width:1.5;" marker-end="url(#arr-blue-15-2)"/>
+    <line x1="680" y1="236" x2="640" y2="290" style="stroke:#5E81AC;stroke-width:1.5;" marker-end="url(#arr-blue-15-2)"/>
+
+    <!-- MIND Smart Switch -->
+    <rect x="525" y="295" width="280" height="70" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-2);"/>
+    <text x="665" y="320" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">MIND SmartNIC / Smart Switch</text>
+    <text x="665" y="337" text-anchor="middle" font-size="13" style="fill:#DDEAF5;">Translation Cache (128K entries)</text>
+    <text x="665" y="354" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">VA → PA lookup in 50 ns</text>
+
+    <!-- PA back to memory -->
+    <line x1="665" y1="365" x2="665" y2="395" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-15-2)"/>
+
+    <!-- Shared memory -->
+    <rect x="525" y="398" width="280" height="55" rx="6" style="fill:#4A8A99;filter:url(#shadow-15-2);"/>
+    <text x="665" y="421" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Disaggregated Memory</text>
+    <text x="665" y="439" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Direct PA access (no per-GPU walk)</text>
+
+    <!-- Benefit annotation -->
+    <rect x="510" y="468" width="360" height="58" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="690" y="487" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">Result: O(1) per unique VA</text>
+    <text x="690" y="504" text-anchor="middle" font-size="12" style="fill:#212121;">1 translation serves all 1024 GPUs requesting same VA</text>
+    <text x="690" y="519" text-anchor="middle" font-size="12" style="fill:#5E81AC;">Speedup: 1.2–2.8× application throughput</text>
+  </g>
+
+  <!-- VS divider -->
+  <text x="450" y="318" text-anchor="middle" font-size="22" font-weight="bold" style="fill:#9E9E9E;">VS</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 15.1:</strong> MIND in-network MMU: traditional per-GPU translation (left) requires each of N GPUs to independently walk the page table for the same virtual address. MIND (right) places a translation cache in the network switch or SmartNIC, performing the VA→PA lookup once and serving all requesting GPUs from a shared 128K-entry cache, achieving 1.2–2.8× application throughput improvement.</figcaption>
+</figure>
+
 
 <p>Network-level translation inverts this model: <strong>translation happens once, in the network fabric, and data is routed directly to the requesting device</strong>. Two recent systems demonstrate this approach: MIND (SOSP 2021) and pulse (ASPLOS 2025).</p>
 
@@ -855,6 +983,154 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <p><strong>Paper:</strong> "MIND: In-Network Memory Management for Disaggregated Data Centers" (SOSP 2021)<br>
 <strong>Authors:</strong> Abhishek Bhattacharjee, et al. (Yale University)<br>
 <strong>Key Innovation:</strong> Programmable network switches perform address translation</p>
+<figure id="fig-15-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="580" viewBox="0 0 900 580" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr-15-3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#212121;"/>
+    </marker>
+    <marker id="arr-blue-15-3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#5E81AC;"/>
+    </marker>
+    <marker id="arr-red-15-3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#BF616A;"/>
+    </marker>
+    <filter id="shadow-15-3">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="900" height="580" style="fill:#FFFFFF;"/>
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" style="fill:#212121;">Pulse: Distributed TLB Protocol — Coordinated Translation Across GPU Cluster</text>
+
+  <!-- 6 GPU nodes in 2 rows -->
+  <g id="gpus">
+    <!-- Row 1 -->
+    <rect x="40" y="65" width="120" height="90" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-3);"/>
+    <text x="100" y="87" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 0</text>
+    <text x="100" y="104" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Local TLB</text>
+    <text x="100" y="120" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">128 entries</text>
+    <text x="100" y="145" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Pulse agent</text>
+
+    <rect x="210" y="65" width="120" height="90" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-3);"/>
+    <text x="270" y="87" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 1</text>
+    <text x="270" y="104" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Local TLB</text>
+    <text x="270" y="120" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">128 entries</text>
+    <text x="270" y="145" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Pulse agent</text>
+
+    <rect x="380" y="65" width="120" height="90" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-3);"/>
+    <text x="440" y="87" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 2</text>
+    <text x="440" y="104" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Local TLB</text>
+    <text x="440" y="120" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">128 entries</text>
+    <text x="440" y="145" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Pulse agent</text>
+
+    <!-- Row 2 -->
+    <rect x="125" y="75" width="120" height="90" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-3);"/>
+    <text x="185" y="97" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 3</text>
+    <text x="185" y="114" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Local TLB</text>
+    <text x="185" y="130" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">128 entries</text>
+    <text x="185" y="155" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Pulse agent</text>
+
+    <rect x="295" y="75" width="120" height="90" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-3);"/>
+    <text x="355" y="97" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 4</text>
+    <text x="355" y="114" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Local TLB</text>
+    <text x="355" y="130" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">128 entries</text>
+    <text x="355" y="155" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Pulse agent</text>
+
+    <rect x="465" y="75" width="120" height="90" rx="6" style="fill:#5E81AC;filter:url(#shadow-15-3);"/>
+    <text x="525" y="97" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">GPU 5</text>
+    <text x="525" y="114" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Local TLB</text>
+    <text x="525" y="130" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">128 entries</text>
+    <text x="525" y="155" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Pulse agent</text>
+  </g>
+
+  <!-- Horizontal bus connecting GPUs -->
+  <line x1="100" y1="196" x2="525" y2="196" style="stroke:#9E9E9E;stroke-width:2;"/>
+  <line x1="100" y1="165" x2="100" y2="196" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+  <line x1="185" y1="175" x2="185" y2="196" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+  <line x1="270" y1="165" x2="270" y2="196" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+  <line x1="355" y1="175" x2="355" y2="196" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+  <line x1="440" y1="165" x2="440" y2="196" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+  <line x1="525" y1="175" x2="525" y2="196" style="stroke:#9E9E9E;stroke-width:1.5;"/>
+
+  <!-- Distributed translation directory -->
+  <rect x="30" y="218" width="565" height="60" rx="6" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1.5;"/>
+  <text x="312" y="243" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#5E81AC;">Pulse Distributed Translation Directory</text>
+  <text x="312" y="262" text-anchor="middle" font-size="13" style="fill:#212121;">Sharded across GPU memory — each GPU owns 1/N of VA space directory entries</text>
+
+  <!-- Pulse protocol steps -->
+  <g id="protocol">
+    <rect x="620" y="52" width="260" height="490" rx="8" style="fill:#F5F7FA;stroke:#9E9E9E;stroke-width:1;"/>
+    <text x="750" y="76" text-anchor="middle" font-size="15" font-weight="bold" style="fill:#212121;">Pulse Protocol Steps</text>
+
+    <!-- Step 1 -->
+    <rect x="635" y="90" width="230" height="60" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="750" y="110" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">① TLB Miss on GPU i</text>
+    <text x="750" y="126" text-anchor="middle" font-size="12" style="fill:#212121;">Local TLB has no entry for VA</text>
+    <text x="750" y="142" text-anchor="middle" font-size="11" style="fill:#616161;">Compute: dir_owner = hash(VA) % N</text>
+
+    <line x1="750" y1="150" x2="750" y2="166" style="stroke:#212121;stroke-width:2;" marker-end="url(#arr-15-3)"/>
+
+    <!-- Step 2 -->
+    <rect x="635" y="170" width="230" height="60" rx="6" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+    <text x="750" y="190" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#4A8A99;">② Send to Owner GPU</text>
+    <text x="750" y="206" text-anchor="middle" font-size="12" style="fill:#212121;">PULSE_REQ(VA) → GPU owner</text>
+    <text x="750" y="222" text-anchor="middle" font-size="11" style="fill:#616161;">Latency: ~50 ns (NVLink)</text>
+
+    <line x1="750" y1="230" x2="750" y2="246" style="stroke:#212121;stroke-width:2;" marker-end="url(#arr-15-3)"/>
+
+    <!-- Step 3 -->
+    <rect x="635" y="250" width="230" height="70" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="750" y="270" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">③ Directory Lookup</text>
+    <text x="750" y="286" text-anchor="middle" font-size="12" style="fill:#212121;">Owner finds VA→PA mapping</text>
+    <text x="750" y="302" text-anchor="middle" font-size="11" style="fill:#616161;">Hit: return PA immediately</text>
+    <text x="750" y="316" text-anchor="middle" font-size="11" style="fill:#616161;">Miss: walk page table once</text>
+
+    <line x1="750" y1="320" x2="750" y2="336" style="stroke:#212121;stroke-width:2;" marker-end="url(#arr-15-3)"/>
+
+    <!-- Step 4 -->
+    <rect x="635" y="340" width="230" height="60" rx="6" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+    <text x="750" y="360" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#4A8A99;">④ Multicast PA Reply</text>
+    <text x="750" y="376" text-anchor="middle" font-size="12" style="fill:#212121;">PA sent to requesting GPU</text>
+    <text x="750" y="392" text-anchor="middle" font-size="11" style="fill:#616161;">+ optionally pushed to peers</text>
+
+    <line x1="750" y1="400" x2="750" y2="416" style="stroke:#212121;stroke-width:2;" marker-end="url(#arr-15-3)"/>
+
+    <!-- Step 5 -->
+    <rect x="635" y="420" width="230" height="60" rx="6" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="750" y="440" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">⑤ TLB Fill + Continue</text>
+    <text x="750" y="456" text-anchor="middle" font-size="12" style="fill:#212121;">GPU fills local TLB, resumes</text>
+    <text x="750" y="472" text-anchor="middle" font-size="11" style="fill:#616161;">Round-trip: ~100 ns total</text>
+
+    <!-- Performance box -->
+    <rect x="635" y="492" width="230" height="42" rx="6" style="fill:#5E81AC;"/>
+    <text x="750" y="509" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Speedup vs serial shootdown</text>
+    <text x="750" y="526" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">O(1) per unique VA at 512 GPUs: 12×</text>
+  </g>
+
+  <!-- Performance comparison bottom-left -->
+  <rect x="30" y="300" width="565" height="90" rx="6" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="312" y="322" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">Protocol Comparison at Scale (512 GPUs)</text>
+
+  <!-- bar chart horizontal -->
+  <text x="50" y="346" font-size="13" style="fill:#212121;">Traditional (serial):</text>
+  <rect x="210" y="333" width="320" height="18" rx="3" style="fill:#BF616A;"/>
+  <text x="540" y="346" font-size="13" style="fill:#BF616A;">5.12 ms</text>
+
+  <text x="50" y="373" font-size="13" style="fill:#212121;">Pulse (distributed):</text>
+  <rect x="210" y="360" width="25" height="18" rx="3" style="fill:#5E81AC;"/>
+  <text x="245" y="373" font-size="13" style="fill:#5E81AC;">~100 ns (50×)</text>
+
+  <!-- Invalidation note -->
+  <rect x="30" y="405" width="565" height="60" rx="6" style="fill:#FFF8F8;stroke:#BF616A;stroke-width:1;"/>
+  <text x="312" y="425" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#BF616A;">Invalidation: Pulse-Invalidate Protocol</text>
+  <text x="312" y="444" text-anchor="middle" font-size="12" style="fill:#212121;">When memory is freed, directory owner multicasts PULSE_INV to all GPUs that cached the entry.</text>
+  <text x="312" y="461" text-anchor="middle" font-size="12" style="fill:#212121;">GPUs acknowledge with PULSE_INV_ACK; memory reuse proceeds when all acks received.</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 15.2:</strong> Pulse distributed TLB protocol: each GPU runs a Pulse agent with a local TLB. On a miss, the agent hashes the VA to find the directory owner GPU, sends a PULSE_REQ, and the owner performs a single page table walk returning the PA in ~100 ns round-trip. The distributed directory eliminates O(N) serial shootdown overhead, achieving 50× lower invalidation latency at 512 GPUs.</figcaption>
+</figure>
+
 
 <h4 id="motivation-redundant-translation-at-scale">Motivation: Redundant Translation at Scale</h4>
 
@@ -2382,6 +2658,159 @@ Workloads:
 <h2 id="section-15.3">15.3 Processing-in-Memory Translation (PIM-TLB)</h2>
 
 <p>The second architectural alternative moves translation in the opposite direction from network-level approaches: instead of centralizing translation in the network, PIM-TLB places translation logic <em>inside or adjacent to memory itself</em>. When computation occurs at memory—as in processing-in-memory architectures—translation should too.</p>
+<figure id="fig-15-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr-15-5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#212121;"/>
+    </marker>
+    <filter id="shadow-15-5">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="900" height="560" style="fill:#FFFFFF;"/>
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" style="fill:#212121;">PIM-TLB: Translation Inside HBM — Operation and Data Flow</text>
+
+  <!-- HBM stack diagram (left) -->
+  <g id="hbm-stack">
+    <rect x="20" y="55" width="240" height="460" rx="8" style="fill:#F5F7FA;stroke:#9E9E9E;stroke-width:1.5;"/>
+    <text x="140" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">HBM3 Stack</text>
+
+    <!-- Logic layer at bottom -->
+    <rect x="35" y="455" width="210" height="45" rx="4" style="fill:#5E81AC;filter:url(#shadow-15-5);"/>
+    <text x="140" y="473" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Logic Layer (Base Die)</text>
+    <text x="140" y="489" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">PIM-TLB SRAM + PTW engine</text>
+
+    <!-- DRAM layers -->
+    <rect x="35" y="390" width="210" height="55" rx="4" style="fill:#4A8A99;filter:url(#shadow-15-5);"/>
+    <text x="140" y="412" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">DRAM Layer 1–2</text>
+    <text x="140" y="428" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Page table storage</text>
+    <text x="140" y="444" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">2 × 16GB = 32GB</text>
+
+    <rect x="35" y="320" width="210" height="62" rx="4" style="fill:#4A8A99;filter:url(#shadow-15-5);"/>
+    <text x="140" y="342" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">DRAM Layer 3–4</text>
+    <text x="140" y="358" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Data storage</text>
+    <text x="140" y="374" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">Bandwidth: 3.35 TB/s</text>
+
+    <rect x="35" y="245" width="210" height="68" rx="4" style="fill:#4A8A99;filter:url(#shadow-15-5);"/>
+    <text x="140" y="268" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">DRAM Layer 5–6</text>
+    <text x="140" y="284" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Data storage</text>
+    <text x="140" y="300" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">(model weights)</text>
+
+    <rect x="35" y="170" width="210" height="68" rx="4" style="fill:#4A8A99;filter:url(#shadow-15-5);"/>
+    <text x="140" y="193" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">DRAM Layer 7–8</text>
+    <text x="140" y="209" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Activation tensors</text>
+    <text x="140" y="225" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">through-silicon vias</text>
+
+    <!-- TSV connections -->
+    <line x1="100" y1="170" x2="100" y2="455" style="stroke:#9E9E9E;stroke-width:1;stroke-dasharray:3,3;"/>
+    <line x1="180" y1="170" x2="180" y2="455" style="stroke:#9E9E9E;stroke-width:1;stroke-dasharray:3,3;"/>
+    <text x="140" y="158" text-anchor="middle" font-size="12" style="fill:#9E9E9E;">Through-Silicon Vias (TSVs)</text>
+  </g>
+
+  <!-- PIM-TLB engine details (center) -->
+  <g id="pim-engine">
+    <rect x="280" y="55" width="270" height="460" rx="8" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1.5;"/>
+    <text x="415" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#5E81AC;">PIM-TLB Engine (Logic Die)</text>
+
+    <!-- SRAM TLB -->
+    <rect x="295" y="92" width="240" height="60" rx="4" style="fill:#5E81AC;filter:url(#shadow-15-5);"/>
+    <text x="415" y="114" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">On-Die SRAM TLB</text>
+    <text x="415" y="130" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">2MB SRAM, 4-way assoc</text>
+    <text x="415" y="146" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Latency: 1–3 cycles (12 ns)</text>
+
+    <!-- Hit path -->
+    <rect x="295" y="176" width="110" height="48" rx="4" style="fill:#4A8A99;"/>
+    <text x="350" y="196" text-anchor="middle" font-size="12" font-weight="bold" style="fill:#FFFFFF;">HIT path</text>
+    <text x="350" y="212" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">Return PA in 12 ns</text>
+
+    <!-- Miss path -->
+    <rect x="425" y="176" width="110" height="48" rx="4" style="fill:#BF616A;"/>
+    <text x="480" y="196" text-anchor="middle" font-size="12" font-weight="bold" style="fill:#FFFFFF;">MISS path</text>
+    <text x="480" y="212" text-anchor="middle" font-size="11" style="fill:#F0D9D9;">Local page table walk</text>
+
+    <!-- Page table walker -->
+    <rect x="295" y="248" width="240" height="55" rx="4" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="415" y="270" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">Local Page Table Walker</text>
+    <text x="415" y="286" text-anchor="middle" font-size="12" style="fill:#212121;">Accesses page table in Layer 1–2</text>
+    <text x="415" y="302" text-anchor="middle" font-size="11" style="fill:#616161;">Latency: 50 ns (vs 200 ns off-die)</text>
+
+    <!-- DMA engine -->
+    <rect x="295" y="326" width="240" height="50" rx="4" style="fill:#5E81AC;"/>
+    <text x="415" y="347" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">In-Memory DMA Engine</text>
+    <text x="415" y="363" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Moves data without GPU involvement</text>
+
+    <!-- Coherence logic -->
+    <rect x="295" y="398" width="240" height="50" rx="4" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="415" y="419" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">Coherence / Invalidation</text>
+    <text x="415" y="436" text-anchor="middle" font-size="12" style="fill:#212121;">Snoop filter for GPU-side TLBs</text>
+
+    <!-- Lines -->
+    <line x1="415" y1="152" x2="350" y2="176" style="stroke:#4A8A99;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+    <line x1="415" y1="152" x2="480" y2="176" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+    <line x1="480" y1="224" x2="415" y2="248" style="stroke:#BF616A;stroke-width:1.5;stroke-dasharray:4,2;" marker-end="url(#arr-15-5)"/>
+    <line x1="415" y1="303" x2="415" y2="326" style="stroke:#5E81AC;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+    <line x1="415" y1="376" x2="415" y2="398" style="stroke:#5E81AC;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+
+    <!-- GPU request coming in -->
+    <line x1="415" y1="466" x2="415" y2="475" style="stroke:#9E9E9E;stroke-width:1;"/>
+    <rect x="295" y="465" width="240" height="38" rx="4" style="fill:#9E9E9E;"/>
+    <text x="415" y="482" text-anchor="middle" font-size="12" font-weight="bold" style="fill:#FFFFFF;">To GPU over HBM interface</text>
+    <text x="415" y="497" text-anchor="middle" font-size="11" style="fill:#F5F5F5;">PA returned; data DMA initiated</text>
+  </g>
+
+  <!-- GPU side (right) -->
+  <g id="gpu-side">
+    <rect x="570" y="55" width="310" height="460" rx="8" style="fill:#F5F7FA;stroke:#9E9E9E;stroke-width:1.5;"/>
+    <text x="725" y="78" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">GPU (Compute Side)</text>
+
+    <rect x="585" y="92" width="280" height="55" rx="4" style="fill:#5E81AC;filter:url(#shadow-15-5);"/>
+    <text x="725" y="115" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">GPU SM Array</text>
+    <text x="725" y="132" text-anchor="middle" font-size="12" style="fill:#DDEAF5;">Issues memory requests with VA</text>
+
+    <rect x="585" y="170" width="280" height="50" rx="4" style="fill:#4A8A99;"/>
+    <text x="725" y="191" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">GPU-Side TLB (L2)</text>
+    <text x="725" y="207" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">Cached: most-recently-used PAs</text>
+
+    <!-- Hit/Miss decision -->
+    <polygon points="725,240 790,275 725,310 660,275" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1.5;"/>
+    <text x="725" y="270" text-anchor="middle" font-size="12" font-weight="bold" style="fill:#5E81AC;">L2 TLB</text>
+    <text x="725" y="286" text-anchor="middle" font-size="12" font-weight="bold" style="fill:#5E81AC;">hit?</text>
+
+    <text x="800" y="258" font-size="12" font-weight="bold" style="fill:#4A8A99;">YES</text>
+    <text x="660" y="328" font-size="12" font-weight="bold" style="fill:#BF616A;">NO →</text>
+
+    <!-- Cache miss → PIM request -->
+    <rect x="585" y="330" width="280" height="55" rx="4" style="fill:#BF616A;"/>
+    <text x="725" y="352" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">PIM-TLB Request</text>
+    <text x="725" y="368" text-anchor="middle" font-size="12" style="fill:#F0D9D9;">Send VA to HBM logic layer</text>
+    <text x="725" y="383" text-anchor="middle" font-size="11" style="fill:#F0D9D9;">via HBM command channel</text>
+
+    <!-- Direct data access -->
+    <rect x="585" y="408" width="280" height="55" rx="4" style="fill:#4A8A99;"/>
+    <text x="725" y="430" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Direct Data Access</text>
+    <text x="725" y="446" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">PA → data in same HBM stack</text>
+    <text x="725" y="461" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">No off-chip round-trip</text>
+
+    <!-- Performance -->
+    <rect x="585" y="477" width="280" height="30" rx="4" style="fill:#5E81AC;"/>
+    <text x="725" y="497" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">1.5–3.1× application speedup (PIM-TLB)</text>
+
+    <line x1="725" y1="147" x2="725" y2="170" style="stroke:#5E81AC;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+    <line x1="725" y1="220" x2="725" y2="240" style="stroke:#5E81AC;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+    <line x1="725" y1="310" x2="725" y2="330" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+    <line x1="725" y1="385" x2="725" y2="408" style="stroke:#212121;stroke-width:1.5;" marker-end="url(#arr-15-5)"/>
+  </g>
+
+  <!-- Horizontal connection between PIM engine and GPU side -->
+  <line x1="550" y1="468" x2="585" y2="350" style="stroke:#BF616A;stroke-width:2;stroke-dasharray:5,3;" marker-end="url(#arr-15-5)"/>
+  <text x="558" y="435" font-size="11" style="fill:#BF616A;" transform="rotate(-55,558,435)">PA reply</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 15.3:</strong> PIM-TLB operation: a 2MB SRAM TLB and lightweight page table walker reside in the HBM logic die at the base of the memory stack. On a GPU-side L2 TLB miss, the VA is sent over the HBM command channel; the logic layer resolves the translation in 12 ns (SRAM hit) or 50 ns (local page-table walk) — 4× faster than off-chip. PIM-TLB delivers 1.5–3.1× application speedup for memory-bandwidth-bound AI workloads.</figcaption>
+</figure>
+
 
 <h3 id="motivation-memory-wall-and-pim">15.3.1 Motivation: The Memory Wall and PIM</h3>
 
@@ -2425,7 +2854,7 @@ Result: 4 round-trips just to translate, defeating PIM's purpose
 
 <p>vPIM targets modern HBM-based PIM systems:</p>
 
-<figure id="fig-15-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-15-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -2521,7 +2950,7 @@ Result: 4 round-trips just to translate, defeating PIM's purpose
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
-    <strong>Figure 15.1:</strong> PIM-in-HBM stack architecture: DRAM layers 1–8 provide storage; the logic layer at the base houses RISC-V PIM cores, a 512-entry TLB, and a page-table walker. Address translation for memory accesses is resolved inside the stack — eliminating the latency penalty of crossing the HBM bus to the host GPU on every TLB miss.
+    <strong>Figure 15.4:</strong> PIM-in-HBM stack architecture: DRAM layers 1–8 provide storage; the logic layer at the base houses RISC-V PIM cores, a 512-entry TLB, and a page-table walker. Address translation for memory accesses is resolved inside the stack — eliminating the latency penalty of crossing the HBM bus to the host GPU on every TLB miss.
   </figcaption>
 </figure>
 
@@ -3091,6 +3520,156 @@ Different trade-off than general-purpose CPU
 <h2 id="section-15.4">15.4 Utopia: Hybrid Radix-Segments Architecture</h2>
 
 <p>Chapter 14, Section 14.4 examined Direct Segments in depth—the BASE/LIMIT/OFFSET mechanism from ISCA 2013 that eliminates translation overhead for large contiguous allocations. Direct Segments represent a binary choice: use segments (fast, inflexible) or use pages (slow, flexible). Utopia (2022) asks a different question: <strong>why choose?</strong></p>
+<figure id="fig-15-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr-15-4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#212121;"/>
+    </marker>
+    <marker id="arr-blue-15-4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#5E81AC;"/>
+    </marker>
+    <marker id="arr-red-15-4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#BF616A;"/>
+    </marker>
+    <marker id="arr-teal-15-4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" style="fill:#4A8A99;"/>
+    </marker>
+    <filter id="shadow-15-4">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="900" height="600" style="fill:#FFFFFF;"/>
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" style="fill:#212121;">Utopia: Hybrid Radix-Segment Translation Architecture</text>
+
+  <!-- Address space diagram (top) -->
+  <g id="addr-space">
+    <rect x="20" y="50" width="580" height="120" rx="6" style="fill:#F5F7FA;stroke:#9E9E9E;stroke-width:1;"/>
+    <text x="310" y="72" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">Virtual Address Space — Mixed Allocation</text>
+
+    <!-- Small allocations (left) -->
+    <rect x="35" y="82" width="30" height="40" rx="2" style="fill:#5E81AC;"/>
+    <rect x="70" y="82" width="15" height="40" rx="2" style="fill:#5E81AC;"/>
+    <rect x="90" y="82" width="25" height="40" rx="2" style="fill:#5E81AC;"/>
+    <rect x="120" y="82" width="10" height="40" rx="2" style="fill:#5E81AC;"/>
+    <rect x="135" y="82" width="20" height="40" rx="2" style="fill:#5E81AC;"/>
+    <text x="105" y="148" text-anchor="middle" font-size="12" style="fill:#5E81AC;">Small allocs (4KB–2MB)</text>
+    <text x="105" y="162" text-anchor="middle" font-size="11" style="fill:#616161;">→ Radix page table</text>
+
+    <!-- Large allocation (right) -->
+    <rect x="200" y="82" width="360" height="40" rx="2" style="fill:#4A8A99;"/>
+    <text x="380" y="97" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Large contiguous allocation (e.g. 4GB model weights)</text>
+    <text x="380" y="114" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">KV cache, embedding tables, activation tensors</text>
+    <text x="380" y="148" text-anchor="middle" font-size="12" style="fill:#4A8A99;">→ Segment (BASE + LIMIT)</text>
+    <text x="380" y="162" text-anchor="middle" font-size="11" style="fill:#616161;">No page table walk needed</text>
+  </g>
+
+  <!-- Left: Radix path -->
+  <g id="radix-path">
+    <rect x="20" y="190" width="240" height="280" rx="8" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1.5;"/>
+    <text x="140" y="212" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#5E81AC;">Path A: Radix Translation</text>
+    <text x="140" y="228" text-anchor="middle" font-size="12" style="fill:#616161;">(small/fragmented allocations)</text>
+
+    <rect x="50" y="240" width="170" height="36" rx="4" style="fill:#5E81AC;"/>
+    <text x="135" y="253" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">PGD (L4 page dir)</text>
+    <text x="135" y="268" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">9 bits → 512 entries</text>
+
+    <line x1="135" y1="276" x2="135" y2="295" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr-blue-15-4)"/>
+
+    <rect x="50" y="298" width="170" height="36" rx="4" style="fill:#5E81AC;"/>
+    <text x="135" y="311" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">PUD (L3 page dir)</text>
+    <text x="135" y="326" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">9 bits → 512 entries</text>
+
+    <line x1="135" y1="334" x2="135" y2="353" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr-blue-15-4)"/>
+
+    <rect x="50" y="356" width="170" height="36" rx="4" style="fill:#5E81AC;"/>
+    <text x="135" y="369" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">PMD + PTE</text>
+    <text x="135" y="384" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">9+9 bits → 4KB page</text>
+
+    <line x1="135" y1="392" x2="135" y2="411" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr-blue-15-4)"/>
+
+    <rect x="50" y="414" width="170" height="36" rx="4" style="fill:#4A8A99;"/>
+    <text x="135" y="432" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">Physical Frame</text>
+    <text x="135" y="447" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">3–7 memory accesses</text>
+  </g>
+
+  <!-- Right: Segment path -->
+  <g id="segment-path">
+    <rect x="340" y="190" width="240" height="280" rx="8" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1.5;"/>
+    <text x="460" y="212" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#4A8A99;">Path B: Segment Translation</text>
+    <text x="460" y="228" text-anchor="middle" font-size="12" style="fill:#616161;">(large contiguous allocations)</text>
+
+    <!-- Segment table (small, flat) -->
+    <rect x="365" y="244" width="210" height="55" rx="4" style="fill:#4A8A99;"/>
+    <text x="470" y="264" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Segment Table</text>
+    <text x="470" y="280" text-anchor="middle" font-size="12" style="fill:#CCE8EC;">BASE | LIMIT | PERM | VALID</text>
+    <text x="470" y="296" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">64-128 entries total</text>
+
+    <line x1="470" y1="299" x2="470" y2="325" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-15-4)"/>
+
+    <!-- Direct offset calculation -->
+    <rect x="365" y="328" width="210" height="50" rx="4" style="fill:#EAF2F8;stroke:#4A8A99;stroke-width:1;"/>
+    <text x="470" y="349" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#4A8A99;">Offset Calculation</text>
+    <text x="470" y="365" text-anchor="middle" font-size="12" style="fill:#212121;">PA = BASE + (VA − SEG_BASE)</text>
+
+    <line x1="470" y1="378" x2="470" y2="411" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-15-4)"/>
+
+    <rect x="365" y="414" width="210" height="36" rx="4" style="fill:#4A8A99;"/>
+    <text x="470" y="432" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">Physical Memory</text>
+    <text x="470" y="447" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">1 cycle lookup only</text>
+  </g>
+
+  <!-- Utopia priority arbiter -->
+  <g id="arbiter">
+    <rect x="620" y="190" width="260" height="280" rx="8" style="fill:#F5F5F5;stroke:#212121;stroke-width:1.5;"/>
+    <text x="750" y="212" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">Utopia Priority Arbiter</text>
+    <text x="750" y="228" text-anchor="middle" font-size="12" style="fill:#616161;">Checks segment table first</text>
+
+    <!-- Decision diamond -->
+    <polygon points="750,250 820,290 750,330 680,290" style="fill:#5E81AC;stroke:#212121;stroke-width:1.5;"/>
+    <text x="750" y="284" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">VA in</text>
+    <text x="750" y="300" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">segment?</text>
+
+    <!-- YES path -->
+    <line x1="820" y1="290" x2="855" y2="290" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-teal-15-4)"/>
+    <text x="860" y="288" font-size="12" font-weight="bold" style="fill:#4A8A99;">YES</text>
+    <rect x="635" y="348" width="230" height="36" rx="4" style="fill:#4A8A99;"/>
+    <text x="750" y="366" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">Segment path: 1 cycle</text>
+    <text x="750" y="381" text-anchor="middle" font-size="11" style="fill:#CCE8EC;">1–2 cycle speedup</text>
+    <line x1="820" y1="290" x2="750" y2="348" style="stroke:#4A8A99;stroke-width:2;stroke-dasharray:4,2;"/>
+
+    <!-- NO path -->
+    <line x1="750" y1="330" x2="750" y2="350" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr-blue-15-4)"/>
+    <text x="760" y="346" font-size="12" font-weight="bold" style="fill:#5E81AC;">NO</text>
+
+    <rect x="635" y="395" width="230" height="36" rx="4" style="fill:#5E81AC;"/>
+    <text x="750" y="413" text-anchor="middle" font-size="13" style="fill:#FFFFFF;">Radix path: 3–7 walks</text>
+    <text x="750" y="428" text-anchor="middle" font-size="11" style="fill:#DDEAF5;">Standard page table</text>
+
+    <!-- Performance summary -->
+    <rect x="635" y="447" width="230" height="14" rx="0" style="fill:#9E9E9E;"/>
+    <rect x="635" y="461" width="230" height="50" rx="0 0 6 6" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1;"/>
+    <text x="750" y="476" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">Utopia Results (2022)</text>
+    <text x="750" y="491" text-anchor="middle" font-size="12" style="fill:#212121;">1.3–2.3× app speedup</text>
+    <text x="750" y="506" text-anchor="middle" font-size="11" style="fill:#616161;">graph analytics, ML serving</text>
+  </g>
+
+  <!-- Bottom: trade-off summary -->
+  <rect x="20" y="492" width="580" height="90" rx="6" style="fill:#F5F7FA;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="310" y="512" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">Utopia Key Trade-offs vs Pure Approaches</text>
+
+  <text x="35" y="532" font-size="13" font-weight="bold" style="fill:#4A8A99;">Gains:</text>
+  <text x="90" y="532" font-size="13" style="fill:#212121;">Segment path eliminates costly walks for large allocs (model weights, KV cache)</text>
+  <text x="35" y="550" font-size="13" font-weight="bold" style="fill:#4A8A99;">Gains:</text>
+  <text x="90" y="550" font-size="13" style="fill:#212121;">Radix path handles arbitrary small allocs — no contiguity requirement for OS</text>
+  <text x="35" y="568" font-size="13" font-weight="bold" style="fill:#BF616A;">Cost:</text>
+  <text x="90" y="568" font-size="13" style="fill:#212121;">Arbiter adds ~1 cycle overhead; segment table occupies TLB entries (small, 64–128)</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 15.5:</strong> Utopia hybrid radix-segment architecture: a priority arbiter checks a flat 64–128-entry segment table before the conventional radix page table. Large contiguous allocations (model weights, KV caches) are resolved in 1–2 cycles via BASE+OFFSET arithmetic; small fragmented allocations fall through to the standard 4-level radix path. Utopia achieves 1.3–2.3× application speedup without DRAM hardware changes.</figcaption>
+</figure>
+
 
 <h3 id="motivation-the-flexibility-performance-tradeoff">15.4.1 Motivation: The Flexibility-Performance Trade-off</h3>
 
@@ -3493,6 +4072,164 @@ Accuracy: 85-90% (promotes appropriate allocations)
 <h2 id="section-15.5">15.5 Comparative Analysis</h2>
 
 <p>Having examined three alternative translation architectures, we now compare them systematically to understand when each approach is most appropriate.</p>
+<figure id="fig-15-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+    <svg width="900" height="580" viewBox="0 0 900 580" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <filter id="shadow-15-6">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <rect width="900" height="580" style="fill:#FFFFFF;"/>
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" style="fill:#212121;">Alternative Translation Architectures — Comparative Analysis</text>
+
+  <!-- Table header row -->
+  <rect x="20" y="52" width="860" height="36" rx="4" style="fill:#212121;"/>
+  <text x="120" y="75" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Architecture</text>
+  <text x="290" y="75" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Where Translation</text>
+  <text x="430" y="75" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Latency</text>
+  <text x="555" y="75" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Speedup</text>
+  <text x="680" y="75" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Best For</text>
+  <text x="820" y="75" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#FFFFFF;">Maturity</text>
+
+  <!-- Column separators for header -->
+  <line x1="200" y1="52" x2="200" y2="88" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="380" y1="52" x2="380" y2="88" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="490" y1="52" x2="490" y2="88" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="615" y1="52" x2="615" y2="88" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="755" y1="52" x2="755" y2="88" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+
+  <!-- Row 1: Conventional MMU -->
+  <rect x="20" y="88" width="860" height="56" rx="0" style="fill:#F5F5F5;stroke:#E0E0E0;stroke-width:0.5;"/>
+  <text x="120" y="108" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">Conventional MMU</text>
+  <text x="120" y="126" text-anchor="middle" font-size="12" style="fill:#616161;">(baseline)</text>
+  <text x="290" y="112" text-anchor="middle" font-size="13" style="fill:#212121;">Each CPU/GPU</text>
+  <text x="290" y="128" text-anchor="middle" font-size="11" style="fill:#616161;">independently walks PT</text>
+  <text x="430" y="112" text-anchor="middle" font-size="13" style="fill:#BF616A;">200–500 ns</text>
+  <text x="430" y="128" text-anchor="middle" font-size="11" style="fill:#616161;">per miss (off-chip)</text>
+  <text x="555" y="117" text-anchor="middle" font-size="13" style="fill:#9E9E9E;">1× (baseline)</text>
+  <text x="680" y="112" text-anchor="middle" font-size="13" style="fill:#212121;">General workloads</text>
+  <text x="680" y="128" text-anchor="middle" font-size="11" style="fill:#616161;">all access patterns</text>
+  <rect x="765" y="96" width="100" height="26" rx="4" style="fill:#4A8A99;"/>
+  <text x="815" y="114" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Production</text>
+
+  <!-- Row 2: Network Translation (MIND/Pulse) -->
+  <rect x="20" y="144" width="860" height="68" rx="0" style="fill:#EAF2F8;stroke:#E0E0E0;stroke-width:0.5;"/>
+  <text x="120" y="166" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#5E81AC;">Network-Level</text>
+  <text x="120" y="182" text-anchor="middle" font-size="12" style="fill:#5E81AC;">MIND / Pulse</text>
+  <text x="120" y="198" text-anchor="middle" font-size="11" style="fill:#616161;">§15.2</text>
+  <text x="290" y="166" text-anchor="middle" font-size="13" style="fill:#212121;">Network switch /</text>
+  <text x="290" y="182" text-anchor="middle" font-size="13" style="fill:#212121;">SmartNIC</text>
+  <text x="290" y="198" text-anchor="middle" font-size="11" style="fill:#616161;">One translation serves all</text>
+  <text x="430" y="166" text-anchor="middle" font-size="13" style="fill:#4A8A99;">50 ns (switch hit)</text>
+  <text x="430" y="182" text-anchor="middle" font-size="11" style="fill:#616161;">100 ns round-trip</text>
+  <text x="430" y="198" text-anchor="middle" font-size="11" style="fill:#616161;">(Pulse)</text>
+  <text x="555" y="166" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">1.2–2.8×</text>
+  <text x="555" y="182" text-anchor="middle" font-size="11" style="fill:#616161;">application (MIND)</text>
+  <text x="555" y="198" text-anchor="middle" font-size="11" style="fill:#616161;">50× vs serial (Pulse)</text>
+  <text x="680" y="166" text-anchor="middle" font-size="13" style="fill:#212121;">Disaggregated memory</text>
+  <text x="680" y="182" text-anchor="middle" font-size="13" style="fill:#212121;">large GPU clusters</text>
+  <text x="680" y="198" text-anchor="middle" font-size="11" style="fill:#616161;">NVLink / InfiniBand fabric</text>
+  <rect x="765" y="155" width="100" height="26" rx="4" style="fill:#BF616A;"/>
+  <text x="815" y="173" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Research</text>
+  <text x="815" y="196" text-anchor="middle" font-size="11" style="fill:#616161;">ASPLOS 2023</text>
+
+  <!-- Row 3: PIM-TLB -->
+  <rect x="20" y="212" width="860" height="68" rx="0" style="fill:#F5F5F5;stroke:#E0E0E0;stroke-width:0.5;"/>
+  <text x="120" y="234" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#4A8A99;">PIM-TLB</text>
+  <text x="120" y="250" text-anchor="middle" font-size="12" style="fill:#4A8A99;">In-memory logic</text>
+  <text x="120" y="266" text-anchor="middle" font-size="11" style="fill:#616161;">§15.3</text>
+  <text x="290" y="234" text-anchor="middle" font-size="13" style="fill:#212121;">HBM logic die</text>
+  <text x="290" y="250" text-anchor="middle" font-size="13" style="fill:#212121;">inside memory stack</text>
+  <text x="290" y="266" text-anchor="middle" font-size="11" style="fill:#616161;">2MB SRAM TLB on-die</text>
+  <text x="430" y="234" text-anchor="middle" font-size="13" style="fill:#4A8A99;">12 ns (SRAM hit)</text>
+  <text x="430" y="250" text-anchor="middle" font-size="11" style="fill:#616161;">50 ns (local PT walk)</text>
+  <text x="430" y="266" text-anchor="middle" font-size="11" style="fill:#616161;">vs 200 ns off-die</text>
+  <text x="555" y="242" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#4A8A99;">1.5–3.1×</text>
+  <text x="555" y="258" text-anchor="middle" font-size="11" style="fill:#616161;">application (compute-near-data)</text>
+  <text x="680" y="234" text-anchor="middle" font-size="13" style="fill:#212121;">HBM-attached GPUs</text>
+  <text x="680" y="250" text-anchor="middle" font-size="13" style="fill:#212121;">memory-bound AI</text>
+  <text x="680" y="266" text-anchor="middle" font-size="11" style="fill:#616161;">PIM-capable systems</text>
+  <rect x="765" y="222" width="100" height="26" rx="4" style="fill:#BF616A;"/>
+  <text x="815" y="240" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Research</text>
+  <text x="815" y="263" text-anchor="middle" font-size="11" style="fill:#616161;">ISCA 2024</text>
+
+  <!-- Row 4: Utopia -->
+  <rect x="20" y="280" width="860" height="68" rx="0" style="fill:#EAF2F8;stroke:#E0E0E0;stroke-width:0.5;"/>
+  <text x="120" y="302" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#5E81AC;">Utopia Hybrid</text>
+  <text x="120" y="318" text-anchor="middle" font-size="12" style="fill:#5E81AC;">Radix + Segment</text>
+  <text x="120" y="334" text-anchor="middle" font-size="11" style="fill:#616161;">§15.4</text>
+  <text x="290" y="302" text-anchor="middle" font-size="13" style="fill:#212121;">CPU/GPU MMU</text>
+  <text x="290" y="318" text-anchor="middle" font-size="13" style="fill:#212121;">(extended hardware)</text>
+  <text x="290" y="334" text-anchor="middle" font-size="11" style="fill:#616161;">Arbiter routes per-request</text>
+  <text x="430" y="302" text-anchor="middle" font-size="13" style="fill:#4A8A99;">1–2 cycles (segment)</text>
+  <text x="430" y="318" text-anchor="middle" font-size="11" style="fill:#616161;">3–7 walks (radix)</text>
+  <text x="430" y="334" text-anchor="middle" font-size="11" style="fill:#616161;">+1 cycle arbiter overhead</text>
+  <text x="555" y="302" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">1.3–2.3×</text>
+  <text x="555" y="318" text-anchor="middle" font-size="11" style="fill:#616161;">application (mixed workload)</text>
+  <text x="680" y="302" text-anchor="middle" font-size="13" style="fill:#212121;">Large + small allocs</text>
+  <text x="680" y="318" text-anchor="middle" font-size="13" style="fill:#212121;">graph analytics</text>
+  <text x="680" y="334" text-anchor="middle" font-size="11" style="fill:#616161;">LLM serving, ML training</text>
+  <rect x="765" y="290" width="100" height="26" rx="4" style="fill:#BF616A;"/>
+  <text x="815" y="308" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#FFFFFF;">Research</text>
+  <text x="815" y="331" text-anchor="middle" font-size="11" style="fill:#616161;">MICRO 2022</text>
+
+  <!-- Column separator lines (full height) -->
+  <line x1="200" y1="88" x2="200" y2="348" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="380" y1="88" x2="380" y2="348" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="490" y1="88" x2="490" y2="348" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="615" y1="88" x2="615" y2="348" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="755" y1="88" x2="755" y2="348" style="stroke:#9E9E9E;stroke-width:0.5;"/>
+  <line x1="20" y1="348" x2="880" y2="348" style="stroke:#9E9E9E;stroke-width:1;"/>
+
+  <!-- Deployment readiness chart -->
+  <rect x="20" y="360" width="860" height="55" rx="6" style="fill:#F5F7FA;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="450" y="380" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">Hardware Requirements vs Speedup Trade-off</text>
+  <!-- Bubble chart approximation using circles -->
+  <!-- X axis: HW complexity (0=low, 4=high), Y axis implied by position, bubble size = speedup -->
+  <text x="35" y="406" font-size="12" style="fill:#616161;">HW complexity: Low</text>
+  <circle cx="200" cy="400" r="15" style="fill:#9E9E9E;opacity:0.8;"/>
+  <text x="200" y="404" text-anchor="middle" font-size="10" font-weight="bold" style="fill:#FFFFFF;">Conv</text>
+  <circle cx="390" cy="400" r="19" style="fill:#5E81AC;opacity:0.85;"/>
+  <text x="390" y="404" text-anchor="middle" font-size="10" font-weight="bold" style="fill:#FFFFFF;">Net</text>
+  <circle cx="560" cy="400" r="22" style="fill:#4A8A99;opacity:0.85;"/>
+  <text x="560" y="404" text-anchor="middle" font-size="10" font-weight="bold" style="fill:#FFFFFF;">PIM</text>
+  <circle cx="720" cy="400" r="17" style="fill:#5E81AC;opacity:0.7;"/>
+  <text x="720" y="404" text-anchor="middle" font-size="10" font-weight="bold" style="fill:#FFFFFF;">Utopia</text>
+  <text x="830" y="406" font-size="12" style="fill:#616161;">High</text>
+  <line x1="120" y1="400" x2="845" y2="400" style="stroke:#9E9E9E;stroke-width:1;stroke-dasharray:4,3;"/>
+  <text x="450" y="428" text-anchor="middle" font-size="11" style="fill:#616161;">Bubble size ∝ max speedup. All research-stage architectures require new silicon; none yet in mass production.</text>
+
+  <!-- Selection guidance -->
+  <rect x="20" y="428" width="860" height="136" rx="6" style="fill:#FFFFFF;stroke:#9E9E9E;stroke-width:1;"/>
+  <text x="450" y="450" text-anchor="middle" font-size="14" font-weight="bold" style="fill:#212121;">When to Consider Each Alternative</text>
+
+  <!-- Three columns -->
+  <rect x="28" y="460" width="265" height="96" rx="4" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="160" y="478" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">Network-Level (MIND/Pulse)</text>
+  <text x="160" y="495" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Clusters with 512+ GPUs</text>
+  <text x="160" y="512" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Disaggregated memory pools</text>
+  <text x="160" y="529" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Same VA accessed by many GPUs</text>
+  <text x="160" y="546" text-anchor="middle" font-size="11" style="fill:#BF616A;">✗ Adds network hop latency</text>
+
+  <rect x="318" y="460" width="265" height="96" rx="4" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:1;"/>
+  <text x="450" y="478" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#4A8A99;">PIM-TLB</text>
+  <text x="450" y="495" text-anchor="middle" font-size="12" style="fill:#212121;">✓ HBM-equipped GPU systems</text>
+  <text x="450" y="512" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Memory-bandwidth-bound ML</text>
+  <text x="450" y="529" text-anchor="middle" font-size="12" style="fill:#212121;">✓ PIM-capable DRAM (HBM3+)</text>
+  <text x="450" y="546" text-anchor="middle" font-size="11" style="fill:#BF616A;">✗ Requires new DRAM silicon</text>
+
+  <rect x="608" y="460" width="264" height="96" rx="4" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1;"/>
+  <text x="740" y="478" text-anchor="middle" font-size="13" font-weight="bold" style="fill:#5E81AC;">Utopia Hybrid</text>
+  <text x="740" y="495" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Mixed small + large allocs</text>
+  <text x="740" y="512" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Graph analytics workloads</text>
+  <text x="740" y="529" text-anchor="middle" font-size="12" style="fill:#212121;">✓ Works with existing DRAM</text>
+  <text x="740" y="546" text-anchor="middle" font-size="11" style="fill:#BF616A;">✗ OS must manage segments</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 15.6:</strong> Comparative analysis of alternative translation architectures: network-level translation (MIND/Pulse) suits large GPU clusters with disaggregated memory; PIM-TLB targets HBM-equipped systems running memory-bound AI; Utopia suits mixed allocation workloads without new DRAM requirements. All three are research-stage (ASPLOS/MICRO/ISCA 2022–2024). The selection guide (bottom) summarises preconditions and trade-offs for each approach.</figcaption>
+</figure>
+
 
 <h3 id="architectural-comparison">15.5.1 Architectural Comparison</h3>
 
