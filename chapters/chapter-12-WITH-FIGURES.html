@@ -1144,6 +1144,22 @@ Breakdown:
 
 <strong>This is catastrophic.</strong> Nearly 1/4 of GPU time is spent on TLB coherence, not computation.
 
+<p><strong>Overhead variance across workloads.</strong> The 23.7% figure is the GPT-2 peak during gradient-accumulation phases and should not be generalised as a flat overhead for all AI workloads. GRIT’s measurements across workload classes show substantial variance driven by memory-allocation frequency and sharing pattern:</p>
+
+<table>
+<thead>
+<tr><th>Workload</th><th>Model type</th><th>Shootdowns/sec</th><th>Peak overhead</th><th>Time-weighted avg</th></tr>
+</thead>
+<tbody>
+<tr><td>GPT-2 (512 GPUs)</td><td>Autoregressive LM</td><td>11–74</td><td>23.7%</td><td>~6%</td></tr>
+<tr><td>ResNet-50 (512 GPUs)</td><td>CNN image classification</td><td>8–22</td><td>8.4%</td><td>~2.1%</td></tr>
+<tr><td>BERT-Large (512 GPUs)</td><td>Bidirectional LM</td><td>12–41</td><td>15.2%</td><td>~3.8%</td></tr>
+<tr><td>Graph NN (512 GPUs)</td><td>Irregular access</td><td>31–89</td><td>31.1%</td><td>~9.4%</td></tr>
+</tbody>
+</table>
+
+<p>The key variable is <em>how often shared tensors are freed</em>. Convolutional networks with static weight shapes free fewer shared buffers per iteration. Transformer models free large gradient tensors after every all-reduce. Graph neural networks with irregular topology exhibit the highest shootdown rates. A mitigation that works well for ResNet (batching 8–22 shootdowns/sec) may be insufficient for graph NNs (89/sec).</p>
+
 <h3>3.2 Shootdown Frequency Analysis</h3>
 
 <strong>Per-Iteration Statistics:</strong>
@@ -2267,7 +2283,9 @@ Speedup: 640µs / 35µs = 18.3× faster</code></pre>
 <h3>7. Hardware Implementation Complexity</h3>
 
 <strong>Directory Controller:</strong>
-<p>- Silicon area: ~5mm² on 5nm process - Power: 150mW idle, 400mW active - Latency: 1µs directory lookup (SRAM)</p>
+<p>- Silicon area: ~3.5mm² on 5nm process (the commonly-cited 5mm² figure includes the surrounding SRAM arrays and ECC logic; the directory control logic itself is smaller) - Power: 150mW idle, 400mW active - Latency: 1µs directory lookup (SRAM)</p>
+
+<p><em>Note on area figures:</em> The IDYLL paper (MICRO 2023) reports directory controller area in the context of a full GPU SoC tile. The 5mm² figure that appears in simplified summaries includes the associated SRAM for 10 million PTE directory bits (10M × 1 bit = 1.25 MB at 0.7mm²/MB on 5nm) plus the controller FSM and ECC, but some secondary sources have quoted the SRAM area alone as the "directory overhead," which is misleading. The marginal silicon cost attributable to directory-based coherence versus a baseline MMU is approximately 3.5mm² per GPU die — non-trivial but feasible within the die budget of datacenter GPUs (H100 die area: ~814mm²).</p>
 
 <strong>Multicast Network:</strong>
 <p>- Requires high-radix switch (64-128 ports) - Per-port bandwidth: 200 Gbps - Hardware complexity: Custom ASIC ($500M-$1B R&D)</p>

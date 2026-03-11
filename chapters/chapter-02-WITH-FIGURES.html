@@ -3093,6 +3093,9 @@ implemented in hardware: - Page table structures (single-level,
 multi-level, inverted) - Translation Lookaside Buffer (TLB) architecture
 - Hardware page table walkers - Different architectures’ approaches
 (x86, ARM, RISC-V)</p>
+
+<p>One hardware optimisation introduced in Chapter 3 is especially relevant to the page-walk latency figures seen throughout this book: the <strong>Page Walk Cache (PWC)</strong> (§3.7.2). When the TLB misses, the hardware page walker must traverse multiple levels of the page table stored in main memory — four DRAM reads on x86-64 in the worst case. The PWC caches the upper-level page-directory entries (PML4E, PDPTE, PDE on x86-64) so that a typical TLB miss requires only a single final DRAM access rather than four, reducing page-walk latency by 50–80% (Barr, Cox &amp; Rixner, 2011; Bhattacharjee, Lustig &amp; Martonosi, 2011). Chapter 3 also covers ARM’s TTBR0/TTBR1 dual-register design (§3.7.3), which splits the address space so that user and kernel translations never share TLB entries, and the VMID+ASID tagging scheme that allows multiple VMs and processes to coexist in the TLB without flushing on every context switch.</p>
+
 <p><strong>Chapter 4</strong> will cover OS-specific implementations: -
 Linux memory management (<code>mm_struct</code>, page allocator, kswapd)
 - Windows memory manager - How OSes coordinate with MMU hardware</p>

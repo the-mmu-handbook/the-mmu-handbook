@@ -3793,6 +3793,9 @@ TLB miss            Same as native   ~2× native (dual walk)
 VM switch           Flush TLB        Keep TLB (VPID)
 Memory overhead     100s MB          ~10 MB (EPT structure)</code></pre>
 <p><em>We'll explore EPT/NPT in detail in Section 4.11.</em></p>
+
+<p><strong>EPT worst-case memory access count.</strong> The "~2× native (dual walk)" shorthand above describes the <em>cached</em> average case with both the guest and EPT page-walk caches (PWCs) warm. In the true worst case with no caching, 4-level guest tables, and 4-level EPT, the hardware performs up to 25 memory accesses for one guest virtual address: five guest-table accesses (CR3 + 4 table levels), each requiring a 4-level EPT walk (4 accesses each = 20 EPT accesses), plus the final data read. Chapter 3 §3.6.2 provides the full derivation. In practice the combined PWC reduces this dramatically; measured average overhead for typical virtualised workloads is 2–7% (Intel SDM, Vol. 3C §28.2).</p>
+
 <h3 id="other-page-table-variations">4.9.4 Other Page Table
 Variations</h3>
 <h4 id="clustered-page-tables">Clustered Page Tables</h4>

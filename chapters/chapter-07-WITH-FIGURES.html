@@ -5839,6 +5839,23 @@ Total: ~107 microseconds ≈ 100× slower than minor fault</code></pre>
 + Transfer time:                ~0.05 ms
 
 Total: ~10 milliseconds ≈ 10,000× slower than minor fault!</code></pre>
+<h4 id="gpu-page-fault-costs">GPU Page Fault Costs: The DMA and PCIe Factor</h4>
+
+<p>GPU page faults carry substantially higher cost than CPU faults because the GPU’s IOMMU cannot directly access the CPU’s L1/L2/L3 caches when servicing a TLB miss. Instead, each page-walk request must traverse the PCIe interconnect to reach system memory, and the IOMMU’s page-table walker (PTW) operates independently of the CPU cache hierarchy.</p>
+
+<p>Vesely et al. (reported in Mittal, 2016) quantified this on a commercial heterogeneous processor: <strong>a TLB miss on the GPU side has nearly 25× higher latency than a TLB miss on the CPU side.</strong> Four compounding factors drive this:</p>
+
+<ol>
+<li><strong>PCIe round-trip:</strong> TLB miss requests and responses must travel over the PCIe fabric between the GPU and the IOMMU/system memory, adding 2–10 µs per miss (versus tens of nanoseconds for a CPU’s on-die page walker).</li>
+<li><strong>No cache access:</strong> The IOMMU PTW cannot read PTEs from the CPU’s L3 cache; it issues DRAM reads directly, paying full DRAM latency every time.</li>
+<li><strong>Warp stall:</strong> Unlike a CPU out-of-order core that can hide latency with independent work, a GPU warp stalls all 32 (NVIDIA) or 64 (AMD) threads until the TLB is filled — a single miss idles the entire warp for the full PCIe + DRAM round-trip.</li>
+<li><strong>IOMMU concurrency cap:</strong> The IOMMU typically allows at most 16 simultaneous page-table accesses; beyond this limit, queuing delays compound the per-miss latency further.</li>
+</ol>
+
+<p>The practical implication for AI/ML workloads is severe. At 10,752 concurrent GPU threads with a 1% TLB miss rate, 107 warps can stall simultaneously, each waiting ~25× longer than a CPU miss. Using 2 MB huge pages reduces GPU TLB miss rates significantly, but Vesely et al. also found that the benefit is workload-dependent: access patterns with high memory divergence (threads hitting very different addresses) benefit less because the spatial locality assumed by huge pages does not hold.</p>
+
+<p><em>Reference: Mittal, S. (2016). "A survey of techniques for architecting TLBs." CPE 29(10). <a href="https://doi.org/10.1002/cpe.4061" target="_blank" rel="noopener">doi:10.1002/cpe.4061</a> (Section: "TLB management in GPUs and CPU-GPU systems," citing Vesely et al.).</em></p>
+
 <h3 id="page-fault-rate-impact">7.11.2 Page Fault Rate Impact</h3>
 <p>Even a low page fault rate can severely impact performance:</p>
 <div class="sourceCode" id="cb146"><pre

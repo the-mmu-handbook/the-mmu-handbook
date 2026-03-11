@@ -855,6 +855,8 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <li><a href="#3.8.2-hardware-managed-vs-software-managed-bits" id="toc-3.8.2-hardware-managed-vs-software-managed-bits">3.8.2 Hardware-Managed vs Software-Managed Bits</a>
 </li>
 <li><a href="#3.8.3-performance-characteristics" id="toc-3.8.3-performance-characteristics">3.8.3 Performance Characteristics</a>
+</li>
+<li><a href="#3.8.4-tlb-coherence-and-shootdown-mechanisms" id="toc-3.8.4-tlb-coherence-and-shootdown-mechanisms">3.8.4 TLB Coherence and Shootdown on Multicore Processors</a>
 </ul></li>
 <li><a href="#3.9-page-table-management-from-the-os-perspective" id="toc-3.9-page-table-management-from-the-os-perspective">3.9 Page Table Management from the OS Perspective</a>
 <ul>
@@ -5354,6 +5356,16 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </div>
 
 <p>This is why TLB hit rate matters so much: a 95% hit rate means only 5% of memory accesses pay this penalty, but with random access patterns causing frequent TLB misses, performance can degrade dramatically.</p>
+
+<h3 id="3.8.4-tlb-coherence-and-shootdown-mechanisms">3.8.4 TLB Coherence and Shootdown on Multicore Processors</h3>
+
+<p>Each processor core maintains its own private TLB. When an operating system modifies a page-table mapping that is potentially cached in another core's TLB — for example when unmapping a page, changing permissions, or migrating a process — it must ensure that <em>every</em> core that might hold a stale translation is notified to invalidate it. This process is called a <strong>TLB shootdown</strong>.</p>
+
+<p><strong>The x2APIC IPI mechanism.</strong> On x86-64 systems the shootdown protocol works through the Advanced Programmable Interrupt Controller (APIC). The initiating core sends an Inter-Processor Interrupt (IPI) to every target core using the x2APIC MSR interface (ICR, offset 0x830). The target cores receive the IPI, pause execution, execute an <code>INVLPG</code> instruction (or <code>INVPCID</code> for PCID-aware flushes) to invalidate the relevant TLB entry, then send an acknowledgement back to the initiating core via a shared memory flag. Only after all acknowledgements are received is the page-table update considered safe. ARM uses the <code>TLBI</code> instruction family (e.g. <code>TLBI VAAE1IS</code> for inner-shareable domain invalidation) with a <code>DSB ISH</code> barrier, and RISC-V uses the <code>SFENCE.VMA</code> instruction with optional VA/ASID operands.</p>
+
+<p><strong>Overhead at scale.</strong> The shootdown cost is dominated by IPI round-trip latency. On a 16-core system the overhead is modest (typically &lt;1% of cycles). Research by Villavieja et al. (measured in Mittal, 2016) shows this changes dramatically as core count grows: up to 4% of cycles at 16 cores, rising to 25% at 128 cores, because each IPI stalls the initiating core while acknowledgements arrive serially. AI training workloads with rapid gradient-buffer allocation and deallocation can reach 11–74 shootdowns per second, driving coherence overhead high enough to become the dominant bottleneck (GRIT, 2022). Software mitigations include batching shootdowns, lazy TLB invalidation (deferring flushes until a process is rescheduled), and PCID/ASID tagging to scope invalidations. Chapter 12 examines directory-based hardware solutions (IDYLL) that reduce multi-GPU shootdown overhead from O(N) to O(log N).</p>
+
+<p><em>References: Mittal, S. (2016). "A survey of techniques for architecting TLBs." CPE 29(10). <a href="https://doi.org/10.1002/cpe.4061" target="_blank" rel="noopener">doi:10.1002/cpe.4061</a> (citing Villavieja et al. on shootdown overhead). Intel SDM Vol. 3A §10.12 (x2APIC IPI). ARM ARMv8-A Ref. Manual §D5.10 (TLBI instructions).</em></p>
 
 <h2 id="3.9-page-table-management-from-the-os-perspective">3.9 Page Table Management from the OS Perspective</h2>
 

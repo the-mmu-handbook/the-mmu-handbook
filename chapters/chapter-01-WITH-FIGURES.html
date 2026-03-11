@@ -3254,6 +3254,9 @@ dramatic:</p>
 <p>Modern processors typically achieve <strong>95-99% TLB hit
 rates</strong> during normal operation, meaning most memory accesses
 avoid the slow page table walk entirely.</p>
+
+<p><strong>A note on TLB hit latency and cache organisation.</strong> The "1–2 cycles" figure assumes the TLB result is needed before the L1 data cache can be accessed — the classic PIPT (Physically-Indexed, Physically-Tagged) configuration. Many modern processors instead use VIPT (Virtually-Indexed, Physically-Tagged) L1 caches: the cache index is computed from virtual address bits <em>simultaneously</em> with the TLB lookup. When the VIPT index bits lie entirely within the page offset, there is no aliasing and the effective TLB penalty on an L1 cache hit is zero cycles — the translation arrives just in time for tag comparison. L2 and L3 caches are generally PIPT and pay the full TLB latency. Chapter 7 (§7.8.4) examines VIPT cache aliasing hazards in detail. Mittal (2016) provides a systematic comparison of all four cache-addressing modes (PI-PT, VI-PT, VI-VT, PI-VT).</p>
+
 <h4 id="tlb-structure">TLB Structure</h4>
 <figure id="fig-1-15" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
@@ -3370,6 +3373,29 @@ Only 256 KB of "working set" can be accessed without misses!</p>
 <p>This limited coverage is called <strong>TLB reach</strong> and is a
 critical factor in system performance. Programs with larger working sets
 will experience more TLB misses.</p>
+
+<h4 id="tlb-reach-formula">TLB Reach: Formal Definition and AI Implications</h4>
+
+<p>TLB reach is defined precisely as:</p>
+<pre><code>TLB Reach = Number of TLB Entries × Page Size</code></pre>
+
+<p>This formula immediately shows why page size selection is a first-order architectural decision. The following table shows TLB reach for typical hardware configurations (Mittal, 2016; Qasem &amp; Magee, 2012):</p>
+
+<table>
+<thead>
+<tr><th>TLB Level</th><th>Entries</th><th>4 KB pages</th><th>2 MB pages</th><th>1 GB pages</th></tr>
+</thead>
+<tbody>
+<tr><td>L1 DTLB</td><td>64</td><td>256 KB</td><td>128 MB</td><td>64 GB</td></tr>
+<tr><td>L2 STLB</td><td>1,536</td><td>6 MB</td><td>3 GB</td><td>1.5 TB</td></tr>
+<tr><td>L2 STLB</td><td>2,048</td><td>8 MB</td><td>4 GB</td><td>2 TB</td></tr>
+</tbody>
+</table>
+
+<p><strong>The AI/ML reach crisis.</strong> Modern large language model training exposes just how narrow 4 KB TLB reach is. GPT-3's working set consists of approximately 350 GB of parameters, plus 700 GB each for momentum and variance under AdamW optimization, plus 50–100 GB of activations — totalling roughly 1,800 GB. An L1 TLB with 64 entries covering 256 KB addresses 0.000014% of that working set; TLB miss rate approaches 100%. Even the 1,536-entry L2 STLB covers only 6 MB. Wu &amp; Taylor (2021) confirmed this directly for deep learning benchmarks: mapping the kernel address space with 8 MB huge pages yielded "a single TLB entry where 4 KB pages would need 2,048 entries," producing 55–61% performance improvement. Switching to 2 MB pages shifts L1 reach from 256 KB to 128 MB (a 512× gain), meaning the L1 TLB alone can cover a meaningful fraction of typical training batches. This is why huge pages are increasingly favoured in AI infrastructure — a topic examined in depth in Chapters 9 and 14.</p>
+
+<p><em>References: Mittal, S. (2016). "A survey of techniques for architecting TLBs." CPE 29(10). <a href="https://doi.org/10.1002/cpe.4061" target="_blank" rel="noopener">doi:10.1002/cpe.4061</a>. Qasem, A., &amp; Magee, J. (2012). "Improving TLB performance through demand-driven superpaging." SPE 43(6), 705–729. <a href="https://doi.org/10.1002/spe.2128" target="_blank" rel="noopener">doi:10.1002/spe.2128</a>. Wu, X., &amp; Taylor, V. (2021). "Ensemble learning for CANDLE DL benchmarks." CPE 35(15). <a href="https://doi.org/10.1002/cpe.6516" target="_blank" rel="noopener">doi:10.1002/cpe.6516</a>.</em></p>
+
 <h4 id="when-does-the-tlb-get-updated">When Does the TLB Get
 Updated?</h4>
 <p>The TLB is automatically managed by the hardware MMU:</p>
