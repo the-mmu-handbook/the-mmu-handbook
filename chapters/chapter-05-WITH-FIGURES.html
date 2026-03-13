@@ -1028,24 +1028,7 @@ Research Directions</a></li>
 <li><a href="#industry-trends" id="toc-industry-trends">5.12.6 Industry
 Trends</a></li>
 </ul></li>
-<li><a href="#references" id="toc-references">References</a>
-<ul>
-<li><a href="#architecture-specifications" id="toc-architecture-specifications">Architecture
-Specifications</a></li>
-<li><a href="#foundational-papers" id="toc-foundational-papers">Foundational Papers</a></li>
-<li><a href="#performance-analysis" id="toc-performance-analysis">Performance Analysis</a></li>
-<li><a href="#large-pages-and-tlb" id="toc-large-pages-and-tlb">Large
-Pages and TLB</a></li>
-<li><a href="#security-and-dma-attacks" id="toc-security-and-dma-attacks">Security and DMA Attacks</a></li>
-<li><a href="#device-assignment-and-sr-iov-1" id="toc-device-assignment-and-sr-iov-1">Device Assignment and
-SR-IOV</a></li>
-<li><a href="#gpu-and-accelerator-iommus" id="toc-gpu-and-accelerator-iommus">GPU and Accelerator IOMMUs</a></li>
-<li><a href="#arm-smmu" id="toc-arm-smmu">ARM SMMU</a></li>
-<li><a href="#operating-system-support" id="toc-operating-system-support">Operating System Support</a></li>
-<li><a href="#interrupt-remapping-1" id="toc-interrupt-remapping-1">Interrupt Remapping</a></li>
-<li><a href="#emerging-technologies" id="toc-emerging-technologies">Emerging Technologies</a></li>
-<li><a href="#additional-resources" id="toc-additional-resources">Additional Resources</a></li>
-</ul></li>
+<li><a href="#references" id="toc-references">References</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -5406,1060 +5389,182 @@ Solution:
     <a href="https://doi.org/10.1145/1629575.1629579" target="_blank" rel="noopener">DOI: 10.1145/1629575.1629579</a></li>
 ><h2 id="references">References</h2>
 <h3 id="architecture-specifications">Architecture Specifications</h3>
-<p>[1] Intel Corporation. "Intel Virtualization Technology for Directed
+<ol type="1">
+<li><p>Intel Corporation. "Intel Virtualization Technology for Directed
 I/O Architecture Specification, Revision 4.0." 2022.
-https://www.intel.com/content/www/us/en/develop/download/intel-virtualization-technology-for-directed-io-architecture-specification.html</p>
-<p>[2] AMD. "AMD I/O Virtualization Technology (IOMMU) Specification."
+https://www.intel.com/content/www/us/en/develop/download/intel-virtualization-technology-for-directed-io-architecture-specification.html</p></li>
+<li><p>AMD. "AMD I/O Virtualization Technology (IOMMU) Specification."
 Revision 3.07, 2022.
-https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_IOMMU.pdf</p>
-<p>[3] ARM Ltd. "ARM System Memory Management Unit Architecture
+https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_IOMMU.pdf</p></li>
+<li><p>ARM Ltd. "ARM System Memory Management Unit Architecture
 Specification, SMMUv3." Version 3.3, 2021.
-https://developer.arm.com/documentation/ihi0070/latest/</p>
-<p>[4] PCI-SIG. "PCI Express Base Specification, Revision 6.0." 2022.
-https://pcisig.com/specifications</p>
-<p>[5] PCI-SIG. "Single Root I/O Virtualization and Sharing
+https://developer.arm.com/documentation/ihi0070/latest/</p></li>
+<li><p>PCI-SIG. "PCI Express Base Specification, Revision 6.0." 2022.
+https://pcisig.com/specifications</p></li>
+<li><p>PCI-SIG. "Single Root I/O Virtualization and Sharing
 Specification, Revision 1.1." 2010.
-https://pcisig.com/specifications</p>
+https://pcisig.com/specifications</p></li>
+</ol>
 <h3 id="foundational-papers">Foundational Papers</h3>
-<p>[6] Ben-Yehuda, M., et al. "The Turtles Project: Design and
+<ol type="1" start="6">
+<li><p>Ben-Yehuda, M., et al. "The Turtles Project: Design and
 Implementation of Nested Virtualization." <em>USENIX OSDI</em>, 2010.
-DOI: 10.5555/1924943.1924973</p>
-<p>[7] Liu, Y., et al. "Comprehensive Analysis of IOMMU Performance."
+DOI: 10.5555/1924943.1924973</p></li>
+<li><p>Liu, Y., et al. "Comprehensive Analysis of IOMMU Performance."
 <em>ACM Transactions on Architecture and Code Optimization</em>, 2019.
-DOI: 10.1145/3316655</p>
-<p>[8] Willmann, P., et al. "Concurrent Direct Network Access for
+DOI: 10.1145/3316655</p></li>
+<li><p>Willmann, P., et al. "Concurrent Direct Network Access for
 Virtual Machine Monitors." <em>IEEE HPCA</em>, 2007. DOI:
-10.1109/HPCA.2007.346203</p>
-<p>[9] Raj, H., and Schwan, K. "High Performance and Scalable I/O
+10.1109/HPCA.2007.346203</p></li>
+<li><p>Raj, H., and Schwan, K. "High Performance and Scalable I/O
 Virtualization via Self-Virtualized Devices." <em>ACM HPDC</em>, 2007.
-DOI: 10.1145/1272366.1272385</p>
-<p>[10] Dong, Y., et al. "High Performance Network Virtualization with
+DOI: 10.1145/1272366.1272385</p></li>
+<li><p>Dong, Y., et al. "High Performance Network Virtualization with
 SR-IOV." <em>Journal of Parallel and Distributed Computing</em>, 2012.
-DOI: 10.1016/j.jpdc.2011.08.003</p>
+DOI: 10.1016/j.jpdc.2011.08.003</p></li>
+</ol>
 <h3 id="performance-analysis">Performance Analysis</h3>
-<p>[11] Ahn, J., et al. "Improving I/O Throughput and Reducing CPU
+<ol type="1" start="11">
+<li><p>Ahn, J., et al. "Improving I/O Throughput and Reducing CPU
 Overhead of Virtual Machines via IO-Aware Memory Allocation." <em>IEEE
-CAL</em>, 2012. DOI: 10.1109/LCA.2012.25</p>
-<p>[12] Gordon, A., et al. "ELI: Bare-Metal Performance for I/O
+CAL</em>, 2012. DOI: 10.1109/LCA.2012.25</p></li>
+<li><p>Gordon, A., et al. "ELI: Bare-Metal Performance for I/O
 Virtualization." <em>ACM ASPLOS</em>, 2012. DOI:
-10.1145/2150976.2151004</p>
-<p>[13] Tanenbaum, A., et al. "IOMMU and DMA Remapping: Performance
+10.1145/2150976.2151004</p></li>
+<li><p>Tanenbaum, A., et al. "IOMMU and DMA Remapping: Performance
 Implications for Modern Systems." <em>ACM Computing Surveys</em>, 2020.
-DOI: 10.1145/3385636</p>
-<p>[14] Zhang, Y., et al. "Performance Analysis of IOMMU with Large
-Pages." <em>IEEE TPDS</em>, 2021. DOI: 10.1109/TPDS.2021.3089456</p>
-<p>[15] Kumar, R., et al. "Understanding IOTLB Behavior in Virtualized
+DOI: 10.1145/3385636</p></li>
+<li><p>Zhang, Y., et al. "Performance Analysis of IOMMU with Large
+Pages." <em>IEEE TPDS</em>, 2021. DOI: 10.1109/TPDS.2021.3089456</p></li>
+<li><p>Kumar, R., et al. "Understanding IOTLB Behavior in Virtualized
 Environments." <em>USENIX ATC</em>, 2019.
-https://www.usenix.org/conference/atc19/presentation/kumar</p>
+https://www.usenix.org/conference/atc19/presentation/kumar</p></li>
+</ol>
 <h3 id="large-pages-and-tlb">Large Pages and TLB</h3>
-<p>[16] Pham, B., et al. "Increasing TLB Reach by Exploiting Clustering
+<ol type="1" start="16">
+<li><p>Pham, B., et al. "Increasing TLB Reach by Exploiting Clustering
 in Page Translations." <em>IEEE HPCA</em>, 2014. DOI:
-10.1109/HPCA.2014.6835946</p>
-<p>[17] Papadopoulou, M., et al. "Prediction-Based Superpage-Friendly
+10.1109/HPCA.2014.6835946</p></li>
+<li><p>Papadopoulou, M., et al. "Prediction-Based Superpage-Friendly
 TLB Designs." <em>IEEE HPCA</em>, 2015. DOI:
-10.1109/HPCA.2015.7056063</p>
-<p>[18] Bhattacharjee, A., and Martonosi, M. "Inter-Core Cooperative TLB
+10.1109/HPCA.2015.7056063</p></li>
+<li><p>Bhattacharjee, A., and Martonosi, M. "Inter-Core Cooperative TLB
 for Chip Multiprocessors." <em>ACM ASPLOS</em>, 2010. DOI:
-10.1145/1736020.1736060</p>
+10.1145/1736020.1736060</p></li>
+</ol>
 <h3 id="security-and-dma-attacks">Security and DMA Attacks</h3>
-<p>[19] Markettos, A.T., et al. "Thunderclap: Exploring Vulnerabilities
+<ol type="1" start="19">
+<li><p>Markettos, A.T., et al. "Thunderclap: Exploring Vulnerabilities
 in Operating System IOMMU Protection via DMA from Untrustworthy
-Peripherals." <em>NDSS</em>, 2019. DOI: 10.14722/ndss.2019.23194</p>
-<p>[20] Stewin, P., and Bystrov, I. "Understanding DMA Malware."
-<em>DIMVA</em>, 2012. DOI: 10.1007/978-3-642-31680-7_4</p>
-<p>[21] Wojtczuk, R., and Rutkowska, J. "Following the White Rabbit:
+Peripherals." <em>NDSS</em>, 2019. DOI: 10.14722/ndss.2019.23194</p></li>
+<li><p>Stewin, P., and Bystrov, I. "Understanding DMA Malware."
+<em>DIMVA</em>, 2012. DOI: 10.1007/978-3-642-31680-7_4</p></li>
+<li><p>Wojtczuk, R., and Rutkowska, J. "Following the White Rabbit:
 Software attacks against Intel VT-d technology." <em>ITL</em>, 2011.
-http://invisiblethingslab.com/resources/2011/Software%20Attacks%20on%20Intel%20VT-d.pdf</p>
-<p>[22] Sang, F.L., et al. "Defeating All DMA-based Attacks via IOMMU."
+http://invisiblethingslab.com/resources/2011/Software%20Attacks%20on%20Intel%20VT-d.pdf</p></li>
+<li><p>Sang, F.L., et al. "Defeating All DMA-based Attacks via IOMMU."
 <em>Black Hat USA</em>, 2014.
-https://www.blackhat.com/docs/us-14/materials/us-14-Sang-Defeating-All-DMA-Based-Attacks.pdf</p>
-<p>[23] Bienia, S., et al. "IOMMU Protection Against I/O Attacks: A
+https://www.blackhat.com/docs/us-14/materials/us-14-Sang-Defeating-All-DMA-Based-Attacks.pdf</p></li>
+<li><p>Bienia, S., et al. "IOMMU Protection Against I/O Attacks: A
 Vulnerability and Performance Study." <em>IEEE S&amp;P Workshops</em>,
-2018. DOI: 10.1109/SPW.2018.00026</p>
-<h3 id="device-assignment-and-sr-iov-1">Device Assignment and
-SR-IOV</h3>
-<p>[24] Liu, J., et al. "Evaluating Standard-Based Self-Virtualizing
+2018. DOI: 10.1109/SPW.2018.00026</p></li>
+</ol>
+<h3 id="device-assignment-and-sr-iov">Device Assignment and SR-IOV</h3>
+<ol type="1" start="24">
+<li><p>Liu, J., et al. "Evaluating Standard-Based Self-Virtualizing
 Devices: A Performance Study on 10 GbE NICs with SR-IOV Support."
-<em>IEEE IPDPS</em>, 2010. DOI: 10.1109/IPDPS.2010.5470463</p>
-<p>[25] Pöhlmann, N., et al. "VFIO: A Modern Approach to Device
+<em>IEEE IPDPS</em>, 2010. DOI: 10.1109/IPDPS.2010.5470463</p></li>
+<li><p>Pöhlmann, N., et al. "VFIO: A Modern Approach to Device
 Assignment." <em>Linux Plumbers Conference</em>, 2012.
-https://www.linuxplumbersconf.org/2012/wp-content/uploads/2012/09/2012-lpc-vfio.pdf</p>
-<p>[26] Santos, J.R., et al. "Bridging the Gap between Software and
+https://www.linuxplumbersconf.org/2012/wp-content/uploads/2012/09/2012-lpc-vfio.pdf</p></li>
+<li><p>Santos, J.R., et al. "Bridging the Gap between Software and
 Hardware Techniques for I/O Virtualization." <em>USENIX ATC</em>, 2008.
-https://www.usenix.org/legacy/event/usenix08/tech/full_papers/santos/santos.pdf</p>
-<p>[27] Yassour, B.A., et al. "Direct Device Assignment for Untrusted
+https://www.usenix.org/legacy/event/usenix08/tech/full_papers/santos/santos.pdf</p></li>
+<li><p>Yassour, B.A., et al. "Direct Device Assignment for Untrusted
 Fully-Virtualized Virtual Machines." <em>VMware Technical Report</em>,
-2008. https://www.vmware.com/pdf/vfio_whitepaper.pdf</p>
+2008. https://www.vmware.com/pdf/vfio_whitepaper.pdf</p></li>
+</ol>
 <h3 id="gpu-and-accelerator-iommus">GPU and Accelerator IOMMUs</h3>
-<p>[28] Vesely, J., et al. "Observations and Opportunities in
+<ol type="1" start="28">
+<li><p>Vesely, J., et al. "Observations and Opportunities in
 Architecting Shared Virtual Memory for Heterogeneous Systems." <em>IEEE
-ISPASS</em>, 2016. DOI: 10.1109/ISPASS.2016.7482080</p>
-<p>[29] Power, J., et al. "Supporting x86-64 Address Translation for
+ISPASS</em>, 2016. DOI: 10.1109/ISPASS.2016.7482080</p></li>
+<li><p>Power, J., et al. "Supporting x86-64 Address Translation for
 100s of GPU Lanes." <em>IEEE HPCA</em>, 2014. DOI:
-10.1109/HPCA.2014.6835964</p>
-<p>[30] NVIDIA Corporation. "CUDA C Programming Guide." Version 12.0,
-2023. https://docs.nvidia.com/cuda/cuda-c-programming-guide/</p>
-<p>[31] Ausavarungnirun, R., et al. "Mosaic: A GPU Memory Manager with
+10.1109/HPCA.2014.6835964</p></li>
+<li><p>NVIDIA Corporation. "CUDA C Programming Guide." Version 12.0,
+2023. https://docs.nvidia.com/cuda/cuda-c-programming-guide/</p></li>
+<li><p>Ausavarungnirun, R., et al. "Mosaic: A GPU Memory Manager with
 Application-Transparent Support for Multiple Page Sizes." <em>IEEE/ACM
-MICRO</em>, 2017. DOI: 10.1145/3123939.3123975</p>
-<p>[32] Pichai, B., et al. "Architectural Support for Address
+MICRO</em>, 2017. DOI: 10.1145/3123939.3123975</p></li>
+<li><p>Pichai, B., et al. "Architectural Support for Address
 Translation on GPUs." <em>ACM ASPLOS</em>, 2014. DOI:
-10.1145/2541940.2541942</p>
+10.1145/2541940.2541942</p></li>
+</ol>
 <h3 id="arm-smmu">ARM SMMU</h3>
-<p>[33] Robin, J.S., and Irvine, C.E. "Analysis of the ARM SMMUv3 MMU
+<ol type="1" start="33">
+<li><p>Robin, J.S., and Irvine, C.E. "Analysis of the ARM SMMUv3 MMU
 Virtualization." <em>MILCOM</em>, 2019. DOI:
-10.1109/MILCOM47813.2019.9020757</p>
-<p>[34] ARM Ltd. "ARM CoreLink MMU-600 System Memory Management Unit
+10.1109/MILCOM47813.2019.9020757</p></li>
+<li><p>ARM Ltd. "ARM CoreLink MMU-600 System Memory Management Unit
 Technical Reference Manual." 2020.
-https://developer.arm.com/documentation/</p>
-<p>[35] Dall, C., and Nieh, J. "KVM/ARM: The Design and Implementation
+https://developer.arm.com/documentation/</p></li>
+<li><p>Dall, C., and Nieh, J. "KVM/ARM: The Design and Implementation
 of the Linux ARM Hypervisor." <em>ACM ASPLOS</em>, 2014. DOI:
-10.1145/2541940.2541946</p>
+10.1145/2541940.2541946</p></li>
+</ol>
 <h3 id="operating-system-support">Operating System Support</h3>
-<p>[36] Corbet, J. "The VFIO Driver API." <em>LWN.net</em>, 2012.
-https://lwn.net/Articles/474088/</p>
-<p>[37] Williamson, A. "An Introduction to PCI Device Assignment with
+<ol type="1" start="36">
+<li><p>Corbet, J. "The VFIO Driver API." <em>LWN.net</em>, 2012.
+https://lwn.net/Articles/474088/</p></li>
+<li><p>Williamson, A. "An Introduction to PCI Device Assignment with
 VFIO." <em>Red Hat Developer</em>, 2015.
-https://www.redhat.com/en/blog/introduction-vfio</p>
-<p>[38] Microsoft. "Discrete Device Assignment." <em>Windows Server
+https://www.redhat.com/en/blog/introduction-vfio</p></li>
+<li><p>Microsoft. "Discrete Device Assignment." <em>Windows Server
 Documentation</em>, 2022.
-https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/deploy/deploying-graphics-devices-using-dda</p>
-<p>[39] Linux Kernel Documentation. "IOMMU and DMA APIs." 2023.
-https://www.kernel.org/doc/html/latest/core-api/dma-api.html</p>
-<h3 id="interrupt-remapping-1">Interrupt Remapping</h3>
-<p>[40] Abramson, D., et al. "Intel Virtualization Technology for
+https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/deploy/deploying-graphics-devices-using-dda</p></li>
+<li><p>Linux Kernel Documentation. "IOMMU and DMA APIs." 2023.
+https://www.kernel.org/doc/html/latest/core-api/dma-api.html</p></li>
+</ol>
+<h3 id="interrupt-remapping">Interrupt Remapping</h3>
+<ol type="1" start="40">
+<li><p>Abramson, D., et al. "Intel Virtualization Technology for
 Directed I/O." <em>Intel Technology Journal</em>, 2006.
-https://www.intel.com/content/www/us/en/developer/articles/technical/intel-virtualization-technology-for-directed-io.html</p>
-<p>[41] Liu, J., and Abali, B. "Virtualization Polling Engine (VPE):
+https://www.intel.com/content/www/us/en/developer/articles/technical/intel-virtualization-technology-for-directed-io.html</p></li>
+<li><p>Liu, J., and Abali, B. "Virtualization Polling Engine (VPE):
 Using Dedicated CPU Cores to Accelerate I/O Virtualization." <em>ACM
-ICS</em>, 2009. DOI: 10.1145/1542275.1542304</p>
-<p>[42] Dong, Y., et al. "Optimizing Interrupt Delivery in Virtual
+ICS</em>, 2009. DOI: 10.1145/1542275.1542304</p></li>
+<li><p>Dong, Y., et al. "Optimizing Interrupt Delivery in Virtual
 Machines with Posted Interrupts." <em>IEEE TPDS</em>, 2014. DOI:
-10.1109/TPDS.2013.222</p>
+10.1109/TPDS.2013.222</p></li>
+</ol>
 <h3 id="emerging-technologies">Emerging Technologies</h3>
-<p>[43] CXL Consortium. "Compute Express Link Specification 3.0." 2022.
-https://www.computeexpresslink.org/</p>
-<p>[44] AMD. "AMD Secure Encrypted Virtualization API Specification."
-2023. https://www.amd.com/en/developer/sev.html</p>
-<p>[45] Intel. "Intel Trust Domain Extensions (TDX)." <em>White
+<ol type="1" start="43">
+<li><p>CXL Consortium. "Compute Express Link Specification 3.0." 2022.
+https://www.computeexpresslink.org/</p></li>
+<li><p>AMD. "AMD Secure Encrypted Virtualization API Specification."
+2023. https://www.amd.com/en/developer/sev.html</p></li>
+<li><p>Intel. "Intel Trust Domain Extensions (TDX)." <em>White
 Paper</em>, 2023.
-https://www.intel.com/content/www/us/en/developer/tools/trust-domain-extensions/overview.html</p>
-<p>[46] Gouk, D., et al. "Direct Access, High-Performance Memory
+https://www.intel.com/content/www/us/en/developer/tools/trust-domain-extensions/overview.html</p></li>
+<li><p>Gouk, D., et al. "Direct Access, High-Performance Memory
 Disaggregation with DirectCXL." <em>USENIX ATC</em>, 2022.
-https://www.usenix.org/conference/atc22/presentation/gouk</p>
+https://www.usenix.org/conference/atc22/presentation/gouk</p></li>
+</ol>
 <h3 id="additional-resources">Additional Resources</h3>
-<p>[47] Ben-Yehuda, M., et al. "Utilizing IOMMUs for Virtualization in
+<ol type="1" start="47">
+<li><p>Ben-Yehuda, M., et al. "Utilizing IOMMUs for Virtualization in
 Linux and Xen." <em>OLS</em>, 2006.
-https://www.kernel.org/doc/ols/2006/ols2006v1-pages-141-152.pdf</p>
-<p>[48] Russell, R. "virtio: Towards a De-Facto Standard For Virtual I/O
+https://www.kernel.org/doc/ols/2006/ols2006v1-pages-141-152.pdf</p></li>
+<li><p>Russell, R. "virtio: Towards a De-Facto Standard For Virtual I/O
 Devices." <em>ACM Operating Systems Review</em>, 2008. DOI:
-10.1145/1400097.1400108</p>
-<p>[49] Zha, X., et al. "IOMMU and DMA: A Survey." <em>ACM Computing
-Surveys</em>, 2023. (Forthcoming)</p>
-<p>[50] Kumar, N., et al. "Performance Isolation in Multi-Tenant Data
+10.1145/1400097.1400108</p></li>
+<li><p>Zha, X., et al. "IOMMU and DMA: A Survey." <em>ACM Computing
+Surveys</em>, 2023. (Forthcoming)</p></li>
+<li><p>Kumar, N., et al. "Performance Isolation in Multi-Tenant Data
 Centers Using IOMMU." <em>ACM EuroSys</em>, 2020. DOI:
-10.1145/3342195.3387524</p>
+10.1145/3342195.3387524</p></li>
+</ol>
 
-
-
-<script>
-
-(function() {
-  var CHAPTERS = [
-  {
-    "num": 1,
-    "file": "chapter-01-WITH-FIGURES.html",
-    "short": "Memory Management Basics",
-    "sections": [
-      {
-        "text": "1.1 Introduction: Why Virtual Memory Exists",
-        "id": "introduction-why-virtual-memory-exists"
-      },
-      {
-        "text": "1.2 What is Memory Management?",
-        "id": "what-is-memory-management"
-      },
-      {
-        "text": "1.3 The Evolution of Memory Management",
-        "id": "the-evolution-of-memory-management"
-      },
-      {
-        "text": "1.4 Hierarchical Levels of Memory Management",
-        "id": "hierarchical-levels-of-memory-management"
-      },
-      {
-        "text": "1.5 The Virtual Memory Abstraction",
-        "id": "the-virtual-memory-abstraction"
-      },
-      {
-        "text": "1.6 Key Concepts and Terminology",
-        "id": "key-concepts-and-terminology"
-      },
-      {
-        "text": "1.7 A Concrete Example: Address Translation",
-        "id": "a-concrete-example-address-translation"
-      },
-      {
-        "text": "1.8 The Translation Lookaside Buffer (TLB)",
-        "id": "the-translation-lookaside-buffer-tlb"
-      },
-      {
-        "text": "1.9 Multi-Level Page Tables",
-        "id": "multi-level-page-tables"
-      },
-      {
-        "text": "1.10 Why MMU Matters: Real-World Impact",
-        "id": "why-mmu-matters-real-world-impact"
-      },
-      {
-        "text": "1.12 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 2,
-    "file": "chapter-02-WITH-FIGURES.html",
-    "short": "Virtual Memory Concepts",
-    "sections": [
-      {
-        "text": "2.1 Introduction: The Illusion of Unlimited Memory",
-        "id": "introduction-the-illusion-of-unlimited-memory"
-      },
-      {
-        "text": "2.2 Demand Paging: Loading Pages on Demand",
-        "id": "demand-paging-loading-pages-on-demand"
-      },
-      {
-        "text": "2.3 Page Replacement Algorithms",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "2.4 Thrashing and the Working Set Model",
-        "id": "thrashing-and-the-working-set-model"
-      },
-      {
-        "text": "2.5 Copy-on-Write (COW)",
-        "id": "copy-on-write-cow"
-      },
-      {
-        "text": "2.6 Memory-Mapped Files",
-        "id": "memory-mapped-files"
-      },
-      {
-        "text": "2.7 Advanced Topics",
-        "id": "advanced-topics"
-      },
-      {
-        "text": "2.8 Performance Optimization Strategies",
-        "id": "performance-optimization-strategies"
-      },
-      {
-        "text": "2.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 3,
-    "file": "chapter-03-WITH-FIGURES.html",
-    "short": "Page Table Structures and Implementation",
-    "sections": [
-      {
-        "text": "3.1 Introduction",
-        "id": "3.1-introduction"
-      },
-      {
-        "text": "3.2 Single-Level Page Tables: The Simplest Approach",
-        "id": "3.2-single-level-page-tables-the-simplest-approach"
-      },
-      {
-        "text": "3.3 Two-Level Page Tables",
-        "id": "3.3-two-level-page-tables"
-      },
-      {
-        "text": "3.4 Multi-Level Page Tables (3+ Levels)",
-        "id": "3.4-multi-level-page-tables-3-levels"
-      },
-      {
-        "text": "3.6 Virtualization: Two-Stage Address Translation",
-        "id": "3.6-virtualization-two-stage-address-translation"
-      },
-      {
-        "text": "3.7 What Gets Cached: TLB and Page Walk Caches",
-        "id": "3.7-what-gets-cached-tlb-and-page-walk-caches"
-      },
-      {
-        "text": "3.8 Hardware Page Table Walker",
-        "id": "3.8-hardware-page-table-walker"
-      },
-      {
-        "text": "3.9 Page Table Management from the OS Perspective",
-        "id": "3.9-page-table-management-from-the-os-perspective"
-      },
-      {
-        "text": "3.10 Design Trade-offs",
-        "id": "3.10-design-trade-offs"
-      },
-      {
-        "text": "3.11 Chapter Summary",
-        "id": "3.11-chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 4,
-    "file": "chapter-04-WITH-FIGURES.html",
-    "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
-    "sections": [
-      {
-        "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
-        "id": "introduction-the-most-critical-cache-youve-never-heard-of"
-      },
-      {
-        "text": "4.2 TLB Architecture and Organization",
-        "id": "tlb-architecture-and-organization"
-      },
-      {
-        "text": "4.3 TLB Management: Hardware vs Software",
-        "id": "tlb-management-hardware-vs-software"
-      },
-      {
-        "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
-        "id": "address-space-identifiers-asid-pcid-and-vmid"
-      },
-      {
-        "text": "4.5 TLB Operations and Instructions",
-        "id": "tlb-operations-and-instructions"
-      },
-      {
-        "text": "4.6 Large Pages and TLB Coverage",
-        "id": "large-pages-and-tlb-coverage"
-      },
-      {
-        "text": "4.7 Multicore TLB Coherency",
-        "id": "multicore-tlb-coherency"
-      },
-      {
-        "text": "4.8 Platform-Specific TLB Implementations",
-        "id": "platform-specific-tlb-implementations"
-      },
-      {
-        "text": "4.9 Alternative Page Table Structures and TLB Implications",
-        "id": "alternative-page-table-structures-and-tlb-implications"
-      },
-      {
-        "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
-        "id": "self-modifying-code-and-instructiondata-coherency"
-      },
-      {
-        "text": "4.11 Multithreading and TLB Sharing",
-        "id": "multithreading-and-tlb-sharing"
-      },
-      {
-        "text": "4.12 Virtualization with Mismatched Page Sizes",
-        "id": "virtualization-with-mismatched-page-sizes"
-      },
-      {
-        "text": "4.13 GPU and Hardware Accelerator MMUs",
-        "id": "gpu-and-hardware-accelerator-mmus"
-      },
-      {
-        "text": "References",
-        "id": "chapter-4-references"
-      }
-    ]
-  },
-  {
-    "num": 5,
-    "file": "chapter-05-WITH-FIGURES.html",
-    "short": "IOMMU and DMA Remapping - Deep Dive",
-    "sections": [
-      {
-        "text": "5.1 Introduction: The I/O Device Memory Access Problem",
-        "id": "introduction-the-io-device-memory-access-problem"
-      },
-      {
-        "text": "5.2 IOMMU Architecture Fundamentals",
-        "id": "iommu-architecture-fundamentals"
-      },
-      {
-        "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
-        "id": "intel-vt-d-virtualization-technology-for-directed-io"
-      },
-      {
-        "text": "5.4 AMD IOMMU (AMD-Vi)",
-        "id": "amd-iommu-amd-vi"
-      },
-      {
-        "text": "5.5 ARM SMMU (System Memory Management Unit)",
-        "id": "arm-smmu-system-memory-management-unit"
-      },
-      {
-        "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
-        "id": "iommu-page-tables-cross-platform-analysis"
-      },
-      {
-        "text": "5.7 IOTLB Performance and Optimization",
-        "id": "iotlb-performance-and-optimization"
-      },
-      {
-        "text": "5.8 Device Assignment and SR-IOV",
-        "id": "device-assignment-and-sr-iov"
-      },
-      {
-        "text": "5.9 Chapter Summary",
-        "id": "chapter-summary-and-key-takeaways"
-      },
-      {
-        "text": "5.10 IOMMU in Operating Systems",
-        "id": "iommu-in-operating-systems"
-      },
-      {
-        "text": "5.11 Performance Optimization and Best Practices",
-        "id": "performance-optimization-and-best-practices"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 6,
-    "file": "chapter-06-WITH-FIGURES.html",
-    "short": "Memory Protection and Access Control",
-    "sections": [
-      {
-        "text": "6.1 Introduction: Memory Protection Fundamentals",
-        "id": "6.1-introduction-memory-protection-fundamentals"
-      },
-      {
-        "text": "6.2 Page-Level Protection Bits",
-        "id": "6.2-page-level-protection-bits"
-      },
-      {
-        "text": "6.3 The No-Execute (NX) Bit",
-        "id": "6.3-the-no-execute-nx-bit"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains"
-      },
-      {
-        "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
-        "id": "6.8-trusted-execution-environments-tee-deep-dive"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings-1"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages-1"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features-1"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains-1"
-      },
-      {
-        "text": "6.9 Copy-On-Write (COW)",
-        "id": "6.9-copy-on-write-cow"
-      },
-      {
-        "text": "6.10 Memory Access Ordering and Protection",
-        "id": "6.10-memory-access-ordering-and-protection"
-      },
-      {
-        "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
-        "id": "6.11-confidential-computing-hardware-based-vm-isolation"
-      },
-      {
-        "text": "6.12 AMD Memory Guard and Memory Encryption",
-        "id": "6.12-amd-memory-guard-and-memory-encryption"
-      },
-      {
-        "text": "6.13 RISC-V Security Extensions",
-        "id": "6.13-risc-v-security-extensions"
-      },
-      {
-        "text": "6.14 GPU and Accelerator Security",
-        "id": "6.14-gpu-and-accelerator-security"
-      },
-      {
-        "text": "6.15 Heterogeneous Computing Security",
-        "id": "6.15-heterogeneous-computing-security"
-      },
-      {
-        "text": "6.16 Performance vs Security Trade-offs",
-        "id": "6.16-performance-vs-security-trade-offs"
-      },
-      {
-        "text": "6.17 Best Practices and Guidelines",
-        "id": "6.17-best-practices-and-guidelines"
-      },
-      {
-        "text": "6.18 Common Pitfalls and How to Avoid Them",
-        "id": "6.18-common-pitfalls-and-how-to-avoid-them"
-      },
-      {
-        "text": "6.19 Chapter Summary",
-        "id": "6.19-summary-and-future-directions"
-      },
-      {
-        "text": "References",
-        "id": "chapter-6-references"
-      }
-    ]
-  },
-  {
-    "num": 7,
-    "file": "chapter-07-WITH-FIGURES.html",
-    "short": "Page Faults and Exception Handling",
-    "sections": [
-      {
-        "text": "7.1 Introduction: When Address Translation Fails",
-        "id": "introduction-when-address-translation-fails"
-      },
-      {
-        "text": "7.2 Page Fault Fundamentals",
-        "id": "page-fault-fundamentals"
-      },
-      {
-        "text": "7.3 x86-64 Page Faults (#PF)",
-        "id": "x86-64-page-faults-pf"
-      },
-      {
-        "text": "7.4 ARM64 Data and Instruction Aborts",
-        "id": "arm64-data-and-instruction-aborts"
-      },
-      {
-        "text": "7.5 RISC-V Page Faults",
-        "id": "risc-v-page-faults"
-      },
-      {
-        "text": "7.6 TLB-Related Exceptions",
-        "id": "tlb-related-exceptions"
-      },
-      {
-        "text": "7.7 Page Table Walk Failures",
-        "id": "page-table-walk-failures"
-      },
-      {
-        "text": "7.8 Page Overlapping and Aliasing Faults",
-        "id": "page-overlapping-and-aliasing-faults"
-      },
-      {
-        "text": "7.9 Permission Violations",
-        "id": "permission-violations"
-      },
-      {
-        "text": "7.10 Page Fault Handling Flow",
-        "id": "page-fault-handling-flow"
-      },
-      {
-        "text": "7.11 Performance Implications",
-        "id": "performance-implications"
-      },
-      {
-        "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
-        "id": "historical-architectures-sparc-mips-powerpc"
-      },
-      {
-        "text": "7.13 Architecture Comparison",
-        "id": "architecture-comparison"
-      },
-      {
-        "text": "7.14 Debugging Page Faults",
-        "id": "debugging-page-faults"
-      },
-      {
-        "text": "7.15 Chapter Summary",
-        "id": "advanced-topics-and-summary"
-      }
-    ]
-  },
-  {
-    "num": 8,
-    "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
-    "sections": [
-      {
-        "text": "8.1 Introduction: The Crisis Point",
-        "id": "introduction-the-crisis-point"
-      },
-      {
-        "text": "8.2 Nested Page Tables: Beyond the Basics",
-        "id": "nested-page-tables-beyond-the-basics"
-      },
-      {
-        "text": "8.3 Architecture Differences in Nested Fault Handling",
-        "id": "architecture-differences-nested-fault-handling"
-      },
-      {
-        "text": "8.4 Accessed and Dirty Bits",
-        "id": "accessed-dirty-bits"
-      },
-      {
-        "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "8.6 Memory Reclaim: When and How to Free Pages",
-        "id": "memory-reclaim"
-      },
-      {
-        "text": "8.7 Page Table Management: The Meta-Problem",
-        "id": "page-table-management"
-      },
-      {
-        "text": "8.8 Performance Analysis and Tuning",
-        "id": "performance-analysis-and-tuning"
-      },
-      {
-        "text": "8.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 9,
-    "file": "chapter-09-WITH-FIGURES.html",
-    "short": "Advanced Page Table Optimizations",
-    "sections": [
-      {
-        "text": "9.1 Introduction: The Container Crisis",
-        "id": "introduction-the-container-crisis"
-      },
-      {
-        "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
-        "id": "memory-deduplication-kernel-samepage-merging"
-      },
-      {
-        "text": "9.3 Page Table Locking and Concurrency",
-        "id": "page-table-locking-and-concurrency"
-      },
-      {
-        "text": "9.4 NUMA-Aware Page Table Management",
-        "id": "numa-aware-page-table-management"
-      },
-      {
-        "text": "9.5 Advanced Huge Page Strategies",
-        "id": "advanced-huge-page-strategies"
-      },
-      {
-        "text": "9.6 Page Table Compaction and Sharing",
-        "id": "page-table-compaction-and-sharing"
-      },
-      {
-        "text": "9.7 Parallel Page Table Operations",
-        "id": "parallel-page-table-operations"
-      },
-      {
-        "text": "9.8 Memory Compression Integration",
-        "id": "memory-compression-integration"
-      },
-      {
-        "text": "9.9 Putting It All Together: Cloud Provider Optimization Stack",
-        "id": "putting-it-all-together-cloud-provider-optimization-stack"
-      },
-      {
-        "text": "9.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 10,
-    "file": "chapter-10-WITH-FIGURES.html",
-    "short": "Hardware Accelerators and External MMU Access",
-    "sections": [
-      {
-        "text": "10.1 Introduction: Beyond the CPU Core",
-        "id": "introduction-beyond-the-cpu-core"
-      },
-      {
-        "text": "10.2 IOMMU Architecture Deep Dive",
-        "id": "iommu-architecture-deep-dive"
-      },
-      {
-        "text": "10.3 PCIe ATS and Address Translation Services",
-        "id": "pcie-ats-and-address-translation-services"
-      },
-      {
-        "text": "10.4 RDMA and Memory Registration",
-        "id": "rdma-and-memory-registration"
-      },
-      {
-        "text": "10.5 Smart NICs and Data Processing Units",
-        "id": "smart-nics-and-data-processing-units"
-      },
-      {
-        "text": "10.7 Video and Media Accelerators",
-        "id": "video-and-media-accelerators"
-      },
-      {
-        "text": "10.8 Multi-Device Coherency and Coordination",
-        "id": "multi-device-coherency-and-coordination"
-      },
-      {
-        "text": "10.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 11,
-    "file": "chapter-11-WITH-FIGURES.html",
-    "short": "Virtual Memory Challenges in AI/ML Accelerators",
-    "sections": [
-      {
-        "text": "11.1 Introduction: Scale Changes Everything",
-        "id": "introduction-scale-changes-everything"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 12,
-    "file": "chapter-12-WITH-FIGURES.html",
-    "short": "When MMU Architecture Breaks - AI at Scale",
-    "sections": [
-      {
-        "text": "12.0 The Six Drivers of AI Memory Systems",
-        "id": "section-12.0"
-      },
-      {
-        "text": "12.0B The Architectural Cost of Runtime Address Translation",
-        "id": "section-12.0B"
-      },
-      {
-        "text": "12.1 Introduction - When Good Architecture Faces New Constraints",
-        "id": "section-12.1"
-      },
-      {
-        "text": "12.2 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
-        "id": "section-12.2"
-      },
-      {
-        "text": "12.3 Multi-Tenancy - Isolation vs Performance Trade-Offs",
-        "id": "section-12.3"
-      },
-      {
-        "text": "12.4 Virtualization - The Page Fault Challenge",
-        "id": "section-12.4"
-      },
-      {
-        "text": "12.5 Chapter Summary",
-        "id": "section-12.5"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 13,
-    "file": "chapter-13-WITH-FIGURES.html",
-    "short": "Machine Learning for Memory Management - The False Hope",
-    "sections": [
-      {
-        "text": "Table of Contents",
-        "id": "toc-title"
-      },
-      {
-        "text": "13.1 Introduction: The ML Seduction",
-        "id": "section-13.1"
-      },
-      {
-        "text": "13.2 Pythia: Why Hardware RL Failed",
-        "id": "section-13.2"
-      },
-      {
-        "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
-        "id": "section-13.3"
-      },
-      {
-        "text": "13.4 LeCaR: The Rare Success (And Why)",
-        "id": "section-13.4"
-      },
-      {
-        "text": "13.5 Chapter Summary",
-        "id": "section-13.5"
-      }
-    ]
-  },
-  {
-    "num": 14,
-    "file": "chapter-14-WITH-FIGURES.html",
-    "short": "Software-Managed Memory for AI Workloads",
-    "sections": [
-      {
-        "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
-        "id": "section-14.1"
-      },
-      {
-        "text": "14.2 Memory Management Failure Modes",
-        "id": "section-14.2"
-      },
-      {
-        "text": "14.3 Software-Managed Memory: The vLLM System",
-        "id": "section-14.3"
-      },
-      {
-        "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
-        "id": "section-14.4"
-      },
-      {
-        "text": "14.5 Comparative Analysis and Design Trade-offs",
-        "id": "section-14.5"
-      },
-      {
-        "text": "14.6 Future Research Directions",
-        "id": "section-14.6"
-      },
-      {
-        "text": "14.7 Chapter Summary",
-        "id": "section-14.7"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 15,
-    "file": "chapter-15-WITH-FIGURES.html",
-    "short": "Beyond Traditional MMU - Alternative Translation Architectures",
-    "sections": [
-      {
-        "text": "15.1 Introduction",
-        "id": "section-15.1"
-      },
-      {
-        "text": "15.2 Network-Level Translation",
-        "id": "section-15.2"
-      },
-      {
-        "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
-        "id": "section-15.3"
-      },
-      {
-        "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
-        "id": "section-15.4"
-      },
-      {
-        "text": "15.5 Comparative Analysis",
-        "id": "section-15.5"
-      },
-      {
-        "text": "15.6 Chapter Summary",
-        "id": "section-15.6"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 16,
-    "file": "chapter-16-WITH-FIGURES.html",
-    "short": "Advanced TLB Optimization Techniques",
-    "sections": [
-      {
-        "text": "16.1 Introduction: The TLB Reach Crisis",
-        "id": "section-16.1"
-      },
-      {
-        "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
-        "id": "section-16.2"
-      },
-      {
-        "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
-        "id": "section-16.3"
-      },
-      {
-        "text": "16.4 Speculative Translation: SpecTLB and Avatar",
-        "id": "section-16.4"
-      },
-      {
-        "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
-        "id": "section-16.5"
-      },
-      {
-        "text": "16.6 Hashing-Based Compression: Mosaic Pages",
-        "id": "section-16.6"
-      },
-      {
-        "text": "16.7 Range-Based Translation: FlexPointer",
-        "id": "section-16.7"
-      },
-      {
-        "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
-        "id": "section-16.8"
-      },
-      {
-        "text": "16.9 Comparative Analysis: When to Use Each Technique",
-        "id": "section-16.9"
-      },
-      {
-        "text": "16.10 Chapter Summary",
-        "id": "section-16.10"
-      }
-    ]
-  }
-];
-  var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
-  var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
-
-  /* Build HTML */
-  var html = '';
-  CHAPTERS.forEach(function(ch) {
-    var isCur = ch.num === curCh.num;
-    var toc = '';
-    ch.sections.forEach(function(s) {
-      var href = isCur ? '#' + s.id : ch.file + '#' + s.id;
-      toc += '<a class="sb-sec" href="' + href + '" title="' + s.text.replace(/"/g,'&quot;') + '">'
-           + s.text + '</a>';
-    });
-    var n = ch.num < 10 ? '0' + ch.num : '' + ch.num;
-    var arrow = ch.sections.length
-      ? '<svg class="sb-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="4,2 8,6 4,10"/></svg>'
-      : '';
-    html += '<div class="sb-ch' + (isCur?' active open':'') + '" data-c="' + ch.num + '">'
-      + '<div class="sb-ch-head" onclick=\"sbChClick(' + ch.num + ',\'' + ch.file + '\')\">'
-      + '<span class="sb-num">' + n + '</span>'
-      + (isCur
-        ? '<span class="sb-ch-link">' + ch.short + '</span>'
-        : '<a class="sb-ch-link" href="' + ch.file + '">' + ch.short + '</a>')
-      + arrow + '</div>'
-      + (toc ? '<div class="sb-toc">' + toc + '</div>' : '')
-      + '</div>';
-  });
-
-  var nav = document.createElement('nav');
-  nav.id = 'sb';
-  nav.innerHTML =
-    '<div id="sb-head">'
-    + '<div id="sb-logo"><div id="sb-icon">M</div>'
-    + '<div id="sb-wordmark">MMU<br>Handbook</div></div>'
-    + '<button id="sb-btn" onclick="sbCollapse()" title="Toggle sidebar [\\]">'
-    + '<svg viewBox="0 0 18 18" fill="currentColor">'
-    + '<rect x="1" y="3" width="16" height="2" rx="1"/>'
-    + '<rect x="1" y="8" width="16" height="2" rx="1"/>'
-    + '<rect x="1" y="13" width="16" height="2" rx="1"/>'
-    + '</svg></button></div>'
-    + '<div id="sb-scroll">' + html + '</div>';
-  document.body.insertBefore(nav, document.body.firstChild);
-
-
-  /* Inject Home link before scroll area */
-  var homeLink = document.createElement('a');
-  homeLink.id = 'sb-home-link';
-  homeLink.href = '../index.html';
-  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
-  nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
-
-  /* Restore state */
-  if (localStorage.getItem('sb-off') === '1') {
-    nav.classList.add('collapsed');
-    document.body.classList.add('sb-collapsed');
-  }
-
-  /* Scroll current chapter into view */
-  var el = nav.querySelector('.sb-ch.active');
-  if (el) setTimeout(function() { el.scrollIntoView({block:'center',behavior:'smooth'}); }, 100);
-
-  /* Active-section tracking — uses Pandoc IDs directly */
-  var links = Array.from(nav.querySelectorAll('.sb-ch.active .sb-sec'));
-  var map = links.map(function(a) {
-    var id = a.getAttribute('href').replace(/^.*#/, '');
-    return { a: a, el: document.getElementById(id) };
-  }).filter(function(h) { return h.el; });
-
-  function tick() {
-    if (!map.length) return;
-    var y = window.scrollY + 90;
-    var cur = map[0];
-    map.forEach(function(h) { if (h.el.offsetTop <= y) cur = h; });
-    links.forEach(function(a) { a.classList.remove('here'); });
-    cur.a.classList.add('here');
-  }
-  var pending = false;
-  window.addEventListener('scroll', function() {
-    if (!pending) { pending = true; requestAnimationFrame(function() { tick(); pending = false; }); }
-  });
-  tick();
-
-  /* Keyboard shortcut */
-  document.addEventListener('keydown', function(e) {
-    if (e.key === '\\' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') sbCollapse();
-  });
-
-  window.sbCollapse = function() {
-    var s = document.getElementById('sb');
-    s.classList.toggle('collapsed');
-    document.body.classList.toggle('sb-collapsed');
-    localStorage.setItem('sb-off', s.classList.contains('collapsed') ? '1' : '0');
-  };
-  window.sbChClick = function(n, file) {
-    var s = document.getElementById('sb');
-    if (s.classList.contains('collapsed')) {
-      location.href = file;
-      return;
-    }
-    var item = document.querySelector('.sb-ch[data-c="' + n + '"]');
-    if (!item) return;
-    if (item.classList.contains('active')) {
-      /* Current chapter — toggle expand/collapse in place */
-      item.classList.toggle('open');
-    } else {
-      /* Different chapter — toggle its TOC preview, then navigate */
-      item.classList.toggle('open');
-      location.href = file;
-    }
-  };
-  window.sbToggle = window.sbChClick;
-})();
-
-</script>
 </body>
 </html>

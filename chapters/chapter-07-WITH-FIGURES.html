@@ -8162,24 +8162,25 @@ performance issues related to page faults.</p></li>
 </script>
 
 <h2 id="references">References</h2>
-<ol>
-<li>Intel Corporation. <em>Intel 64 and IA-32 Architectures Software Developer's Manual, Volume 3A: System Programming Guide, Part 1</em>. Chapter 6: Interrupt and Exception Handling. Intel Corporation, 2023.</li>
-<li>ARM Limited. <em>ARM Architecture Reference Manual for A-profile Architecture</em>. Document DDI0487J.a, Chapter D1: AArch64 System-Level Architecture. ARM Limited, 2023.</li>
-<li>RISC-V International. <em>The RISC-V Instruction Set Manual, Volume II: Privileged Architecture</em>. Version 20211203, Chapter 4: Supervisor-Level ISA. RISC-V International, 2021.</li>
-<li>Bovet, D.P. and Cesati, M. <em>Understanding the Linux Kernel</em>, 3rd Edition. O'Reilly Media, 2005. ISBN: 978-0-596-00565-8. Chapter 9: Memory Region Handling.</li>
-<li>Silberschatz, A., Galvin, P.B., and Gagne, G. <em>Operating System Concepts</em>, 10th Edition. John Wiley &amp; Sons, 2018. Chapter 10: Virtual Memory.</li>
-<li>Lipp, M., Schwarz, M., Gruss, D., Prescher, T., Haas, W., Fogh, A., Horn, J., Mangard, S., Kocher, P., Genkin, D., Yarom, Y., and Hamburg, M. "Meltdown: Reading Kernel Memory from User Space." <em>27th USENIX Security Symposium (USENIX Security 2018)</em>. USENIX, 2018.</li>
-<li>Kocher, P., Horn, J., Fogh, A., Genkin, D., Gruss, D., Haas, W., Hamburg, M., Lipp, M., Mangard, S., Prescher, T., Schwarz, M., and Yarom, Y. "Spectre Attacks: Exploiting Speculative Execution." <em>2019 IEEE Symposium on Security and Privacy (S&amp;P 2019)</em>. IEEE, 2019. DOI: 10.1109/SP.2019.00002</li>
-<li>Bugnion, E., Devine, S., and Rosenblum, M. "DISCO: Running Commodity Operating Systems on Scalable Multiprocessors." <em>ACM Transactions on Computer Systems (TOCS)</em>, 15(4), 412–447, 1997. DOI: 10.1145/265924.265930</li>
-<li>Bhattacharjee, A. "Large-Reach Memory Management Unit Caches." <em>46th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO 2013)</em>. IEEE/ACM, 2013. DOI: 10.1145/2540708.2540741</li>
-<li>Denning, P.J. "Thrashing: Its Causes and Prevention." <em>AFIPS 1968 Fall Joint Computer Conference</em>. ACM, 1968. DOI: 10.1145/1476589.1476705</li>
-<li>Corbet, J. "KAISER: Kernel Address Isolation to have Side-channels Efficiently Removed." <em>LWN.net</em>, November 2017. https://lwn.net/Articles/738975/</li>
-<li>Sun, X., Barker, K., Carrington, L., and Snavely, A. "Performance Estimation and Workload Characterization for the Memory Subsystem." <em>IEEE International Symposium on Workload Characterization (IISWC 2009)</em>. IEEE, 2009. DOI: 10.1109/IISWC.2009.5306794</li>
-
-  <li><strong>§7.11 — GPU Page Fault Costs: DMA and PCIe Latency</strong></li>
-  <li>Mittal, S. "A survey of techniques for architecting TLBs." <em>Concurrency and Computation: Practice and Experience (CPE)</em>, 29(10), 2016. (§"TLB management in GPUs and CPU-GPU systems," citing Vesely et al. on 25× PCIe miss latency penalty.)
-    <a href="https://doi.org/10.1002/cpe.4061" target="_blank" rel="noopener">DOI: 10.1002/cpe.4061</a></li>
-  <li>Vesely, J., Basu, A., Oskin, M., Loh, G. H., Bhattacharjee, A., Tuck, J., and Ceze, L. "Observation and exploitation of narrow width loads in high-performance processors." <em>Proceedings of the 21st International Symposium on High Performance Computer Architecture (HPCA)</em>, 2015.</li>
+<ol type="1">
+<li><p>Intel Corporation. <em>Intel 64 and IA-32 Architectures Software Developer's Manual, Volume 3A: System Programming Guide, Part 1</em>. Chapter 6: Interrupt and Exception Handling. Intel Corporation, 2023.</p></li>
+<li><p>ARM Limited. <em>ARM Architecture Reference Manual for A-profile Architecture</em>. Document DDI0487J.a, Chapter D1: AArch64 System-Level Architecture. ARM Limited, 2023.</p></li>
+<li><p>RISC-V International. <em>The RISC-V Instruction Set Manual, Volume II: Privileged Architecture</em>. Version 20211203, Chapter 4: Supervisor-Level ISA. RISC-V International, 2021.</p></li>
+<li><p>Bovet, D.P. and Cesati, M. <em>Understanding the Linux Kernel</em>, 3rd Edition. O'Reilly Media, 2005. ISBN: 978-0-596-00565-8. Chapter 9: Memory Region Handling.</p></li>
+<li><p>Silberschatz, A., Galvin, P.B., and Gagne, G. <em>Operating System Concepts</em>, 10th Edition. John Wiley &amp; Sons, 2018. Chapter 10: Virtual Memory.</p></li>
+<li><p>Lipp, M., Schwarz, M., Gruss, D., Prescher, T., Haas, W., Fogh, A., Horn, J., Mangard, S., Kocher, P., Genkin, D., Yarom, Y., and Hamburg, M. "Meltdown: Reading Kernel Memory from User Space." <em>27th USENIX Security Symposium (USENIX Security 2018)</em>. USENIX, 2018.</p></li>
+<li><p>Kocher, P., Horn, J., Fogh, A., Genkin, D., Gruss, D., Haas, W., Hamburg, M., Lipp, M., Mangard, S., Prescher, T., Schwarz, M., and Yarom, Y. "Spectre Attacks: Exploiting Speculative Execution." <em>2019 IEEE Symposium on Security and Privacy (S&amp;P 2019)</em>. IEEE, 2019. DOI: 10.1109/SP.2019.00002</p></li>
+<li><p>Bugnion, E., Devine, S., and Rosenblum, M. "DISCO: Running Commodity Operating Systems on Scalable Multiprocessors." <em>ACM Transactions on Computer Systems (TOCS)</em>, 15(4), 412–447, 1997. DOI: 10.1145/265924.265930</p></li>
+<li><p>Bhattacharjee, A. "Large-Reach Memory Management Unit Caches." <em>46th Annual IEEE/ACM International Symposium on Microarchitecture (MICRO 2013)</em>. IEEE/ACM, 2013. DOI: 10.1145/2540708.2540741</p></li>
+<li><p>Denning, P.J. "Thrashing: Its Causes and Prevention." <em>AFIPS 1968 Fall Joint Computer Conference</em>. ACM, 1968. DOI: 10.1145/1476589.1476705</p></li>
+<li><p>Corbet, J. "KAISER: Kernel Address Isolation to have Side-channels Efficiently Removed." <em>LWN.net</em>, November 2017. https://lwn.net/Articles/738975/</p></li>
+<li><p>Sun, X., Barker, K., Carrington, L., and Snavely, A. "Performance Estimation and Workload Characterization for the Memory Subsystem." <em>IEEE International Symposium on Workload Characterization (IISWC 2009)</em>. IEEE, 2009. DOI: 10.1109/IISWC.2009.5306794</p></li>
+</ol>
+<h3 id="7-11-gpu-page-fault-costs-dma-and-pcie-latency">§7.11 — GPU Page Fault Costs: DMA and PCIe Latency</h3>
+<ol type="1" start="13">
+<li><p>Mittal, S. "A survey of techniques for architecting TLBs." <em>Concurrency and Computation: Practice and Experience (CPE)</em>, 29(10), 2016. (§"TLB management in GPUs and CPU-GPU systems," citing Vesely et al. on 25× PCIe miss latency penalty.)
+    <a href="https://doi.org/10.1002/cpe.4061" target="_blank" rel="noopener">DOI: 10.1002/cpe.4061</a></p></li>
+<li><p>Vesely, J., Basu, A., Oskin, M., Loh, G. H., Bhattacharjee, A., Tuck, J., and Ceze, L. "Observation and exploitation of narrow width loads in high-performance processors." <em>Proceedings of the 21st International Symposium on High Performance Computer Architecture (HPCA)</em>, 2015.</p></li>
 </ol>
 
 </body>

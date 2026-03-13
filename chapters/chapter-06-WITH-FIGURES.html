@@ -1026,43 +1026,6 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <li><a href="#closing-thoughts" id="toc-closing-thoughts">Closing Thoughts</a>
 </ul></li>
 <li><a href="#chapter-6-references" id="toc-chapter-6-references">Chapter 6: References</a>
-<ul>
-<li><a href="#memory-protection-and-access-control-fundamentals" id="toc-memory-protection-and-access-control-fundamentals">Memory Protection and Access Control Fundamentals</a>
-</li>
-<li><a href="#no-execute-nx-and-data-execution-prevention" id="toc-no-execute-nx-and-data-execution-prevention">No-Execute (NX) and Data Execution Prevention</a>
-</li>
-<li><a href="#privilege-levels-and-protection-rings" id="toc-privilege-levels-and-protection-rings">Privilege Levels and Protection Rings</a>
-</li>
-<li><a href="#smep-smap-and-kernel-hardening" id="toc-smep-smap-and-kernel-hardening">SMEP, SMAP, and Kernel Hardening</a>
-</li>
-<li><a href="#memory-tagging-extension-mte" id="toc-memory-tagging-extension-mte">Memory Tagging Extension (MTE)</a>
-</li>
-<li><a href="#protection-keys-mpkpku" id="toc-protection-keys-mpkpku">Protection Keys (MPK/PKU)</a>
-</li>
-<li><a href="#arm-trustzone" id="toc-arm-trustzone">ARM TrustZone</a>
-</li>
-<li><a href="#intel-sgx" id="toc-intel-sgx">Intel SGX</a>
-</li>
-<li><a href="#amd-sev-sev-es-and-sev-snp" id="toc-amd-sev-sev-es-and-sev-snp">AMD SEV, SEV-ES, and SEV-SNP</a>
-</li>
-<li><a href="#intel-tdx-trust-domain-extensions-1" id="toc-intel-tdx-trust-domain-extensions-1">Intel TDX (Trust Domain Extensions)</a>
-</li>
-<li><a href="#arm-confidential-compute-architecture-cca" id="toc-arm-confidential-compute-architecture-cca">ARM Confidential Compute Architecture (CCA)</a>
-</li>
-<li><a href="#amd-memory-encryption-smetsme" id="toc-amd-memory-encryption-smetsme">AMD Memory Encryption (SME/TSME)</a>
-</li>
-<li><a href="#risc-v-security-pmpepmp" id="toc-risc-v-security-pmpepmp">RISC-V Security (PMP/ePMP)</a>
-</li>
-<li><a href="#gpu-and-accelerator-security" id="toc-gpu-and-accelerator-security">GPU and Accelerator Security</a>
-</li>
-<li><a href="#heterogeneous-computing-security" id="toc-heterogeneous-computing-security">Heterogeneous Computing Security</a>
-</li>
-<li><a href="#spectre-meltdown-and-kpti" id="toc-spectre-meltdown-and-kpti">Spectre, Meltdown, and KPTI</a>
-</li>
-<li><a href="#security-best-practices-and-performance-trade-offs" id="toc-security-best-practices-and-performance-trade-offs">Security Best Practices and Performance Trade-offs</a>
-</li>
-<li><a href="#additional-general-resources" id="toc-additional-general-resources">Additional General Resources</a>
-</li></ul>
 </li></ul>
 </li></ul>
 </nav>
@@ -7858,1130 +7821,127 @@ if (prove_secure(security_monitor)) {
 <hr>
 <h2 id="chapter-6-references">References</h2>
 <h3 id="memory-protection-and-access-control-fundamentals">Memory Protection and Access Control Fundamentals</h3>
-<ol>
-<li>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual, Volume 3A: System Programming Guide, Part 1</em>. Chapter 4: "Paging" and Section 4.6: "Access Rights." 2024.</li>
-</ol>
-<ol>
-<li>ARM Limited. <em>ARM Architecture Reference Manual ARMv8, for ARMv8-A architecture profile</em>. ARM DDI 0487J.a. March 2023. Chapter D5: "The AArch64 Virtual Memory System Architecture."</li>
-</ol>
-<ol>
-<li>RISC-V International. <em>The RISC-V Instruction Set Manual, Volume II: Privileged Architecture</em>. Version 20211203. December 2021. Chapter 3: "Machine-Level ISA" and Chapter 4: "Supervisor-Level ISA."</li>
-</ol>
-<ol>
-<li>Denning, Peter J. "Virtual memory." <em>ACM Computing Surveys (CSUR)</em> 2.3 (1970): 153-189. DOI: 10.1145/356571.356573</li>
+<ol type="1">
+<li><p>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual, Volume 3A: System Programming Guide, Part 1</em>. Chapter 4: "Paging" and Section 4.6: "Access Rights." 2024.</p></li>
+<li><p>ARM Limited. <em>ARM Architecture Reference Manual ARMv8, for ARMv8-A architecture profile</em>. ARM DDI 0487J.a. March 2023. Chapter D5: "The AArch64 Virtual Memory System Architecture."</p></li>
+<li><p>RISC-V International. <em>The RISC-V Instruction Set Manual, Volume II: Privileged Architecture</em>. Version 20211203. December 2021. Chapter 3: "Machine-Level ISA" and Chapter 4: "Supervisor-Level ISA."</p></li>
+<li><p>Denning, Peter J. "Virtual memory." <em>ACM Computing Surveys (CSUR)</em> 2.3 (1970): 153-189. DOI: 10.1145/356571.356573</p></li>
 </ol>
 <h3 id="no-execute-nx-and-data-execution-prevention">No-Execute (NX) and Data Execution Prevention</h3>
-<ol>
-<li>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual</em>. Section 4.6: "Access Rights" (XD bit). 2024.</li>
-</ol>
-<ol>
-<li>AMD. <em>AMD64 Architecture Programmer's Manual, Volume 2: System Programming</em>. Publication #24593. Section 5.3.1: "No-Execute Page Protection." 2023.</li>
-</ol>
-<ol>
-<li>ARM Limited. <em>ARM Architecture Reference Manual ARMv8</em>. Section D5.4.5: "Execute-never controls and instruction fetching." 2023.</li>
-</ol>
-<ol>
-<li>One, Aleph. "Smashing the Stack for Fun and Profit." <em>Phrack Magazine</em> 7.49 (1996). [Classic buffer overflow exploit paper]</li>
-</ol>
-<ol>
-<li>Solar Designer. "Getting around non-executable stack (and fix)." Bugtraq mailing list. August 1997. [Return-to-libc attacks]</li>
-</ol>
-<ol>
-<li>Shacham, Hovav. "The geometry of innocent flesh on the bone: Return-into-libc without function calls (on the x86)." <em>Proceedings of the 14th ACM conference on Computer and communications security (CCS 2007)</em>. ACM, 2007. DOI: 10.1145/1315245.1315313 [ROP attacks]</li>
+<ol type="1" start="5">
+<li><p>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual</em>. Section 4.6: "Access Rights" (XD bit). 2024.</p></li>
+<li><p>AMD. <em>AMD64 Architecture Programmer's Manual, Volume 2: System Programming</em>. Publication #24593. Section 5.3.1: "No-Execute Page Protection." 2023.</p></li>
+<li><p>ARM Limited. <em>ARM Architecture Reference Manual ARMv8</em>. Section D5.4.5: "Execute-never controls and instruction fetching." 2023.</p></li>
+<li><p>One, Aleph. "Smashing the Stack for Fun and Profit." <em>Phrack Magazine</em> 7.49 (1996). [Classic buffer overflow exploit paper]</p></li>
+<li><p>Solar Designer. "Getting around non-executable stack (and fix)." Bugtraq mailing list. August 1997. [Return-to-libc attacks]</p></li>
+<li><p>Shacham, Hovav. "The geometry of innocent flesh on the bone: Return-into-libc without function calls (on the x86)." <em>Proceedings of the 14th ACM conference on Computer and communications security (CCS 2007)</em>. ACM, 2007. DOI: 10.1145/1315245.1315313 [ROP attacks]</p></li>
 </ol>
 <h3 id="privilege-levels-and-protection-rings">Privilege Levels and Protection Rings</h3>
-<ol>
-<li>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual, Volume 3A</em>. Chapter 5: "Protection." 2024.</li>
-</ol>
-<ol>
-<li>ARM Limited. <em>ARM Architecture Reference Manual ARMv8</em>. Chapter D1: "The AArch64 System Level Programmers' Model." 2023.</li>
-</ol>
-<ol>
-<li>Goldberg, Robert P. "Survey of virtual machine research." <em>Computer</em> 7.6 (1974): 34-45. DOI: 10.1109/MC.1974.6323581 [Early virtualization and privilege levels]</li>
+<ol type="1" start="11">
+<li><p>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual, Volume 3A</em>. Chapter 5: "Protection." 2024.</p></li>
+<li><p>ARM Limited. <em>ARM Architecture Reference Manual ARMv8</em>. Chapter D1: "The AArch64 System Level Programmers' Model." 2023.</p></li>
+<li><p>Goldberg, Robert P. "Survey of virtual machine research." <em>Computer</em> 7.6 (1974): 34-45. DOI: 10.1109/MC.1974.6323581 [Early virtualization and privilege levels]</p></li>
 </ol>
 <h3 id="smep-smap-and-kernel-hardening">SMEP, SMAP, and Kernel Hardening</h3>
-<ol>
-<li>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual</em>. Section 4.6: "Access Rights" (SMEP/SMAP). 2024.</li>
-</ol>
-<ol>
-<li>Kemerlis, Vasileios P., et al. "kGuard: Lightweight kernel protection against return-to-user attacks." <em>22nd USENIX Security Symposium</em>. 2013. Pages 459-474.</li>
-</ol>
-<ol>
-<li>Pomonis, Marios, et al. "kR^ X: Comprehensive kernel protection against just-in-time code reuse." <em>Proceedings of the Twelfth European Conference on Computer Systems (EuroSys 2017)</em>. ACM, 2017. DOI: 10.1145/3064176.3064216</li>
+<ol type="1" start="14">
+<li><p>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual</em>. Section 4.6: "Access Rights" (SMEP/SMAP). 2024.</p></li>
+<li><p>Kemerlis, Vasileios P., et al. "kGuard: Lightweight kernel protection against return-to-user attacks." <em>22nd USENIX Security Symposium</em>. 2013. Pages 459-474.</p></li>
+<li><p>Pomonis, Marios, et al. "kR^ X: Comprehensive kernel protection against just-in-time code reuse." <em>Proceedings of the Twelfth European Conference on Computer Systems (EuroSys 2017)</em>. ACM, 2017. DOI: 10.1145/3064176.3064216</p></li>
 </ol>
 <h3 id="memory-tagging-extension-mte">Memory Tagging Extension (MTE)</h3>
-<ol>
-<li>ARM Limited. <em>ARM Architecture Reference Manual ARMv8, Supplement: The Armv8.5 Memory Tagging Extension</em>. ARM DDI 0487F.c. 2020.</li>
+<ol type="1" start="17">
+<li><p>ARM Limited. <em>ARM Architecture Reference Manual ARMv8, Supplement: The Armv8.5 Memory Tagging Extension</em>. ARM DDI 0487F.c. 2020.</p></li>
+<li><p>Serebryany, Konstantin. "ARM Memory Tagging Extension and How It Improves C/C++ Memory Safety." <em>2020 Security Symposium</em>. USENIX, 2020.</p></li>
+<li><p>ARM Limited. "Armv8.5-A Memory Tagging Extension White Paper." 2019.</p></li>
 </ol>
-<ol>
-<li>Serebryany, Konstantin. "ARM Memory Tagging Extension and How It Improves C/C++ Memory Safety." <em>2020 Security Symposium</em>. USENIX, 2020.</li>
-</ol>
-<ol>
-<li>ARM Limited. "Armv8.5-A Memory Tagging Extension White Paper." 2019.</li>
-</ol>
-<h3 id="protection-keys-mpkpku">Protection Keys (MPK/PKU)</h3>
-<ol>
-<li>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual</em>. Section 4.6.2: "Protection Keys." 2024.</li>
-</ol>
-<ol>
-<li>Hedayati, Mohammad, et al. "Hodor: Intra-process isolation for high-throughput data plane libraries." <em>2019 USENIX Annual Technical Conference (ATC 19)</em>. 2019. Pages 489-504.</li>
-</ol>
-<ol>
-<li>Park, Soyeon, et al. "libmpk: Software abstraction for Intel memory protection keys." <em>2019 USENIX Annual Technical Conference (ATC 19)</em>. 2019. Pages 241-254.</li>
-</ol>
-<ol>
-<li>Vahldiek-Oberwagner, Anjo, et al. "ERIM: Secure, efficient in-process isolation with protection keys (MPK)." <em>28th USENIX Security Symposium</em>. 2019. Pages 1221-1238.</li>
+<h3 id="protection-keys-mpk-pku">Protection Keys (MPK/PKU)</h3>
+<ol type="1" start="20">
+<li><p>Intel Corporation. <em>Intel® 64 and IA-32 Architectures Software Developer's Manual</em>. Section 4.6.2: "Protection Keys." 2024.</p></li>
+<li><p>Hedayati, Mohammad, et al. "Hodor: Intra-process isolation for high-throughput data plane libraries." <em>2019 USENIX Annual Technical Conference (ATC 19)</em>. 2019. Pages 489-504.</p></li>
+<li><p>Park, Soyeon, et al. "libmpk: Software abstraction for Intel memory protection keys." <em>2019 USENIX Annual Technical Conference (ATC 19)</em>. 2019. Pages 241-254.</p></li>
+<li><p>Vahldiek-Oberwagner, Anjo, et al. "ERIM: Secure, efficient in-process isolation with protection keys (MPK)." <em>28th USENIX Security Symposium</em>. 2019. Pages 1221-1238.</p></li>
 </ol>
 <h3 id="arm-trustzone">ARM TrustZone</h3>
-<ol>
-<li>ARM Limited. <em>ARM Security Technology: Building a Secure System using TrustZone Technology</em>. ARM PRD29-GENC-009492C. 2009.</li>
-</ol>
-<ol>
-<li>Ngabonziza, Bernard, et al. "TrustZone explained: Architectural features and use cases." <em>2016 IEEE 2nd International Conference on Collaboration and Internet Computing (CIC)</em>. IEEE, 2016. DOI: 10.1109/CIC.2016.065</li>
-</ol>
-<ol>
-<li>ARM Limited. <em>ARMv8-A Architecture and Processors: Trusted Base System Architecture for ARMv8-M</em>. 2018.</li>
+<ol type="1" start="24">
+<li><p>ARM Limited. <em>ARM Security Technology: Building a Secure System using TrustZone Technology</em>. ARM PRD29-GENC-009492C. 2009.</p></li>
+<li><p>Ngabonziza, Bernard, et al. "TrustZone explained: Architectural features and use cases." <em>2016 IEEE 2nd International Conference on Collaboration and Internet Computing (CIC)</em>. IEEE, 2016. DOI: 10.1109/CIC.2016.065</p></li>
+<li><p>ARM Limited. <em>ARMv8-A Architecture and Processors: Trusted Base System Architecture for ARMv8-M</em>. 2018.</p></li>
 </ol>
 <h3 id="intel-sgx">Intel SGX</h3>
-<ol>
-<li>Costan, Victor, and Srinivas Devadas. "Intel SGX explained." <em>IACR Cryptology ePrint Archive</em> 2016 (2016): 86.</li>
-</ol>
-<ol>
-<li>McKeen, Frank, et al. "Innovative instructions and software model for isolated execution." <em>Proceedings of the 2nd International Workshop on Hardware and Architectural Support for Security and Privacy</em>. 2013. DOI: 10.1145/2487726.2488368</li>
-</ol>
-<ol>
-<li>Intel Corporation. <em>Intel® Software Guard Extensions (Intel® SGX) Developer Reference for Linux OS</em>. 2020.</li>
-</ol>
-<ol>
-<li>Van Bulck, Jo, et al. "Foreshadow: Extracting the keys to the Intel SGX kingdom with transient out-of-order execution." <em>27th USENIX Security Symposium</em>. 2018. Pages 991-1008. [SGX vulnerability]</li>
+<ol type="1" start="27">
+<li><p>Costan, Victor, and Srinivas Devadas. "Intel SGX explained." <em>IACR Cryptology ePrint Archive</em> 2016 (2016): 86.</p></li>
+<li><p>McKeen, Frank, et al. "Innovative instructions and software model for isolated execution." <em>Proceedings of the 2nd International Workshop on Hardware and Architectural Support for Security and Privacy</em>. 2013. DOI: 10.1145/2487726.2488368</p></li>
+<li><p>Intel Corporation. <em>Intel® Software Guard Extensions (Intel® SGX) Developer Reference for Linux OS</em>. 2020.</p></li>
+<li><p>Van Bulck, Jo, et al. "Foreshadow: Extracting the keys to the Intel SGX kingdom with transient out-of-order execution." <em>27th USENIX Security Symposium</em>. 2018. Pages 991-1008. [SGX vulnerability]</p></li>
 </ol>
 <h3 id="amd-sev-sev-es-and-sev-snp">AMD SEV, SEV-ES, and SEV-SNP</h3>
-<ol>
-<li>AMD. <em>AMD SEV-SNP: Strengthening VM Isolation with Integrity Protection and More</em>. White Paper #55766. January 2020.</li>
+<ol type="1" start="31">
+<li><p>AMD. <em>AMD SEV-SNP: Strengthening VM Isolation with Integrity Protection and More</em>. White Paper #55766. January 2020.</p></li>
+<li><p>AMD. <em>AMD Secure Encrypted Virtualization API Version 0.24</em>. Publication #55766. 2020.</p></li>
+<li><p>Kaplan, David, Jeremy Powell, and Tom Woller. "AMD memory encryption." <em>White Paper</em> (2016).</p></li>
+<li><p>Li, Mengyuan, et al. "CIPHERLEAKS: Breaking constant-time cryptography on AMD SEV via the ciphertext side channel." <em>31st USENIX Security Symposium</em>. 2022. Pages 717-732. [SEV vulnerability research]</p></li>
 </ol>
-<ol>
-<li>AMD. <em>AMD Secure Encrypted Virtualization API Version 0.24</em>. Publication #55766. 2020.</li>
-</ol>
-<ol>
-<li>Kaplan, David, Jeremy Powell, and Tom Woller. "AMD memory encryption." <em>White Paper</em> (2016).</li>
-</ol>
-<ol>
-<li>Li, Mengyuan, et al. "CIPHERLEAKS: Breaking constant-time cryptography on AMD SEV via the ciphertext side channel." <em>31st USENIX Security Symposium</em>. 2022. Pages 717-732. [SEV vulnerability research]</li>
-</ol>
-<h3 id="intel-tdx-trust-domain-extensions-1">Intel TDX (Trust Domain Extensions)</h3>
-<ol>
-<li>Intel Corporation. <em>Intel® Trust Domain Extensions (Intel® TDX) Module v1.5 Architecture Specification</em>. Document Number: 344425-004US. March 2023.</li>
-</ol>
-<ol>
-<li>Intel Corporation. "Intel Trust Domain Extensions." White Paper. 2020.</li>
-</ol>
-<ol>
-<li>Intel Corporation. "Intel TDX: Protect Confidential Computing Workloads from Software and Hardware Attacks." 2021.</li>
+<h3 id="intel-tdx-trust-domain-extensions">Intel TDX (Trust Domain Extensions)</h3>
+<ol type="1" start="35">
+<li><p>Intel Corporation. <em>Intel® Trust Domain Extensions (Intel® TDX) Module v1.5 Architecture Specification</em>. Document Number: 344425-004US. March 2023.</p></li>
+<li><p>Intel Corporation. "Intel Trust Domain Extensions." White Paper. 2020.</p></li>
+<li><p>Intel Corporation. "Intel TDX: Protect Confidential Computing Workloads from Software and Hardware Attacks." 2021.</p></li>
 </ol>
 <h3 id="arm-confidential-compute-architecture-cca">ARM Confidential Compute Architecture (CCA)</h3>
-<ol>
-<li>ARM Limited. <em>ARM Confidential Compute Architecture</em>. 2021.</li>
+<ol type="1" start="38">
+<li><p>ARM Limited. <em>ARM Confidential Compute Architecture</em>. 2021.</p></li>
+<li><p>ARM Limited. "Introducing Arm Confidential Compute Architecture." White Paper. 2021.</p></li>
+<li><p>ARM Limited. <em>Arm Realm Management Extension (RME) Architecture Specification</em>. ARM DDI 0615A. 2022.</p></li>
 </ol>
-<ol>
-<li>ARM Limited. "Introducing Arm Confidential Compute Architecture." White Paper. 2021.</li>
+<h3 id="amd-memory-encryption-sme-tsme">AMD Memory Encryption (SME/TSME)</h3>
+<ol type="1" start="41">
+<li><p>AMD. <em>AMD64 Architecture Programmer's Manual, Volume 2: System Programming</em>. Chapter 7: "Secure Memory Encryption." Publication #24593. 2023.</p></li>
+<li><p>Kaplan, David. "Protecting VM register state with SEV-ES." <em>AMD White Paper</em> (2017).</p></li>
+<li><p>AMD. <em>Secure Encrypted Virtualization API</em>. Publication #55766. Rev 0.24. 2020.</p></li>
 </ol>
-<ol>
-<li>ARM Limited. <em>Arm Realm Management Extension (RME) Architecture Specification</em>. ARM DDI 0615A. 2022.</li>
-</ol>
-<h3 id="amd-memory-encryption-smetsme">AMD Memory Encryption (SME/TSME)</h3>
-<ol>
-<li>AMD. <em>AMD64 Architecture Programmer's Manual, Volume 2: System Programming</em>. Chapter 7: "Secure Memory Encryption." Publication #24593. 2023.</li>
-</ol>
-<ol>
-<li>Kaplan, David. "Protecting VM register state with SEV-ES." <em>AMD White Paper</em> (2017).</li>
-</ol>
-<ol>
-<li>AMD. <em>Secure Encrypted Virtualization API</em>. Publication #55766. Rev 0.24. 2020.</li>
-</ol>
-<h3 id="risc-v-security-pmpepmp">RISC-V Security (PMP/ePMP)</h3>
-<ol>
-<li>RISC-V International. <em>The RISC-V Instruction Set Manual, Volume II: Privileged Architecture</em>. Section 3.6: "Physical Memory Protection." Version 20211203. December 2021.</li>
-</ol>
-<ol>
-<li>RISC-V International. <em>RISC-V Physical Memory Protection (PMP) Enhancement (ePMP)</em>. Draft Specification. 2021.</li>
-</ol>
-<ol>
-<li>Lee, Dayeol, et al. "Keystone: An open framework for architecting trusted execution environments." <em>Proceedings of the Fifteenth European Conference on Computer Systems (EuroSys 2020)</em>. 2020. DOI: 10.1145/3342195.3387532</li>
-</ol>
-<ol>
-<li>Weiser, Samuel, et al. "TIMBER-V: Tag-isolated memory bringing fine-grained enclaves to RISC-V." <em>Network and Distributed Systems Security Symposium (NDSS 2019)</em>. 2019.</li>
+<h3 id="risc-v-security-pmp-epmp">RISC-V Security (PMP/ePMP)</h3>
+<ol type="1" start="44">
+<li><p>RISC-V International. <em>The RISC-V Instruction Set Manual, Volume II: Privileged Architecture</em>. Section 3.6: "Physical Memory Protection." Version 20211203. December 2021.</p></li>
+<li><p>RISC-V International. <em>RISC-V Physical Memory Protection (PMP) Enhancement (ePMP)</em>. Draft Specification. 2021.</p></li>
+<li><p>Lee, Dayeol, et al. "Keystone: An open framework for architecting trusted execution environments." <em>Proceedings of the Fifteenth European Conference on Computer Systems (EuroSys 2020)</em>. 2020. DOI: 10.1145/3342195.3387532</p></li>
+<li><p>Weiser, Samuel, et al. "TIMBER-V: Tag-isolated memory bringing fine-grained enclaves to RISC-V." <em>Network and Distributed Systems Security Symposium (NDSS 2019)</em>. 2019.</p></li>
 </ol>
 <h3 id="gpu-and-accelerator-security">GPU and Accelerator Security</h3>
-<ol>
-<li>NVIDIA Corporation. <em>NVIDIA H100 Tensor Core GPU Architecture</em>. White Paper WP-10026-001_v01. 2022.</li>
-</ol>
-<ol>
-<li>NVIDIA Corporation. <em>NVIDIA Confidential Computing</em>. White Paper. 2022.</li>
-</ol>
-<ol>
-<li>AMD. <em>AMD Instinct MI300 Architecture</em>. White Paper. 2023.</li>
-</ol>
-<ol>
-<li>Volos, Stavros, et al. "Graviton: Trusted execution environments on GPUs." <em>14th USENIX Symposium on Operating Systems Design and Implementation (OSDI 2020)</em>. 2020. Pages 681-696.</li>
-</ol>
-<ol>
-<li>Jang, Insu, et al. "Heterogeneous isolated execution for commodity GPUs." <em>Proceedings of the Twenty-Fourth International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS 2019)</em>. 2019. DOI: 10.1145/3297858.3304021</li>
+<ol type="1" start="48">
+<li><p>NVIDIA Corporation. <em>NVIDIA H100 Tensor Core GPU Architecture</em>. White Paper WP-10026-001_v01. 2022.</p></li>
+<li><p>NVIDIA Corporation. <em>NVIDIA Confidential Computing</em>. White Paper. 2022.</p></li>
+<li><p>AMD. <em>AMD Instinct MI300 Architecture</em>. White Paper. 2023.</p></li>
+<li><p>Volos, Stavros, et al. "Graviton: Trusted execution environments on GPUs." <em>14th USENIX Symposium on Operating Systems Design and Implementation (OSDI 2020)</em>. 2020. Pages 681-696.</p></li>
+<li><p>Jang, Insu, et al. "Heterogeneous isolated execution for commodity GPUs." <em>Proceedings of the Twenty-Fourth International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS 2019)</em>. 2019. DOI: 10.1145/3297858.3304021</p></li>
 </ol>
 <h3 id="heterogeneous-computing-security">Heterogeneous Computing Security</h3>
-<ol>
-<li>NVIDIA Corporation. <em>NVIDIA Grace Hopper Superchip Architecture</em>. White Paper. 2023.</li>
-</ol>
-<ol>
-<li>AMD. <em>AMD Instinct MI300A APU Architecture</em>. White Paper. 2023.</li>
-</ol>
-<ol>
-<li>Apple Inc. <em>Apple M3 Technical Overview</em>. 2023.</li>
-</ol>
-<ol>
-<li>Pichai, Bharath, et al. "Architectural support for address translation on GPUs: Designing memory management units for CPU/GPUs with unified address spaces." <em>ACM SIGPLAN Notices</em> 49.4 (2014): 743-758. DOI: 10.1145/2644865.2541940</li>
+<ol type="1" start="53">
+<li><p>NVIDIA Corporation. <em>NVIDIA Grace Hopper Superchip Architecture</em>. White Paper. 2023.</p></li>
+<li><p>AMD. <em>AMD Instinct MI300A APU Architecture</em>. White Paper. 2023.</p></li>
+<li><p>Apple Inc. <em>Apple M3 Technical Overview</em>. 2023.</p></li>
+<li><p>Pichai, Bharath, et al. "Architectural support for address translation on GPUs: Designing memory management units for CPU/GPUs with unified address spaces." <em>ACM SIGPLAN Notices</em> 49.4 (2014): 743-758. DOI: 10.1145/2644865.2541940</p></li>
 </ol>
 <h3 id="spectre-meltdown-and-kpti">Spectre, Meltdown, and KPTI</h3>
-<ol>
-<li>Kocher, Paul, et al. "Spectre attacks: Exploiting speculative execution." <em>2019 IEEE Symposium on Security and Privacy (SP)</em>. IEEE, 2019. DOI: 10.1109/SP.2019.00002</li>
-</ol>
-<ol>
-<li>Lipp, Moritz, et al. "Meltdown: Reading kernel memory from user space." <em>27th USENIX Security Symposium</em>. 2018. Pages 973-990.</li>
-</ol>
-<ol>
-<li>Gruss, Daniel, et al. "KASLR is dead: Long live KASLR." <em>International Symposium on Engineering Secure Software and Systems</em>. Springer, 2017. DOI: 10.1007/978-3-319-62105-0_11</li>
-</ol>
-<ol>
-<li>The Linux Kernel Organization. "Page Table Isolation (PTI)." Documentation/x86/pti.rst. 2018.</li>
+<ol type="1" start="57">
+<li><p>Kocher, Paul, et al. "Spectre attacks: Exploiting speculative execution." <em>2019 IEEE Symposium on Security and Privacy (SP)</em>. IEEE, 2019. DOI: 10.1109/SP.2019.00002</p></li>
+<li><p>Lipp, Moritz, et al. "Meltdown: Reading kernel memory from user space." <em>27th USENIX Security Symposium</em>. 2018. Pages 973-990.</p></li>
+<li><p>Gruss, Daniel, et al. "KASLR is dead: Long live KASLR." <em>International Symposium on Engineering Secure Software and Systems</em>. Springer, 2017. DOI: 10.1007/978-3-319-62105-0_11</p></li>
+<li><p>The Linux Kernel Organization. "Page Table Isolation (PTI)." Documentation/x86/pti.rst. 2018.</p></li>
 </ol>
 <h3 id="security-best-practices-and-performance-trade-offs">Security Best Practices and Performance Trade-offs</h3>
-<ol>
-<li>Saltzer, Jerome H., and Michael D. Schroeder. "The protection of information in computer systems." <em>Proceedings of the IEEE</em> 63.9 (1975): 1278-1308. DOI: 10.1109/PROC.1975.9939 [Classic security principles]</li>
-</ol>
-<ol>
-<li>Anderson, Ross J. <em>Security engineering: a guide to building dependable distributed systems</em>. John Wiley & Sons, 2020. Third edition.</li>
-</ol>
-<ol>
-<li>Klein, Gerwin, et al. "seL4: Formal verification of an OS kernel." <em>Proceedings of the ACM SIGOPS 22nd symposium on Operating systems principles (SOSP 2009)</em>. ACM, 2009. DOI: 10.1145/1629575.1629596 [Formally verified microkernel]</li>
-</ol>
-<ol>
-<li>Ge, Xinyang, et al. "Griffin: Guarding control flows using intel processor trace." <em>Proceedings of the Twenty-Second International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS 2017)</em>. 2017. DOI: 10.1145/3037697.3037716</li>
+<ol type="1" start="61">
+<li><p>Saltzer, Jerome H., and Michael D. Schroeder. "The protection of information in computer systems." <em>Proceedings of the IEEE</em> 63.9 (1975): 1278-1308. DOI: 10.1109/PROC.1975.9939 [Classic security principles]</p></li>
+<li><p>Anderson, Ross J. <em>Security engineering: a guide to building dependable distributed systems</em>. John Wiley & Sons, 2020. Third edition.</p></li>
+<li><p>Klein, Gerwin, et al. "seL4: Formal verification of an OS kernel." <em>Proceedings of the ACM SIGOPS 22nd symposium on Operating systems principles (SOSP 2009)</em>. ACM, 2009. DOI: 10.1145/1629575.1629596 [Formally verified microkernel]</p></li>
+<li><p>Ge, Xinyang, et al. "Griffin: Guarding control flows using intel processor trace." <em>Proceedings of the Twenty-Second International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS 2017)</em>. 2017. DOI: 10.1145/3037697.3037716</p></li>
 </ol>
 <h3 id="additional-general-resources">Additional General Resources</h3>
-<ol>
-<li>Silberschatz, Abraham, Peter Baer Galvin, and Greg Gagne. <em>Operating System Concepts</em>. 10th edition. Wiley, 2018. Chapter 9: "Virtual Memory."</li>
+<ol type="1" start="65">
+<li><p>Silberschatz, Abraham, Peter Baer Galvin, and Greg Gagne. <em>Operating System Concepts</em>. 10th edition. Wiley, 2018. Chapter 9: "Virtual Memory."</p></li>
+<li><p>Tanenbaum, Andrew S., and Herbert Bos. <em>Modern Operating Systems</em>. 4th edition. Pearson, 2015. Chapter 3: "Memory Management."</p></li>
+<li><p>Bryant, Randal E., and David R. O'Hallaron. <em>Computer Systems: A Programmer's Perspective</em>. 3rd edition. Pearson, 2015. Chapter 9: "Virtual Memory."</p></li>
+<li><p>Hennessy, John L., and David A. Patterson. <em>Computer Architecture: A Quantitative Approach</em>. 6th edition. Morgan Kaufmann, 2017. Appendix B: "Review of Memory Hierarchy."</p></li>
 </ol>
-<ol>
-<li>Tanenbaum, Andrew S., and Herbert Bos. <em>Modern Operating Systems</em>. 4th edition. Pearson, 2015. Chapter 3: "Memory Management."</li>
-</ol>
-<ol>
-<li>Bryant, Randal E., and David R. O'Hallaron. <em>Computer Systems: A Programmer's Perspective</em>. 3rd edition. Pearson, 2015. Chapter 9: "Virtual Memory."</li>
-</ol>
-<ol>
-<li>Hennessy, John L., and David A. Patterson. <em>Computer Architecture: A Quantitative Approach</em>. 6th edition. Morgan Kaufmann, 2017. Appendix B: "Review of Memory Hierarchy."</li>
-</ol>
-<hr>
-<p><strong>Note:</strong> All references are organized by topic for easy lookup. References specifically address the architectural details, security mechanisms, and performance characteristics of memory protection systems across x86-64, ARM64, and RISC-V architectures.</p>
 
-
-
-<script>
-
-(function() {
-  var CHAPTERS = [
-  {
-    "num": 1,
-    "file": "chapter-01-WITH-FIGURES.html",
-    "short": "Memory Management Basics",
-    "sections": [
-      {
-        "text": "1.1 Introduction: Why Virtual Memory Exists",
-        "id": "introduction-why-virtual-memory-exists"
-      },
-      {
-        "text": "1.2 What is Memory Management?",
-        "id": "what-is-memory-management"
-      },
-      {
-        "text": "1.3 The Evolution of Memory Management",
-        "id": "the-evolution-of-memory-management"
-      },
-      {
-        "text": "1.4 Hierarchical Levels of Memory Management",
-        "id": "hierarchical-levels-of-memory-management"
-      },
-      {
-        "text": "1.5 The Virtual Memory Abstraction",
-        "id": "the-virtual-memory-abstraction"
-      },
-      {
-        "text": "1.6 Key Concepts and Terminology",
-        "id": "key-concepts-and-terminology"
-      },
-      {
-        "text": "1.7 A Concrete Example: Address Translation",
-        "id": "a-concrete-example-address-translation"
-      },
-      {
-        "text": "1.8 The Translation Lookaside Buffer (TLB)",
-        "id": "the-translation-lookaside-buffer-tlb"
-      },
-      {
-        "text": "1.9 Multi-Level Page Tables",
-        "id": "multi-level-page-tables"
-      },
-      {
-        "text": "1.10 Why MMU Matters: Real-World Impact",
-        "id": "why-mmu-matters-real-world-impact"
-      },
-      {
-        "text": "1.12 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 2,
-    "file": "chapter-02-WITH-FIGURES.html",
-    "short": "Virtual Memory Concepts",
-    "sections": [
-      {
-        "text": "2.1 Introduction: The Illusion of Unlimited Memory",
-        "id": "introduction-the-illusion-of-unlimited-memory"
-      },
-      {
-        "text": "2.2 Demand Paging: Loading Pages on Demand",
-        "id": "demand-paging-loading-pages-on-demand"
-      },
-      {
-        "text": "2.3 Page Replacement Algorithms",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "2.4 Thrashing and the Working Set Model",
-        "id": "thrashing-and-the-working-set-model"
-      },
-      {
-        "text": "2.5 Copy-on-Write (COW)",
-        "id": "copy-on-write-cow"
-      },
-      {
-        "text": "2.6 Memory-Mapped Files",
-        "id": "memory-mapped-files"
-      },
-      {
-        "text": "2.7 Advanced Topics",
-        "id": "advanced-topics"
-      },
-      {
-        "text": "2.8 Performance Optimization Strategies",
-        "id": "performance-optimization-strategies"
-      },
-      {
-        "text": "2.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 3,
-    "file": "chapter-03-WITH-FIGURES.html",
-    "short": "Page Table Structures and Implementation",
-    "sections": [
-      {
-        "text": "3.1 Introduction",
-        "id": "3.1-introduction"
-      },
-      {
-        "text": "3.2 Single-Level Page Tables: The Simplest Approach",
-        "id": "3.2-single-level-page-tables-the-simplest-approach"
-      },
-      {
-        "text": "3.3 Two-Level Page Tables",
-        "id": "3.3-two-level-page-tables"
-      },
-      {
-        "text": "3.4 Multi-Level Page Tables (3+ Levels)",
-        "id": "3.4-multi-level-page-tables-3-levels"
-      },
-      {
-        "text": "3.6 Virtualization: Two-Stage Address Translation",
-        "id": "3.6-virtualization-two-stage-address-translation"
-      },
-      {
-        "text": "3.7 What Gets Cached: TLB and Page Walk Caches",
-        "id": "3.7-what-gets-cached-tlb-and-page-walk-caches"
-      },
-      {
-        "text": "3.8 Hardware Page Table Walker",
-        "id": "3.8-hardware-page-table-walker"
-      },
-      {
-        "text": "3.9 Page Table Management from the OS Perspective",
-        "id": "3.9-page-table-management-from-the-os-perspective"
-      },
-      {
-        "text": "3.10 Design Trade-offs",
-        "id": "3.10-design-trade-offs"
-      },
-      {
-        "text": "3.11 Chapter Summary",
-        "id": "3.11-chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 4,
-    "file": "chapter-04-WITH-FIGURES.html",
-    "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
-    "sections": [
-      {
-        "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
-        "id": "introduction-the-most-critical-cache-youve-never-heard-of"
-      },
-      {
-        "text": "4.2 TLB Architecture and Organization",
-        "id": "tlb-architecture-and-organization"
-      },
-      {
-        "text": "4.3 TLB Management: Hardware vs Software",
-        "id": "tlb-management-hardware-vs-software"
-      },
-      {
-        "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
-        "id": "address-space-identifiers-asid-pcid-and-vmid"
-      },
-      {
-        "text": "4.5 TLB Operations and Instructions",
-        "id": "tlb-operations-and-instructions"
-      },
-      {
-        "text": "4.6 Large Pages and TLB Coverage",
-        "id": "large-pages-and-tlb-coverage"
-      },
-      {
-        "text": "4.7 Multicore TLB Coherency",
-        "id": "multicore-tlb-coherency"
-      },
-      {
-        "text": "4.8 Platform-Specific TLB Implementations",
-        "id": "platform-specific-tlb-implementations"
-      },
-      {
-        "text": "4.9 Alternative Page Table Structures and TLB Implications",
-        "id": "alternative-page-table-structures-and-tlb-implications"
-      },
-      {
-        "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
-        "id": "self-modifying-code-and-instructiondata-coherency"
-      },
-      {
-        "text": "4.11 Multithreading and TLB Sharing",
-        "id": "multithreading-and-tlb-sharing"
-      },
-      {
-        "text": "4.12 Virtualization with Mismatched Page Sizes",
-        "id": "virtualization-with-mismatched-page-sizes"
-      },
-      {
-        "text": "4.13 GPU and Hardware Accelerator MMUs",
-        "id": "gpu-and-hardware-accelerator-mmus"
-      },
-      {
-        "text": "References",
-        "id": "chapter-4-references"
-      }
-    ]
-  },
-  {
-    "num": 5,
-    "file": "chapter-05-WITH-FIGURES.html",
-    "short": "IOMMU and DMA Remapping - Deep Dive",
-    "sections": [
-      {
-        "text": "5.1 Introduction: The I/O Device Memory Access Problem",
-        "id": "introduction-the-io-device-memory-access-problem"
-      },
-      {
-        "text": "5.2 IOMMU Architecture Fundamentals",
-        "id": "iommu-architecture-fundamentals"
-      },
-      {
-        "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
-        "id": "intel-vt-d-virtualization-technology-for-directed-io"
-      },
-      {
-        "text": "5.4 AMD IOMMU (AMD-Vi)",
-        "id": "amd-iommu-amd-vi"
-      },
-      {
-        "text": "5.5 ARM SMMU (System Memory Management Unit)",
-        "id": "arm-smmu-system-memory-management-unit"
-      },
-      {
-        "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
-        "id": "iommu-page-tables-cross-platform-analysis"
-      },
-      {
-        "text": "5.7 IOTLB Performance and Optimization",
-        "id": "iotlb-performance-and-optimization"
-      },
-      {
-        "text": "5.8 Device Assignment and SR-IOV",
-        "id": "device-assignment-and-sr-iov"
-      },
-      {
-        "text": "5.9 Chapter Summary",
-        "id": "chapter-summary-and-key-takeaways"
-      },
-      {
-        "text": "5.10 IOMMU in Operating Systems",
-        "id": "iommu-in-operating-systems"
-      },
-      {
-        "text": "5.11 Performance Optimization and Best Practices",
-        "id": "performance-optimization-and-best-practices"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 6,
-    "file": "chapter-06-WITH-FIGURES.html",
-    "short": "Memory Protection and Access Control",
-    "sections": [
-      {
-        "text": "6.1 Introduction: Memory Protection Fundamentals",
-        "id": "6.1-introduction-memory-protection-fundamentals"
-      },
-      {
-        "text": "6.2 Page-Level Protection Bits",
-        "id": "6.2-page-level-protection-bits"
-      },
-      {
-        "text": "6.3 The No-Execute (NX) Bit",
-        "id": "6.3-the-no-execute-nx-bit"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains"
-      },
-      {
-        "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
-        "id": "6.8-trusted-execution-environments-tee-deep-dive"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings-1"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages-1"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features-1"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains-1"
-      },
-      {
-        "text": "6.9 Copy-On-Write (COW)",
-        "id": "6.9-copy-on-write-cow"
-      },
-      {
-        "text": "6.10 Memory Access Ordering and Protection",
-        "id": "6.10-memory-access-ordering-and-protection"
-      },
-      {
-        "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
-        "id": "6.11-confidential-computing-hardware-based-vm-isolation"
-      },
-      {
-        "text": "6.12 AMD Memory Guard and Memory Encryption",
-        "id": "6.12-amd-memory-guard-and-memory-encryption"
-      },
-      {
-        "text": "6.13 RISC-V Security Extensions",
-        "id": "6.13-risc-v-security-extensions"
-      },
-      {
-        "text": "6.14 GPU and Accelerator Security",
-        "id": "6.14-gpu-and-accelerator-security"
-      },
-      {
-        "text": "6.15 Heterogeneous Computing Security",
-        "id": "6.15-heterogeneous-computing-security"
-      },
-      {
-        "text": "6.16 Performance vs Security Trade-offs",
-        "id": "6.16-performance-vs-security-trade-offs"
-      },
-      {
-        "text": "6.17 Best Practices and Guidelines",
-        "id": "6.17-best-practices-and-guidelines"
-      },
-      {
-        "text": "6.18 Common Pitfalls and How to Avoid Them",
-        "id": "6.18-common-pitfalls-and-how-to-avoid-them"
-      },
-      {
-        "text": "6.19 Chapter Summary",
-        "id": "6.19-summary-and-future-directions"
-      },
-      {
-        "text": "References",
-        "id": "chapter-6-references"
-      }
-    ]
-  },
-  {
-    "num": 7,
-    "file": "chapter-07-WITH-FIGURES.html",
-    "short": "Page Faults and Exception Handling",
-    "sections": [
-      {
-        "text": "7.1 Introduction: When Address Translation Fails",
-        "id": "introduction-when-address-translation-fails"
-      },
-      {
-        "text": "7.2 Page Fault Fundamentals",
-        "id": "page-fault-fundamentals"
-      },
-      {
-        "text": "7.3 x86-64 Page Faults (#PF)",
-        "id": "x86-64-page-faults-pf"
-      },
-      {
-        "text": "7.4 ARM64 Data and Instruction Aborts",
-        "id": "arm64-data-and-instruction-aborts"
-      },
-      {
-        "text": "7.5 RISC-V Page Faults",
-        "id": "risc-v-page-faults"
-      },
-      {
-        "text": "7.6 TLB-Related Exceptions",
-        "id": "tlb-related-exceptions"
-      },
-      {
-        "text": "7.7 Page Table Walk Failures",
-        "id": "page-table-walk-failures"
-      },
-      {
-        "text": "7.8 Page Overlapping and Aliasing Faults",
-        "id": "page-overlapping-and-aliasing-faults"
-      },
-      {
-        "text": "7.9 Permission Violations",
-        "id": "permission-violations"
-      },
-      {
-        "text": "7.10 Page Fault Handling Flow",
-        "id": "page-fault-handling-flow"
-      },
-      {
-        "text": "7.11 Performance Implications",
-        "id": "performance-implications"
-      },
-      {
-        "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
-        "id": "historical-architectures-sparc-mips-powerpc"
-      },
-      {
-        "text": "7.13 Architecture Comparison",
-        "id": "architecture-comparison"
-      },
-      {
-        "text": "7.14 Debugging Page Faults",
-        "id": "debugging-page-faults"
-      },
-      {
-        "text": "7.15 Chapter Summary",
-        "id": "advanced-topics-and-summary"
-      }
-    ]
-  },
-  {
-    "num": 8,
-    "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
-    "sections": [
-      {
-        "text": "8.1 Introduction: The Crisis Point",
-        "id": "introduction-the-crisis-point"
-      },
-      {
-        "text": "8.2 Nested Page Tables: Beyond the Basics",
-        "id": "nested-page-tables-beyond-the-basics"
-      },
-      {
-        "text": "8.3 Architecture Differences in Nested Fault Handling",
-        "id": "architecture-differences-nested-fault-handling"
-      },
-      {
-        "text": "8.4 Accessed and Dirty Bits",
-        "id": "accessed-dirty-bits"
-      },
-      {
-        "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "8.6 Memory Reclaim: When and How to Free Pages",
-        "id": "memory-reclaim"
-      },
-      {
-        "text": "8.7 Page Table Management: The Meta-Problem",
-        "id": "page-table-management"
-      },
-      {
-        "text": "8.8 Performance Analysis and Tuning",
-        "id": "performance-analysis-and-tuning"
-      },
-      {
-        "text": "8.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 9,
-    "file": "chapter-09-WITH-FIGURES.html",
-    "short": "Advanced Page Table Optimizations",
-    "sections": [
-      {
-        "text": "9.1 Introduction: The Container Crisis",
-        "id": "introduction-the-container-crisis"
-      },
-      {
-        "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
-        "id": "memory-deduplication-kernel-samepage-merging"
-      },
-      {
-        "text": "9.3 Page Table Locking and Concurrency",
-        "id": "page-table-locking-and-concurrency"
-      },
-      {
-        "text": "9.4 NUMA-Aware Page Table Management",
-        "id": "numa-aware-page-table-management"
-      },
-      {
-        "text": "9.5 Advanced Huge Page Strategies",
-        "id": "advanced-huge-page-strategies"
-      },
-      {
-        "text": "9.6 Page Table Compaction and Sharing",
-        "id": "page-table-compaction-and-sharing"
-      },
-      {
-        "text": "9.7 Parallel Page Table Operations",
-        "id": "parallel-page-table-operations"
-      },
-      {
-        "text": "9.8 Memory Compression Integration",
-        "id": "memory-compression-integration"
-      },
-      {
-        "text": "9.9 Putting It All Together: Cloud Provider Optimization Stack",
-        "id": "putting-it-all-together-cloud-provider-optimization-stack"
-      },
-      {
-        "text": "9.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 10,
-    "file": "chapter-10-WITH-FIGURES.html",
-    "short": "Hardware Accelerators and External MMU Access",
-    "sections": [
-      {
-        "text": "10.1 Introduction: Beyond the CPU Core",
-        "id": "introduction-beyond-the-cpu-core"
-      },
-      {
-        "text": "10.2 IOMMU Architecture Deep Dive",
-        "id": "iommu-architecture-deep-dive"
-      },
-      {
-        "text": "10.3 PCIe ATS and Address Translation Services",
-        "id": "pcie-ats-and-address-translation-services"
-      },
-      {
-        "text": "10.4 RDMA and Memory Registration",
-        "id": "rdma-and-memory-registration"
-      },
-      {
-        "text": "10.5 Smart NICs and Data Processing Units",
-        "id": "smart-nics-and-data-processing-units"
-      },
-      {
-        "text": "10.7 Video and Media Accelerators",
-        "id": "video-and-media-accelerators"
-      },
-      {
-        "text": "10.8 Multi-Device Coherency and Coordination",
-        "id": "multi-device-coherency-and-coordination"
-      },
-      {
-        "text": "10.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 11,
-    "file": "chapter-11-WITH-FIGURES.html",
-    "short": "Virtual Memory Challenges in AI/ML Accelerators",
-    "sections": [
-      {
-        "text": "11.1 Introduction: Scale Changes Everything",
-        "id": "introduction-scale-changes-everything"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 12,
-    "file": "chapter-12-WITH-FIGURES.html",
-    "short": "When MMU Architecture Breaks - AI at Scale",
-    "sections": [
-      {
-        "text": "12.0 The Six Drivers of AI Memory Systems",
-        "id": "section-12.0"
-      },
-      {
-        "text": "12.0B The Architectural Cost of Runtime Address Translation",
-        "id": "section-12.0B"
-      },
-      {
-        "text": "12.1 Introduction - When Good Architecture Faces New Constraints",
-        "id": "section-12.1"
-      },
-      {
-        "text": "12.2 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
-        "id": "section-12.2"
-      },
-      {
-        "text": "12.3 Multi-Tenancy - Isolation vs Performance Trade-Offs",
-        "id": "section-12.3"
-      },
-      {
-        "text": "12.4 Virtualization - The Page Fault Challenge",
-        "id": "section-12.4"
-      },
-      {
-        "text": "12.5 Chapter Summary",
-        "id": "section-12.5"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 13,
-    "file": "chapter-13-WITH-FIGURES.html",
-    "short": "Machine Learning for Memory Management - The False Hope",
-    "sections": [
-      {
-        "text": "Table of Contents",
-        "id": "toc-title"
-      },
-      {
-        "text": "13.1 Introduction: The ML Seduction",
-        "id": "section-13.1"
-      },
-      {
-        "text": "13.2 Pythia: Why Hardware RL Failed",
-        "id": "section-13.2"
-      },
-      {
-        "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
-        "id": "section-13.3"
-      },
-      {
-        "text": "13.4 LeCaR: The Rare Success (And Why)",
-        "id": "section-13.4"
-      },
-      {
-        "text": "13.5 Chapter Summary",
-        "id": "section-13.5"
-      }
-    ]
-  },
-  {
-    "num": 14,
-    "file": "chapter-14-WITH-FIGURES.html",
-    "short": "Software-Managed Memory for AI Workloads",
-    "sections": [
-      {
-        "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
-        "id": "section-14.1"
-      },
-      {
-        "text": "14.2 Memory Management Failure Modes",
-        "id": "section-14.2"
-      },
-      {
-        "text": "14.3 Software-Managed Memory: The vLLM System",
-        "id": "section-14.3"
-      },
-      {
-        "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
-        "id": "section-14.4"
-      },
-      {
-        "text": "14.5 Comparative Analysis and Design Trade-offs",
-        "id": "section-14.5"
-      },
-      {
-        "text": "14.6 Future Research Directions",
-        "id": "section-14.6"
-      },
-      {
-        "text": "14.7 Chapter Summary",
-        "id": "section-14.7"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 15,
-    "file": "chapter-15-WITH-FIGURES.html",
-    "short": "Beyond Traditional MMU - Alternative Translation Architectures",
-    "sections": [
-      {
-        "text": "15.1 Introduction",
-        "id": "section-15.1"
-      },
-      {
-        "text": "15.2 Network-Level Translation",
-        "id": "section-15.2"
-      },
-      {
-        "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
-        "id": "section-15.3"
-      },
-      {
-        "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
-        "id": "section-15.4"
-      },
-      {
-        "text": "15.5 Comparative Analysis",
-        "id": "section-15.5"
-      },
-      {
-        "text": "15.6 Chapter Summary",
-        "id": "section-15.6"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 16,
-    "file": "chapter-16-WITH-FIGURES.html",
-    "short": "Advanced TLB Optimization Techniques",
-    "sections": [
-      {
-        "text": "16.1 Introduction: The TLB Reach Crisis",
-        "id": "section-16.1"
-      },
-      {
-        "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
-        "id": "section-16.2"
-      },
-      {
-        "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
-        "id": "section-16.3"
-      },
-      {
-        "text": "16.4 Speculative Translation: SpecTLB and Avatar",
-        "id": "section-16.4"
-      },
-      {
-        "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
-        "id": "section-16.5"
-      },
-      {
-        "text": "16.6 Hashing-Based Compression: Mosaic Pages",
-        "id": "section-16.6"
-      },
-      {
-        "text": "16.7 Range-Based Translation: FlexPointer",
-        "id": "section-16.7"
-      },
-      {
-        "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
-        "id": "section-16.8"
-      },
-      {
-        "text": "16.9 Comparative Analysis: When to Use Each Technique",
-        "id": "section-16.9"
-      },
-      {
-        "text": "16.10 Chapter Summary",
-        "id": "section-16.10"
-      }
-    ]
-  }
-];
-  var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
-  var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
-
-  /* Build HTML */
-  var html = '';
-  CHAPTERS.forEach(function(ch) {
-    var isCur = ch.num === curCh.num;
-    var toc = '';
-    ch.sections.forEach(function(s) {
-      var href = isCur ? '#' + s.id : ch.file + '#' + s.id;
-      toc += '<a class="sb-sec" href="' + href + '" title="' + s.text.replace(/"/g,'&quot;') + '">'
-           + s.text + '</a>';
-    });
-    var n = ch.num < 10 ? '0' + ch.num : '' + ch.num;
-    var arrow = ch.sections.length
-      ? '<svg class="sb-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="4,2 8,6 4,10"/></svg>'
-      : '';
-    html += '<div class="sb-ch' + (isCur?' active open':'') + '" data-c="' + ch.num + '">'
-      + '<div class="sb-ch-head" onclick=\"sbChClick(' + ch.num + ',\'' + ch.file + '\')\">'
-      + '<span class="sb-num">' + n + '</span>'
-      + (isCur
-        ? '<span class="sb-ch-link">' + ch.short + '</span>'
-        : '<a class="sb-ch-link" href="' + ch.file + '">' + ch.short + '</a>')
-      + arrow + '</div>'
-      + (toc ? '<div class="sb-toc">' + toc + '</div>' : '')
-      + '</div>';
-  });
-
-  var nav = document.createElement('nav');
-  nav.id = 'sb';
-  nav.innerHTML =
-    '<div id="sb-head">'
-    + '<div id="sb-logo"><div id="sb-icon">M</div>'
-    + '<div id="sb-wordmark">MMU<br>Handbook</div></div>'
-    + '<button id="sb-btn" onclick="sbCollapse()" title="Toggle sidebar [\\]">'
-    + '<svg viewBox="0 0 18 18" fill="currentColor">'
-    + '<rect x="1" y="3" width="16" height="2" rx="1"/>'
-    + '<rect x="1" y="8" width="16" height="2" rx="1"/>'
-    + '<rect x="1" y="13" width="16" height="2" rx="1"/>'
-    + '</svg></button></div>'
-    + '<div id="sb-scroll">' + html + '</div>';
-  document.body.insertBefore(nav, document.body.firstChild);
-
-
-  /* Inject Home link before scroll area */
-  var homeLink = document.createElement('a');
-  homeLink.id = 'sb-home-link';
-  homeLink.href = '../index.html';
-  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
-  nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
-
-  /* Restore state */
-  if (localStorage.getItem('sb-off') === '1') {
-    nav.classList.add('collapsed');
-    document.body.classList.add('sb-collapsed');
-  }
-
-  /* Scroll current chapter into view */
-  var el = nav.querySelector('.sb-ch.active');
-  if (el) setTimeout(function() { el.scrollIntoView({block:'center',behavior:'smooth'}); }, 100);
-
-  /* Active-section tracking — uses Pandoc IDs directly */
-  var links = Array.from(nav.querySelectorAll('.sb-ch.active .sb-sec'));
-  var map = links.map(function(a) {
-    var id = a.getAttribute('href').replace(/^.*#/, '');
-    return { a: a, el: document.getElementById(id) };
-  }).filter(function(h) { return h.el; });
-
-  function tick() {
-    if (!map.length) return;
-    var y = window.scrollY + 90;
-    var cur = map[0];
-    map.forEach(function(h) { if (h.el.offsetTop <= y) cur = h; });
-    links.forEach(function(a) { a.classList.remove('here'); });
-    cur.a.classList.add('here');
-  }
-  var pending = false;
-  window.addEventListener('scroll', function() {
-    if (!pending) { pending = true; requestAnimationFrame(function() { tick(); pending = false; }); }
-  });
-  tick();
-
-  /* Keyboard shortcut */
-  document.addEventListener('keydown', function(e) {
-    if (e.key === '\\' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') sbCollapse();
-  });
-
-  window.sbCollapse = function() {
-    var s = document.getElementById('sb');
-    s.classList.toggle('collapsed');
-    document.body.classList.toggle('sb-collapsed');
-    localStorage.setItem('sb-off', s.classList.contains('collapsed') ? '1' : '0');
-  };
-  window.sbChClick = function(n, file) {
-    var s = document.getElementById('sb');
-    if (s.classList.contains('collapsed')) {
-      location.href = file;
-      return;
-    }
-    var item = document.querySelector('.sb-ch[data-c="' + n + '"]');
-    if (!item) return;
-    if (item.classList.contains('active')) {
-      /* Current chapter — toggle expand/collapse in place */
-      item.classList.toggle('open');
-    } else {
-      /* Different chapter — toggle its TOC preview, then navigate */
-      item.classList.toggle('open');
-      location.href = file;
-    }
-  };
-  window.sbToggle = window.sbChClick;
-})();
-
-</script>
 </body>
 </html>
