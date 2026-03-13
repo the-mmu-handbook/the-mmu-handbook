@@ -22,7 +22,7 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 |---|-------|:-------:|-----:|
 | [01](chapters/chapter-01-WITH-FIGURES.html) | Memory Hierarchy and the Translation Problem | 23 | 296 KB |
 | [02](chapters/chapter-02-WITH-FIGURES.html) | Virtual Memory Concepts | 10 | 232 KB |
-| [03](chapters/chapter-03-WITH-FIGURES.html) | Page Table Structures and Implementation | 15 | 295 KB |
+| [03](chapters/chapter-03-WITH-FIGURES.html) | Page Table Structures and Implementation | 15 | 296 KB |
 | [04](chapters/chapter-04-WITH-FIGURES.html) | TLB Architecture and Organization | 9 | 328 KB |
 | [05](chapters/chapter-05-WITH-FIGURES.html) | IOMMU and Device Address Translation | 8 | 362 KB |
 | [06](chapters/chapter-06-WITH-FIGURES.html) | Memory Protection and Access Control | 5 | 335 KB |
