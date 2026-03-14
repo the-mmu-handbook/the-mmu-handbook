@@ -831,66 +831,6 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 </li>
 <li><a href="#future-of-tee-technology" id="toc-future-of-tee-technology">Future of TEE Technology</a>
 </ul></li>
-<li><a href="#6.4-privilege-levels-and-protection-rings-1" id="toc-6.4-privilege-levels-and-protection-rings-1">6.4 Privilege Levels and Protection Rings</a>
-<ul>
-<li><a href="#the-privilege-problem" id="toc-the-privilege-problem">The Privilege Problem</a>
-</li>
-<li><a href="#x86-64-protection-rings-1" id="toc-x86-64-protection-rings-1">x86-64 Protection Rings</a>
-</li>
-<li><a href="#arm64-exception-levels-1" id="toc-arm64-exception-levels-1">ARM64 Exception Levels</a>
-</li>
-<li><a href="#risc-v-privilege-modes-1" id="toc-risc-v-privilege-modes-1">RISC-V Privilege Modes</a>
-</li>
-<li><a href="#cross-architecture-comparison-2" id="toc-cross-architecture-comparison-2">Cross-Architecture Comparison</a>
-</ul></li>
-<li><a href="#6.5-user-vs-supervisor-pages-1" id="toc-6.5-user-vs-supervisor-pages-1">6.5 User vs Supervisor Pages</a>
-<ul>
-<li><a href="#the-us-bit-mechanism-1" id="toc-the-us-bit-mechanism-1">The U/S Bit Mechanism</a>
-</li>
-<li><a href="#memory-layout-kernel-vs-user" id="toc-memory-layout-kernel-vs-user">Memory Layout: Kernel vs User</a>
-</li>
-<li><a href="#access-rules" id="toc-access-rules">Access Rules</a>
-</li>
-<li><a href="#kernel-page-table-isolation-kpti-1" id="toc-kernel-page-table-isolation-kpti-1">Kernel Page-Table Isolation (KPTI)</a>
-</li>
-<li><a href="#smap-and-smep-preview" id="toc-smap-and-smep-preview">SMAP and SMEP (Preview)</a>
-</li>
-<li><a href="#code-example-setting-us-bit" id="toc-code-example-setting-us-bit">Code Example: Setting U/S Bit</a>
-</ul></li>
-<li><a href="#6.6-advanced-protection-features-1" id="toc-6.6-advanced-protection-features-1">6.6 Advanced Protection Features</a>
-<ul>
-<li><a href="#x86-64-smep-supervisor-mode-execution-prevention-1" id="toc-x86-64-smep-supervisor-mode-execution-prevention-1">x86-64: SMEP (Supervisor Mode Execution Prevention)</a>
-</li>
-<li><a href="#x86-64-smap-supervisor-mode-access-prevention-1" id="toc-x86-64-smap-supervisor-mode-access-prevention-1">x86-64: SMAP (Supervisor Mode Access Prevention)</a>
-</li>
-<li><a href="#arm64-pan-privileged-access-never" id="toc-arm64-pan-privileged-access-never">ARM64: PAN (Privileged Access Never)</a>
-</li>
-<li><a href="#arm64-mte-memory-tagging-extension-1" id="toc-arm64-mte-memory-tagging-extension-1">ARM64: MTE (Memory Tagging Extension)</a>
-</li>
-<li><a href="#arm64-bti-branch-target-identification-1" id="toc-arm64-bti-branch-target-identification-1">ARM64: BTI (Branch Target Identification)</a>
-</li>
-<li><a href="#intel-mpk-memory-protection-keys" id="toc-intel-mpk-memory-protection-keys">Intel MPK (Memory Protection Keys)</a>
-</li>
-<li><a href="#comparison-advanced-features" id="toc-comparison-advanced-features">Comparison: Advanced Features</a>
-</ul></li>
-<li><a href="#6.7-protection-keys-and-domains-1" id="toc-6.7-protection-keys-and-domains-1">6.7 Protection Keys and Domains</a>
-<ul>
-<li><a href="#the-problem-mpk-solves" id="toc-the-problem-mpk-solves">The Problem MPK Solves</a>
-</li>
-<li><a href="#mpk-architecture" id="toc-mpk-architecture">MPK Architecture</a>
-</li>
-<li><a href="#protection-key-system-calls" id="toc-protection-key-system-calls">Protection Key System Calls</a>
-</li>
-<li><a href="#complete-mpk-example" id="toc-complete-mpk-example">Complete MPK Example</a>
-</li>
-<li><a href="#real-world-use-case-jit-compiler-protection" id="toc-real-world-use-case-jit-compiler-protection">Real-World Use Case: JIT Compiler Protection</a>
-</li>
-<li><a href="#mpk-performance-analysis" id="toc-mpk-performance-analysis">MPK Performance Analysis</a>
-</li>
-<li><a href="#mpk-limitations" id="toc-mpk-limitations">MPK Limitations</a>
-</li>
-<li><a href="#protection-keys-vs-other-methods" id="toc-protection-keys-vs-other-methods">Protection Keys vs Other Methods</a>
-</ul></li>
 <li><a href="#6.9-copy-on-write-cow" id="toc-6.9-copy-on-write-cow">6.9 Copy-On-Write (COW)</a>
 <ul>
 <li><a href="#the-cow-concept" id="toc-the-cow-concept">The COW Concept</a>
@@ -4115,1179 +4055,6 @@ Return to client
 <li>Optimized attestation protocols</li>
 </ul>
 <hr>
-<h2 id="6.4-privilege-levels-and-protection-rings-1">6.4 Privilege Levels and Protection Rings</h2>
-<p>Modern processors enforce privilege separation through multiple execution levels. This hierarchy ensures that critical system code runs with higher privileges than user applications, and the MMU enforces these boundaries through page table permissions.</p>
-<h3 id="the-privilege-problem">The Privilege Problem</h3>
-<p>Without privilege levels, any program could:</p>
-<ul>
-<li>Modify page tables (break isolation)</li>
-<li>Access hardware directly (bypass OS)</li>
-<li>Execute privileged instructions (halt CPU)</li>
-<li>Read/write kernel memory (steal credentials)</li>
-</ul>
-<p>Privilege levels solve this by creating a <strong>hierarchy of trust</strong>.</p>
-<h3 id="x86-64-protection-rings-1">x86-64 Protection Rings</h3>
-<p>Intel's x86 architecture implements <strong>4 privilege levels</strong> called rings:</p>
-
-<p><strong>Current Practice:</strong> Only Ring 0 (kernel) and Ring 3 (user) are used in modern OSes.</p>
-<p><strong>CPL: Current Privilege Level</strong></p>
-<p>The CPU tracks current privilege in the <strong>Code Segment selector (CS register)</strong>:</p>
-
-<p><strong>Checking CPL in x86-64:</strong></p>
-<pre><code>#include &lt;stdint.h&gt;
-
-// Get current privilege level
-uint8_t get_cpl(void) {
-    uint16_t cs;
-    asm volatile(&quot;mov %%cs, %0&quot; : &quot;=r&quot; (cs));
-    return cs &amp; 0x3;  // CPL is bits 0-1
-}
-
-// Example usage
-void show_privilege(void) {
-    uint8_t cpl = get_cpl();
-    if (cpl == 0) {
-        printf(&quot;Running in Ring 0 (kernel mode)\n&quot;);
-    } else if (cpl == 3) {
-        printf(&quot;Running in Ring 3 (user mode)\n&quot;);
-    }
-}
-</code></pre>
-<p><strong>Ring Transitions: System Calls</strong></p>
-<p>Transitioning from Ring 3 → Ring 0 requires special instructions:</p>
-<p><strong>Legacy Method (INT 0x80):</strong></p>
-<pre><code>; User space (Ring 3)
-mov eax, 1      ; syscall number (write)
-mov ebx, 1      ; fd (stdout)
-int 0x80        ; Interrupt enters Ring 0
-
-; Kernel handles interrupt at Ring 0
-; Returns to Ring 3 via IRET
-</code></pre>
-<p><strong>Modern Method (SYSCALL/SYSRET):</strong></p>
-<pre><code>; User space (Ring 3)
-mov rax, 1      ; syscall number
-mov rdi, 1      ; arg1
-syscall         ; Fast transition to Ring 0
-
-; CPU automatically:
-; - Saves RIP, RFLAGS
-; - Loads kernel CS (Ring 0)
-; - Jumps to LSTAR MSR address
-
-; Kernel returns via SYSRET
-</code></pre>
-<p><strong>Performance:</strong></p>
-<ul>
-<li><strong>INT 0x80:</strong> ~1,000 cycles (legacy)</li>
-<li><strong>SYSCALL/SYSRET:</strong> ~60-100 cycles (modern)</li>
-<li><strong>vDSO (no kernel):</strong> ~5-10 cycles (for getpid, gettimeofday)</li>
-</ul>
-<p><strong>x86-64 Privilege Checking:</strong></p>
-<pre><code>// Simplified privilege check algorithm
-bool check_ring_access(uint8_t cpl, pte_t pte, access_type_t access) {
-    // Check if page allows user access
-    bool user_page = pte &amp; PTE_U;
-    
-    if (user_page) {
-        // User page: accessible by both Ring 0 and Ring 3
-        return true;
-    } else {
-        // Supervisor page: only Ring 0 can access
-        if (cpl == 0) {
-            return true;  // Kernel can access
-        } else {
-            // Ring 3 trying to access Ring 0 page
-            return false;  // #PF (Page Fault)
-        }
-    }
-}
-</code></pre>
-<h3 id="arm64-exception-levels-1">ARM64 Exception Levels</h3>
-<p>ARM64 has a cleaner privilege model than x86's historical rings:</p>
-
-<p><strong>Key Differences from x86:</strong></p>
-<ul>
-<li><strong>4 levels</strong> (EL0-EL3) vs x86's 4 rings</li>
-<li><strong>All levels used</strong> (unlike x86's unused rings 1-2)</li>
-<li><strong>Cleaner design</strong> (no historical baggage)</li>
-<li><strong>Secure/Non-secure orthogonal</strong> to Exception Levels</li>
-</ul>
-<p><strong>Reading Current Exception Level:</strong></p>
-<pre><code>// ARM64: Get current EL
-uint8_t get_current_el(void) {
-    uint64_t currentel;
-    asm volatile(&quot;mrs %0, CurrentEL&quot; : &quot;=r&quot; (currentel));
-    return (currentel &gt;&gt; 2) &amp; 0x3;  // EL is bits 3-2
-}
-
-// Example usage
-void show_exception_level(void) {
-    uint8_t el = get_current_el();
-    const char *names[] = {&quot;EL0 (User)&quot;, &quot;EL1 (OS)&quot;, 
-                           &quot;EL2 (Hypervisor)&quot;, &quot;EL3 (Monitor)&quot;};
-    printf(&quot;Running at %s\n&quot;, names[el]);
-}
-</code></pre>
-<p><strong>EL Transitions:</strong></p>
-<pre><code>EL0 → EL1:  SVC (Supervisor Call) - syscall
-EL1 → EL2:  HVC (Hypervisor Call)
-EL2 → EL3:  SMC (Secure Monitor Call)
-
-Returns:
-EL1 → EL0:  ERET (Exception Return)
-EL2 → EL1:  ERET
-EL3 → EL2:  ERET
-</code></pre>
-<p><strong>ARM64 System Call Example:</strong></p>
-<pre><code>// User space (EL0) making syscall
-#include &lt;unistd.h&gt;
-
-// This compiles to:
-// mov x8, #64        // syscall number (write)
-// mov x0, #1         // fd
-// mov x1, buffer     // buf
-// mov x2, len        // count
-// svc #0             // Supervisor Call - enter EL1
-
-ssize_t result = write(1, buffer, len);
-</code></pre>
-<p><strong>Kernel handling syscall (EL1):</strong></p>
-<pre><code>// Linux kernel exception vector
-void el0_svc_handler(struct pt_regs *regs) {
-    // Save EL0 state (done by hardware)
-    // regs contains: x0-x30, pc, spsr_el1
-    
-    uint64_t syscall_nr = regs-&gt;regs[8];  // x8 has syscall number
-    
-    // Call appropriate syscall handler
-    regs-&gt;regs[0] = sys_call_table[syscall_nr](
-        regs-&gt;regs[0],  // x0 (arg1)
-        regs-&gt;regs[1],  // x1 (arg2)
-        regs-&gt;regs[2]   // x2 (arg3)
-        // ...
-    );
-    
-    // Return to EL0 via ERET
-    // Hardware restores EL0 state
-}
-</code></pre>
-<h3 id="risc-v-privilege-modes-1">RISC-V Privilege Modes</h3>
-<p>RISC-V has the cleanest, most minimal design:</p>
-
-<p><strong>Reading Current Privilege Mode:</strong></p>
-<pre><code>// RISC-V: Get current privilege mode
-uint8_t get_privilege_mode(void) {
-    uint64_t mstatus;
-    asm volatile(&quot;csrr %0, mstatus&quot; : &quot;=r&quot; (mstatus));
-    // MPP (Machine Previous Privilege) bits 12-11
-    return (mstatus &gt;&gt; 11) &amp; 0x3;
-}
-
-// Mode encodings:
-// 0b00 = U-mode (User)
-// 0b01 = S-mode (Supervisor)
-// 0b11 = M-mode (Machine)
-</code></pre>
-<p><strong>RISC-V Transitions:</strong></p>
-<pre><code>U → S: ECALL (Environment Call) - syscall
-S → M: ECALL
-M → S: MRET (Machine Return)
-S → U: SRET (Supervisor Return)
-</code></pre>
-<p><strong>RISC-V System Call:</strong></p>
-<pre><code>// User space (U-mode) making syscall
-static inline long syscall_riscv(long n, long arg0, long arg1) {
-    register long a7 asm(&quot;a7&quot;) = n;
-    register long a0 asm(&quot;a0&quot;) = arg0;
-    register long a1 asm(&quot;a1&quot;) = arg1;
-    
-    asm volatile(
-        &quot;ecall&quot;  // Environment Call - enter S-mode
-        : &quot;+r&quot; (a0)
-        : &quot;r&quot; (a7), &quot;r&quot; (a1)
-        : &quot;memory&quot;
-    );
-    
-    return a0;  // Return value
-}
-</code></pre>
-<h3 id="cross-architecture-comparison-2">Cross-Architecture Comparison</h3>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>x86-64</th>
-<th>ARM64</th>
-<th>RISC-V</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>**Levels**</td>
-<td>4 rings (0-3)</td>
-<td>4 ELs (0-3)</td>
-<td>3 modes (U/S/M)</td>
-</tr>
-<tr>
-<td>**Used in practice**</td>
-<td>2 (Ring 0, 3)</td>
-<td>4 (all levels)</td>
-<td>2-3 (U/S/M)</td>
-</tr>
-<tr>
-<td>**User level**</td>
-<td>Ring 3</td>
-<td>EL0</td>
-<td>U-mode</td>
-</tr>
-<tr>
-<td>**Kernel level**</td>
-<td>Ring 0</td>
-<td>EL1</td>
-<td>S-mode</td>
-</tr>
-<tr>
-<td>**Hypervisor**</td>
-<td>VMX extension</td>
-<td>EL2</td>
-<td>H-extension</td>
-</tr>
-<tr>
-<td>**Firmware**</td>
-<td>SMM</td>
-<td>EL3</td>
-<td>M-mode</td>
-</tr>
-<tr>
-<td>**Syscall instruction**</td>
-<td>SYSCALL</td>
-<td>SVC</td>
-<td>ECALL</td>
-</tr>
-<tr>
-<td>**Return instruction**</td>
-<td>SYSRET</td>
-<td>ERET</td>
-<td>SRET</td>
-</tr>
-<tr>
-<td>**Syscall overhead**</td>
-<td>60-100 cycles</td>
-<td>40-80 cycles</td>
-<td>50-100 cycles</td>
-</tr>
-<tr>
-<td>**Design philosophy**</td>
-<td>Historical evolution</td>
-<td>Clean slate (2011)</td>
-<td>Minimalist (2010s)</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="6.5-user-vs-supervisor-pages-1">6.5 User vs Supervisor Pages</h2>
-<p>The U/S (User/Supervisor) bit in page table entries is the primary mechanism for enforcing privilege-based memory isolation. This section explores how it works and its security implications.</p>
-<h3 id="the-us-bit-mechanism-1">The U/S Bit Mechanism</h3>
-<p>Every page in the system is marked as either <strong>User</strong> or <strong>Supervisor</strong>:</p>
-<p><strong>x86-64 U/S Bit (bit 2 of PTE):</strong></p>
-<pre><code>U/S = 0: Supervisor page (Ring 0 only)
-U/S = 1: User page (Ring 0 and Ring 3)
-</code></pre>
-<p><strong>ARM64 AP Bits (bits 7-6):</strong></p>
-<pre><code>AP[2:1] = 00: EL1 RW, EL0 no access (Supervisor)
-AP[2:1] = 01: EL1 RW, EL0 RW (User)
-AP[2:1] = 10: EL1 RO, EL0 no access (Supervisor read-only)
-AP[2:1] = 11: EL1 RO, EL0 RO (User read-only)
-</code></pre>
-<p><strong>RISC-V U Bit (bit 4 of PTE):</strong></p>
-<pre><code>U = 0: Supervisor mode only
-U = 1: User mode accessible
-</code></pre>
-<h3 id="memory-layout-kernel-vs-user">Memory Layout: Kernel vs User</h3>
-<p>Typical 64-bit address space split:</p>
-
-<p><strong>Key Rule:</strong> Kernel can access both User and Supervisor pages, but User can only access User pages.</p>
-<h3 id="access-rules">Access Rules</h3>
-<p><strong>From Ring 0 (Kernel):</strong></p>
-<pre><code>// Kernel (CPL=0) accessing memory
-void kernel_access_test(void) {
-    // ✓ Can read/write supervisor pages (U/S=0)
-    *kernel_data_ptr = 42;
-    
-    // ✓ Can read/write user pages (U/S=1)
-    *user_data_ptr = 99;
-    
-    // This is intentional! Kernel needs to:
-    // - Copy data to/from user space (read, write syscalls)
-    // - Validate user pointers
-    // - Access user memory safely
-}
-</code></pre>
-<p><strong>From Ring 3 (User):</strong></p>
-<pre><code>// User process (CPL=3) accessing memory
-void user_access_test(void) {
-    // ✓ Can read/write user pages (U/S=1)
-    *user_data_ptr = 42;
-    
-    // ✗ CANNOT access supervisor pages (U/S=0)
-    *kernel_data_ptr = 99;  // #PF (Page Fault)
-    
-    // This is security: prevents user from:
-    // - Reading kernel memory (steal credentials)
-    // - Modifying kernel code (rootkit)
-    // - Corrupting kernel data structures
-}
-</code></pre>
-<h3 id="kernel-page-table-isolation-kpti-1">Kernel Page-Table Isolation (KPTI)</h3>
-<p><strong>The Meltdown Vulnerability (2018):</strong></p>
-<p>Meltdown exploited speculative execution to read kernel memory from user space:</p>
-<pre><code>// Meltdown attack (simplified)
-// User space (Ring 3)
-
-// 1. Try to read kernel memory (will fault)
-uint8_t kernel_byte = *kernel_address;  // Fault, but speculative!
-
-// 2. Use the byte to touch different cache line
-uint8_t dummy = probe_array[kernel_byte * 4096];
-
-// 3. Although #PF kills the instruction, cache side effect remains!
-// 4. Measure which cache line was accessed → reveals kernel_byte
-</code></pre>
-<p><strong>Problem:</strong> Even though the access faults, speculative execution leaves cache traces.</p>
-<p><strong>KPTI Solution: Separate Page Tables</strong></p>
-<p>Before KPTI (vulnerable):</p>
-<pre><code>User space:   Uses page tables with full kernel mapping
-Kernel space: Same page tables
-
-Problem: Kernel memory visible (with U/S=0) to speculative execution
-</code></pre>
-<p>After KPTI (secure):</p>
-
-<p><strong>KPTI Implementation:</strong></p>
-<pre><code>// x86-64 KPTI: Two sets of page tables per process
-
-struct mm_struct {
-    pgd_t *pgd;               // Kernel page table
-    pgd_t *pgd_user;          // User page table (KPTI)
-};
-
-// When entering kernel (syscall, interrupt):
-void enter_kernel(void) {
-    // Switch to kernel page tables
-    write_cr3(__pa(current-&gt;mm-&gt;pgd));  // Full kernel mapping
-}
-
-// When returning to user:
-void exit_to_usermode(void) {
-    // Switch to user page tables
-    write_cr3(__pa(current-&gt;mm-&gt;pgd_user));  // Minimal kernel mapping
-}
-</code></pre>
-<p><strong>KPTI Performance Cost:</strong></p>
-<pre><code>// Benchmark: System call overhead
-
-// Without KPTI:
-// getpid(): ~100 cycles (no CR3 change)
-
-// With KPTI:
-// getpid(): ~150-200 cycles (CR3 change + TLB flush)
-
-// Overhead: 5-30% depending on syscall frequency
-// Workloads affected:
-// - High syscall rate: 20-30%
-// - Network servers: 10-15%
-// - Compute-heavy: &lt;5%
-</code></pre>
-<p><strong>When KPTI is Needed:</strong></p>
-<pre><code>// Check if CPU is vulnerable to Meltdown
-bool needs_kpti(void) {
-    // Intel CPUs before 10th gen: YES (vulnerable)
-    // AMD CPUs: NO (not vulnerable)
-    // ARM Cortex-A75: YES (vulnerable)
-    // RISC-V: NO (not vulnerable)
-    
-    // Check CPUID for mitigation
-    uint32_t eax, ebx, ecx, edx;
-    cpuid(7, 0, &amp;eax, &amp;ebx, &amp;ecx, &amp;edx);
-    return !(edx &amp; (1 &lt;&lt; 10));  // RDCL_NO bit = not vulnerable
-}
-</code></pre>
-<p><strong>Modern Mitigation:</strong> Intel 10th gen+ includes hardware fix (RDCL_NO bit set).</p>
-<h3 id="smap-and-smep-preview">SMAP and SMEP (Preview)</h3>
-<p>These features make kernel access to user memory more restrictive (covered in 6.6):</p>
-<p><strong>SMEP:</strong> Kernel cannot <strong>execute</strong> user pages <strong>SMAP:</strong> Kernel cannot <strong>access</strong> user pages (without explicit override)</p>
-<p>This prevents <strong>ret2usr</strong> attacks where kernel jumps to malicious user-space code.</p>
-<h3 id="code-example-setting-us-bit">Code Example: Setting U/S Bit</h3>
-<pre><code>// x86-64: Creating user vs kernel pages
-#define PTE_P    0x001  // Present
-#define PTE_W    0x002  // Writable
-#define PTE_U    0x004  // User
-#define PTE_NX   (1ULL &lt;&lt; 63)  // No Execute
-
-// Kernel code page (R-X, Ring 0 only)
-pte_t make_kernel_code_pte(phys_addr_t pa) {
-    return pa | PTE_P;  // U/S=0, XD=0
-}
-
-// Kernel data page (RW-, Ring 0 only)
-pte_t make_kernel_data_pte(phys_addr_t pa) {
-    return pa | PTE_P | PTE_W | PTE_NX;  // U/S=0, XD=1
-}
-
-// User code page (R-X, Ring 3 accessible)
-pte_t make_user_code_pte(phys_addr_t pa) {
-    return pa | PTE_P | PTE_U;  // U/S=1, XD=0
-}
-
-// User data page (RW-, Ring 3 accessible)
-pte_t make_user_data_pte(phys_addr_t pa) {
-    return pa | PTE_P | PTE_W | PTE_U | PTE_NX;  // U/S=1, XD=1
-}
-</code></pre>
-<p><strong>Kernel Address Space Setup:</strong></p>
-<pre><code>// Linux kernel page table setup (simplified)
-void setup_kernel_pagetables(void) {
-    // Kernel text (.text section)
-    for (addr = __START_KERNEL_TEXT; addr &lt; __END_KERNEL_TEXT; 
-         addr += PAGE_SIZE) {
-        pte_t *pte = get_pte(addr);
-        *pte = make_kernel_code_pte(virt_to_phys(addr));
-        // Result: Ring 0 only, executable, read-only
-    }
-    
-    // Kernel data (.data, .bss sections)
-    for (addr = __START_KERNEL_DATA; addr &lt; __END_KERNEL_DATA; 
-         addr += PAGE_SIZE) {
-        pte_t *pte = get_pte(addr);
-        *pte = make_kernel_data_pte(virt_to_phys(addr));
-        // Result: Ring 0 only, not executable, read-write
-    }
-    
-    // User space (set up by execve)
-    // Will have U/S=1 (user accessible)
-}
-</code></pre>
-<hr>
-<h2 id="6.6-advanced-protection-features-1">6.6 Advanced Protection Features</h2>
-<p>Modern processors provide sophisticated security features beyond basic permission bits. This section explores SMEP, SMAP, Memory Tagging, Protection Keys, and other advanced mechanisms.</p>
-<h3 id="x86-64-smep-supervisor-mode-execution-prevention-1">x86-64: SMEP (Supervisor Mode Execution Prevention)</h3>
-<p><strong>Problem:</strong> ret2usr attacks</p>
-<p>Before SMEP, if kernel had a bug allowing RIP control:</p>
-<pre><code>// Kernel vulnerability
-void kernel_function(void *user_ptr) {
-    void (*func)() = user_ptr;  // Attacker controls!
-    func();  // Executes user-space code in Ring 0!
-}
-</code></pre>
-<p><strong>SMEP Solution:</strong> Kernel <strong>cannot execute</strong> pages with U/S=1</p>
-<pre><code>CR4.SMEP = 1 (bit 20)
-
-Effect: If CPL=0 and page has U/S=1:
-  - Attempts to fetch instructions → #PF
-  - Prevents kernel executing user-mode code
-</code></pre>
-<p><strong>Checking SMEP Support:</strong></p>
-<pre><code>#include &lt;cpuid.h&gt;
-
-bool has_smep(void) {
-    uint32_t eax, ebx, ecx, edx;
-    __cpuid(7, eax, ebx, ecx, edx);
-    return (ebx &amp; (1 &lt;&lt; 7)) != 0;  // SMEP bit
-}
-
-void enable_smep(void) {
-    // Set CR4.SMEP (bit 20)
-    uint64_t cr4;
-    asm volatile(&quot;mov %%cr4, %0&quot; : &quot;=r&quot; (cr4));
-    cr4 |= (1UL &lt;&lt; 20);
-    asm volatile(&quot;mov %0, %%cr4&quot; :: &quot;r&quot; (cr4));
-}
-</code></pre>
-<p><strong>Impact:</strong> Prevents entire class of ret2usr exploits with <1% performance cost.</p>
-<h3 id="x86-64-smap-supervisor-mode-access-prevention-1">x86-64: SMAP (Supervisor Mode Access Prevention)</h3>
-<p><strong>Problem:</strong> Kernel can read/write user pages (by design), but bugs can be exploited</p>
-<p>SMAP goes further than SMEP: kernel <strong>cannot access</strong> user pages at all (unless explicitly allowed).</p>
-<pre><code>CR4.SMAP = 1 (bit 21)
-
-Effect: If CPL=0 and page has U/S=1:
-  - Read/Write access → #PF
-  - Unless EFLAGS.AC = 1 (explicit override)
-</code></pre>
-<p><strong>Intentional Kernel Access:</strong></p>
-<p>Kernel still needs to access user memory for syscalls (copy_to_user, copy_from_user):</p>
-<pre><code>// Safe user memory access with SMAP
-void copy_to_user_safe(void *user_dst, const void *kernel_src, size_t len) {
-    // Set AC flag to allow access
-    stac();  // Set EFLAGS.AC = 1
-    
-    // Now can access user memory
-    memcpy(user_dst, kernel_src, len);
-    
-    // Clear AC flag
-    clac();  // Clear EFLAGS.AC = 0
-}
-
-// stac/clac are special instructions:
-static inline void stac(void) {
-    asm volatile(&quot;stac&quot; ::: &quot;cc&quot;);  // Set AC
-}
-
-static inline void clac(void) {
-    asm volatile(&quot;clac&quot; ::: &quot;cc&quot;);  // Clear AC
-}
-</code></pre>
-<p><strong>SMAP Benefits:</strong></p>
-<ul>
-<li>Prevents unintentional user memory access</li>
-<li>Forces explicit checking of user pointers</li>
-<li>Catches kernel bugs that dereference user pointers</li>
-</ul>
-<p><strong>Performance:</strong> <1% overhead (few extra instructions in syscall paths)</p>
-<h3 id="arm64-pan-privileged-access-never">ARM64: PAN (Privileged Access Never)</h3>
-<p>ARM64's equivalent to SMAP is cleaner:</p>
-<pre><code>PSTATE.PAN bit
-
-PAN = 1: EL1/EL2 cannot access EL0 pages
-PAN = 0: EL1/EL2 can access EL0 pages (temporarily)
-</code></pre>
-<p><strong>UAO (Unprivileged Access Override):</strong></p>
-<p>For intentional access:</p>
-<pre><code>// ARM64: Safe user memory access
-void copy_to_user_arm(void *user_dst, const void *kernel_src, size_t len) {
-    // Enable unprivileged access
-    uao_set();  // Or: set_fs(USER_DS)
-    
-    memcpy(user_dst, kernel_src, len);
-    
-    // Disable unprivileged access
-    uao_clear();
-}
-</code></pre>
-<h3 id="arm64-mte-memory-tagging-extension-1">ARM64: MTE (Memory Tagging Extension)</h3>
-<p>MTE is ARM's revolutionary memory safety feature (ARMv8.5-A+):</p>
-<p><strong>Concept:</strong> Add 4-bit <strong>tag</strong> to every 16 bytes of memory</p>
-<pre><code>Virtual Address (64 bits):
-┌──────────┬──────────────────────────────┐
-│ Tag(4bit)│  Address (bits 55-0)          │
-│(bits63-60)│                              │
-└──────────┴──────────────────────────────┘
-
-Physical Memory:
-Every 16-byte granule has 4-bit tag stored separately
-</code></pre>
-<p><strong>How MTE Works:</strong></p>
-<pre><code>// Allocation with MTE
-void *ptr = malloc(size);
-
-// CPU generates random 4-bit tag
-// Stores tag in:
-// 1. Upper 4 bits of pointer
-// 2. Tag memory for allocated region
-
-// Access check:
-*ptr = value;
-// CPU compares:
-// - Tag in pointer (bits 63-60)
-// - Tag in physical memory
-// If mismatch → Synchronous exception (SIGSEGV)
-</code></pre>
-<p><strong>Use Cases:</strong></p>
-<p><strong>1. Use-After-Free Detection:</strong></p>
-<pre><code>int *ptr = malloc(sizeof(int));  // Tag = 0x5
-*ptr = 42;                        // ✓ Tag matches
-
-free(ptr);                        // Allocation freed
-// Free changes tag to 0x7
-
-*ptr = 99;                        // ✗ Tag mismatch! (0x5 vs 0x7)
-// MTE fault!
-</code></pre>
-<p><strong>2. Buffer Overflow Detection:</strong></p>
-<pre><code>char buf[16];  // Tag = 0x3
-// Next 16 bytes have tag = 0x9
-
-buf[20] = &#x27;X&#x27;;  // Overflow!
-// Pointer has tag 0x3, but physical memory at buf+20 has tag 0x9
-// MTE fault!
-</code></pre>
-<p><strong>MTE Code Example:</strong></p>
-<pre><code>#include &lt;arm_acle.h&gt;
-
-// Enable MTE for allocation
-void *mte_malloc(size_t size) {
-    void *ptr = malloc(size);
-    
-    // Generate and insert random tag
-    ptr = __arm_mte_create_random_tag(ptr, 0);
-    
-    // Set tag in physical memory
-    __arm_mte_set_tag(ptr);
-    
-    return ptr;
-}
-
-// Tagged memory access
-void mte_test(void) {
-    int *ptr = mte_malloc(sizeof(int));
-    
-    *ptr = 42;  // ✓ Tag in pointer matches tag in memory
-    
-    // Corrupt pointer tag
-    int *bad_ptr = (int*)((uintptr_t)ptr ^ (1ULL &lt;&lt; 60));
-    
-    *bad_ptr = 99;  // ✗ MTE fault! Tag mismatch
-}
-</code></pre>
-<p><strong>MTE Modes:</strong></p>
-<pre><code>Synchronous: Fault immediately on tag mismatch
-Asynchronous: Fault reported later (lower overhead)
-Asymmetric: Synchronous reads, Asynchronous writes
-</code></pre>
-<p><strong>MTE Performance:</strong></p>
-<ul>
-<li>Synchronous: ~10-15% overhead</li>
-<li>Asynchronous: ~3-7% overhead</li>
-<li>Memory overhead: 3.125% (4 bits per 16 bytes)</li>
-</ul>
-<p><strong>MTE Limitations:</strong></p>
-<ul>
-<li>Only detects spatial/temporal errors (not all bugs)</li>
-<li>4-bit tags = 1/16 chance of false negative</li>
-<li>Requires ARMv8.5-A+ hardware (recent CPUs)</li>
-</ul>
-<h3 id="arm64-bti-branch-target-identification-1">ARM64: BTI (Branch Target Identification)</h3>
-<p>BTI protects against <strong>ROP/JOP attacks</strong> using "landing pad" instructions:</p>
-<pre><code>// Without BTI: Any instruction is valid jump target
-void function() {
-    // Attacker can jump to middle of function
-    some_instruction();  // ROP gadget!
-    another_instruction();
-}
-
-// With BTI: Only BTI instructions are valid targets
-void function() {
-    bti c;  // Branch Target Identification (landing pad)
-    
-    // Now: Attacker MUST land on BTI instruction
-    // Jumping to middle → fault!
-    some_instruction();
-    another_instruction();
-}
-</code></pre>
-<p><strong>BTI Instructions:</strong></p>
-<pre><code>bti     ; Generic landing pad
-bti c   ; Call target (BL, BLR)
-bti j   ; Jump target (BR, RET)
-bti jc  ; Call or jump target
-</code></pre>
-<p><strong>BTI Protection:</strong></p>
-<pre><code>// Compiler generates BTI at function entry
-void my_function(int arg) {
-    // Compiler adds: bti c
-    
-    // Function body
-    return arg * 2;
-}
-
-// Indirect call
-void (*fptr)(int) = my_function;
-fptr(42);  // ✓ Lands on BTI, allowed
-
-// ROP attack attempts jump to middle
-// ✗ No BTI at target → SIGILL (Illegal Instruction)
-</code></pre>
-<h3 id="intel-mpk-memory-protection-keys">Intel MPK (Memory Protection Keys)</h3>
-<p>Protection Keys enable <strong>fast domain switching</strong> without modifying page tables:</p>
-<p><strong>Concept:</strong> 16 protection domains, each with R/W permissions</p>
-<pre><code>Page Table Entry:
-┌─────────────────────────────────────────┬──────┐
-│  Physical Address, Flags                │ PKEY │
-│                                         │(4bit)│
-└─────────────────────────────────────────┴──────┘
-
-PKRU Register (32 bits):
-┌───┬───┬───┬───┬───┬───┬───┬───────────┐
-│K15│K14│...│K1 │K0 │   (16 keys)       │
-└───┴───┴───┴───┴───┴───┴───┴───────────┘
-Each key: 2 bits (Disable Access, Disable Write)
-</code></pre>
-<p><strong>Protection Key Operations:</strong></p>
-<pre><code>#include &lt;sys/mman.h&gt;
-
-// Allocate protection key
-int pkey = pkey_alloc(0, PKEY_DISABLE_ACCESS);
-
-// Protect memory with key
-void *ptr = mmap(NULL, size, PROT_READ|PROT_WRITE, 
-                 MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-pkey_mprotect(ptr, size, PROT_READ|PROT_WRITE, pkey);
-
-// Initially: Key disabled, access → SIGSEGV
-
-// Enable access (fast - just WRPKRU instruction)
-pkey_set(pkey, 0);  // Enable read/write
-
-*ptr = 42;  // ✓ Access allowed
-
-// Disable access
-pkey_set(pkey, PKEY_DISABLE_ACCESS);
-
-*ptr = 99;  // ✗ SIGSEGV - key disabled
-</code></pre>
-<p><strong>WRPKRU Performance:</strong></p>
-<pre><code>// Benchmark: Protection switching
-void benchmark_mpk(void) {
-    // Page table method (mprotect)
-    uint64_t start = rdtsc();
-    for (int i = 0; i &lt; 1000; i++) {
-        mprotect(ptr, size, PROT_NONE);
-        mprotect(ptr, size, PROT_READ|PROT_WRITE);
-    }
-    uint64_t mprotect_cycles = (rdtsc() - start) / 2000;
-    
-    // Protection keys (WRPKRU)
-    start = rdtsc();
-    for (int i = 0; i &lt; 1000; i++) {
-        pkey_set(pkey, PKEY_DISABLE_ACCESS);
-        pkey_set(pkey, 0);
-    }
-    uint64_t mpk_cycles = (rdtsc() - start) / 2000;
-    
-    printf(&quot;mprotect:  %lu cycles\n&quot;, mprotect_cycles);  // ~15,000
-    printf(&quot;WRPKRU:    %lu cycles\n&quot;, mpk_cycles);       // ~25-50
-    printf(&quot;Speedup:   %.0fx\n&quot;, (double)mprotect_cycles / mpk_cycles);
-}
-
-// Result: MPK is 300-600× faster than mprotect!
-</code></pre>
-<p><strong>MPK Use Cases:</strong></p>
-<ul>
-<li><strong>JIT Compilers:</strong> Protect code pages except during compilation</li>
-<li><strong>Library Sandboxing:</strong> Isolate library memory</li>
-<li><strong>Signal Handlers:</strong> Protect signal stacks</li>
-<li><strong>In-process Isolation:</strong> Fast domain switching</li>
-</ul>
-<h3 id="comparison-advanced-features">Comparison: Advanced Features</h3>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Platform</th>
-<th>Protection</th>
-<th>Overhead</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>**SMEP**</td>
-<td>x86-64</td>
-<td>Kernel can't execute user pages</td>
-<td><1%</td>
-<td>Shipping (2011+)</td>
-</tr>
-<tr>
-<td>**SMAP**</td>
-<td>x86-64</td>
-<td>Kernel can't access user pages</td>
-<td><1%</td>
-<td>Shipping (2014+)</td>
-</tr>
-<tr>
-<td>**PAN**</td>
-<td>ARM64</td>
-<td>EL1 can't access EL0 pages</td>
-<td><1%</td>
-<td>Shipping (ARMv8.1)</td>
-</tr>
-<tr>
-<td>**MTE**</td>
-<td>ARM64</td>
-<td>Spatial/temporal memory safety</td>
-<td>3-15%</td>
-<td>Shipping (ARMv8.5+)</td>
-</tr>
-<tr>
-<td>**BTI**</td>
-<td>ARM64</td>
-<td>Control-flow integrity</td>
-<td><1%</td>
-<td>Shipping (ARMv8.5+)</td>
-</tr>
-<tr>
-<td>**MPK**</td>
-<td>x86-64</td>
-<td>Fast domain switching</td>
-<td><1%</td>
-<td>Shipping (Skylake-SP+)</td>
-</tr>
-<tr>
-<td>**CET**</td>
-<td>x86-64</td>
-<td>Shadow stack, IBT</td>
-<td>2-5%</td>
-<td>Shipping (11th gen+)</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id="6.7-protection-keys-and-domains-1">6.7 Protection Keys and Domains</h2>
-<p>Intel Memory Protection Keys (MPK) deserve deeper exploration as they represent a new paradigm: security without page table modifications.</p>
-<h3 id="the-problem-mpk-solves">The Problem MPK Solves</h3>
-<p>Traditional memory protection via page tables has high overhead:</p>
-<pre><code>// Traditional approach: mprotect
-void protect_memory(void *ptr, size_t size) {
-    mprotect(ptr, size, PROT_NONE);  // ~15,000 cycles
-    // - Modify page tables
-    // - TLB shootdown on all CPUs
-    // - Expensive!
-}
-
-void unprotect_memory(void *ptr, size_t size) {
-    mprotect(ptr, size, PROT_READ|PROT_WRITE);  // ~15,000 cycles
-}
-
-// For frequent protection changes: prohibitively expensive!
-</code></pre>
-<p><strong>MPK Solution:</strong> Store protection in <strong>CPU register</strong>, not page tables</p>
-<h3 id="mpk-architecture">MPK Architecture</h3>
-<p><strong>Three Components:</strong></p>
-<ol>
-<li><strong>Protection Key in PTE (4 bits):</strong></li>
-</ol>
-<pre><code>x86-64 PTE (bits 62-59): PKEY[3:0]
-  - 16 possible keys (0-15)
-  - Key 0: default (always accessible)
-</code></pre>
-<ol>
-<li><strong>PKRU Register (32 bits in user-space):</strong></li>
-</ol>
-<pre><code>PKRU Layout:
-Bits 31-30: Key 15 (AD, WD)
-Bits 29-28: Key 14 (AD, WD)
-...
-Bits 3-2:   Key 1  (AD, WD)
-Bits 1-0:   Key 0  (AD, WD)
-
-AD: Access Disable
-WD: Write Disable
-</code></pre>
-<ol>
-<li><strong>WRPKRU/RDPKRU Instructions:</strong></li>
-</ol>
-<pre><code>; Write Protection Key Rights for Userspace
-mov eax, new_pkru_value
-xor ecx, ecx
-xor edx, edx
-wrpkru          ; 25-50 cycles
-
-; Read current value
-xor ecx, ecx
-rdpkru          ; Returns in EAX
-</code></pre>
-<h3 id="protection-key-system-calls">Protection Key System Calls</h3>
-<pre><code>#include &lt;sys/mman.h&gt;
-#include &lt;unistd.h&gt;
-
-// 1. Allocate a protection key
-int pkey_alloc(unsigned int flags, unsigned int access_rights);
-  // Returns: key number (1-15), or -1 on error
-  // flags: 0 (reserved for future)
-  // access_rights: Initial PKEY_DISABLE_ACCESS | PKEY_DISABLE_WRITE
-
-// 2. Associate memory with protection key
-int pkey_mprotect(void *addr, size_t len, int prot, int pkey);
-  // Like mprotect, but also sets PKEY in PTE
-
-// 3. Change protection key rights
-int pkey_set(int pkey, unsigned int access_rights);
-  // Fast! Just WRPKRU instruction
-
-// 4. Query protection key rights
-int pkey_get(int pkey);
-  // Fast! Just RDPKRU instruction
-
-// 5. Free protection key
-int pkey_free(int pkey);
-</code></pre>
-<h3 id="complete-mpk-example">Complete MPK Example</h3>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/mman.h&gt;
-#include &lt;signal.h&gt;
-#include &lt;string.h&gt;
-
-#define PAGE_SIZE 4096
-
-void segv_handler(int sig, siginfo_t *si, void *unused) {
-    printf(&quot;Caught SIGSEGV at address %p\n&quot;, si-&gt;si_addr);
-    printf(&quot;Protection key violation!\n&quot;);
-    exit(1);
-}
-
-int main(void) {
-    // Setup signal handler
-    struct sigaction sa;
-    sa.sa_flags = SA_SIGINFO;
-    sigemptyset(&amp;sa.sa_mask);
-    sa.sa_sigaction = segv_handler;
-    sigaction(SIGSEGV, &amp;sa, NULL);
-    
-    // 1. Allocate protection key (start disabled)
-    int pkey = pkey_alloc(0, PKEY_DISABLE_ACCESS);
-    if (pkey == -1) {
-        perror(&quot;pkey_alloc&quot;);
-        return 1;
-    }
-    printf(&quot;Allocated protection key: %d\n&quot;, pkey);
-    
-    // 2. Allocate memory
-    void *ptr = mmap(NULL, PAGE_SIZE, PROT_READ|PROT_WRITE,
-                     MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-    if (ptr == MAP_FAILED) {
-        perror(&quot;mmap&quot;);
-        return 1;
-    }
-    
-    // 3. Associate memory with protection key
-    if (pkey_mprotect(ptr, PAGE_SIZE, PROT_READ|PROT_WRITE, pkey) != 0) {
-        perror(&quot;pkey_mprotect&quot;);
-        return 1;
-    }
-    
-    // 4. Try to access (currently disabled)
-    printf(&quot;Memory allocated at %p with pkey %d\n&quot;, ptr, pkey);
-    printf(&quot;Attempting access with protection key disabled...\n&quot;);
-    
-    // This would fault:
-    // strcpy(ptr, &quot;test&quot;);  // SIGSEGV!
-    
-    // 5. Enable access (FAST - just WRPKRU)
-    printf(&quot;Enabling access...\n&quot;);
-    pkey_set(pkey, 0);  // Enable read/write
-    
-    // 6. Now can access
-    strcpy(ptr, &quot;Hello, MPK!&quot;);
-    printf(&quot;Successfully wrote: %s\n&quot;, (char*)ptr);
-    
-    // 7. Make read-only (disable write)
-    printf(&quot;Making read-only...\n&quot;);
-    pkey_set(pkey, PKEY_DISABLE_WRITE);
-    
-    // Can read
-    printf(&quot;Can still read: %s\n&quot;, (char*)ptr);
-    
-    // Cannot write (would fault)
-    // strcpy(ptr, &quot;Modified&quot;);  // SIGSEGV!
-    
-    // 8. Disable all access
-    printf(&quot;Disabling all access...\n&quot;);
-    pkey_set(pkey, PKEY_DISABLE_ACCESS);
-    
-    // Cannot read or write
-    // printf(&quot;%s\n&quot;, (char*)ptr);  // SIGSEGV!
-    
-    // 9. Re-enable for cleanup
-    pkey_set(pkey, 0);
-    
-    // Cleanup
-    munmap(ptr, PAGE_SIZE);
-    pkey_free(pkey);
-    
-    printf(&quot;Success! No violations.\n&quot;);
-    return 0;
-}
-</code></pre>
-<h3 id="real-world-use-case-jit-compiler-protection">Real-World Use Case: JIT Compiler Protection</h3>
-<pre><code>// Protecting JIT-compiled code
-
-struct jit_region {
-    void *code;
-    size_t size;
-    int pkey;
-};
-
-struct jit_region* create_jit_region(size_t size) {
-    struct jit_region *region = malloc(sizeof(*region));
-    
-    // Allocate protection key (start writable)
-    region-&gt;pkey = pkey_alloc(0, 0);
-    
-    // Allocate RWX memory (initially writable for JIT compilation)
-    region-&gt;code = mmap(NULL, size, PROT_READ|PROT_WRITE|PROT_EXEC,
-                        MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-    region-&gt;size = size;
-    
-    // Associate with protection key
-    pkey_mprotect(region-&gt;code, size, PROT_READ|PROT_WRITE|PROT_EXEC, 
-                  region-&gt;pkey);
-    
-    return region;
-}
-
-void jit_compile_function(struct jit_region *region, const uint8_t *bytecode) {
-    // Enable write access (FAST - ~25 cycles)
-    pkey_set(region-&gt;pkey, 0);
-    
-    // Compile bytecode to native code
-    generate_native_code(region-&gt;code, bytecode);
-    
-    // Disable write access (FAST - ~25 cycles)
-    pkey_set(region-&gt;pkey, PKEY_DISABLE_WRITE);
-    
-    // Code now read-only + executable, cannot be modified
-}
-
-void jit_execute_function(struct jit_region *region, int arg) {
-    // Code is read-only, can execute safely
-    int (*func)(int) = (int (*)(int))region-&gt;code;
-    
-    int result = func(arg);  // Execute JIT code
-    
-    // Attacker cannot modify code (write-protected by MPK)
-}
-</code></pre>
-<p><strong>Benefits:</strong></p>
-<ul>
-<li>Write protection during execution: ~50 cycles (MPK)</li>
-<li>vs mprotect: ~15,000 cycles</li>
-<li><strong>300× faster</strong> protection switching!</li>
-</ul>
-<h3 id="mpk-performance-analysis">MPK Performance Analysis</h3>
-<pre><code>// Detailed performance benchmark
-void benchmark_mpk_detailed(void) {
-    void *ptr = mmap(NULL, PAGE_SIZE, PROT_READ|PROT_WRITE,
-                     MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-    int pkey = pkey_alloc(0, 0);
-    pkey_mprotect(ptr, PAGE_SIZE, PROT_READ|PROT_WRITE, pkey);
-    
-    const int iterations = 1000000;
-    
-    // 1. RDPKRU (read)
-    uint64_t start = rdtsc();
-    for (int i = 0; i &lt; iterations; i++) {
-        volatile int val = pkey_get(pkey);
-    }
-    printf(&quot;RDPKRU:    %lu cycles\n&quot;, (rdtsc() - start) / iterations);
-    // Result: ~15-25 cycles
-    
-    // 2. WRPKRU (write)
-    start = rdtsc();
-    for (int i = 0; i &lt; iterations; i++) {
-        pkey_set(pkey, i &amp; 1 ? PKEY_DISABLE_ACCESS : 0);
-    }
-    printf(&quot;WRPKRU:    %lu cycles\n&quot;, (rdtsc() - start) / iterations);
-    // Result: ~25-50 cycles
-    
-    // 3. Memory access after WRPKRU (check TLB impact)
-    pkey_set(pkey, 0);  // Enable
-    start = rdtsc();
-    for (int i = 0; i &lt; iterations; i++) {
-        *(volatile int*)ptr = i;
-    }
-    uint64_t enabled_access = (rdtsc() - start) / iterations;
-    printf(&quot;Access (enabled): %lu cycles\n&quot;, enabled_access);
-    
-    // 4. Compare to mprotect
-    start = rdtsc();
-    for (int i = 0; i &lt; 1000; i++) {
-        mprotect(ptr, PAGE_SIZE, PROT_NONE);
-        mprotect(ptr, PAGE_SIZE, PROT_READ|PROT_WRITE);
-    }
-    printf(&quot;mprotect:  %lu cycles\n&quot;, (rdtsc() - start) / 2000);
-    // Result: ~12,000-18,000 cycles
-}
-</code></pre>
-<p><strong>Results Summary:</strong></p>
-<ul>
-<li><strong>RDPKRU:</strong> 15-25 cycles</li>
-<li><strong>WRPKRU:</strong> 25-50 cycles</li>
-<li><strong>mprotect:</strong> 12,000-18,000 cycles</li>
-<li><strong>Speedup:</strong> 300-700×</li>
-</ul>
-<h3 id="mpk-limitations">MPK Limitations</h3>
-<ol>
-<li><strong>Only 16 Keys:</strong></li>
-</ol>
-<ul>
-<li>Key 0 is default (always accessible)</li>
-<li>Effectively 15 usable keys</li>
-<li>Limits number of protection domains</li>
-</ul>
-<ol>
-<li><strong>User-Space Only:</strong></li>
-</ol>
-<ul>
-<li>Cannot protect kernel memory</li>
-<li>PKRU is per-thread (user-level register)</li>
-</ul>
-<ol>
-<li><strong>No Kernel Enforcement:</strong></li>
-</ol>
-<ul>
-<li>Kernel can write PKRU directly</li>
-<li>Malicious code can disable protection</li>
-<li>Need additional software checks</li>
-</ul>
-<ol>
-<li><strong>x86-64 Only:</strong></li>
-</ol>
-<ul>
-<li>Not available on ARM64, RISC-V</li>
-<li>ARM has different mechanisms (MTE, tagged memory)</li>
-</ul>
-<ol>
-<li><strong>Limited Page Table Integration:</strong></li>
-</ol>
-<ul>
-<li>Cannot use with KPTI user pages</li>
-<li>Some interactions with SMAP/SMEP unclear</li>
-</ul>
-<h3 id="protection-keys-vs-other-methods">Protection Keys vs Other Methods</h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Protection Change Time</th>
-<th>Use Case</th>
-<th>Platforms</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>**mprotect**</td>
-<td>~15,000 cycles</td>
-<td>Infrequent changes</td>
-<td>All</td>
-</tr>
-<tr>
-<td>**MPK**</td>
-<td>~25-50 cycles</td>
-<td>Frequent changes</td>
-<td>x86-64 only</td>
-</tr>
-<tr>
-<td>**ARM MTE**</td>
-<td>Always-on checking</td>
-<td>Memory safety</td>
-<td>ARM64 v8.5+</td>
-</tr>
-<tr>
-<td>**Segmentation**</td>
-<td>Fast (LDT/GDT)</td>
-<td>Legacy (deprecated)</td>
-<td>x86-64</td>
-</tr>
-<tr>
-<td>**Multiple page tables**</td>
-<td>CR3 switch (~1000 cycles)</td>
-<td>Process isolation</td>
-<td>All</td>
-</tr>
-</tbody>
-</table>
-<hr>
 <h2 id="6.9-copy-on-write-cow">6.9 Copy-On-Write (COW)</h2>
 <p>Copy-On-Write is a memory optimization that leverages page-level protection to defer expensive memory copies until absolutely necessary. It's fundamental to efficient process creation and memory management.</p>
 <h3 id="the-cow-concept">The COW Concept</h3>
@@ -7948,803 +6715,783 @@ if (prove_secure(security_monitor)) {
 
 (function() {
   var CHAPTERS = [
-  {
-    "num": 1,
-    "file": "chapter-01-WITH-FIGURES.html",
-    "short": "Memory Management Basics",
-    "sections": [
-      {
-        "text": "1.1 Introduction: Why Virtual Memory Exists",
-        "id": "introduction-why-virtual-memory-exists"
-      },
-      {
-        "text": "1.2 What is Memory Management?",
-        "id": "what-is-memory-management"
-      },
-      {
-        "text": "1.3 The Evolution of Memory Management",
-        "id": "the-evolution-of-memory-management"
-      },
-      {
-        "text": "1.4 Hierarchical Levels of Memory Management",
-        "id": "hierarchical-levels-of-memory-management"
-      },
-      {
-        "text": "1.5 The Virtual Memory Abstraction",
-        "id": "the-virtual-memory-abstraction"
-      },
-      {
-        "text": "1.6 Key Concepts and Terminology",
-        "id": "key-concepts-and-terminology"
-      },
-      {
-        "text": "1.7 A Concrete Example: Address Translation",
-        "id": "a-concrete-example-address-translation"
-      },
-      {
-        "text": "1.8 The Translation Lookaside Buffer (TLB)",
-        "id": "the-translation-lookaside-buffer-tlb"
-      },
-      {
-        "text": "1.9 Multi-Level Page Tables",
-        "id": "multi-level-page-tables"
-      },
-      {
-        "text": "1.10 Why MMU Matters: Real-World Impact",
-        "id": "why-mmu-matters-real-world-impact"
-      },
-      {
-        "text": "1.12 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 2,
-    "file": "chapter-02-WITH-FIGURES.html",
-    "short": "Virtual Memory Concepts",
-    "sections": [
-      {
-        "text": "2.1 Introduction: The Illusion of Unlimited Memory",
-        "id": "introduction-the-illusion-of-unlimited-memory"
-      },
-      {
-        "text": "2.2 Demand Paging: Loading Pages on Demand",
-        "id": "demand-paging-loading-pages-on-demand"
-      },
-      {
-        "text": "2.3 Page Replacement Algorithms",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "2.4 Thrashing and the Working Set Model",
-        "id": "thrashing-and-the-working-set-model"
-      },
-      {
-        "text": "2.5 Copy-on-Write (COW)",
-        "id": "copy-on-write-cow"
-      },
-      {
-        "text": "2.6 Memory-Mapped Files",
-        "id": "memory-mapped-files"
-      },
-      {
-        "text": "2.7 Advanced Topics",
-        "id": "advanced-topics"
-      },
-      {
-        "text": "2.8 Performance Optimization Strategies",
-        "id": "performance-optimization-strategies"
-      },
-      {
-        "text": "2.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 3,
-    "file": "chapter-03-WITH-FIGURES.html",
-    "short": "Page Table Structures and Implementation",
-    "sections": [
-      {
-        "text": "3.1 Introduction",
-        "id": "3.1-introduction"
-      },
-      {
-        "text": "3.2 Single-Level Page Tables: The Simplest Approach",
-        "id": "3.2-single-level-page-tables-the-simplest-approach"
-      },
-      {
-        "text": "3.3 Two-Level Page Tables",
-        "id": "3.3-two-level-page-tables"
-      },
-      {
-        "text": "3.4 Multi-Level Page Tables (3+ Levels)",
-        "id": "3.4-multi-level-page-tables-3-levels"
-      },
-      {
-        "text": "3.6 Virtualization: Two-Stage Address Translation",
-        "id": "3.6-virtualization-two-stage-address-translation"
-      },
-      {
-        "text": "3.7 What Gets Cached: TLB and Page Walk Caches",
-        "id": "3.7-what-gets-cached-tlb-and-page-walk-caches"
-      },
-      {
-        "text": "3.8 Hardware Page Table Walker",
-        "id": "3.8-hardware-page-table-walker"
-      },
-      {
-        "text": "3.9 Page Table Management from the OS Perspective",
-        "id": "3.9-page-table-management-from-the-os-perspective"
-      },
-      {
-        "text": "3.10 Design Trade-offs",
-        "id": "3.10-design-trade-offs"
-      },
-      {
-        "text": "3.11 Chapter Summary",
-        "id": "3.11-chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 4,
-    "file": "chapter-04-WITH-FIGURES.html",
-    "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
-    "sections": [
-      {
-        "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
-        "id": "introduction-the-most-critical-cache-youve-never-heard-of"
-      },
-      {
-        "text": "4.2 TLB Architecture and Organization",
-        "id": "tlb-architecture-and-organization"
-      },
-      {
-        "text": "4.3 TLB Management: Hardware vs Software",
-        "id": "tlb-management-hardware-vs-software"
-      },
-      {
-        "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
-        "id": "address-space-identifiers-asid-pcid-and-vmid"
-      },
-      {
-        "text": "4.5 TLB Operations and Instructions",
-        "id": "tlb-operations-and-instructions"
-      },
-      {
-        "text": "4.6 Large Pages and TLB Coverage",
-        "id": "large-pages-and-tlb-coverage"
-      },
-      {
-        "text": "4.7 Multicore TLB Coherency",
-        "id": "multicore-tlb-coherency"
-      },
-      {
-        "text": "4.8 Platform-Specific TLB Implementations",
-        "id": "platform-specific-tlb-implementations"
-      },
-      {
-        "text": "4.9 Alternative Page Table Structures and TLB Implications",
-        "id": "alternative-page-table-structures-and-tlb-implications"
-      },
-      {
-        "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
-        "id": "self-modifying-code-and-instructiondata-coherency"
-      },
-      {
-        "text": "4.11 Multithreading and TLB Sharing",
-        "id": "multithreading-and-tlb-sharing"
-      },
-      {
-        "text": "4.12 Virtualization with Mismatched Page Sizes",
-        "id": "virtualization-with-mismatched-page-sizes"
-      },
-      {
-        "text": "4.13 GPU and Hardware Accelerator MMUs",
-        "id": "gpu-and-hardware-accelerator-mmus"
-      },
-      {
-        "text": "4.14 Chapter Summary",
-        "id": "chapter-4-summary"
-      },
-      {
-        "text": "References",
-        "id": "chapter-4-references"
-      }
-    ]
-  },
-  {
-    "num": 5,
-    "file": "chapter-05-WITH-FIGURES.html",
-    "short": "IOMMU and DMA Remapping - Deep Dive",
-    "sections": [
-      {
-        "text": "5.1 Introduction: The I/O Device Memory Access Problem",
-        "id": "introduction-the-io-device-memory-access-problem"
-      },
-      {
-        "text": "5.2 IOMMU Architecture Fundamentals",
-        "id": "iommu-architecture-fundamentals"
-      },
-      {
-        "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
-        "id": "intel-vt-d-virtualization-technology-for-directed-io"
-      },
-      {
-        "text": "5.4 AMD IOMMU (AMD-Vi)",
-        "id": "amd-iommu-amd-vi"
-      },
-      {
-        "text": "5.5 ARM SMMU (System Memory Management Unit)",
-        "id": "arm-smmu-system-memory-management-unit"
-      },
-      {
-        "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
-        "id": "iommu-page-tables-cross-platform-analysis"
-      },
-      {
-        "text": "5.7 IOTLB Performance and Optimization",
-        "id": "iotlb-performance-and-optimization"
-      },
-      {
-        "text": "5.8 Device Assignment and SR-IOV",
-        "id": "device-assignment-and-sr-iov"
-      },
-      {
-        "text": "5.9 Chapter Summary",
-        "id": "chapter-summary-and-key-takeaways"
-      },
-      {
-        "text": "5.10 IOMMU in Operating Systems",
-        "id": "iommu-in-operating-systems"
-      },
-      {
-        "text": "5.11 Performance Optimization and Best Practices",
-        "id": "performance-optimization-and-best-practices"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 6,
-    "file": "chapter-06-WITH-FIGURES.html",
-    "short": "Memory Protection and Access Control",
-    "sections": [
-      {
-        "text": "6.1 Introduction: Memory Protection Fundamentals",
-        "id": "6.1-introduction-memory-protection-fundamentals"
-      },
-      {
-        "text": "6.2 Page-Level Protection Bits",
-        "id": "6.2-page-level-protection-bits"
-      },
-      {
-        "text": "6.3 The No-Execute (NX) Bit",
-        "id": "6.3-the-no-execute-nx-bit"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains"
-      },
-      {
-        "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
-        "id": "6.8-trusted-execution-environments-tee-deep-dive"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings-1"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages-1"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features-1"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains-1"
-      },
-      {
-        "text": "6.9 Copy-On-Write (COW)",
-        "id": "6.9-copy-on-write-cow"
-      },
-      {
-        "text": "6.10 Memory Access Ordering and Protection",
-        "id": "6.10-memory-access-ordering-and-protection"
-      },
-      {
-        "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
-        "id": "6.11-confidential-computing-hardware-based-vm-isolation"
-      },
-      {
-        "text": "6.12 AMD Memory Guard and Memory Encryption",
-        "id": "6.12-amd-memory-guard-and-memory-encryption"
-      },
-      {
-        "text": "6.13 RISC-V Security Extensions",
-        "id": "6.13-risc-v-security-extensions"
-      },
-      {
-        "text": "6.14 GPU and Accelerator Security",
-        "id": "6.14-gpu-and-accelerator-security"
-      },
-      {
-        "text": "6.15 Heterogeneous Computing Security",
-        "id": "6.15-heterogeneous-computing-security"
-      },
-      {
-        "text": "6.16 Performance vs Security Trade-offs",
-        "id": "6.16-performance-vs-security-trade-offs"
-      },
-      {
-        "text": "6.17 Best Practices and Guidelines",
-        "id": "6.17-best-practices-and-guidelines"
-      },
-      {
-        "text": "6.18 Common Pitfalls and How to Avoid Them",
-        "id": "6.18-common-pitfalls-and-how-to-avoid-them"
-      },
-      {
-        "text": "6.19 Chapter Summary",
-        "id": "6.19-summary-and-future-directions"
-      },
-      {
-        "text": "References",
-        "id": "chapter-6-references"
-      }
-    ]
-  },
-  {
-    "num": 7,
-    "file": "chapter-07-WITH-FIGURES.html",
-    "short": "Page Faults and Exception Handling",
-    "sections": [
-      {
-        "text": "7.1 Introduction: When Address Translation Fails",
-        "id": "introduction-when-address-translation-fails"
-      },
-      {
-        "text": "7.2 Page Fault Fundamentals",
-        "id": "page-fault-fundamentals"
-      },
-      {
-        "text": "7.3 x86-64 Page Faults (#PF)",
-        "id": "x86-64-page-faults-pf"
-      },
-      {
-        "text": "7.4 ARM64 Data and Instruction Aborts",
-        "id": "arm64-data-and-instruction-aborts"
-      },
-      {
-        "text": "7.5 RISC-V Page Faults",
-        "id": "risc-v-page-faults"
-      },
-      {
-        "text": "7.6 TLB-Related Exceptions",
-        "id": "tlb-related-exceptions"
-      },
-      {
-        "text": "7.7 Page Table Walk Failures",
-        "id": "page-table-walk-failures"
-      },
-      {
-        "text": "7.8 Page Overlapping and Aliasing Faults",
-        "id": "page-overlapping-and-aliasing-faults"
-      },
-      {
-        "text": "7.9 Permission Violations",
-        "id": "permission-violations"
-      },
-      {
-        "text": "7.10 Page Fault Handling Flow",
-        "id": "page-fault-handling-flow"
-      },
-      {
-        "text": "7.11 Performance Implications",
-        "id": "performance-implications"
-      },
-      {
-        "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
-        "id": "historical-architectures-sparc-mips-powerpc"
-      },
-      {
-        "text": "7.13 Architecture Comparison",
-        "id": "architecture-comparison"
-      },
-      {
-        "text": "7.14 Debugging Page Faults",
-        "id": "debugging-page-faults"
-      },
-      {
-        "text": "7.15 Chapter Summary",
-        "id": "advanced-topics-and-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 8,
-    "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
-    "sections": [
-      {
-        "text": "8.1 Introduction: The Crisis Point",
-        "id": "introduction-the-crisis-point"
-      },
-      {
-        "text": "8.2 Nested Page Tables: Beyond the Basics",
-        "id": "nested-page-tables-beyond-the-basics"
-      },
-      {
-        "text": "8.3 Architecture Differences in Nested Fault Handling",
-        "id": "architecture-differences-nested-fault-handling"
-      },
-      {
-        "text": "8.4 Accessed and Dirty Bits",
-        "id": "accessed-dirty-bits"
-      },
-      {
-        "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "8.6 Memory Reclaim: When and How to Free Pages",
-        "id": "memory-reclaim"
-      },
-      {
-        "text": "8.7 Page Table Management: The Meta-Problem",
-        "id": "page-table-management"
-      },
-      {
-        "text": "8.8 Performance Analysis and Tuning",
-        "id": "performance-analysis-and-tuning"
-      },
-      {
-        "text": "8.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 9,
-    "file": "chapter-09-WITH-FIGURES.html",
-    "short": "Advanced Page Table Optimizations",
-    "sections": [
-      {
-        "text": "9.1 Introduction: The Container Crisis",
-        "id": "introduction-the-container-crisis"
-      },
-      {
-        "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
-        "id": "memory-deduplication-kernel-samepage-merging"
-      },
-      {
-        "text": "9.3 Page Table Locking and Concurrency",
-        "id": "page-table-locking-and-concurrency"
-      },
-      {
-        "text": "9.4 NUMA-Aware Page Table Management",
-        "id": "numa-aware-page-table-management"
-      },
-      {
-        "text": "9.5 Advanced Huge Page Strategies",
-        "id": "advanced-huge-page-strategies"
-      },
-      {
-        "text": "9.6 Page Table Compaction and Sharing",
-        "id": "page-table-compaction-and-sharing"
-      },
-      {
-        "text": "9.7 Parallel Page Table Operations",
-        "id": "parallel-page-table-operations"
-      },
-      {
-        "text": "9.8 Memory Compression Integration",
-        "id": "memory-compression-integration"
-      },
-      {
-        "text": "9.9 Putting It All Together: Cloud Provider Optimization Stack",
-        "id": "putting-it-all-together-cloud-provider-optimization-stack"
-      },
-      {
-        "text": "9.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 10,
-    "file": "chapter-10-WITH-FIGURES.html",
-    "short": "Hardware Accelerators and External MMU Access",
-    "sections": [
-      {
-        "text": "10.1 Introduction: Beyond the CPU Core",
-        "id": "introduction-beyond-the-cpu-core"
-      },
-      {
-        "text": "10.2 IOMMU Architecture Deep Dive",
-        "id": "iommu-architecture-deep-dive"
-      },
-      {
-        "text": "10.3 PCIe ATS and Address Translation Services",
-        "id": "pcie-ats-and-address-translation-services"
-      },
-      {
-        "text": "10.4 RDMA and Memory Registration",
-        "id": "rdma-and-memory-registration"
-      },
-      {
-        "text": "10.5 Smart NICs and Data Processing Units",
-        "id": "smart-nics-and-data-processing-units"
-      },
-      {
-        "text": "10.7 Video and Media Accelerators",
-        "id": "video-and-media-accelerators"
-      },
-      {
-        "text": "10.8 Multi-Device Coherency and Coordination",
-        "id": "multi-device-coherency-and-coordination"
-      },
-      {
-        "text": "10.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 11,
-    "file": "chapter-11-WITH-FIGURES.html",
-    "short": "Virtual Memory Challenges in AI/ML Accelerators",
-    "sections": [
-      {
-        "text": "11.1 Introduction: Scale Changes Everything",
-        "id": "introduction-scale-changes-everything"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 12,
-    "file": "chapter-12-WITH-FIGURES.html",
-    "short": "When MMU Architecture Breaks - AI at Scale",
-    "sections": [
-      {
-        "text": "12.0 The Six Drivers of AI Memory Systems",
-        "id": "section-12.0"
-      },
-      {
-        "text": "12.0B The Architectural Cost of Runtime Address Translation",
-        "id": "section-12.0B"
-      },
-      {
-        "text": "12.1 Introduction - When Good Architecture Faces New Constraints",
-        "id": "section-12.1"
-      },
-      {
-        "text": "12.2 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
-        "id": "section-12.2"
-      },
-      {
-        "text": "12.3 Multi-Tenancy - Isolation vs Performance Trade-Offs",
-        "id": "section-12.3"
-      },
-      {
-        "text": "12.4 Virtualization - The Page Fault Challenge",
-        "id": "section-12.4"
-      },
-      {
-        "text": "12.5 Chapter Summary",
-        "id": "section-12.5"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 13,
-    "file": "chapter-13-WITH-FIGURES.html",
-    "short": "Machine Learning for Memory Management - The False Hope",
-    "sections": [
-      {
-        "text": "Table of Contents",
-        "id": "toc-title"
-      },
-      {
-        "text": "13.1 Introduction: The ML Seduction",
-        "id": "section-13.1"
-      },
-      {
-        "text": "13.2 Pythia: Why Hardware RL Failed",
-        "id": "section-13.2"
-      },
-      {
-        "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
-        "id": "section-13.3"
-      },
-      {
-        "text": "13.4 LeCaR: The Rare Success (And Why)",
-        "id": "section-13.4"
-      },
-      {
-        "text": "13.5 Chapter Summary",
-        "id": "section-13.5"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 14,
-    "file": "chapter-14-WITH-FIGURES.html",
-    "short": "Software-Managed Memory for AI Workloads",
-    "sections": [
-      {
-        "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
-        "id": "section-14.1"
-      },
-      {
-        "text": "14.2 Memory Management Failure Modes",
-        "id": "section-14.2"
-      },
-      {
-        "text": "14.3 Software-Managed Memory: The vLLM System",
-        "id": "section-14.3"
-      },
-      {
-        "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
-        "id": "section-14.4"
-      },
-      {
-        "text": "14.5 Comparative Analysis and Design Trade-offs",
-        "id": "section-14.5"
-      },
-      {
-        "text": "14.6 Future Research Directions",
-        "id": "section-14.6"
-      },
-      {
-        "text": "14.7 Chapter Summary",
-        "id": "section-14.7"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 15,
-    "file": "chapter-15-WITH-FIGURES.html",
-    "short": "Beyond Traditional MMU - Alternative Translation Architectures",
-    "sections": [
-      {
-        "text": "15.1 Introduction",
-        "id": "section-15.1"
-      },
-      {
-        "text": "15.2 Network-Level Translation",
-        "id": "section-15.2"
-      },
-      {
-        "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
-        "id": "section-15.3"
-      },
-      {
-        "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
-        "id": "section-15.4"
-      },
-      {
-        "text": "15.5 Comparative Analysis",
-        "id": "section-15.5"
-      },
-      {
-        "text": "15.6 Chapter Summary",
-        "id": "section-15.6"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 16,
-    "file": "chapter-16-WITH-FIGURES.html",
-    "short": "Advanced TLB Optimization Techniques",
-    "sections": [
-      {
-        "text": "16.1 Introduction: The TLB Reach Crisis",
-        "id": "section-16.1"
-      },
-      {
-        "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
-        "id": "section-16.2"
-      },
-      {
-        "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
-        "id": "section-16.3"
-      },
-      {
-        "text": "16.4 Speculative Translation: SpecTLB and Avatar",
-        "id": "section-16.4"
-      },
-      {
-        "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
-        "id": "section-16.5"
-      },
-      {
-        "text": "16.6 Hashing-Based Compression: Mosaic Pages",
-        "id": "section-16.6"
-      },
-      {
-        "text": "16.7 Range-Based Translation: FlexPointer",
-        "id": "section-16.7"
-      },
-      {
-        "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
-        "id": "section-16.8"
-      },
-      {
-        "text": "16.9 Comparative Analysis: When to Use Each Technique",
-        "id": "section-16.9"
-      },
-      {
-        "text": "16.10 Chapter Summary",
-        "id": "section-16.10"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  }
-];
+          {
+                "num": 1,
+                "file": "chapter-01-WITH-FIGURES.html",
+                "short": "Memory Management Basics",
+                "sections": [
+                      {
+                            "text": "1.1 Introduction: Why Virtual Memory Exists",
+                            "id": "introduction-why-virtual-memory-exists"
+                      },
+                      {
+                            "text": "1.2 What is Memory Management?",
+                            "id": "what-is-memory-management"
+                      },
+                      {
+                            "text": "1.3 The Evolution of Memory Management",
+                            "id": "the-evolution-of-memory-management"
+                      },
+                      {
+                            "text": "1.4 Hierarchical Levels of Memory Management",
+                            "id": "hierarchical-levels-of-memory-management"
+                      },
+                      {
+                            "text": "1.5 The Virtual Memory Abstraction",
+                            "id": "the-virtual-memory-abstraction"
+                      },
+                      {
+                            "text": "1.6 Key Concepts and Terminology",
+                            "id": "key-concepts-and-terminology"
+                      },
+                      {
+                            "text": "1.7 A Concrete Example: Address Translation",
+                            "id": "a-concrete-example-address-translation"
+                      },
+                      {
+                            "text": "1.8 The Translation Lookaside Buffer (TLB)",
+                            "id": "the-translation-lookaside-buffer-tlb"
+                      },
+                      {
+                            "text": "1.9 Multi-Level Page Tables",
+                            "id": "multi-level-page-tables"
+                      },
+                      {
+                            "text": "1.10 Why MMU Matters: Real-World Impact",
+                            "id": "why-mmu-matters-real-world-impact"
+                      },
+                      {
+                            "text": "1.11 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 2,
+                "file": "chapter-02-WITH-FIGURES.html",
+                "short": "Virtual Memory Concepts",
+                "sections": [
+                      {
+                            "text": "2.1 Introduction: The Illusion of Unlimited Memory",
+                            "id": "introduction-the-illusion-of-unlimited-memory"
+                      },
+                      {
+                            "text": "2.2 Demand Paging: Loading Pages on Demand",
+                            "id": "demand-paging-loading-pages-on-demand"
+                      },
+                      {
+                            "text": "2.3 Page Replacement Algorithms",
+                            "id": "page-replacement-algorithms"
+                      },
+                      {
+                            "text": "2.4 Thrashing and the Working Set Model",
+                            "id": "thrashing-and-the-working-set-model"
+                      },
+                      {
+                            "text": "2.5 Copy-on-Write (COW)",
+                            "id": "copy-on-write-cow"
+                      },
+                      {
+                            "text": "2.6 Memory-Mapped Files",
+                            "id": "memory-mapped-files"
+                      },
+                      {
+                            "text": "2.7 Advanced Topics",
+                            "id": "advanced-topics"
+                      },
+                      {
+                            "text": "2.8 Performance Optimization Strategies",
+                            "id": "performance-optimization-strategies"
+                      },
+                      {
+                            "text": "2.9 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 3,
+                "file": "chapter-03-WITH-FIGURES.html",
+                "short": "Page Table Structures and Implementation",
+                "sections": [
+                      {
+                            "text": "3.1 Introduction",
+                            "id": "3.1-introduction"
+                      },
+                      {
+                            "text": "3.2 Single-Level Page Tables: The Simplest Approach",
+                            "id": "3.2-single-level-page-tables-the-simplest-approach"
+                      },
+                      {
+                            "text": "3.3 Two-Level Page Tables",
+                            "id": "3.3-two-level-page-tables"
+                      },
+                      {
+                            "text": "3.4 Multi-Level Page Tables (3+ Levels)",
+                            "id": "3.4-multi-level-page-tables-3-levels"
+                      },
+                      {
+                            "text": "3.5 Virtualization: Two-Stage Address Translation",
+                            "id": "3.5-virtualization-two-stage-address-translation"
+                      },
+                      {
+                            "text": "3.6 What Gets Cached: TLB and Page Walk Caches",
+                            "id": "3.6-what-gets-cached-tlb-and-page-walk-caches"
+                      },
+                      {
+                            "text": "3.7 Hardware Page Table Walker",
+                            "id": "3.7-hardware-page-table-walker"
+                      },
+                      {
+                            "text": "3.8 Page Table Management from the OS Perspective",
+                            "id": "3.8-page-table-management-from-the-os-perspective"
+                      },
+                      {
+                            "text": "3.9 Design Trade-offs",
+                            "id": "3.9-design-trade-offs"
+                      },
+                      {
+                            "text": "3.10 Chapter Summary",
+                            "id": "3.10-chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 4,
+                "file": "chapter-04-WITH-FIGURES.html",
+                "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
+                "sections": [
+                      {
+                            "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
+                            "id": "introduction-the-most-critical-cache-youve-never-heard-of"
+                      },
+                      {
+                            "text": "4.2 TLB Architecture and Organization",
+                            "id": "tlb-architecture-and-organization"
+                      },
+                      {
+                            "text": "4.3 TLB Management: Hardware vs Software",
+                            "id": "tlb-management-hardware-vs-software"
+                      },
+                      {
+                            "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
+                            "id": "address-space-identifiers-asid-pcid-and-vmid"
+                      },
+                      {
+                            "text": "4.5 TLB Operations and Instructions",
+                            "id": "tlb-operations-and-instructions"
+                      },
+                      {
+                            "text": "4.6 Large Pages and TLB Coverage",
+                            "id": "large-pages-and-tlb-coverage"
+                      },
+                      {
+                            "text": "4.7 Multicore TLB Coherency",
+                            "id": "multicore-tlb-coherency"
+                      },
+                      {
+                            "text": "4.8 Platform-Specific TLB Implementations",
+                            "id": "platform-specific-tlb-implementations"
+                      },
+                      {
+                            "text": "4.9 Alternative Page Table Structures and TLB Implications",
+                            "id": "alternative-page-table-structures-and-tlb-implications"
+                      },
+                      {
+                            "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
+                            "id": "self-modifying-code-and-instructiondata-coherency"
+                      },
+                      {
+                            "text": "4.11 Multithreading and TLB Sharing",
+                            "id": "multithreading-and-tlb-sharing"
+                      },
+                      {
+                            "text": "4.12 Virtualization with Mismatched Page Sizes",
+                            "id": "virtualization-with-mismatched-page-sizes"
+                      },
+                      {
+                            "text": "4.13 GPU and Hardware Accelerator MMUs",
+                            "id": "gpu-and-hardware-accelerator-mmus"
+                      },
+                      {
+                            "text": "4.14 Chapter Summary",
+                            "id": "chapter-4-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "chapter-4-references"
+                      }
+                ]
+          },
+          {
+                "num": 5,
+                "file": "chapter-05-WITH-FIGURES.html",
+                "short": "IOMMU and DMA Remapping - Deep Dive",
+                "sections": [
+                      {
+                            "text": "5.1 Introduction: The I/O Device Memory Access Problem",
+                            "id": "introduction-the-io-device-memory-access-problem"
+                      },
+                      {
+                            "text": "5.2 IOMMU Architecture Fundamentals",
+                            "id": "iommu-architecture-fundamentals"
+                      },
+                      {
+                            "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
+                            "id": "intel-vt-d-virtualization-technology-for-directed-io"
+                      },
+                      {
+                            "text": "5.4 AMD IOMMU (AMD-Vi)",
+                            "id": "amd-iommu-amd-vi"
+                      },
+                      {
+                            "text": "5.5 ARM SMMU (System Memory Management Unit)",
+                            "id": "arm-smmu-system-memory-management-unit"
+                      },
+                      {
+                            "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
+                            "id": "iommu-page-tables-cross-platform-analysis"
+                      },
+                      {
+                            "text": "5.7 IOTLB Performance and Optimization",
+                            "id": "iotlb-performance-and-optimization"
+                      },
+                      {
+                            "text": "5.8 Device Assignment and SR-IOV",
+                            "id": "device-assignment-and-sr-iov"
+                      },
+                      {
+                            "text": "5.11 Chapter Summary",
+                            "id": "chapter-summary-and-key-takeaways"
+                      },
+                      {
+                            "text": "5.9 IOMMU in Operating Systems",
+                            "id": "iommu-in-operating-systems"
+                      },
+                      {
+                            "text": "5.10 Performance Optimization and Best Practices",
+                            "id": "performance-optimization-and-best-practices"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 6,
+                "file": "chapter-06-WITH-FIGURES.html",
+                "short": "Memory Protection and Access Control",
+                "sections": [
+                      {
+                            "text": "6.1 Introduction: Memory Protection Fundamentals",
+                            "id": "6.1-introduction-memory-protection-fundamentals"
+                      },
+                      {
+                            "text": "6.2 Page-Level Protection Bits",
+                            "id": "6.2-page-level-protection-bits"
+                      },
+                      {
+                            "text": "6.3 The No-Execute (NX) Bit",
+                            "id": "6.3-the-no-execute-nx-bit"
+                      },
+                      {
+                            "text": "6.4 Privilege Levels and Protection Rings",
+                            "id": "6.4-privilege-levels-and-protection-rings"
+                      },
+                      {
+                            "text": "6.5 User vs Supervisor Pages",
+                            "id": "6.5-user-vs-supervisor-pages"
+                      },
+                      {
+                            "text": "6.6 Advanced Protection Features",
+                            "id": "6.6-advanced-protection-features"
+                      },
+                      {
+                            "text": "6.7 Protection Keys and Domains",
+                            "id": "6.7-protection-keys-and-domains"
+                      },
+                      {
+                            "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
+                            "id": "6.8-trusted-execution-environments-tee-deep-dive"
+                      },
+                      {
+                            "text": "6.9 Copy-On-Write (COW)",
+                            "id": "6.9-copy-on-write-cow"
+                      },
+                      {
+                            "text": "6.10 Memory Access Ordering and Protection",
+                            "id": "6.10-memory-access-ordering-and-protection"
+                      },
+                      {
+                            "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
+                            "id": "6.11-confidential-computing-hardware-based-vm-isolation"
+                      },
+                      {
+                            "text": "6.12 AMD Memory Guard and Memory Encryption",
+                            "id": "6.12-amd-memory-guard-and-memory-encryption"
+                      },
+                      {
+                            "text": "6.13 RISC-V Security Extensions",
+                            "id": "6.13-risc-v-security-extensions"
+                      },
+                      {
+                            "text": "6.14 GPU and Accelerator Security",
+                            "id": "6.14-gpu-and-accelerator-security"
+                      },
+                      {
+                            "text": "6.15 Heterogeneous Computing Security",
+                            "id": "6.15-heterogeneous-computing-security"
+                      },
+                      {
+                            "text": "6.16 Performance vs Security Trade-offs",
+                            "id": "6.16-performance-vs-security-trade-offs"
+                      },
+                      {
+                            "text": "6.17 Best Practices and Guidelines",
+                            "id": "6.17-best-practices-and-guidelines"
+                      },
+                      {
+                            "text": "6.18 Common Pitfalls and How to Avoid Them",
+                            "id": "6.18-common-pitfalls-and-how-to-avoid-them"
+                      },
+                      {
+                            "text": "6.19 Chapter Summary",
+                            "id": "6.19-summary-and-future-directions"
+                      },
+                      {
+                            "text": "References",
+                            "id": "chapter-6-references"
+                      }
+                ]
+          },
+          {
+                "num": 7,
+                "file": "chapter-07-WITH-FIGURES.html",
+                "short": "Page Faults and Exception Handling",
+                "sections": [
+                      {
+                            "text": "7.1 Introduction: When Address Translation Fails",
+                            "id": "introduction-when-address-translation-fails"
+                      },
+                      {
+                            "text": "7.2 Page Fault Fundamentals",
+                            "id": "page-fault-fundamentals"
+                      },
+                      {
+                            "text": "7.3 x86-64 Page Faults (#PF)",
+                            "id": "x86-64-page-faults-pf"
+                      },
+                      {
+                            "text": "7.4 ARM64 Data and Instruction Aborts",
+                            "id": "arm64-data-and-instruction-aborts"
+                      },
+                      {
+                            "text": "7.5 RISC-V Page Faults",
+                            "id": "risc-v-page-faults"
+                      },
+                      {
+                            "text": "7.6 TLB-Related Exceptions",
+                            "id": "tlb-related-exceptions"
+                      },
+                      {
+                            "text": "7.7 Page Table Walk Failures",
+                            "id": "page-table-walk-failures"
+                      },
+                      {
+                            "text": "7.8 Page Overlapping and Aliasing Faults",
+                            "id": "page-overlapping-and-aliasing-faults"
+                      },
+                      {
+                            "text": "7.9 Permission Violations",
+                            "id": "permission-violations"
+                      },
+                      {
+                            "text": "7.10 Page Fault Handling Flow",
+                            "id": "page-fault-handling-flow"
+                      },
+                      {
+                            "text": "7.11 Performance Implications",
+                            "id": "performance-implications"
+                      },
+                      {
+                            "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
+                            "id": "historical-architectures-sparc-mips-powerpc"
+                      },
+                      {
+                            "text": "7.13 Architecture Comparison",
+                            "id": "architecture-comparison"
+                      },
+                      {
+                            "text": "7.14 Debugging Page Faults",
+                            "id": "debugging-page-faults"
+                      },
+                      {
+                            "text": "7.15 Chapter Summary",
+                            "id": "advanced-topics-and-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 8,
+                "file": "chapter-08-WITH-FIGURES.html",
+                "short": "Advanced MMU Topics: System Integration and Optimization",
+                "sections": [
+                      {
+                            "text": "8.1 Introduction: The Crisis Point",
+                            "id": "introduction-the-crisis-point"
+                      },
+                      {
+                            "text": "8.2 Nested Page Tables: Beyond the Basics",
+                            "id": "nested-page-tables-beyond-the-basics"
+                      },
+                      {
+                            "text": "8.3 Architecture Differences in Nested Fault Handling",
+                            "id": "architecture-differences-nested-fault-handling"
+                      },
+                      {
+                            "text": "8.4 Accessed and Dirty Bits",
+                            "id": "accessed-dirty-bits"
+                      },
+                      {
+                            "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
+                            "id": "page-replacement-algorithms"
+                      },
+                      {
+                            "text": "8.6 Memory Reclaim: When and How to Free Pages",
+                            "id": "memory-reclaim"
+                      },
+                      {
+                            "text": "8.7 Page Table Management: The Meta-Problem",
+                            "id": "page-table-management"
+                      },
+                      {
+                            "text": "8.8 Performance Analysis and Tuning",
+                            "id": "performance-analysis-and-tuning"
+                      },
+                      {
+                            "text": "8.9 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 9,
+                "file": "chapter-09-WITH-FIGURES.html",
+                "short": "Advanced Page Table Optimizations",
+                "sections": [
+                      {
+                            "text": "9.1 Introduction: The Container Crisis",
+                            "id": "introduction-the-container-crisis"
+                      },
+                      {
+                            "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
+                            "id": "memory-deduplication-kernel-samepage-merging"
+                      },
+                      {
+                            "text": "9.3 Page Table Locking and Concurrency",
+                            "id": "page-table-locking-and-concurrency"
+                      },
+                      {
+                            "text": "9.4 NUMA-Aware Page Table Management",
+                            "id": "numa-aware-page-table-management"
+                      },
+                      {
+                            "text": "9.5 Advanced Huge Page Strategies",
+                            "id": "advanced-huge-page-strategies"
+                      },
+                      {
+                            "text": "9.6 Page Table Compaction and Sharing",
+                            "id": "page-table-compaction-and-sharing"
+                      },
+                      {
+                            "text": "9.7 Parallel Page Table Operations",
+                            "id": "parallel-page-table-operations"
+                      },
+                      {
+                            "text": "9.8 Memory Compression Integration",
+                            "id": "memory-compression-integration"
+                      },
+                      {
+                            "text": "9.9 Production Case Study: Cloud Provider Memory Optimization Stack",
+                            "id": "production-case-study-cloud-provider-memory-optimization-stack"
+                      },
+                      {
+                            "text": "9.10 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      }
+                ]
+          },
+          {
+                "num": 10,
+                "file": "chapter-10-WITH-FIGURES.html",
+                "short": "Hardware Accelerators and External MMU Access",
+                "sections": [
+                      {
+                            "text": "10.1 Introduction: Beyond the CPU Core",
+                            "id": "introduction-beyond-the-cpu-core"
+                      },
+                      {
+                            "text": "10.2 IOMMU Architecture Deep Dive",
+                            "id": "iommu-architecture-deep-dive"
+                      },
+                      {
+                            "text": "10.3 PCIe ATS and Address Translation Services",
+                            "id": "pcie-ats-and-address-translation-services"
+                      },
+                      {
+                            "text": "10.4 RDMA and Memory Registration",
+                            "id": "rdma-and-memory-registration"
+                      },
+                      {
+                            "text": "10.5 Smart NICs and Data Processing Units",
+                            "id": "smart-nics-and-data-processing-units"
+                      },
+                      {
+                            "text": "10.6 Video and Media Accelerators",
+                            "id": "video-and-media-accelerators"
+                      },
+                      {
+                            "text": "10.7 Multi-Device Coherency and Coordination",
+                            "id": "multi-device-coherency-and-coordination"
+                      },
+                      {
+                            "text": "10.8 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      }
+                ]
+          },
+          {
+                "num": 11,
+                "file": "chapter-11-WITH-FIGURES.html",
+                "short": "Virtual Memory Challenges in AI/ML Accelerators",
+                "sections": [
+                      {
+                            "text": "11.1 Introduction: Scale Changes Everything",
+                            "id": "introduction-scale-changes-everything"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 12,
+                "file": "chapter-12-WITH-FIGURES.html",
+                "short": "When MMU Architecture Breaks - AI at Scale",
+                "sections": [
+                      {
+                            "text": "12.1 The Six Drivers of AI Memory Systems",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "12.2 The Architectural Cost of Runtime Address Translation",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.3 Introduction - When Good Architecture Faces New Constraints",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "12.4 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.5 Multi-Tenancy - Isolation vs Performance Trade-Offs",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "12.6 Virtualization - The Page Fault Challenge",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.7 Chapter Summary",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 13,
+                "file": "chapter-13-WITH-FIGURES.html",
+                "short": "Machine Learning for Memory Management - The False Hope",
+                "sections": [
+                      {
+                            "text": "13.1 Introduction: The ML Seduction",
+                            "id": "section-13.1"
+                      },
+                      {
+                            "text": "13.2 Pythia: Why Hardware RL Failed",
+                            "id": "section-13.2"
+                      },
+                      {
+                            "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
+                            "id": "section-13.3"
+                      },
+                      {
+                            "text": "13.4 LeCaR: The Rare Success (And Why)",
+                            "id": "section-13.4"
+                      },
+                      {
+                            "text": "13.5 Chapter Summary",
+                            "id": "section-13.5"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 14,
+                "file": "chapter-14-WITH-FIGURES.html",
+                "short": "Software-Managed Memory for AI Workloads",
+                "sections": [
+                      {
+                            "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
+                            "id": "section-14.1"
+                      },
+                      {
+                            "text": "14.2 Memory Management Failure Modes",
+                            "id": "section-14.2"
+                      },
+                      {
+                            "text": "14.3 Software-Managed Memory: The vLLM System",
+                            "id": "section-14.3"
+                      },
+                      {
+                            "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
+                            "id": "section-14.4"
+                      },
+                      {
+                            "text": "14.5 Comparative Analysis and Design Trade-offs",
+                            "id": "section-14.5"
+                      },
+                      {
+                            "text": "14.6 Future Research Directions",
+                            "id": "section-14.6"
+                      },
+                      {
+                            "text": "14.7 Chapter Summary",
+                            "id": "section-14.7"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 15,
+                "file": "chapter-15-WITH-FIGURES.html",
+                "short": "Beyond Traditional MMU - Alternative Translation Architectures",
+                "sections": [
+                      {
+                            "text": "15.1 Introduction",
+                            "id": "section-15.1"
+                      },
+                      {
+                            "text": "15.2 Network-Level Translation",
+                            "id": "section-15.2"
+                      },
+                      {
+                            "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
+                            "id": "section-15.3"
+                      },
+                      {
+                            "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
+                            "id": "section-15.4"
+                      },
+                      {
+                            "text": "15.5 Comparative Analysis",
+                            "id": "section-15.5"
+                      },
+                      {
+                            "text": "15.6 Chapter Summary",
+                            "id": "section-15.6"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 16,
+                "file": "chapter-16-WITH-FIGURES.html",
+                "short": "Advanced TLB Optimization Techniques",
+                "sections": [
+                      {
+                            "text": "16.1 Introduction: The TLB Reach Crisis",
+                            "id": "section-16.1"
+                      },
+                      {
+                            "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
+                            "id": "section-16.2"
+                      },
+                      {
+                            "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
+                            "id": "section-16.3"
+                      },
+                      {
+                            "text": "16.4 Speculative Translation: SpecTLB and Avatar",
+                            "id": "section-16.4"
+                      },
+                      {
+                            "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
+                            "id": "section-16.5"
+                      },
+                      {
+                            "text": "16.6 Hashing-Based Compression: Mosaic Pages",
+                            "id": "section-16.6"
+                      },
+                      {
+                            "text": "16.7 Range-Based Translation: FlexPointer",
+                            "id": "section-16.7"
+                      },
+                      {
+                            "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
+                            "id": "section-16.8"
+                      },
+                      {
+                            "text": "16.9 Comparative Analysis: When to Use Each Technique",
+                            "id": "section-16.9"
+                      },
+                      {
+                            "text": "16.10 Chapter Summary",
+                            "id": "section-16.10"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          }
+    ];
   var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
   var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
 

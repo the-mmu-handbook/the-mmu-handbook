@@ -974,11 +974,9 @@ Measurements</a></li>
 </li>
 <li><a href="#tlb-tagging-vmid-asid" id="toc-tlb-tagging-vmid-asid">5.8.9 TLB Tagging for Virtual Contexts: VMID, ASID, and PCID</a>
 </ul></li>
-<li><a href="#chapter-summary-and-key-takeaways" id="toc-chapter-summary-and-key-takeaways">5.9 Chapter Summary and Key
-Takeaways</a>
+<li><a href="#chapter-summary-and-key-takeaways" id="toc-chapter-summary">5.11 Chapter Summary</a>
 <ul>
-<li><a href="#core-concepts-recap" id="toc-core-concepts-recap">5.9.1
-Core Concepts Recap</a></li>
+<li><a href="#core-concepts-recap" id="toc-core-concepts-recap">5.11.1 Core Concepts Recap</a></li>
 <li><a href="#platform-comparison-summary" id="toc-platform-comparison-summary">5.9.2 Platform Comparison
 Summary</a></li>
 <li><a href="#performance-guidelines" id="toc-performance-guidelines">5.9.3 Performance Guidelines</a></li>
@@ -988,7 +986,7 @@ Matrix</a></li>
 <li><a href="#future-directions" id="toc-future-directions">5.9.6 Future
 Directions</a></li>
 </ul></li>
-<li><a href="#iommu-in-operating-systems" id="toc-iommu-in-operating-systems">5.10 IOMMU in Operating Systems</a>
+<li><a href="#iommu-in-operating-systems" id="toc-iommu-in-operating-systems">5.9 IOMMU in Operating Systems</a>
 <ul>
 <li><a href="#linux-iommu-subsystem" id="toc-linux-iommu-subsystem">5.10.1 Linux IOMMU Subsystem</a></li>
 <li><a href="#linux-iommu-api" id="toc-linux-iommu-api">5.10.2 Linux
@@ -1000,7 +998,7 @@ Linux VFIO Framework</a></li>
 <li><a href="#windows-iommu-support" id="toc-windows-iommu-support">5.10.5 Windows IOMMU Support</a></li>
 <li><a href="#debugging-iommu-issues" id="toc-debugging-iommu-issues">5.10.6 Debugging IOMMU Issues</a></li>
 </ul></li>
-<li><a href="#performance-optimization-and-best-practices" id="toc-performance-optimization-and-best-practices">5.11 Performance
+<li><a href="#performance-optimization-and-best-practices" id="toc-performance-optimization-and-best-practices">5.10 Performance
 Optimization and Best Practices</a>
 <ul>
 <li><a href="#optimization-decision-tree" id="toc-optimization-decision-tree">5.11.1 Optimization Decision
@@ -1012,21 +1010,6 @@ Checklist</a></li>
 <li><a href="#common-pitfalls-and-solutions" id="toc-common-pitfalls-and-solutions">5.11.4 Common Pitfalls and
 Solutions</a></li>
 <li><a href="#troubleshooting-guide" id="toc-troubleshooting-guide">5.11.5 Troubleshooting Guide</a></li>
-</ul></li>
-<li><a href="#future-directions-and-emerging-technologies" id="toc-future-directions-and-emerging-technologies">5.12 Future
-Directions and Emerging Technologies</a>
-<ul>
-<li><a href="#cxl-compute-express-link-with-iommu" id="toc-cxl-compute-express-link-with-iommu">5.12.1 CXL (Compute Express
-Link) with IOMMU</a></li>
-<li><a href="#confidential-computing" id="toc-confidential-computing">5.12.2 Confidential Computing</a></li>
-<li><a href="#aiml-accelerator-challenges" id="toc-aiml-accelerator-challenges">5.12.3 AI/ML Accelerator
-Challenges</a></li>
-<li><a href="#scalable-iov-intel" id="toc-scalable-iov-intel">5.12.4
-Scalable IOV (Intel)</a></li>
-<li><a href="#research-directions" id="toc-research-directions">5.12.5
-Research Directions</a></li>
-<li><a href="#industry-trends" id="toc-industry-trends">5.12.6 Industry
-Trends</a></li>
 </ul></li>
 <li><a href="#references" id="toc-references">References</a></li>
 </ul></li>
@@ -4400,257 +4383,7 @@ Passthrough: 90% of bare metal IOPS!</code></pre>
 <p>Bhattacharjee &amp; Martonosi (2009) measured that VPID/ASID support improved TLB hit rate by 10–15 percentage points for virtualised workloads, because without tagging every VM entry/exit caused severe TLB thrashing. Chapter 3 §3.7.3 provides the full treatment of VMID+ASID interaction, combined TLB entry formats, and the RISC-V equivalent (VMID in <code>hgatp</code> plus ASID in <code>satp</code>).</p>
 
 
-<h2 id="chapter-summary-and-key-takeaways">5.9 Chapter Summary</h2>
-<h3 id="core-concepts-recap">5.9.1 Core Concepts Recap</h3>
-<p><strong>The IOMMU Problem:</strong> - Traditional DMA: Security
-nightmare, virtualization impossible - IOMMU Solution: Virtual addresses
-for devices, isolation, security</p>
-<p><strong>Key Components:</strong> 1. Device Table/Context Table: Maps
-devices to translation contexts 2. IOMMU Page Tables: DVA → PA mappings
-(hierarchical) 3. IOTLB: Caches translations (critical for performance)
-4. Interrupt Remapping: Prevents interrupt injection attacks</p>
-<p><strong>Translation Flow:</strong></p>
-<pre><code>Device DMA → Device Table → IOTLB → (miss) Page Walk → PA
-Latency: 15-30 ns (hit), 100-400 ns (miss)</code></pre>
-<h3 id="platform-comparison-summary">5.9.2 Platform Comparison
-Summary</h3>
-<table>
-<colgroup>
-<col style="width: 23%" />
-<col style="width: 30%" />
-<col style="width: 20%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Feature</th>
-<th>Intel VT-d</th>
-<th>AMD-Vi</th>
-<th>ARM SMMU</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Lookup</strong></td>
-<td>2-level</td>
-<td>1-level</td>
-<td>Stream Table</td>
-</tr>
-<tr class="even">
-<td><strong>Complexity</strong></td>
-<td>High (many features)</td>
-<td>Medium</td>
-<td>Medium-High</td>
-</tr>
-<tr class="odd">
-<td><strong>PASID</strong></td>
-<td>Full (Scalable)</td>
-<td>Limited</td>
-<td>Substream (v3.1+)</td>
-</tr>
-<tr class="even">
-<td><strong>Two-Stage</strong></td>
-<td>Yes (Scalable)</td>
-<td>Yes (v2)</td>
-<td>Native (Stage 1+2)</td>
-</tr>
-<tr class="odd">
-<td><strong>Posted INT</strong></td>
-<td>Yes</td>
-<td>No</td>
-<td>No</td>
-</tr>
-<tr class="even">
-<td><strong>Maturity</strong></td>
-<td>Very mature</td>
-<td>Mature</td>
-<td>Modern redesign</td>
-</tr>
-<tr class="odd">
-<td><strong>Best For</strong></td>
-<td>Enterprise servers</td>
-<td>Cost-effective servers</td>
-<td>ARM ecosystem, embedded</td>
-</tr>
-</tbody>
-</table>
-<p><strong>All three are production-ready and performant for modern
-workloads.</strong></p>
-<h3 id="performance-guidelines">5.9.3 Performance Guidelines</h3>
-<p><strong>When IOMMU overhead is acceptable (&lt;5%):</strong> - Large
-pages (2MB/1GB) - Persistent mappings - ATS enabled devices - Modern
-hardware (2020+)</p>
-<p><strong>When IOMMU overhead is significant (&gt;10%):</strong> -
-Small pages (4KB) with large working sets - Frequent map/unmap
-operations - Many simultaneous devices - Older hardware</p>
-<p><strong>Optimization Priorities:</strong> 1. <strong>Use large
-pages</strong> (biggest impact: 50-300% improvement) 2.
-<strong>Persistent mappings</strong> (avoid invalidation storms) 3.
-<strong>Enable ATS</strong> (if device supports) 4. <strong>Batch
-invalidations</strong> (200× faster than per-page)</p>
-<h3 id="security-considerations">5.9.4 Security Considerations</h3>
-<p><strong>IOMMU Provides:</strong> - ✅ DMA attack prevention
-(malicious devices blocked) - ✅ Device isolation (multi-tenant safety)
-- ✅ Interrupt injection prevention (interrupt remapping) - ✅ VM escape
-prevention (strict domain isolation)</p>
-<p><strong>IOMMU Cannot Prevent:</strong> - ❌ Side-channel attacks
-(timing, speculation) - ❌ Physical attacks (DMA before OS boots) - ❌
-Firmware vulnerabilities (RMRR, BMC) - ❌ Device-specific bugs</p>
-<p><strong>Best Practices:</strong> - Enable IOMMU in firmware
-(BIOS/UEFI) - Use interrupt remapping (always) - Monitor IOMMU fault
-events (security logging) - Minimize bypass regions (RMRR on Intel) -
-Keep firmware updated (security patches)</p>
-<h3 id="use-case-decision-matrix">5.9.5 Use Case Decision Matrix</h3>
-<p><strong>When to use IOMMU:</strong> - ✅ Multi-tenant virtualization
-- ✅ Untrusted devices (USB, Thunderbolt) - ✅ Device passthrough to VMs
-- ✅ Security-critical environments - ✅ Systems with &gt; 4GB RAM and
-32-bit devices</p>
-<p><strong>When passthrough might be acceptable:</strong> - ⚠️
-Single-tenant trusted environment - ⚠️ Physical security guaranteed - ⚠️
-Maximum performance critical (HFT, HPC) - ⚠️ Development/testing
-systems</p>
-<p><strong>Never disable IOMMU for:</strong> - ❌ Internet-facing
-servers - ❌ Multi-user systems - ❌ Systems handling sensitive data -
-❌ Production cloud environments</p>
-<h3 id="future-directions">5.9.6 Future Directions</h3>
-<p><strong>Emerging Technologies:</strong> - CXL (Compute Express Link)
-with IOMMU integration - Confidential computing (SEV-SNP, TDX with
-IOMMU) - Hardware-accelerated ML/AI with IOMMU - Elastic IOMMUs (dynamic
-resource allocation) - Improved nested translation performance</p>
-<p><strong>The IOMMU is essential infrastructure for modern
-computing.</strong></p>
-<hr />
-
-
-<!-- Folded from section future-directions-and-emerging-technologies -->
-<h3 id="cxl-compute-express-link-with-iommu">5.12.1 CXL (Compute Express
-Link) with IOMMU</h3>
-<p><strong>What is CXL:</strong></p>
-<pre><code>CXL (Compute Express Link):
-  - New interconnect standard (2019+)
-  - Cache-coherent device memory
-  - Built on PCIe physical layer
-  - Types: CXL.io, CXL.cache, CXL.mem</code></pre>
-<p><strong>IOMMU Integration:</strong></p>
-<pre><code>CXL devices need IOMMU support for:
-  1. Memory pooling across hosts
-  2. Device sharing
-  3. Security isolation
-  
-Challenge: Cache coherency + IOMMU translation
-  - CPU caches device memory
-  - Device caches host memory  
-  - IOMMU must not break coherency</code></pre>
-<p><strong>Future IOMMU Features for CXL:</strong></p>
-<pre><code>- Coherent IOTLB snooping
-- CXL.cache awareness
-- Memory pooling support
-- Dynamic address space expansion
-- Better performance for shared memory</code></pre>
-<h3 id="confidential-computing">5.12.2 Confidential Computing</h3>
-<p><strong>AMD SEV-SNP with IOMMU:</strong></p>
-<pre><code>SEV-SNP (Secure Encrypted Virtualization - Secure Nested Paging):
-  - Encrypted VM memory
-  - Integrity protection
-  - IOMMU integration essential
-  
-IOMMU Role:
-  - Encrypt DMA to/from protected VMs
-  - Prevent DMA attacks on encrypted memory
-  - Attestation of device assignments</code></pre>
-<p><strong>Intel TDX with IOMMU:</strong></p>
-<pre><code>TDX (Trust Domain Extensions):
-  - Hardware-isolated VMs
-  - Encrypted memory
-  - IOMMU enforces isolation
-  
-Requirements:
-  - TDX-aware IOMMU
-  - Encrypted DMA paths
-  - Device attestation</code></pre>
-<h3 id="aiml-accelerator-challenges">5.12.3 AI/ML Accelerator
-Challenges</h3>
-<p><strong>Massive DMA Bandwidth:</strong></p>
-<pre><code>AI accelerators (e.g., NVIDIA A100, Google TPU):
-  - 1-2 TB/s memory bandwidth
-  - Thousands of concurrent DMA streams
-  - Large model parameters (100GB+)
-  
-IOMMU challenges:
-  - IOTLB must scale
-  - Page walks bottleneck
-  - Huge working sets</code></pre>
-<p><strong>Future Solutions:</strong></p>
-<pre><code>- Larger IOTLBs (10K-100K entries)
-- Multi-level IOTLB hierarchies
-- Predictive prefetching
-- ML-assisted page prediction
-- Dedicated IOMMU per accelerator</code></pre>
-<h3 id="scalable-iov-intel">5.12.4 Scalable IOV (Intel)</h3>
-<p><strong>Next-Generation SR-IOV:</strong></p>
-<pre><code>Scalable IOV:
-  - 1000s of virtual devices (vs 256 in SR-IOV)
-  - Work queues instead of VFs
-  - Shared work queue model
-  - PASID-based assignment
-  
-Benefits:
-  - Finer-grained sharing
-  - Lower overhead per instance
-  - Dynamic scaling</code></pre>
-<p><strong>IOMMU Requirements:</strong></p>
-<pre><code>- Massive PASID support (1M+ address spaces)
-- Efficient PASID table lookup
-- Fast context switching
-- Work queue isolation</code></pre>
-<h3 id="research-directions">5.12.5 Research Directions</h3>
-<p><strong>1. ML-Assisted IOTLB Prefetching:</strong></p>
-<pre><code>Idea:
-  - ML model predicts future DMA accesses
-  - Prefetch translations into IOTLB
-  - Reduce miss rate
-  
-Challenges:
-  - Training overhead
-  - Prediction accuracy
-  - Hardware complexity</code></pre>
-<p><strong>2. Elastic IOMMU:</strong></p>
-<pre><code>Concept:
-  - Dynamic IOTLB resource allocation
-  - Expand IOTLB for active devices
-  - Shrink for idle devices
-  
-Benefits:
-  - Better utilization
-  - Adapts to workload
-  - Lower miss rates</code></pre>
-<p><strong>3. Distributed IOMMU:</strong></p>
-<pre><code>Vision:
-  - IOMMU integrated into device
-  - Local translation cache
-  - Reduce latency
-  
-Challenges:
-  - Coherency
-  - Security
-  - Standards</code></pre>
-<p><strong>4. Quantum-Safe IOMMU:</strong></p>
-<pre><code>Post-quantum cryptography for:
-  - Device attestation
-  - DMA encryption
-  - Secure device binding
-  
-Future IOMMU security features</code></pre>
-<h3 id="industry-trends">5.12.6 Industry Trends</h3>
-<p><strong>2024-2026:</strong> - CXL adoption accelerating -
-Confidential computing mainstream - AI accelerator proliferation</p>
-<p><strong>2026-2028:</strong> - Scalable IOV deployment - CXL memory
-pooling common - Enhanced IOMMU performance</p>
-<p><strong>2028-2030:</strong> - Quantum-safe features - ML-assisted
-optimization - Ubiquitous device encryption</p>
-<p><strong>The IOMMU will remain essential infrastructure, evolving with
-computing needs.</strong></p>
-<hr /><h2 id="iommu-in-operating-systems">5.10 IOMMU in Operating Systems</h2>
+<h2 id="iommu-in-operating-systems">5.9 IOMMU in Operating Systems</h2>
 <p>Operating systems provide abstraction layers over IOMMU hardware,
 making it easier for drivers and applications to use DMA safely.
 Understanding OS IOMMU support is essential for practical
@@ -5173,7 +4906,7 @@ Fault reason 02: Invalid device
 <span id="cb213-13"><a href="#cb213-13" aria-hidden="true" tabindex="-1"></a><span class="st"># ARM SMMU</span></span>
 <span id="cb213-14"><a href="#cb213-14" aria-hidden="true" tabindex="-1"></a><span class="st">arm-smmu.disable_bypass=0</span></span></code></pre></div>
 <hr />
-<h2 id="performance-optimization-and-best-practices">5.11 Performance
+<h2 id="performance-optimization-and-best-practices">5.10 Performance
 Optimization and Best Practices</h2>
 <h3 id="optimization-decision-tree">5.11.1 Optimization Decision
 Tree</h3>
@@ -5387,7 +5120,258 @@ Solution:
   <li><strong>§5.8.9 — TLB Tagging for Virtual Contexts (VMID, ASID, PCID)</strong></li>
   <li>Bhattacharjee, A. and Martonosi, M. "Characterizing the TLB behavior of emerging parallel workloads on chip multiprocessors." <em>Proceedings of the 18th International Conference on Parallel Architectures and Compilation Techniques (PACT)</em>, pp. 29–40, 2009.
     <a href="https://doi.org/10.1145/1629575.1629579" target="_blank" rel="noopener">DOI: 10.1145/1629575.1629579</a></li>
-><h2 id="references">References</h2>
+><h2 id="chapter-summary-and-key-takeaways">5.11 Chapter Summary</h2>
+<h3 id="core-concepts-recap">5.9.1 Core Concepts Recap</h3>
+<p><strong>The IOMMU Problem:</strong> - Traditional DMA: Security
+nightmare, virtualization impossible - IOMMU Solution: Virtual addresses
+for devices, isolation, security</p>
+<p><strong>Key Components:</strong> 1. Device Table/Context Table: Maps
+devices to translation contexts 2. IOMMU Page Tables: DVA → PA mappings
+(hierarchical) 3. IOTLB: Caches translations (critical for performance)
+4. Interrupt Remapping: Prevents interrupt injection attacks</p>
+<p><strong>Translation Flow:</strong></p>
+<pre><code>Device DMA → Device Table → IOTLB → (miss) Page Walk → PA
+Latency: 15-30 ns (hit), 100-400 ns (miss)</code></pre>
+<h3 id="platform-comparison-summary">5.9.2 Platform Comparison
+Summary</h3>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 20%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Intel VT-d</th>
+<th>AMD-Vi</th>
+<th>ARM SMMU</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Lookup</strong></td>
+<td>2-level</td>
+<td>1-level</td>
+<td>Stream Table</td>
+</tr>
+<tr class="even">
+<td><strong>Complexity</strong></td>
+<td>High (many features)</td>
+<td>Medium</td>
+<td>Medium-High</td>
+</tr>
+<tr class="odd">
+<td><strong>PASID</strong></td>
+<td>Full (Scalable)</td>
+<td>Limited</td>
+<td>Substream (v3.1+)</td>
+</tr>
+<tr class="even">
+<td><strong>Two-Stage</strong></td>
+<td>Yes (Scalable)</td>
+<td>Yes (v2)</td>
+<td>Native (Stage 1+2)</td>
+</tr>
+<tr class="odd">
+<td><strong>Posted INT</strong></td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td><strong>Maturity</strong></td>
+<td>Very mature</td>
+<td>Mature</td>
+<td>Modern redesign</td>
+</tr>
+<tr class="odd">
+<td><strong>Best For</strong></td>
+<td>Enterprise servers</td>
+<td>Cost-effective servers</td>
+<td>ARM ecosystem, embedded</td>
+</tr>
+</tbody>
+</table>
+<p><strong>All three are production-ready and performant for modern
+workloads.</strong></p>
+<h3 id="performance-guidelines">5.9.3 Performance Guidelines</h3>
+<p><strong>When IOMMU overhead is acceptable (&lt;5%):</strong> - Large
+pages (2MB/1GB) - Persistent mappings - ATS enabled devices - Modern
+hardware (2020+)</p>
+<p><strong>When IOMMU overhead is significant (&gt;10%):</strong> -
+Small pages (4KB) with large working sets - Frequent map/unmap
+operations - Many simultaneous devices - Older hardware</p>
+<p><strong>Optimization Priorities:</strong> 1. <strong>Use large
+pages</strong> (biggest impact: 50-300% improvement) 2.
+<strong>Persistent mappings</strong> (avoid invalidation storms) 3.
+<strong>Enable ATS</strong> (if device supports) 4. <strong>Batch
+invalidations</strong> (200× faster than per-page)</p>
+<h3 id="security-considerations">5.9.4 Security Considerations</h3>
+<p><strong>IOMMU Provides:</strong> - ✅ DMA attack prevention
+(malicious devices blocked) - ✅ Device isolation (multi-tenant safety)
+- ✅ Interrupt injection prevention (interrupt remapping) - ✅ VM escape
+prevention (strict domain isolation)</p>
+<p><strong>IOMMU Cannot Prevent:</strong> - ❌ Side-channel attacks
+(timing, speculation) - ❌ Physical attacks (DMA before OS boots) - ❌
+Firmware vulnerabilities (RMRR, BMC) - ❌ Device-specific bugs</p>
+<p><strong>Best Practices:</strong> - Enable IOMMU in firmware
+(BIOS/UEFI) - Use interrupt remapping (always) - Monitor IOMMU fault
+events (security logging) - Minimize bypass regions (RMRR on Intel) -
+Keep firmware updated (security patches)</p>
+<h3 id="use-case-decision-matrix">5.9.5 Use Case Decision Matrix</h3>
+<p><strong>When to use IOMMU:</strong> - ✅ Multi-tenant virtualization
+- ✅ Untrusted devices (USB, Thunderbolt) - ✅ Device passthrough to VMs
+- ✅ Security-critical environments - ✅ Systems with &gt; 4GB RAM and
+32-bit devices</p>
+<p><strong>When passthrough might be acceptable:</strong> - ⚠️
+Single-tenant trusted environment - ⚠️ Physical security guaranteed - ⚠️
+Maximum performance critical (HFT, HPC) - ⚠️ Development/testing
+systems</p>
+<p><strong>Never disable IOMMU for:</strong> - ❌ Internet-facing
+servers - ❌ Multi-user systems - ❌ Systems handling sensitive data -
+❌ Production cloud environments</p>
+<h3 id="future-directions">5.9.6 Future Directions</h3>
+<p><strong>Emerging Technologies:</strong> - CXL (Compute Express Link)
+with IOMMU integration - Confidential computing (SEV-SNP, TDX with
+IOMMU) - Hardware-accelerated ML/AI with IOMMU - Elastic IOMMUs (dynamic
+resource allocation) - Improved nested translation performance</p>
+<p><strong>The IOMMU is essential infrastructure for modern
+computing.</strong></p>
+<hr />
+
+
+<!-- Folded from section future-directions-and-emerging-technologies -->
+<h3 id="cxl-compute-express-link-with-iommu">5.12.1 CXL (Compute Express
+Link) with IOMMU</h3>
+<p><strong>What is CXL:</strong></p>
+<pre><code>CXL (Compute Express Link):
+  - New interconnect standard (2019+)
+  - Cache-coherent device memory
+  - Built on PCIe physical layer
+  - Types: CXL.io, CXL.cache, CXL.mem</code></pre>
+<p><strong>IOMMU Integration:</strong></p>
+<pre><code>CXL devices need IOMMU support for:
+  1. Memory pooling across hosts
+  2. Device sharing
+  3. Security isolation
+  
+Challenge: Cache coherency + IOMMU translation
+  - CPU caches device memory
+  - Device caches host memory  
+  - IOMMU must not break coherency</code></pre>
+<p><strong>Future IOMMU Features for CXL:</strong></p>
+<pre><code>- Coherent IOTLB snooping
+- CXL.cache awareness
+- Memory pooling support
+- Dynamic address space expansion
+- Better performance for shared memory</code></pre>
+<h3 id="confidential-computing">5.12.2 Confidential Computing</h3>
+<p><strong>AMD SEV-SNP with IOMMU:</strong></p>
+<pre><code>SEV-SNP (Secure Encrypted Virtualization - Secure Nested Paging):
+  - Encrypted VM memory
+  - Integrity protection
+  - IOMMU integration essential
+  
+IOMMU Role:
+  - Encrypt DMA to/from protected VMs
+  - Prevent DMA attacks on encrypted memory
+  - Attestation of device assignments</code></pre>
+<p><strong>Intel TDX with IOMMU:</strong></p>
+<pre><code>TDX (Trust Domain Extensions):
+  - Hardware-isolated VMs
+  - Encrypted memory
+  - IOMMU enforces isolation
+  
+Requirements:
+  - TDX-aware IOMMU
+  - Encrypted DMA paths
+  - Device attestation</code></pre>
+<h3 id="aiml-accelerator-challenges">5.12.3 AI/ML Accelerator
+Challenges</h3>
+<p><strong>Massive DMA Bandwidth:</strong></p>
+<pre><code>AI accelerators (e.g., NVIDIA A100, Google TPU):
+  - 1-2 TB/s memory bandwidth
+  - Thousands of concurrent DMA streams
+  - Large model parameters (100GB+)
+  
+IOMMU challenges:
+  - IOTLB must scale
+  - Page walks bottleneck
+  - Huge working sets</code></pre>
+<p><strong>Future Solutions:</strong></p>
+<pre><code>- Larger IOTLBs (10K-100K entries)
+- Multi-level IOTLB hierarchies
+- Predictive prefetching
+- ML-assisted page prediction
+- Dedicated IOMMU per accelerator</code></pre>
+<h3 id="scalable-iov-intel">5.12.4 Scalable IOV (Intel)</h3>
+<p><strong>Next-Generation SR-IOV:</strong></p>
+<pre><code>Scalable IOV:
+  - 1000s of virtual devices (vs 256 in SR-IOV)
+  - Work queues instead of VFs
+  - Shared work queue model
+  - PASID-based assignment
+  
+Benefits:
+  - Finer-grained sharing
+  - Lower overhead per instance
+  - Dynamic scaling</code></pre>
+<p><strong>IOMMU Requirements:</strong></p>
+<pre><code>- Massive PASID support (1M+ address spaces)
+- Efficient PASID table lookup
+- Fast context switching
+- Work queue isolation</code></pre>
+<h3 id="research-directions">5.12.5 Research Directions</h3>
+<p><strong>1. ML-Assisted IOTLB Prefetching:</strong></p>
+<pre><code>Idea:
+  - ML model predicts future DMA accesses
+  - Prefetch translations into IOTLB
+  - Reduce miss rate
+  
+Challenges:
+  - Training overhead
+  - Prediction accuracy
+  - Hardware complexity</code></pre>
+<p><strong>2. Elastic IOMMU:</strong></p>
+<pre><code>Concept:
+  - Dynamic IOTLB resource allocation
+  - Expand IOTLB for active devices
+  - Shrink for idle devices
+  
+Benefits:
+  - Better utilization
+  - Adapts to workload
+  - Lower miss rates</code></pre>
+<p><strong>3. Distributed IOMMU:</strong></p>
+<pre><code>Vision:
+  - IOMMU integrated into device
+  - Local translation cache
+  - Reduce latency
+  
+Challenges:
+  - Coherency
+  - Security
+  - Standards</code></pre>
+<p><strong>4. Quantum-Safe IOMMU:</strong></p>
+<pre><code>Post-quantum cryptography for:
+  - Device attestation
+  - DMA encryption
+  - Secure device binding
+  
+Future IOMMU security features</code></pre>
+<h3 id="industry-trends">5.12.6 Industry Trends</h3>
+<p><strong>2024-2026:</strong> - CXL adoption accelerating -
+Confidential computing mainstream - AI accelerator proliferation</p>
+<p><strong>2026-2028:</strong> - Scalable IOV deployment - CXL memory
+pooling common - Enhanced IOMMU performance</p>
+<p><strong>2028-2030:</strong> - Quantum-safe features - ML-assisted
+optimization - Ubiquitous device encryption</p>
+<p><strong>The IOMMU will remain essential infrastructure, evolving with
+computing needs.</strong></p>
+<hr />
+<h2 id="references">References</h2>
 <h3 id="architecture-specifications">Architecture Specifications</h3>
 <ol type="1">
 <li><p>Intel Corporation. "Intel Virtualization Technology for Directed
@@ -5571,803 +5555,783 @@ Centers Using IOMMU." <em>ACM EuroSys</em>, 2020. DOI:
 
 (function() {
   var CHAPTERS = [
-  {
-    "num": 1,
-    "file": "chapter-01-WITH-FIGURES.html",
-    "short": "Memory Management Basics",
-    "sections": [
-      {
-        "text": "1.1 Introduction: Why Virtual Memory Exists",
-        "id": "introduction-why-virtual-memory-exists"
-      },
-      {
-        "text": "1.2 What is Memory Management?",
-        "id": "what-is-memory-management"
-      },
-      {
-        "text": "1.3 The Evolution of Memory Management",
-        "id": "the-evolution-of-memory-management"
-      },
-      {
-        "text": "1.4 Hierarchical Levels of Memory Management",
-        "id": "hierarchical-levels-of-memory-management"
-      },
-      {
-        "text": "1.5 The Virtual Memory Abstraction",
-        "id": "the-virtual-memory-abstraction"
-      },
-      {
-        "text": "1.6 Key Concepts and Terminology",
-        "id": "key-concepts-and-terminology"
-      },
-      {
-        "text": "1.7 A Concrete Example: Address Translation",
-        "id": "a-concrete-example-address-translation"
-      },
-      {
-        "text": "1.8 The Translation Lookaside Buffer (TLB)",
-        "id": "the-translation-lookaside-buffer-tlb"
-      },
-      {
-        "text": "1.9 Multi-Level Page Tables",
-        "id": "multi-level-page-tables"
-      },
-      {
-        "text": "1.10 Why MMU Matters: Real-World Impact",
-        "id": "why-mmu-matters-real-world-impact"
-      },
-      {
-        "text": "1.12 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 2,
-    "file": "chapter-02-WITH-FIGURES.html",
-    "short": "Virtual Memory Concepts",
-    "sections": [
-      {
-        "text": "2.1 Introduction: The Illusion of Unlimited Memory",
-        "id": "introduction-the-illusion-of-unlimited-memory"
-      },
-      {
-        "text": "2.2 Demand Paging: Loading Pages on Demand",
-        "id": "demand-paging-loading-pages-on-demand"
-      },
-      {
-        "text": "2.3 Page Replacement Algorithms",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "2.4 Thrashing and the Working Set Model",
-        "id": "thrashing-and-the-working-set-model"
-      },
-      {
-        "text": "2.5 Copy-on-Write (COW)",
-        "id": "copy-on-write-cow"
-      },
-      {
-        "text": "2.6 Memory-Mapped Files",
-        "id": "memory-mapped-files"
-      },
-      {
-        "text": "2.7 Advanced Topics",
-        "id": "advanced-topics"
-      },
-      {
-        "text": "2.8 Performance Optimization Strategies",
-        "id": "performance-optimization-strategies"
-      },
-      {
-        "text": "2.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 3,
-    "file": "chapter-03-WITH-FIGURES.html",
-    "short": "Page Table Structures and Implementation",
-    "sections": [
-      {
-        "text": "3.1 Introduction",
-        "id": "3.1-introduction"
-      },
-      {
-        "text": "3.2 Single-Level Page Tables: The Simplest Approach",
-        "id": "3.2-single-level-page-tables-the-simplest-approach"
-      },
-      {
-        "text": "3.3 Two-Level Page Tables",
-        "id": "3.3-two-level-page-tables"
-      },
-      {
-        "text": "3.4 Multi-Level Page Tables (3+ Levels)",
-        "id": "3.4-multi-level-page-tables-3-levels"
-      },
-      {
-        "text": "3.6 Virtualization: Two-Stage Address Translation",
-        "id": "3.6-virtualization-two-stage-address-translation"
-      },
-      {
-        "text": "3.7 What Gets Cached: TLB and Page Walk Caches",
-        "id": "3.7-what-gets-cached-tlb-and-page-walk-caches"
-      },
-      {
-        "text": "3.8 Hardware Page Table Walker",
-        "id": "3.8-hardware-page-table-walker"
-      },
-      {
-        "text": "3.9 Page Table Management from the OS Perspective",
-        "id": "3.9-page-table-management-from-the-os-perspective"
-      },
-      {
-        "text": "3.10 Design Trade-offs",
-        "id": "3.10-design-trade-offs"
-      },
-      {
-        "text": "3.11 Chapter Summary",
-        "id": "3.11-chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 4,
-    "file": "chapter-04-WITH-FIGURES.html",
-    "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
-    "sections": [
-      {
-        "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
-        "id": "introduction-the-most-critical-cache-youve-never-heard-of"
-      },
-      {
-        "text": "4.2 TLB Architecture and Organization",
-        "id": "tlb-architecture-and-organization"
-      },
-      {
-        "text": "4.3 TLB Management: Hardware vs Software",
-        "id": "tlb-management-hardware-vs-software"
-      },
-      {
-        "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
-        "id": "address-space-identifiers-asid-pcid-and-vmid"
-      },
-      {
-        "text": "4.5 TLB Operations and Instructions",
-        "id": "tlb-operations-and-instructions"
-      },
-      {
-        "text": "4.6 Large Pages and TLB Coverage",
-        "id": "large-pages-and-tlb-coverage"
-      },
-      {
-        "text": "4.7 Multicore TLB Coherency",
-        "id": "multicore-tlb-coherency"
-      },
-      {
-        "text": "4.8 Platform-Specific TLB Implementations",
-        "id": "platform-specific-tlb-implementations"
-      },
-      {
-        "text": "4.9 Alternative Page Table Structures and TLB Implications",
-        "id": "alternative-page-table-structures-and-tlb-implications"
-      },
-      {
-        "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
-        "id": "self-modifying-code-and-instructiondata-coherency"
-      },
-      {
-        "text": "4.11 Multithreading and TLB Sharing",
-        "id": "multithreading-and-tlb-sharing"
-      },
-      {
-        "text": "4.12 Virtualization with Mismatched Page Sizes",
-        "id": "virtualization-with-mismatched-page-sizes"
-      },
-      {
-        "text": "4.13 GPU and Hardware Accelerator MMUs",
-        "id": "gpu-and-hardware-accelerator-mmus"
-      },
-      {
-        "text": "4.14 Chapter Summary",
-        "id": "chapter-4-summary"
-      },
-      {
-        "text": "References",
-        "id": "chapter-4-references"
-      }
-    ]
-  },
-  {
-    "num": 5,
-    "file": "chapter-05-WITH-FIGURES.html",
-    "short": "IOMMU and DMA Remapping - Deep Dive",
-    "sections": [
-      {
-        "text": "5.1 Introduction: The I/O Device Memory Access Problem",
-        "id": "introduction-the-io-device-memory-access-problem"
-      },
-      {
-        "text": "5.2 IOMMU Architecture Fundamentals",
-        "id": "iommu-architecture-fundamentals"
-      },
-      {
-        "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
-        "id": "intel-vt-d-virtualization-technology-for-directed-io"
-      },
-      {
-        "text": "5.4 AMD IOMMU (AMD-Vi)",
-        "id": "amd-iommu-amd-vi"
-      },
-      {
-        "text": "5.5 ARM SMMU (System Memory Management Unit)",
-        "id": "arm-smmu-system-memory-management-unit"
-      },
-      {
-        "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
-        "id": "iommu-page-tables-cross-platform-analysis"
-      },
-      {
-        "text": "5.7 IOTLB Performance and Optimization",
-        "id": "iotlb-performance-and-optimization"
-      },
-      {
-        "text": "5.8 Device Assignment and SR-IOV",
-        "id": "device-assignment-and-sr-iov"
-      },
-      {
-        "text": "5.9 Chapter Summary",
-        "id": "chapter-summary-and-key-takeaways"
-      },
-      {
-        "text": "5.10 IOMMU in Operating Systems",
-        "id": "iommu-in-operating-systems"
-      },
-      {
-        "text": "5.11 Performance Optimization and Best Practices",
-        "id": "performance-optimization-and-best-practices"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 6,
-    "file": "chapter-06-WITH-FIGURES.html",
-    "short": "Memory Protection and Access Control",
-    "sections": [
-      {
-        "text": "6.1 Introduction: Memory Protection Fundamentals",
-        "id": "6.1-introduction-memory-protection-fundamentals"
-      },
-      {
-        "text": "6.2 Page-Level Protection Bits",
-        "id": "6.2-page-level-protection-bits"
-      },
-      {
-        "text": "6.3 The No-Execute (NX) Bit",
-        "id": "6.3-the-no-execute-nx-bit"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains"
-      },
-      {
-        "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
-        "id": "6.8-trusted-execution-environments-tee-deep-dive"
-      },
-      {
-        "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings-1"
-      },
-      {
-        "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages-1"
-      },
-      {
-        "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features-1"
-      },
-      {
-        "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains-1"
-      },
-      {
-        "text": "6.9 Copy-On-Write (COW)",
-        "id": "6.9-copy-on-write-cow"
-      },
-      {
-        "text": "6.10 Memory Access Ordering and Protection",
-        "id": "6.10-memory-access-ordering-and-protection"
-      },
-      {
-        "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
-        "id": "6.11-confidential-computing-hardware-based-vm-isolation"
-      },
-      {
-        "text": "6.12 AMD Memory Guard and Memory Encryption",
-        "id": "6.12-amd-memory-guard-and-memory-encryption"
-      },
-      {
-        "text": "6.13 RISC-V Security Extensions",
-        "id": "6.13-risc-v-security-extensions"
-      },
-      {
-        "text": "6.14 GPU and Accelerator Security",
-        "id": "6.14-gpu-and-accelerator-security"
-      },
-      {
-        "text": "6.15 Heterogeneous Computing Security",
-        "id": "6.15-heterogeneous-computing-security"
-      },
-      {
-        "text": "6.16 Performance vs Security Trade-offs",
-        "id": "6.16-performance-vs-security-trade-offs"
-      },
-      {
-        "text": "6.17 Best Practices and Guidelines",
-        "id": "6.17-best-practices-and-guidelines"
-      },
-      {
-        "text": "6.18 Common Pitfalls and How to Avoid Them",
-        "id": "6.18-common-pitfalls-and-how-to-avoid-them"
-      },
-      {
-        "text": "6.19 Chapter Summary",
-        "id": "6.19-summary-and-future-directions"
-      },
-      {
-        "text": "References",
-        "id": "chapter-6-references"
-      }
-    ]
-  },
-  {
-    "num": 7,
-    "file": "chapter-07-WITH-FIGURES.html",
-    "short": "Page Faults and Exception Handling",
-    "sections": [
-      {
-        "text": "7.1 Introduction: When Address Translation Fails",
-        "id": "introduction-when-address-translation-fails"
-      },
-      {
-        "text": "7.2 Page Fault Fundamentals",
-        "id": "page-fault-fundamentals"
-      },
-      {
-        "text": "7.3 x86-64 Page Faults (#PF)",
-        "id": "x86-64-page-faults-pf"
-      },
-      {
-        "text": "7.4 ARM64 Data and Instruction Aborts",
-        "id": "arm64-data-and-instruction-aborts"
-      },
-      {
-        "text": "7.5 RISC-V Page Faults",
-        "id": "risc-v-page-faults"
-      },
-      {
-        "text": "7.6 TLB-Related Exceptions",
-        "id": "tlb-related-exceptions"
-      },
-      {
-        "text": "7.7 Page Table Walk Failures",
-        "id": "page-table-walk-failures"
-      },
-      {
-        "text": "7.8 Page Overlapping and Aliasing Faults",
-        "id": "page-overlapping-and-aliasing-faults"
-      },
-      {
-        "text": "7.9 Permission Violations",
-        "id": "permission-violations"
-      },
-      {
-        "text": "7.10 Page Fault Handling Flow",
-        "id": "page-fault-handling-flow"
-      },
-      {
-        "text": "7.11 Performance Implications",
-        "id": "performance-implications"
-      },
-      {
-        "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
-        "id": "historical-architectures-sparc-mips-powerpc"
-      },
-      {
-        "text": "7.13 Architecture Comparison",
-        "id": "architecture-comparison"
-      },
-      {
-        "text": "7.14 Debugging Page Faults",
-        "id": "debugging-page-faults"
-      },
-      {
-        "text": "7.15 Chapter Summary",
-        "id": "advanced-topics-and-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 8,
-    "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
-    "sections": [
-      {
-        "text": "8.1 Introduction: The Crisis Point",
-        "id": "introduction-the-crisis-point"
-      },
-      {
-        "text": "8.2 Nested Page Tables: Beyond the Basics",
-        "id": "nested-page-tables-beyond-the-basics"
-      },
-      {
-        "text": "8.3 Architecture Differences in Nested Fault Handling",
-        "id": "architecture-differences-nested-fault-handling"
-      },
-      {
-        "text": "8.4 Accessed and Dirty Bits",
-        "id": "accessed-dirty-bits"
-      },
-      {
-        "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
-        "id": "page-replacement-algorithms"
-      },
-      {
-        "text": "8.6 Memory Reclaim: When and How to Free Pages",
-        "id": "memory-reclaim"
-      },
-      {
-        "text": "8.7 Page Table Management: The Meta-Problem",
-        "id": "page-table-management"
-      },
-      {
-        "text": "8.8 Performance Analysis and Tuning",
-        "id": "performance-analysis-and-tuning"
-      },
-      {
-        "text": "8.9 Chapter Summary",
-        "id": "chapter-summary"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 9,
-    "file": "chapter-09-WITH-FIGURES.html",
-    "short": "Advanced Page Table Optimizations",
-    "sections": [
-      {
-        "text": "9.1 Introduction: The Container Crisis",
-        "id": "introduction-the-container-crisis"
-      },
-      {
-        "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
-        "id": "memory-deduplication-kernel-samepage-merging"
-      },
-      {
-        "text": "9.3 Page Table Locking and Concurrency",
-        "id": "page-table-locking-and-concurrency"
-      },
-      {
-        "text": "9.4 NUMA-Aware Page Table Management",
-        "id": "numa-aware-page-table-management"
-      },
-      {
-        "text": "9.5 Advanced Huge Page Strategies",
-        "id": "advanced-huge-page-strategies"
-      },
-      {
-        "text": "9.6 Page Table Compaction and Sharing",
-        "id": "page-table-compaction-and-sharing"
-      },
-      {
-        "text": "9.7 Parallel Page Table Operations",
-        "id": "parallel-page-table-operations"
-      },
-      {
-        "text": "9.8 Memory Compression Integration",
-        "id": "memory-compression-integration"
-      },
-      {
-        "text": "9.9 Putting It All Together: Cloud Provider Optimization Stack",
-        "id": "putting-it-all-together-cloud-provider-optimization-stack"
-      },
-      {
-        "text": "9.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 10,
-    "file": "chapter-10-WITH-FIGURES.html",
-    "short": "Hardware Accelerators and External MMU Access",
-    "sections": [
-      {
-        "text": "10.1 Introduction: Beyond the CPU Core",
-        "id": "introduction-beyond-the-cpu-core"
-      },
-      {
-        "text": "10.2 IOMMU Architecture Deep Dive",
-        "id": "iommu-architecture-deep-dive"
-      },
-      {
-        "text": "10.3 PCIe ATS and Address Translation Services",
-        "id": "pcie-ats-and-address-translation-services"
-      },
-      {
-        "text": "10.4 RDMA and Memory Registration",
-        "id": "rdma-and-memory-registration"
-      },
-      {
-        "text": "10.5 Smart NICs and Data Processing Units",
-        "id": "smart-nics-and-data-processing-units"
-      },
-      {
-        "text": "10.7 Video and Media Accelerators",
-        "id": "video-and-media-accelerators"
-      },
-      {
-        "text": "10.8 Multi-Device Coherency and Coordination",
-        "id": "multi-device-coherency-and-coordination"
-      },
-      {
-        "text": "10.10 Chapter Summary",
-        "id": "summary-and-best-practices"
-      }
-    ]
-  },
-  {
-    "num": 11,
-    "file": "chapter-11-WITH-FIGURES.html",
-    "short": "Virtual Memory Challenges in AI/ML Accelerators",
-    "sections": [
-      {
-        "text": "11.1 Introduction: Scale Changes Everything",
-        "id": "introduction-scale-changes-everything"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 12,
-    "file": "chapter-12-WITH-FIGURES.html",
-    "short": "When MMU Architecture Breaks - AI at Scale",
-    "sections": [
-      {
-        "text": "12.0 The Six Drivers of AI Memory Systems",
-        "id": "section-12.0"
-      },
-      {
-        "text": "12.0B The Architectural Cost of Runtime Address Translation",
-        "id": "section-12.0B"
-      },
-      {
-        "text": "12.1 Introduction - When Good Architecture Faces New Constraints",
-        "id": "section-12.1"
-      },
-      {
-        "text": "12.2 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
-        "id": "section-12.2"
-      },
-      {
-        "text": "12.3 Multi-Tenancy - Isolation vs Performance Trade-Offs",
-        "id": "section-12.3"
-      },
-      {
-        "text": "12.4 Virtualization - The Page Fault Challenge",
-        "id": "section-12.4"
-      },
-      {
-        "text": "12.5 Chapter Summary",
-        "id": "section-12.5"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 13,
-    "file": "chapter-13-WITH-FIGURES.html",
-    "short": "Machine Learning for Memory Management - The False Hope",
-    "sections": [
-      {
-        "text": "Table of Contents",
-        "id": "toc-title"
-      },
-      {
-        "text": "13.1 Introduction: The ML Seduction",
-        "id": "section-13.1"
-      },
-      {
-        "text": "13.2 Pythia: Why Hardware RL Failed",
-        "id": "section-13.2"
-      },
-      {
-        "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
-        "id": "section-13.3"
-      },
-      {
-        "text": "13.4 LeCaR: The Rare Success (And Why)",
-        "id": "section-13.4"
-      },
-      {
-        "text": "13.5 Chapter Summary",
-        "id": "section-13.5"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 14,
-    "file": "chapter-14-WITH-FIGURES.html",
-    "short": "Software-Managed Memory for AI Workloads",
-    "sections": [
-      {
-        "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
-        "id": "section-14.1"
-      },
-      {
-        "text": "14.2 Memory Management Failure Modes",
-        "id": "section-14.2"
-      },
-      {
-        "text": "14.3 Software-Managed Memory: The vLLM System",
-        "id": "section-14.3"
-      },
-      {
-        "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
-        "id": "section-14.4"
-      },
-      {
-        "text": "14.5 Comparative Analysis and Design Trade-offs",
-        "id": "section-14.5"
-      },
-      {
-        "text": "14.6 Future Research Directions",
-        "id": "section-14.6"
-      },
-      {
-        "text": "14.7 Chapter Summary",
-        "id": "section-14.7"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 15,
-    "file": "chapter-15-WITH-FIGURES.html",
-    "short": "Beyond Traditional MMU - Alternative Translation Architectures",
-    "sections": [
-      {
-        "text": "15.1 Introduction",
-        "id": "section-15.1"
-      },
-      {
-        "text": "15.2 Network-Level Translation",
-        "id": "section-15.2"
-      },
-      {
-        "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
-        "id": "section-15.3"
-      },
-      {
-        "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
-        "id": "section-15.4"
-      },
-      {
-        "text": "15.5 Comparative Analysis",
-        "id": "section-15.5"
-      },
-      {
-        "text": "15.6 Chapter Summary",
-        "id": "section-15.6"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  },
-  {
-    "num": 16,
-    "file": "chapter-16-WITH-FIGURES.html",
-    "short": "Advanced TLB Optimization Techniques",
-    "sections": [
-      {
-        "text": "16.1 Introduction: The TLB Reach Crisis",
-        "id": "section-16.1"
-      },
-      {
-        "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
-        "id": "section-16.2"
-      },
-      {
-        "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
-        "id": "section-16.3"
-      },
-      {
-        "text": "16.4 Speculative Translation: SpecTLB and Avatar",
-        "id": "section-16.4"
-      },
-      {
-        "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
-        "id": "section-16.5"
-      },
-      {
-        "text": "16.6 Hashing-Based Compression: Mosaic Pages",
-        "id": "section-16.6"
-      },
-      {
-        "text": "16.7 Range-Based Translation: FlexPointer",
-        "id": "section-16.7"
-      },
-      {
-        "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
-        "id": "section-16.8"
-      },
-      {
-        "text": "16.9 Comparative Analysis: When to Use Each Technique",
-        "id": "section-16.9"
-      },
-      {
-        "text": "16.10 Chapter Summary",
-        "id": "section-16.10"
-      },
-      {
-        "text": "References",
-        "id": "references"
-      }
-    ]
-  }
-];
+          {
+                "num": 1,
+                "file": "chapter-01-WITH-FIGURES.html",
+                "short": "Memory Management Basics",
+                "sections": [
+                      {
+                            "text": "1.1 Introduction: Why Virtual Memory Exists",
+                            "id": "introduction-why-virtual-memory-exists"
+                      },
+                      {
+                            "text": "1.2 What is Memory Management?",
+                            "id": "what-is-memory-management"
+                      },
+                      {
+                            "text": "1.3 The Evolution of Memory Management",
+                            "id": "the-evolution-of-memory-management"
+                      },
+                      {
+                            "text": "1.4 Hierarchical Levels of Memory Management",
+                            "id": "hierarchical-levels-of-memory-management"
+                      },
+                      {
+                            "text": "1.5 The Virtual Memory Abstraction",
+                            "id": "the-virtual-memory-abstraction"
+                      },
+                      {
+                            "text": "1.6 Key Concepts and Terminology",
+                            "id": "key-concepts-and-terminology"
+                      },
+                      {
+                            "text": "1.7 A Concrete Example: Address Translation",
+                            "id": "a-concrete-example-address-translation"
+                      },
+                      {
+                            "text": "1.8 The Translation Lookaside Buffer (TLB)",
+                            "id": "the-translation-lookaside-buffer-tlb"
+                      },
+                      {
+                            "text": "1.9 Multi-Level Page Tables",
+                            "id": "multi-level-page-tables"
+                      },
+                      {
+                            "text": "1.10 Why MMU Matters: Real-World Impact",
+                            "id": "why-mmu-matters-real-world-impact"
+                      },
+                      {
+                            "text": "1.11 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 2,
+                "file": "chapter-02-WITH-FIGURES.html",
+                "short": "Virtual Memory Concepts",
+                "sections": [
+                      {
+                            "text": "2.1 Introduction: The Illusion of Unlimited Memory",
+                            "id": "introduction-the-illusion-of-unlimited-memory"
+                      },
+                      {
+                            "text": "2.2 Demand Paging: Loading Pages on Demand",
+                            "id": "demand-paging-loading-pages-on-demand"
+                      },
+                      {
+                            "text": "2.3 Page Replacement Algorithms",
+                            "id": "page-replacement-algorithms"
+                      },
+                      {
+                            "text": "2.4 Thrashing and the Working Set Model",
+                            "id": "thrashing-and-the-working-set-model"
+                      },
+                      {
+                            "text": "2.5 Copy-on-Write (COW)",
+                            "id": "copy-on-write-cow"
+                      },
+                      {
+                            "text": "2.6 Memory-Mapped Files",
+                            "id": "memory-mapped-files"
+                      },
+                      {
+                            "text": "2.7 Advanced Topics",
+                            "id": "advanced-topics"
+                      },
+                      {
+                            "text": "2.8 Performance Optimization Strategies",
+                            "id": "performance-optimization-strategies"
+                      },
+                      {
+                            "text": "2.9 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 3,
+                "file": "chapter-03-WITH-FIGURES.html",
+                "short": "Page Table Structures and Implementation",
+                "sections": [
+                      {
+                            "text": "3.1 Introduction",
+                            "id": "3.1-introduction"
+                      },
+                      {
+                            "text": "3.2 Single-Level Page Tables: The Simplest Approach",
+                            "id": "3.2-single-level-page-tables-the-simplest-approach"
+                      },
+                      {
+                            "text": "3.3 Two-Level Page Tables",
+                            "id": "3.3-two-level-page-tables"
+                      },
+                      {
+                            "text": "3.4 Multi-Level Page Tables (3+ Levels)",
+                            "id": "3.4-multi-level-page-tables-3-levels"
+                      },
+                      {
+                            "text": "3.5 Virtualization: Two-Stage Address Translation",
+                            "id": "3.5-virtualization-two-stage-address-translation"
+                      },
+                      {
+                            "text": "3.6 What Gets Cached: TLB and Page Walk Caches",
+                            "id": "3.6-what-gets-cached-tlb-and-page-walk-caches"
+                      },
+                      {
+                            "text": "3.7 Hardware Page Table Walker",
+                            "id": "3.7-hardware-page-table-walker"
+                      },
+                      {
+                            "text": "3.8 Page Table Management from the OS Perspective",
+                            "id": "3.8-page-table-management-from-the-os-perspective"
+                      },
+                      {
+                            "text": "3.9 Design Trade-offs",
+                            "id": "3.9-design-trade-offs"
+                      },
+                      {
+                            "text": "3.10 Chapter Summary",
+                            "id": "3.10-chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 4,
+                "file": "chapter-04-WITH-FIGURES.html",
+                "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
+                "sections": [
+                      {
+                            "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
+                            "id": "introduction-the-most-critical-cache-youve-never-heard-of"
+                      },
+                      {
+                            "text": "4.2 TLB Architecture and Organization",
+                            "id": "tlb-architecture-and-organization"
+                      },
+                      {
+                            "text": "4.3 TLB Management: Hardware vs Software",
+                            "id": "tlb-management-hardware-vs-software"
+                      },
+                      {
+                            "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
+                            "id": "address-space-identifiers-asid-pcid-and-vmid"
+                      },
+                      {
+                            "text": "4.5 TLB Operations and Instructions",
+                            "id": "tlb-operations-and-instructions"
+                      },
+                      {
+                            "text": "4.6 Large Pages and TLB Coverage",
+                            "id": "large-pages-and-tlb-coverage"
+                      },
+                      {
+                            "text": "4.7 Multicore TLB Coherency",
+                            "id": "multicore-tlb-coherency"
+                      },
+                      {
+                            "text": "4.8 Platform-Specific TLB Implementations",
+                            "id": "platform-specific-tlb-implementations"
+                      },
+                      {
+                            "text": "4.9 Alternative Page Table Structures and TLB Implications",
+                            "id": "alternative-page-table-structures-and-tlb-implications"
+                      },
+                      {
+                            "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
+                            "id": "self-modifying-code-and-instructiondata-coherency"
+                      },
+                      {
+                            "text": "4.11 Multithreading and TLB Sharing",
+                            "id": "multithreading-and-tlb-sharing"
+                      },
+                      {
+                            "text": "4.12 Virtualization with Mismatched Page Sizes",
+                            "id": "virtualization-with-mismatched-page-sizes"
+                      },
+                      {
+                            "text": "4.13 GPU and Hardware Accelerator MMUs",
+                            "id": "gpu-and-hardware-accelerator-mmus"
+                      },
+                      {
+                            "text": "4.14 Chapter Summary",
+                            "id": "chapter-4-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "chapter-4-references"
+                      }
+                ]
+          },
+          {
+                "num": 5,
+                "file": "chapter-05-WITH-FIGURES.html",
+                "short": "IOMMU and DMA Remapping - Deep Dive",
+                "sections": [
+                      {
+                            "text": "5.1 Introduction: The I/O Device Memory Access Problem",
+                            "id": "introduction-the-io-device-memory-access-problem"
+                      },
+                      {
+                            "text": "5.2 IOMMU Architecture Fundamentals",
+                            "id": "iommu-architecture-fundamentals"
+                      },
+                      {
+                            "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
+                            "id": "intel-vt-d-virtualization-technology-for-directed-io"
+                      },
+                      {
+                            "text": "5.4 AMD IOMMU (AMD-Vi)",
+                            "id": "amd-iommu-amd-vi"
+                      },
+                      {
+                            "text": "5.5 ARM SMMU (System Memory Management Unit)",
+                            "id": "arm-smmu-system-memory-management-unit"
+                      },
+                      {
+                            "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
+                            "id": "iommu-page-tables-cross-platform-analysis"
+                      },
+                      {
+                            "text": "5.7 IOTLB Performance and Optimization",
+                            "id": "iotlb-performance-and-optimization"
+                      },
+                      {
+                            "text": "5.8 Device Assignment and SR-IOV",
+                            "id": "device-assignment-and-sr-iov"
+                      },
+                      {
+                            "text": "5.11 Chapter Summary",
+                            "id": "chapter-summary-and-key-takeaways"
+                      },
+                      {
+                            "text": "5.9 IOMMU in Operating Systems",
+                            "id": "iommu-in-operating-systems"
+                      },
+                      {
+                            "text": "5.10 Performance Optimization and Best Practices",
+                            "id": "performance-optimization-and-best-practices"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 6,
+                "file": "chapter-06-WITH-FIGURES.html",
+                "short": "Memory Protection and Access Control",
+                "sections": [
+                      {
+                            "text": "6.1 Introduction: Memory Protection Fundamentals",
+                            "id": "6.1-introduction-memory-protection-fundamentals"
+                      },
+                      {
+                            "text": "6.2 Page-Level Protection Bits",
+                            "id": "6.2-page-level-protection-bits"
+                      },
+                      {
+                            "text": "6.3 The No-Execute (NX) Bit",
+                            "id": "6.3-the-no-execute-nx-bit"
+                      },
+                      {
+                            "text": "6.4 Privilege Levels and Protection Rings",
+                            "id": "6.4-privilege-levels-and-protection-rings"
+                      },
+                      {
+                            "text": "6.5 User vs Supervisor Pages",
+                            "id": "6.5-user-vs-supervisor-pages"
+                      },
+                      {
+                            "text": "6.6 Advanced Protection Features",
+                            "id": "6.6-advanced-protection-features"
+                      },
+                      {
+                            "text": "6.7 Protection Keys and Domains",
+                            "id": "6.7-protection-keys-and-domains"
+                      },
+                      {
+                            "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
+                            "id": "6.8-trusted-execution-environments-tee-deep-dive"
+                      },
+                      {
+                            "text": "6.9 Copy-On-Write (COW)",
+                            "id": "6.9-copy-on-write-cow"
+                      },
+                      {
+                            "text": "6.10 Memory Access Ordering and Protection",
+                            "id": "6.10-memory-access-ordering-and-protection"
+                      },
+                      {
+                            "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
+                            "id": "6.11-confidential-computing-hardware-based-vm-isolation"
+                      },
+                      {
+                            "text": "6.12 AMD Memory Guard and Memory Encryption",
+                            "id": "6.12-amd-memory-guard-and-memory-encryption"
+                      },
+                      {
+                            "text": "6.13 RISC-V Security Extensions",
+                            "id": "6.13-risc-v-security-extensions"
+                      },
+                      {
+                            "text": "6.14 GPU and Accelerator Security",
+                            "id": "6.14-gpu-and-accelerator-security"
+                      },
+                      {
+                            "text": "6.15 Heterogeneous Computing Security",
+                            "id": "6.15-heterogeneous-computing-security"
+                      },
+                      {
+                            "text": "6.16 Performance vs Security Trade-offs",
+                            "id": "6.16-performance-vs-security-trade-offs"
+                      },
+                      {
+                            "text": "6.17 Best Practices and Guidelines",
+                            "id": "6.17-best-practices-and-guidelines"
+                      },
+                      {
+                            "text": "6.18 Common Pitfalls and How to Avoid Them",
+                            "id": "6.18-common-pitfalls-and-how-to-avoid-them"
+                      },
+                      {
+                            "text": "6.19 Chapter Summary",
+                            "id": "6.19-summary-and-future-directions"
+                      },
+                      {
+                            "text": "References",
+                            "id": "chapter-6-references"
+                      }
+                ]
+          },
+          {
+                "num": 7,
+                "file": "chapter-07-WITH-FIGURES.html",
+                "short": "Page Faults and Exception Handling",
+                "sections": [
+                      {
+                            "text": "7.1 Introduction: When Address Translation Fails",
+                            "id": "introduction-when-address-translation-fails"
+                      },
+                      {
+                            "text": "7.2 Page Fault Fundamentals",
+                            "id": "page-fault-fundamentals"
+                      },
+                      {
+                            "text": "7.3 x86-64 Page Faults (#PF)",
+                            "id": "x86-64-page-faults-pf"
+                      },
+                      {
+                            "text": "7.4 ARM64 Data and Instruction Aborts",
+                            "id": "arm64-data-and-instruction-aborts"
+                      },
+                      {
+                            "text": "7.5 RISC-V Page Faults",
+                            "id": "risc-v-page-faults"
+                      },
+                      {
+                            "text": "7.6 TLB-Related Exceptions",
+                            "id": "tlb-related-exceptions"
+                      },
+                      {
+                            "text": "7.7 Page Table Walk Failures",
+                            "id": "page-table-walk-failures"
+                      },
+                      {
+                            "text": "7.8 Page Overlapping and Aliasing Faults",
+                            "id": "page-overlapping-and-aliasing-faults"
+                      },
+                      {
+                            "text": "7.9 Permission Violations",
+                            "id": "permission-violations"
+                      },
+                      {
+                            "text": "7.10 Page Fault Handling Flow",
+                            "id": "page-fault-handling-flow"
+                      },
+                      {
+                            "text": "7.11 Performance Implications",
+                            "id": "performance-implications"
+                      },
+                      {
+                            "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
+                            "id": "historical-architectures-sparc-mips-powerpc"
+                      },
+                      {
+                            "text": "7.13 Architecture Comparison",
+                            "id": "architecture-comparison"
+                      },
+                      {
+                            "text": "7.14 Debugging Page Faults",
+                            "id": "debugging-page-faults"
+                      },
+                      {
+                            "text": "7.15 Chapter Summary",
+                            "id": "advanced-topics-and-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 8,
+                "file": "chapter-08-WITH-FIGURES.html",
+                "short": "Advanced MMU Topics: System Integration and Optimization",
+                "sections": [
+                      {
+                            "text": "8.1 Introduction: The Crisis Point",
+                            "id": "introduction-the-crisis-point"
+                      },
+                      {
+                            "text": "8.2 Nested Page Tables: Beyond the Basics",
+                            "id": "nested-page-tables-beyond-the-basics"
+                      },
+                      {
+                            "text": "8.3 Architecture Differences in Nested Fault Handling",
+                            "id": "architecture-differences-nested-fault-handling"
+                      },
+                      {
+                            "text": "8.4 Accessed and Dirty Bits",
+                            "id": "accessed-dirty-bits"
+                      },
+                      {
+                            "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
+                            "id": "page-replacement-algorithms"
+                      },
+                      {
+                            "text": "8.6 Memory Reclaim: When and How to Free Pages",
+                            "id": "memory-reclaim"
+                      },
+                      {
+                            "text": "8.7 Page Table Management: The Meta-Problem",
+                            "id": "page-table-management"
+                      },
+                      {
+                            "text": "8.8 Performance Analysis and Tuning",
+                            "id": "performance-analysis-and-tuning"
+                      },
+                      {
+                            "text": "8.9 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 9,
+                "file": "chapter-09-WITH-FIGURES.html",
+                "short": "Advanced Page Table Optimizations",
+                "sections": [
+                      {
+                            "text": "9.1 Introduction: The Container Crisis",
+                            "id": "introduction-the-container-crisis"
+                      },
+                      {
+                            "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
+                            "id": "memory-deduplication-kernel-samepage-merging"
+                      },
+                      {
+                            "text": "9.3 Page Table Locking and Concurrency",
+                            "id": "page-table-locking-and-concurrency"
+                      },
+                      {
+                            "text": "9.4 NUMA-Aware Page Table Management",
+                            "id": "numa-aware-page-table-management"
+                      },
+                      {
+                            "text": "9.5 Advanced Huge Page Strategies",
+                            "id": "advanced-huge-page-strategies"
+                      },
+                      {
+                            "text": "9.6 Page Table Compaction and Sharing",
+                            "id": "page-table-compaction-and-sharing"
+                      },
+                      {
+                            "text": "9.7 Parallel Page Table Operations",
+                            "id": "parallel-page-table-operations"
+                      },
+                      {
+                            "text": "9.8 Memory Compression Integration",
+                            "id": "memory-compression-integration"
+                      },
+                      {
+                            "text": "9.9 Production Case Study: Cloud Provider Memory Optimization Stack",
+                            "id": "production-case-study-cloud-provider-memory-optimization-stack"
+                      },
+                      {
+                            "text": "9.10 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      }
+                ]
+          },
+          {
+                "num": 10,
+                "file": "chapter-10-WITH-FIGURES.html",
+                "short": "Hardware Accelerators and External MMU Access",
+                "sections": [
+                      {
+                            "text": "10.1 Introduction: Beyond the CPU Core",
+                            "id": "introduction-beyond-the-cpu-core"
+                      },
+                      {
+                            "text": "10.2 IOMMU Architecture Deep Dive",
+                            "id": "iommu-architecture-deep-dive"
+                      },
+                      {
+                            "text": "10.3 PCIe ATS and Address Translation Services",
+                            "id": "pcie-ats-and-address-translation-services"
+                      },
+                      {
+                            "text": "10.4 RDMA and Memory Registration",
+                            "id": "rdma-and-memory-registration"
+                      },
+                      {
+                            "text": "10.5 Smart NICs and Data Processing Units",
+                            "id": "smart-nics-and-data-processing-units"
+                      },
+                      {
+                            "text": "10.6 Video and Media Accelerators",
+                            "id": "video-and-media-accelerators"
+                      },
+                      {
+                            "text": "10.7 Multi-Device Coherency and Coordination",
+                            "id": "multi-device-coherency-and-coordination"
+                      },
+                      {
+                            "text": "10.8 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      }
+                ]
+          },
+          {
+                "num": 11,
+                "file": "chapter-11-WITH-FIGURES.html",
+                "short": "Virtual Memory Challenges in AI/ML Accelerators",
+                "sections": [
+                      {
+                            "text": "11.1 Introduction: Scale Changes Everything",
+                            "id": "introduction-scale-changes-everything"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 12,
+                "file": "chapter-12-WITH-FIGURES.html",
+                "short": "When MMU Architecture Breaks - AI at Scale",
+                "sections": [
+                      {
+                            "text": "12.1 The Six Drivers of AI Memory Systems",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "12.2 The Architectural Cost of Runtime Address Translation",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.3 Introduction - When Good Architecture Faces New Constraints",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "12.4 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.5 Multi-Tenancy - Isolation vs Performance Trade-Offs",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "12.6 Virtualization - The Page Fault Challenge",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.7 Chapter Summary",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 13,
+                "file": "chapter-13-WITH-FIGURES.html",
+                "short": "Machine Learning for Memory Management - The False Hope",
+                "sections": [
+                      {
+                            "text": "13.1 Introduction: The ML Seduction",
+                            "id": "section-13.1"
+                      },
+                      {
+                            "text": "13.2 Pythia: Why Hardware RL Failed",
+                            "id": "section-13.2"
+                      },
+                      {
+                            "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
+                            "id": "section-13.3"
+                      },
+                      {
+                            "text": "13.4 LeCaR: The Rare Success (And Why)",
+                            "id": "section-13.4"
+                      },
+                      {
+                            "text": "13.5 Chapter Summary",
+                            "id": "section-13.5"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 14,
+                "file": "chapter-14-WITH-FIGURES.html",
+                "short": "Software-Managed Memory for AI Workloads",
+                "sections": [
+                      {
+                            "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
+                            "id": "section-14.1"
+                      },
+                      {
+                            "text": "14.2 Memory Management Failure Modes",
+                            "id": "section-14.2"
+                      },
+                      {
+                            "text": "14.3 Software-Managed Memory: The vLLM System",
+                            "id": "section-14.3"
+                      },
+                      {
+                            "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
+                            "id": "section-14.4"
+                      },
+                      {
+                            "text": "14.5 Comparative Analysis and Design Trade-offs",
+                            "id": "section-14.5"
+                      },
+                      {
+                            "text": "14.6 Future Research Directions",
+                            "id": "section-14.6"
+                      },
+                      {
+                            "text": "14.7 Chapter Summary",
+                            "id": "section-14.7"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 15,
+                "file": "chapter-15-WITH-FIGURES.html",
+                "short": "Beyond Traditional MMU - Alternative Translation Architectures",
+                "sections": [
+                      {
+                            "text": "15.1 Introduction",
+                            "id": "section-15.1"
+                      },
+                      {
+                            "text": "15.2 Network-Level Translation",
+                            "id": "section-15.2"
+                      },
+                      {
+                            "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
+                            "id": "section-15.3"
+                      },
+                      {
+                            "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
+                            "id": "section-15.4"
+                      },
+                      {
+                            "text": "15.5 Comparative Analysis",
+                            "id": "section-15.5"
+                      },
+                      {
+                            "text": "15.6 Chapter Summary",
+                            "id": "section-15.6"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 16,
+                "file": "chapter-16-WITH-FIGURES.html",
+                "short": "Advanced TLB Optimization Techniques",
+                "sections": [
+                      {
+                            "text": "16.1 Introduction: The TLB Reach Crisis",
+                            "id": "section-16.1"
+                      },
+                      {
+                            "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
+                            "id": "section-16.2"
+                      },
+                      {
+                            "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
+                            "id": "section-16.3"
+                      },
+                      {
+                            "text": "16.4 Speculative Translation: SpecTLB and Avatar",
+                            "id": "section-16.4"
+                      },
+                      {
+                            "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
+                            "id": "section-16.5"
+                      },
+                      {
+                            "text": "16.6 Hashing-Based Compression: Mosaic Pages",
+                            "id": "section-16.6"
+                      },
+                      {
+                            "text": "16.7 Range-Based Translation: FlexPointer",
+                            "id": "section-16.7"
+                      },
+                      {
+                            "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
+                            "id": "section-16.8"
+                      },
+                      {
+                            "text": "16.9 Comparative Analysis: When to Use Each Technique",
+                            "id": "section-16.9"
+                      },
+                      {
+                            "text": "16.10 Chapter Summary",
+                            "id": "section-16.10"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          }
+    ];
   var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
   var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
 
