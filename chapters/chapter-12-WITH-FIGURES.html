@@ -839,56 +839,56 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="450" y="330" text-anchor="middle" font-size="14" fill="white" font-weight="bold">Pressure</text>
 
   <!-- Driver 1: Working Set Size (top left) -->
-  <rect x="22" y="60" width="230" height="110" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
+  <rect x="22" y="60" width="230" height="110" rx="8" fill="#F5F5F5" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
   <text x="137" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">① Working Set Size</text>
   <text x="137" y="104" text-anchor="middle" font-size="13" fill="#212121">GPT-3: 1,800 GB</text>
   <text x="137" y="122" text-anchor="middle" font-size="13" fill="#212121">GPT-4: ~5,000 GB</text>
-  <text x="137" y="140" text-anchor="middle" font-size="12" fill="#D32F2F">L2 TLB covers 0.0002%</text>
+  <text x="137" y="140" text-anchor="middle" font-size="12" fill="#E65100">L2 TLB covers 0.0002%</text>
   <text x="137" y="157" text-anchor="middle" font-size="11" fill="#616161">of working set w/ 4 KB pages</text>
   <line x1="252" y1="120" x2="362" y2="245" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Driver 2: GPU Count (top center) -->
-  <rect x="323" y="60" width="254" height="110" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
+  <rect x="323" y="60" width="254" height="110" rx="8" fill="#F5F5F5" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">② GPU Count per Job</text>
   <text x="450" y="104" text-anchor="middle" font-size="13" fill="#212121">Training: 1,000 – 10,000 GPUs</text>
   <text x="450" y="122" text-anchor="middle" font-size="13" fill="#212121">Inference: 8 – 256 GPUs</text>
-  <text x="450" y="140" text-anchor="middle" font-size="12" fill="#D32F2F">TLB shootdown: O(N) scaling</text>
+  <text x="450" y="140" text-anchor="middle" font-size="12" fill="#E65100">TLB shootdown: O(N) scaling</text>
   <text x="450" y="157" text-anchor="middle" font-size="11" fill="#616161">each mapping change stalls all GPUs</text>
   <line x1="450" y1="170" x2="450" y2="244" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Driver 3: Bandwidth (top right) -->
-  <rect x="648" y="60" width="230" height="110" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
+  <rect x="648" y="60" width="230" height="110" rx="8" fill="#F5F5F5" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
   <text x="763" y="84" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">③ Memory Bandwidth</text>
   <text x="763" y="104" text-anchor="middle" font-size="13" fill="#212121">H100 SXM: 3.35 TB/s</text>
   <text x="763" y="122" text-anchor="middle" font-size="13" fill="#212121">MI300X HBM: 5.3 TB/s</text>
-  <text x="763" y="140" text-anchor="middle" font-size="12" fill="#D32F2F">TLB miss penalty consumes</text>
+  <text x="763" y="140" text-anchor="middle" font-size="12" fill="#E65100">TLB miss penalty consumes</text>
   <text x="763" y="157" text-anchor="middle" font-size="11" fill="#616161">90% of available BW</text>
   <line x1="648" y1="120" x2="538" y2="245" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Driver 4: Multi-tenancy (bottom left) -->
-  <rect x="22" y="410" width="230" height="110" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
+  <rect x="22" y="410" width="230" height="110" rx="8" fill="#F5F5F5" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
   <text x="137" y="434" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">④ Multi-Tenancy</text>
   <text x="137" y="454" text-anchor="middle" font-size="13" fill="#212121">8–32 tenants per GPU</text>
   <text x="137" y="472" text-anchor="middle" font-size="13" fill="#212121">(MIG / MPS / vGPU)</text>
-  <text x="137" y="490" text-anchor="middle" font-size="12" fill="#D32F2F">Shared TLB = timing</text>
+  <text x="137" y="490" text-anchor="middle" font-size="12" fill="#E65100">Shared TLB = timing</text>
   <text x="137" y="507" text-anchor="middle" font-size="11" fill="#616161">side-channel between VMs</text>
   <line x1="252" y1="460" x2="362" y2="353" stroke="#E65100" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Driver 5: Virtualization (bottom center) -->
-  <rect x="323" y="410" width="254" height="110" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
+  <rect x="323" y="410" width="254" height="110" rx="8" fill="#F5F5F5" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="434" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">⑤ Virtualization Overhead</text>
   <text x="450" y="454" text-anchor="middle" font-size="13" fill="#212121">Cloud GPU: always virtualised</text>
   <text x="450" y="472" text-anchor="middle" font-size="13" fill="#212121">2-stage walk: 25 accesses</text>
-  <text x="450" y="490" text-anchor="middle" font-size="12" fill="#D32F2F">Page fault storm at</text>
+  <text x="450" y="490" text-anchor="middle" font-size="12" fill="#E65100">Page fault storm at</text>
   <text x="450" y="507" text-anchor="middle" font-size="11" fill="#616161">model load time: 10–100s</text>
   <line x1="450" y1="410" x2="450" y2="356" stroke="#E65100" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Driver 6: Access Patterns (bottom right) -->
-  <rect x="648" y="410" width="230" height="110" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
+  <rect x="648" y="410" width="230" height="110" rx="8" fill="#F5F5F5" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
   <text x="763" y="434" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">⑥ Access Patterns</text>
   <text x="763" y="454" text-anchor="middle" font-size="13" fill="#212121">Attention: O(N²) random</text>
   <text x="763" y="472" text-anchor="middle" font-size="13" fill="#212121">Weight: streaming sequential</text>
-  <text x="763" y="490" text-anchor="middle" font-size="12" fill="#D32F2F">Conventional TLB prefetch</text>
+  <text x="763" y="490" text-anchor="middle" font-size="12" fill="#E65100">Conventional TLB prefetch</text>
   <text x="763" y="507" text-anchor="middle" font-size="11" fill="#616161">ineffective for attention layers</text>
   <line x1="648" y1="460" x2="538" y2="353" stroke="#E65100" stroke-width="1.5" marker-end="url(#arr)"/>
 
@@ -985,12 +985,12 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="58" y="388" text-anchor="end" font-size="12" fill="#616161">0%</text>
 
   <!-- Grid lines -->
-  <line x1="64" y1="135" x2="500" y2="135" stroke="#E0E0E0" stroke-width="1"/>
-  <line x1="64" y1="185" x2="500" y2="185" stroke="#E0E0E0" stroke-width="1"/>
-  <line x1="64" y1="235" x2="500" y2="235" stroke="#E0E0E0" stroke-width="1"/>
-  <line x1="64" y1="285" x2="500" y2="285" stroke="#E0E0E0" stroke-width="1"/>
-  <line x1="64" y1="335" x2="500" y2="335" stroke="#E0E0E0" stroke-width="1"/>
-  <line x1="64" y1="385" x2="500" y2="385" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="64" y1="135" x2="500" y2="135" stroke="#9E9E9E" stroke-width="1"/>
+  <line x1="64" y1="185" x2="500" y2="185" stroke="#9E9E9E" stroke-width="1"/>
+  <line x1="64" y1="235" x2="500" y2="235" stroke="#9E9E9E" stroke-width="1"/>
+  <line x1="64" y1="285" x2="500" y2="285" stroke="#9E9E9E" stroke-width="1"/>
+  <line x1="64" y1="335" x2="500" y2="335" stroke="#9E9E9E" stroke-width="1"/>
+  <line x1="64" y1="385" x2="500" y2="385" stroke="#9E9E9E" stroke-width="1"/>
 
   <!-- Bar 1: CPU workload (web server) — baseline -->
   <text x="125" y="400" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Web Server</text>
@@ -1020,7 +1020,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
   <!-- Bar 3: LLM Inference (2MB pages) -->
   <text x="355" y="400" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">LLM Infer.</text>
-  <text x="355" y="415" text-anchor="middle" font-size="11" fill="#1B5E20">(2 MB pages)</text>
+  <text x="355" y="415" text-anchor="middle" font-size="11" fill="#00796B">(2 MB pages)</text>
   <!-- TLB hit: 88% = 220px -->
   <rect x="310" y="165" width="90" height="220" fill="#1565C0" opacity="0.9"/>
   <!-- Walk: 7% = 17.5px -->
@@ -1061,44 +1061,44 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="820" y="124" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Impact</text>
 
   <!-- Rows -->
-  <rect x="540" y="133" width="340" height="36" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="0.5"/>
+  <rect x="540" y="133" width="340" height="36" fill="#FAFAFA" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="548" y="148" font-size="12" fill="#212121">Working set &gt; TLB reach</text>
   <text x="548" y="163" font-size="11" fill="#616161">(4KB pages, 1.5TB model)</text>
-  <text x="820" y="155" text-anchor="middle" font-size="12" fill="#D32F2F" font-weight="bold">25–40%</text>
-  <text x="820" y="165" text-anchor="middle" font-size="10" fill="#D32F2F">miss rate</text>
+  <text x="820" y="155" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">25–40%</text>
+  <text x="820" y="165" text-anchor="middle" font-size="10" fill="#E65100">miss rate</text>
 
-  <rect x="540" y="169" width="340" height="36" fill="white" stroke="#E0E0E0" stroke-width="0.5"/>
+  <rect x="540" y="169" width="340" height="36" fill="white" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="548" y="184" font-size="12" fill="#212121">Distributed shootdown</text>
   <text x="548" y="199" font-size="11" fill="#616161">(10K GPUs × per-page TLB flush)</text>
-  <text x="820" y="191" text-anchor="middle" font-size="12" fill="#D32F2F" font-weight="bold">15–25%</text>
-  <text x="820" y="201" text-anchor="middle" font-size="10" fill="#D32F2F">of training time</text>
+  <text x="820" y="191" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">15–25%</text>
+  <text x="820" y="201" text-anchor="middle" font-size="10" fill="#E65100">of training time</text>
 
-  <rect x="540" y="205" width="340" height="36" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="0.5"/>
+  <rect x="540" y="205" width="340" height="36" fill="#FAFAFA" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="548" y="220" font-size="12" fill="#212121">Virtualisation overhead</text>
   <text x="548" y="235" font-size="11" fill="#616161">(2-stage walk: 25 accesses vs 5)</text>
-  <text x="820" y="227" text-anchor="middle" font-size="12" fill="#D32F2F" font-weight="bold">5× slower</text>
-  <text x="820" y="237" text-anchor="middle" font-size="10" fill="#D32F2F">page walk</text>
+  <text x="820" y="227" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">5× slower</text>
+  <text x="820" y="237" text-anchor="middle" font-size="10" fill="#E65100">page walk</text>
 
-  <rect x="540" y="241" width="340" height="36" fill="white" stroke="#E0E0E0" stroke-width="0.5"/>
+  <rect x="540" y="241" width="340" height="36" fill="white" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="548" y="256" font-size="12" fill="#212121">Attention layer random access</text>
   <text x="548" y="271" font-size="11" fill="#616161">(O(N²), no spatial locality)</text>
-  <text x="820" y="263" text-anchor="middle" font-size="12" fill="#D32F2F" font-weight="bold">Prefetch</text>
-  <text x="820" y="273" text-anchor="middle" font-size="10" fill="#D32F2F">ineffective</text>
+  <text x="820" y="263" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">Prefetch</text>
+  <text x="820" y="273" text-anchor="middle" font-size="10" fill="#E65100">ineffective</text>
 
-  <rect x="540" y="277" width="340" height="36" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="0.5"/>
+  <rect x="540" y="277" width="340" height="36" fill="#FAFAFA" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="548" y="292" font-size="12" fill="#212121">Page fault storm at startup</text>
   <text x="548" y="307" font-size="11" fill="#616161">(loading 1.5TB checkpoint)</text>
-  <text x="820" y="299" text-anchor="middle" font-size="12" fill="#D32F2F" font-weight="bold">30–120s</text>
-  <text x="820" y="309" text-anchor="middle" font-size="10" fill="#D32F2F">initialisation</text>
+  <text x="820" y="299" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">30–120s</text>
+  <text x="820" y="309" text-anchor="middle" font-size="10" fill="#E65100">initialisation</text>
 
-  <rect x="540" y="313" width="340" height="36" fill="white" stroke="#E0E0E0" stroke-width="0.5"/>
+  <rect x="540" y="313" width="340" height="36" fill="white" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="548" y="328" font-size="12" fill="#212121">Multi-tenancy isolation cost</text>
   <text x="548" y="343" font-size="11" fill="#616161">(full TLB flush per tenant switch)</text>
-  <text x="820" y="335" text-anchor="middle" font-size="12" fill="#D32F2F" font-weight="bold">8–12%</text>
-  <text x="820" y="345" text-anchor="middle" font-size="10" fill="#D32F2F">throughput loss</text>
+  <text x="820" y="335" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">8–12%</text>
+  <text x="820" y="345" text-anchor="middle" font-size="10" fill="#E65100">throughput loss</text>
 
   <!-- Solution box -->
-  <rect x="540" y="355" width="340" height="70" rx="6" fill="#E8F5E9" stroke="#00796B" stroke-width="1.5"/>
+  <rect x="540" y="355" width="340" height="70" rx="6" fill="#F5F5F5" stroke="#00796B" stroke-width="1.5"/>
   <text x="710" y="375" text-anchor="middle" font-size="13" font-weight="bold" fill="#00796B">Mitigation: 2 MB Huge Pages</text>
   <text x="555" y="395" font-size="12" fill="#212121">✓ 512× TLB reach increase</text>
   <text x="555" y="412" font-size="12" fill="#212121">✓ Reduces walk overhead 25% → 7%</text>

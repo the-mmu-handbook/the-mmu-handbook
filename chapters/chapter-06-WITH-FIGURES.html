@@ -1860,8 +1860,8 @@ uint64_t make_execute_only_pte(uint64_t phys_addr) {
 <svg width="900" height="620" viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
     <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#D32F2F"/></marker>
-    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#2E7D32"/></marker>
+    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#E65100"/></marker>
+    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#00796B"/></marker>
     <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/></filter>
   </defs>
 
@@ -1876,57 +1876,57 @@ uint64_t make_execute_only_pte(uint64_t phys_addr) {
   <line x1="450" y1="123" x2="450" y2="148" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
 
   <!-- Decision 1: NX bit -->
-  <polygon points="450,148 600,195 450,242 300,195" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
+  <polygon points="450,148 600,195 450,242 300,195" fill="#F5F5F5" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="191" text-anchor="middle" font-size="14" fill="#1565C0" font-weight="bold">NX bit set?</text>
   <text x="450" y="208" text-anchor="middle" font-size="11" fill="#616161">(Execute access to non-exec page?)</text>
 
   <!-- NX YES -> fault -->
-  <line x1="600" y1="195" x2="730" y2="195" stroke="#D32F2F" stroke-width="2" marker-end="url(#arr-r)"/>
-  <text x="665" y="188" text-anchor="middle" font-size="12" fill="#D32F2F">YES</text>
-  <rect x="730" y="172" width="148" height="46" rx="6" fill="#FFCDD2" stroke="#D32F2F" stroke-width="2"/>
-  <text x="804" y="192" text-anchor="middle" font-size="13" fill="#D32F2F" font-weight="bold">#PF / Inst.Abort</text>
-  <text x="804" y="210" text-anchor="middle" font-size="11" fill="#D32F2F">NX violation</text>
+  <line x1="600" y1="195" x2="730" y2="195" stroke="#E65100" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="665" y="188" text-anchor="middle" font-size="12" fill="#E65100">YES</text>
+  <rect x="730" y="172" width="148" height="46" rx="6" fill="#F5F5F5" stroke="#E65100" stroke-width="2"/>
+  <text x="804" y="192" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">#PF / Inst.Abort</text>
+  <text x="804" y="210" text-anchor="middle" font-size="11" fill="#E65100">NX violation</text>
 
   <!-- NX NO -> next -->
-  <line x1="450" y1="242" x2="450" y2="267" stroke="#2E7D32" stroke-width="2" marker-end="url(#arr-g)"/>
-  <text x="462" y="258" font-size="12" fill="#2E7D32">NO</text>
+  <line x1="450" y1="242" x2="450" y2="267" stroke="#00796B" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="462" y="258" font-size="12" fill="#00796B">NO</text>
 
   <!-- Decision 2: Privilege check (SMEP) -->
-  <polygon points="450,267 620,314 450,361 280,314" fill="#E3F2FD" stroke="#00796B" stroke-width="2" filter="url(#sh)"/>
+  <polygon points="450,267 620,314 450,361 280,314" fill="#F5F5F5" stroke="#00796B" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="308" text-anchor="middle" font-size="14" fill="#00796B" font-weight="bold">Kernel executing</text>
   <text x="450" y="325" text-anchor="middle" font-size="12" fill="#00796B">user-mode page? (SMEP)</text>
 
   <!-- SMEP YES -> fault -->
-  <line x1="620" y1="314" x2="730" y2="314" stroke="#D32F2F" stroke-width="2" marker-end="url(#arr-r)"/>
-  <text x="675" y="307" text-anchor="middle" font-size="12" fill="#D32F2F">YES</text>
-  <rect x="730" y="291" width="148" height="46" rx="6" fill="#FFCDD2" stroke="#D32F2F" stroke-width="2"/>
-  <text x="804" y="311" text-anchor="middle" font-size="13" fill="#D32F2F" font-weight="bold">#PF (SMEP)</text>
-  <text x="804" y="329" text-anchor="middle" font-size="11" fill="#D32F2F">CR4.SMEP=1</text>
+  <line x1="620" y1="314" x2="730" y2="314" stroke="#E65100" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="675" y="307" text-anchor="middle" font-size="12" fill="#E65100">YES</text>
+  <rect x="730" y="291" width="148" height="46" rx="6" fill="#F5F5F5" stroke="#E65100" stroke-width="2"/>
+  <text x="804" y="311" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">#PF (SMEP)</text>
+  <text x="804" y="329" text-anchor="middle" font-size="11" fill="#E65100">CR4.SMEP=1</text>
 
   <!-- SMEP NO -> next -->
-  <line x1="450" y1="361" x2="450" y2="386" stroke="#2E7D32" stroke-width="2" marker-end="url(#arr-g)"/>
-  <text x="462" y="378" font-size="12" fill="#2E7D32">NO</text>
+  <line x1="450" y1="361" x2="450" y2="386" stroke="#00796B" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="462" y="378" font-size="12" fill="#00796B">NO</text>
 
   <!-- Decision 3: SMAP/PAN -->
-  <polygon points="450,386 620,433 450,480 280,433" fill="#E3F2FD" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
+  <polygon points="450,386 620,433 450,480 280,433" fill="#F5F5F5" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="427" text-anchor="middle" font-size="14" fill="#E65100" font-weight="bold">Kernel read/write to</text>
   <text x="450" y="444" text-anchor="middle" font-size="12" fill="#E65100">user page? (SMAP/PAN)</text>
 
   <!-- SMAP YES -> fault -->
-  <line x1="620" y1="433" x2="730" y2="433" stroke="#D32F2F" stroke-width="2" marker-end="url(#arr-r)"/>
-  <text x="675" y="426" text-anchor="middle" font-size="12" fill="#D32F2F">YES</text>
-  <rect x="730" y="410" width="148" height="46" rx="6" fill="#FFCDD2" stroke="#D32F2F" stroke-width="2"/>
-  <text x="804" y="430" text-anchor="middle" font-size="13" fill="#D32F2F" font-weight="bold">#PF (SMAP)</text>
-  <text x="804" y="448" text-anchor="middle" font-size="11" fill="#D32F2F">unless EFLAGS.AC=1</text>
+  <line x1="620" y1="433" x2="730" y2="433" stroke="#E65100" stroke-width="2" marker-end="url(#arr-r)"/>
+  <text x="675" y="426" text-anchor="middle" font-size="12" fill="#E65100">YES</text>
+  <rect x="730" y="410" width="148" height="46" rx="6" fill="#F5F5F5" stroke="#E65100" stroke-width="2"/>
+  <text x="804" y="430" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">#PF (SMAP)</text>
+  <text x="804" y="448" text-anchor="middle" font-size="11" fill="#E65100">unless EFLAGS.AC=1</text>
 
   <!-- SMAP NO -> access allowed -->
-  <line x1="450" y1="480" x2="450" y2="510" stroke="#2E7D32" stroke-width="2" marker-end="url(#arr-g)"/>
-  <text x="462" y="499" font-size="12" fill="#2E7D32">NO</text>
+  <line x1="450" y1="480" x2="450" y2="510" stroke="#00796B" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="462" y="499" font-size="12" fill="#00796B">NO</text>
 
   <!-- SUCCESS -->
-  <rect x="330" y="510" width="240" height="46" rx="24" fill="#C8E6C9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
-  <text x="450" y="530" text-anchor="middle" font-size="15" fill="#2E7D32" font-weight="bold">✓ Access Permitted</text>
-  <text x="450" y="548" text-anchor="middle" font-size="11" fill="#2E7D32">TLB lookup proceeds</text>
+  <rect x="330" y="510" width="240" height="46" rx="24" fill="#F5F5F5" stroke="#00796B" stroke-width="2" filter="url(#sh)"/>
+  <text x="450" y="530" text-anchor="middle" font-size="15" fill="#00796B" font-weight="bold">✓ Access Permitted</text>
+  <text x="450" y="548" text-anchor="middle" font-size="11" fill="#00796B">TLB lookup proceeds</text>
 
   <!-- Legend bottom-left -->
   <rect x="30" y="390" width="220" height="170" rx="6" fill="white" stroke="#9E9E9E" stroke-width="1"/>
@@ -3412,7 +3412,7 @@ END IF
   <defs>
     <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
     <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1565C0"/></marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#D32F2F"/></marker>
+    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#E65100"/></marker>
     <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/></filter>
   </defs>
 
@@ -3441,7 +3441,7 @@ END IF
   <text x="145" y="295" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Heap / Stack</text>
   <text x="145" y="312" text-anchor="middle" font-size="11" fill="#F5F5F5">key=0  (RW-)  default</text>
 
-  <rect x="40" y="328" width="210" height="40" rx="4" fill="#37474F"/>
+  <rect x="40" y="328" width="210" height="40" rx="4" fill="#212121"/>
   <text x="145" y="345" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Sensitive Crypto</text>
   <text x="145" y="362" text-anchor="middle" font-size="11" fill="#B0BEC5">key=4  (RW-) isolated</text>
 
@@ -3451,7 +3451,7 @@ END IF
   <text x="145" y="458" text-anchor="middle" font-size="12" fill="#1565C0">per-key AD+WD bits</text>
 
   <!-- Center: PKRU register -->
-  <rect x="310" y="75" width="280" height="380" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
+  <rect x="310" y="75" width="280" height="380" rx="8" fill="#F5F5F5" stroke="#1565C0" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="100" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">PKRU Register (32-bit)</text>
   <text x="450" y="118" text-anchor="middle" font-size="12" fill="#616161">Userspace read/write via RDPKRU / WRPKRU</text>
 
@@ -3461,15 +3461,15 @@ END IF
 
   <!-- Key entries -->
   <rect x="325" y="168" width="250" height="24" rx="3" fill="white" stroke="#9E9E9E"/>
-  <text x="340" y="184" font-size="12" fill="#212121">key 0:</text><text x="420" y="184" font-size="12" fill="#2E7D32">AD=0 WD=0 (RW- allowed)</text>
+  <text x="340" y="184" font-size="12" fill="#212121">key 0:</text><text x="420" y="184" font-size="12" fill="#00796B">AD=0 WD=0 (RW- allowed)</text>
   <rect x="325" y="196" width="250" height="24" rx="3" fill="white" stroke="#9E9E9E"/>
-  <text x="340" y="212" font-size="12" fill="#212121">key 1:</text><text x="420" y="212" font-size="12" fill="#2E7D32">AD=0 WD=1 (R-X only)</text>
+  <text x="340" y="212" font-size="12" fill="#212121">key 1:</text><text x="420" y="212" font-size="12" fill="#00796B">AD=0 WD=1 (R-X only)</text>
   <rect x="325" y="224" width="250" height="24" rx="3" fill="white" stroke="#9E9E9E"/>
-  <text x="340" y="240" font-size="12" fill="#212121">key 2:</text><text x="420" y="240" font-size="12" fill="#2E7D32">AD=0 WD=0 (RW-)</text>
-  <rect x="325" y="252" width="250" height="24" rx="3" fill="#FFCDD2" stroke="#D32F2F"/>
-  <text x="340" y="268" font-size="12" fill="#212121">key 3:</text><text x="420" y="268" font-size="12" fill="#D32F2F">AD=1 WD=1 (DENIED)</text>
+  <text x="340" y="240" font-size="12" fill="#212121">key 2:</text><text x="420" y="240" font-size="12" fill="#00796B">AD=0 WD=0 (RW-)</text>
+  <rect x="325" y="252" width="250" height="24" rx="3" fill="#F5F5F5" stroke="#E65100"/>
+  <text x="340" y="268" font-size="12" fill="#212121">key 3:</text><text x="420" y="268" font-size="12" fill="#E65100">AD=1 WD=1 (DENIED)</text>
   <rect x="325" y="280" width="250" height="24" rx="3" fill="white" stroke="#9E9E9E"/>
-  <text x="340" y="296" font-size="12" fill="#212121">key 4:</text><text x="420" y="296" font-size="12" fill="#2E7D32">AD=0 WD=0 (RW-)</text>
+  <text x="340" y="296" font-size="12" fill="#212121">key 4:</text><text x="420" y="296" font-size="12" fill="#00796B">AD=0 WD=0 (RW-)</text>
   <text x="450" y="320" text-anchor="middle" font-size="11" fill="#616161">... keys 5–15 ...</text>
 
   <!-- WRPKRU instruction -->
@@ -3487,7 +3487,7 @@ END IF
   <text x="754" y="118" text-anchor="middle" font-size="12" fill="#616161">(V8 / LuaJIT pattern)</text>
 
   <!-- Flow -->
-  <rect x="650" y="128" width="210" height="40" rx="4" fill="#37474F"/>
+  <rect x="650" y="128" width="210" height="40" rx="4" fill="#212121"/>
   <text x="755" y="145" text-anchor="middle" font-size="12" fill="white" font-weight="bold">1. Compile bytecode</text>
   <text x="755" y="161" text-anchor="middle" font-size="11" fill="#B0BEC5">key=1: WD=0, write code</text>
   <line x1="755" y1="168" x2="755" y2="183" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
@@ -3497,27 +3497,27 @@ END IF
   <text x="755" y="216" text-anchor="middle" font-size="11" fill="#B3D1F0">key=1: WD=1 (exec only)</text>
   <line x1="755" y1="223" x2="755" y2="238" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <rect x="650" y="238" width="210" height="40" rx="4" fill="#2E7D32"/>
+  <rect x="650" y="238" width="210" height="40" rx="4" fill="#00796B"/>
   <text x="755" y="255" text-anchor="middle" font-size="12" fill="white" font-weight="bold">3. Execute JIT code</text>
-  <text x="755" y="271" text-anchor="middle" font-size="11" fill="#B9F6CA">JIT region now X-only</text>
+  <text x="755" y="271" text-anchor="middle" font-size="11" fill="#FFFFFF">JIT region now X-only</text>
   <line x1="755" y1="278" x2="755" y2="293" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <rect x="650" y="293" width="210" height="40" rx="4" fill="#E65100"/>
   <text x="755" y="310" text-anchor="middle" font-size="12" fill="white" font-weight="bold">4. Exploit attempts write</text>
   <text x="755" y="326" text-anchor="middle" font-size="11" fill="#FFCCBC">key=1 WD=1 → SEGFAULT</text>
 
-  <rect x="650" y="353" width="210" height="40" rx="4" fill="#FFCDD2" stroke="#D32F2F" stroke-width="1.5"/>
-  <text x="755" y="370" text-anchor="middle" font-size="13" fill="#D32F2F" font-weight="bold">✗ Write blocked</text>
-  <text x="755" y="388" text-anchor="middle" font-size="11" fill="#D32F2F">no kernel, ~3 cycles overhead</text>
+  <rect x="650" y="353" width="210" height="40" rx="4" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5"/>
+  <text x="755" y="370" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">✗ Write blocked</text>
+  <text x="755" y="388" text-anchor="middle" font-size="11" fill="#E65100">no kernel, ~3 cycles overhead</text>
 
   <text x="754" y="420" text-anchor="middle" font-size="12" fill="#1565C0">Traditional approach: mprotect()</text>
   <text x="754" y="438" text-anchor="middle" font-size="12" fill="#616161">syscall = ~1,000 cycles</text>
   <text x="754" y="458" text-anchor="middle" font-size="12" fill="#1565C0">PKU approach: WRPKRU</text>
-  <text x="754" y="474" text-anchor="middle" font-size="12" fill="#1B5E20">= ~3 cycles (333× faster)</text>
+  <text x="754" y="474" text-anchor="middle" font-size="12" fill="#00796B">= ~3 cycles (333× faster)</text>
 
   <!-- Arrows connecting left to center -->
   <line x1="250" y1="148" x2="310" y2="180" stroke="#1565C0" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-b)"/>
-  <line x1="250" y1="228" x2="310" y2="256" stroke="#D32F2F" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-r)"/>
+  <line x1="250" y1="228" x2="310" y2="256" stroke="#E65100" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-r)"/>
 
   <!-- Bottom -->
   <rect x="20" y="462" width="860" height="2" fill="#9E9E9E"/>

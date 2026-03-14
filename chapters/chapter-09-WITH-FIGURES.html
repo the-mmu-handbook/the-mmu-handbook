@@ -3318,7 +3318,7 @@ operations that traditionally required global synchronization.</p>
   <defs>
     <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
     <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#1565C0"/></marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#D32F2F"/></marker>
+    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#E65100"/></marker>
     <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/></filter>
   </defs>
 
@@ -3326,8 +3326,8 @@ operations that traditionally required global synchronization.</p>
   <text x="30" y="57" font-size="13" fill="#616161">Linux uses a fine-grained locking hierarchy to allow concurrent page table modifications across CPU cores.</text>
 
   <!-- Left: Serial (bad) -->
-  <rect x="20" y="72" width="380" height="330" rx="8" fill="#FFEBEE" stroke="#D32F2F" stroke-width="1.5" stroke-dasharray="6,3"/>
-  <text x="210" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#D32F2F">❌ Naive: Single Global Lock</text>
+  <rect x="20" y="72" width="380" height="330" rx="8" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="210" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">❌ Naive: Single Global Lock</text>
   <text x="210" y="114" text-anchor="middle" font-size="12" fill="#616161">All CPUs serialised on one mmap_lock</text>
 
   <!-- Four CPUs waiting -->
@@ -3336,20 +3336,20 @@ operations that traditionally required global synchronization.</p>
 
   <rect x="125" y="128" width="80" height="36" rx="5" fill="#9E9E9E"/>
   <text x="165" y="150" text-anchor="middle" font-size="12" fill="white">CPU 1</text>
-  <text x="165" y="168" text-anchor="middle" font-size="10" fill="#D32F2F">waiting...</text>
+  <text x="165" y="168" text-anchor="middle" font-size="10" fill="#E65100">waiting...</text>
 
   <rect x="215" y="128" width="80" height="36" rx="5" fill="#9E9E9E"/>
   <text x="255" y="150" text-anchor="middle" font-size="12" fill="white">CPU 2</text>
-  <text x="255" y="168" text-anchor="middle" font-size="10" fill="#D32F2F">waiting...</text>
+  <text x="255" y="168" text-anchor="middle" font-size="10" fill="#E65100">waiting...</text>
 
   <rect x="305" y="128" width="80" height="36" rx="5" fill="#9E9E9E"/>
   <text x="345" y="150" text-anchor="middle" font-size="12" fill="white">CPU 3</text>
-  <text x="345" y="168" text-anchor="middle" font-size="10" fill="#D32F2F">waiting...</text>
+  <text x="345" y="168" text-anchor="middle" font-size="10" fill="#E65100">waiting...</text>
 
   <!-- Single lock -->
-  <rect x="110" y="188" width="190" height="46" rx="6" fill="#D32F2F" filter="url(#sh)"/>
+  <rect x="110" y="188" width="190" height="46" rx="6" fill="#E65100" filter="url(#sh)"/>
   <text x="205" y="208" text-anchor="middle" font-size="13" fill="white" font-weight="bold">mmap_lock (write)</text>
-  <text x="205" y="226" text-anchor="middle" font-size="11" fill="#FFCDD2">held by CPU 0</text>
+  <text x="205" y="226" text-anchor="middle" font-size="11" fill="#F5F5F5">held by CPU 0</text>
 
   <line x1="75" y1="164" x2="160" y2="188" stroke="#1565C0" stroke-width="2" marker-end="url(#arr-b)"/>
   <line x1="165" y1="164" x2="185" y2="188" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3"/>
@@ -3357,18 +3357,18 @@ operations that traditionally required global synchronization.</p>
   <line x1="345" y1="164" x2="245" y2="188" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3"/>
 
   <!-- Page table -->
-  <rect x="110" y="254" width="190" height="46" rx="6" fill="#37474F"/>
+  <rect x="110" y="254" width="190" height="46" rx="6" fill="#212121"/>
   <text x="205" y="274" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Page Table</text>
   <text x="205" y="292" text-anchor="middle" font-size="11" fill="#B0BEC5">one VMA at a time</text>
-  <line x1="205" y1="234" x2="205" y2="254" stroke="#D32F2F" stroke-width="2" marker-end="url(#arr-r)"/>
+  <line x1="205" y1="234" x2="205" y2="254" stroke="#E65100" stroke-width="2" marker-end="url(#arr-r)"/>
 
-  <text x="210" y="330" text-anchor="middle" font-size="13" fill="#D32F2F" font-weight="bold">Result: 3 CPUs idle</text>
-  <text x="210" y="350" text-anchor="middle" font-size="12" fill="#D32F2F">Throughput: 1× (serialised)</text>
+  <text x="210" y="330" text-anchor="middle" font-size="13" fill="#E65100" font-weight="bold">Result: 3 CPUs idle</text>
+  <text x="210" y="350" text-anchor="middle" font-size="12" fill="#E65100">Throughput: 1× (serialised)</text>
   <text x="210" y="370" text-anchor="middle" font-size="12" fill="#616161">fork()/mmap() latency spikes</text>
   <text x="210" y="390" text-anchor="middle" font-size="12" fill="#616161">at container scale</text>
 
   <!-- Right: Parallel (good) -->
-  <rect x="420" y="72" width="460" height="330" rx="8" fill="#E8F5E9" stroke="#00796B" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="420" y="72" width="460" height="330" rx="8" fill="#F5F5F5" stroke="#00796B" stroke-width="1.5" stroke-dasharray="6,3"/>
   <text x="650" y="96" text-anchor="middle" font-size="14" font-weight="bold" fill="#00796B">✓ Linux: Fine-Grained Lock Hierarchy</text>
   <text x="650" y="114" text-anchor="middle" font-size="12" fill="#616161">mmap_lock (read) + per-PTE spinlocks</text>
 
@@ -3416,8 +3416,8 @@ operations that traditionally required global synchronization.</p>
   <line x1="672" y1="224" x2="672" y2="245" stroke="#00796B" stroke-width="1.5" marker-end="url(#arr)"/>
   <line x1="772" y1="224" x2="772" y2="245" stroke="#00796B" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <text x="650" y="320" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="bold">Result: 4× parallel throughput</text>
-  <text x="650" y="340" text-anchor="middle" font-size="12" fill="#2E7D32">Each CPU modifies independent PTE pages</text>
+  <text x="650" y="320" text-anchor="middle" font-size="13" fill="#00796B" font-weight="bold">Result: 4× parallel throughput</text>
+  <text x="650" y="340" text-anchor="middle" font-size="12" fill="#00796B">Each CPU modifies independent PTE pages</text>
   <text x="650" y="360" text-anchor="middle" font-size="12" fill="#616161">Lock granularity: one spinlock per 512-entry PTE page</text>
   <text x="650" y="378" text-anchor="middle" font-size="12" fill="#616161">Write lock only for fork/unmap (VMA splits)</text>
 
@@ -3440,7 +3440,7 @@ operations that traditionally required global synchronization.</p>
   <text x="462" y="484" text-anchor="middle" font-size="10" fill="#FFCCBC">spinlock, per-PTE page</text>
   <text x="545" y="472" font-size="16" fill="#9E9E9E">→</text>
 
-  <rect x="560" y="452" width="155" height="34" rx="4" fill="#37474F"/>
+  <rect x="560" y="452" width="155" height="34" rx="4" fill="#212121"/>
   <text x="637" y="470" text-anchor="middle" font-size="12" fill="white" font-weight="bold">PTE entry (cmpxchg)</text>
   <text x="637" y="484" text-anchor="middle" font-size="10" fill="#B0BEC5">atomic, per-PTE</text>
   <text x="720" y="472" font-size="16" fill="#9E9E9E">→</text>
@@ -3647,7 +3647,7 @@ swap:</p>
   <text x="177" y="124" text-anchor="middle" font-size="11" fill="#616161">evict</text>
 
   <!-- kswapd -->
-  <rect x="195" y="105" width="130" height="50" rx="6" fill="#37474F" filter="url(#sh)"/>
+  <rect x="195" y="105" width="130" height="50" rx="6" fill="#212121" filter="url(#sh)"/>
   <text x="260" y="127" text-anchor="middle" font-size="13" fill="white" font-weight="bold">kswapd</text>
   <text x="260" y="145" text-anchor="middle" font-size="11" fill="#B0BEC5">select victim page</text>
 
@@ -3681,7 +3681,7 @@ swap:</p>
   <text x="450" y="180" text-anchor="middle" font-size="11" fill="#00796B">page fault → decompress (~100 µs) → restore PTE</text>
 
   <!-- BOTTOM SECTION: zswap comparison -->
-  <rect x="20" y="285" width="860" height="195" rx="8" fill="#FFF8E1" stroke="#E65100" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="20" y="285" width="860" height="195" rx="8" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5" stroke-dasharray="6,3"/>
   <text x="440" y="308" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">zswap: Compressed Cache in Front of Block Swap</text>
 
   <!-- zswap flow -->
@@ -3705,11 +3705,11 @@ swap:</p>
   <line x1="510" y1="345" x2="545" y2="345" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
   <text x="527" y="337" text-anchor="middle" font-size="10" fill="#E65100">pool full</text>
 
-  <rect x="545" y="320" width="130" height="50" rx="6" fill="#37474F" filter="url(#sh)"/>
+  <rect x="545" y="320" width="130" height="50" rx="6" fill="#212121" filter="url(#sh)"/>
   <text x="610" y="340" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Decompress</text>
   <text x="610" y="357" text-anchor="middle" font-size="11" fill="#B0BEC5">→ block device</text>
 
-  <line x1="675" y1="345" x2="710" y2="345" stroke="#37474F" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="675" y1="345" x2="710" y2="345" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
 
   <rect x="710" y="320" width="150" height="50" rx="6" fill="#9E9E9E" filter="url(#sh)"/>
   <text x="785" y="340" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Disk / SSD</text>
@@ -3722,8 +3722,8 @@ swap:</p>
   <text x="170" y="435" font-size="13" fill="#212121">~50–200 µs (decompress in RAM)</text>
   <text x="400" y="435" font-size="13" fill="#E65100" font-weight="bold">zswap hit:</text>
   <text x="490" y="435" font-size="13" fill="#212121">~100–500 µs (decompress in RAM)</text>
-  <text x="720" y="435" font-size="13" fill="#37474F" font-weight="bold">Disk miss:</text>
-  <text x="810" y="435" font-size="13" fill="#D32F2F">~10 ms</text>
+  <text x="720" y="435" font-size="13" fill="#212121" font-weight="bold">Disk miss:</text>
+  <text x="810" y="435" font-size="13" fill="#E65100">~10 ms</text>
   <text x="80" y="453" font-size="13" fill="#616161">zRAM: no disk. 50–70% compression. Ideal for containers/VMs.</text>
   <text x="490" y="453" font-size="13" fill="#616161">zswap: disk as final tier. Used by Android, ChromeOS, cloud VMs.</text>
 

@@ -3472,12 +3472,12 @@ has interesting implications:</p>
   <line x1="100" y1="224" x2="75" y2="264" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arr)"/>
   <line x1="200" y1="224" x2="220" y2="264" stroke="#1565C0" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <rect x="20" y="264" width="140" height="56" rx="5" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="20" y="264" width="140" height="56" rx="5" fill="#F5F5F5" stroke="#1565C0" stroke-width="1.5"/>
   <text x="90" y="284" text-anchor="middle" font-size="13" fill="#1565C0" font-weight="bold">HW Walk</text>
   <text x="90" y="300" text-anchor="middle" font-size="11" fill="#212121">x86-64, ARM64</text>
   <text x="90" y="315" text-anchor="middle" font-size="11" fill="#616161">Transparent to OS</text>
 
-  <rect x="168" y="264" width="140" height="56" rx="5" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="168" y="264" width="140" height="56" rx="5" fill="#F5F5F5" stroke="#1565C0" stroke-width="1.5"/>
   <text x="238" y="284" text-anchor="middle" font-size="13" fill="#1565C0" font-weight="bold">SW Walk</text>
   <text x="238" y="300" text-anchor="middle" font-size="11" fill="#212121">RISC-V (no MMU hw)</text>
   <text x="238" y="315" text-anchor="middle" font-size="11" fill="#616161">OS fills TLB via trap</text>
@@ -3487,55 +3487,55 @@ has interesting implications:</p>
   <line x1="450" y1="224" x2="450" y2="264" stroke="#00796B" stroke-width="1.5" marker-end="url(#arr)"/>
   <line x1="510" y1="224" x2="535" y2="264" stroke="#00796B" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <rect x="316" y="264" width="108" height="56" rx="5" fill="#E8F5E9" stroke="#00796B" stroke-width="1.5"/>
+  <rect x="316" y="264" width="108" height="56" rx="5" fill="#F5F5F5" stroke="#00796B" stroke-width="1.5"/>
   <text x="370" y="281" text-anchor="middle" font-size="12" fill="#00796B" font-weight="bold">Not Present</text>
   <text x="370" y="297" text-anchor="middle" font-size="11" fill="#212121">P=0 in PTE</text>
-  <text x="370" y="312" text-anchor="middle" font-size="11" fill="#2E7D32">→ Demand page</text>
+  <text x="370" y="312" text-anchor="middle" font-size="11" fill="#00796B">→ Demand page</text>
 
-  <rect x="432" y="264" width="108" height="56" rx="5" fill="#E8F5E9" stroke="#00796B" stroke-width="1.5"/>
+  <rect x="432" y="264" width="108" height="56" rx="5" fill="#F5F5F5" stroke="#00796B" stroke-width="1.5"/>
   <text x="486" y="281" text-anchor="middle" font-size="12" fill="#00796B" font-weight="bold">Protection</text>
   <text x="486" y="297" text-anchor="middle" font-size="11" fill="#212121">W=0/NX/SMEP</text>
-  <text x="486" y="312" text-anchor="middle" font-size="11" fill="#D32F2F">→ SIGSEGV</text>
+  <text x="486" y="312" text-anchor="middle" font-size="11" fill="#E65100">→ SIGSEGV</text>
 
-  <rect x="548" y="264" width="108" height="56" rx="5" fill="#E8F5E9" stroke="#00796B" stroke-width="1.5"/>
+  <rect x="548" y="264" width="108" height="56" rx="5" fill="#F5F5F5" stroke="#00796B" stroke-width="1.5"/>
   <text x="602" y="281" text-anchor="middle" font-size="12" fill="#00796B" font-weight="bold">COW</text>
   <text x="602" y="297" text-anchor="middle" font-size="11" fill="#212121">Write to shared</text>
-  <text x="602" y="312" text-anchor="middle" font-size="11" fill="#2E7D32">→ Copy page</text>
+  <text x="602" y="312" text-anchor="middle" font-size="11" fill="#00796B">→ Copy page</text>
 
   <!-- Structural fault sub-types -->
   <line x1="700" y1="224" x2="695" y2="264" stroke="#E65100" stroke-width="1.5" marker-end="url(#arr)"/>
   <line x1="800" y1="224" x2="805" y2="264" stroke="#E65100" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <rect x="632" y="264" width="130" height="56" rx="5" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="632" y="264" width="130" height="56" rx="5" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5"/>
   <text x="697" y="281" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">Walk Fault</text>
   <text x="697" y="297" text-anchor="middle" font-size="11" fill="#212121">Bad PGD/PMD entry</text>
-  <text x="697" y="312" text-anchor="middle" font-size="11" fill="#D32F2F">→ SIGBUS / panic</text>
+  <text x="697" y="312" text-anchor="middle" font-size="11" fill="#E65100">→ SIGBUS / panic</text>
 
-  <rect x="770" y="264" width="130" height="56" rx="5" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="770" y="264" width="130" height="56" rx="5" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5"/>
   <text x="835" y="281" text-anchor="middle" font-size="12" fill="#E65100" font-weight="bold">Aliasing Fault</text>
   <text x="835" y="297" text-anchor="middle" font-size="11" fill="#212121">VIPT cache alias</text>
-  <text x="835" y="312" text-anchor="middle" font-size="11" fill="#D32F2F">→ Cache flush needed</text>
+  <text x="835" y="312" text-anchor="middle" font-size="11" fill="#E65100">→ Cache flush needed</text>
 
   <!-- OS handler actions -->
   <rect x="20" y="345" width="860" height="2" fill="#9E9E9E"/>
   <text x="450" y="368" text-anchor="middle" font-size="14" font-weight="bold" fill="#212121">OS Handler Response by Category</text>
 
   <!-- Three response boxes -->
-  <rect x="20" y="380" width="255" height="110" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="20" y="380" width="255" height="110" rx="6" fill="#F5F5F5" stroke="#1565C0" stroke-width="1.5"/>
   <text x="147" y="400" text-anchor="middle" font-size="13" font-weight="bold" fill="#1565C0">TLB Miss Response</text>
   <text x="35" y="420" font-size="12" fill="#212121">HW: transparent, no OS action</text>
   <text x="35" y="438" font-size="12" fill="#212121">SW (RISC-V): trap → fill TLB</text>
   <text x="35" y="456" font-size="12" fill="#212121">Cost: ~100 ns (DRAM walk)</text>
   <text x="35" y="474" font-size="12" fill="#212121">Frequency: high (cold start)</text>
 
-  <rect x="322" y="380" width="255" height="110" rx="6" fill="#E8F5E9" stroke="#00796B" stroke-width="1.5"/>
+  <rect x="322" y="380" width="255" height="110" rx="6" fill="#F5F5F5" stroke="#00796B" stroke-width="1.5"/>
   <text x="449" y="400" text-anchor="middle" font-size="13" font-weight="bold" fill="#00796B">Page Fault Response</text>
   <text x="337" y="420" font-size="12" fill="#212121">Minor: find page in page cache</text>
   <text x="337" y="438" font-size="12" fill="#212121">Major: disk I/O (~10 ms!)</text>
   <text x="337" y="456" font-size="12" fill="#212121">COW: copy + remap PTE</text>
   <text x="337" y="474" font-size="12" fill="#212121">Protection: send SIGSEGV</text>
 
-  <rect x="624" y="380" width="255" height="110" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="624" y="380" width="255" height="110" rx="6" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5"/>
   <text x="751" y="400" text-anchor="middle" font-size="13" font-weight="bold" fill="#E65100">Structural Fault Response</text>
   <text x="639" y="420" font-size="12" fill="#212121">Walk failure: kernel BUG/oops</text>
   <text x="639" y="438" font-size="12" fill="#212121">Aliasing: flush + remap</text>
@@ -6752,11 +6752,11 @@ systematically.</p>
   <!-- Row: Exception name -->
   <rect x="20" y="115" width="860" height="30" rx="0" fill="#F5F5F5"/>
   <text x="30" y="135" font-size="12" font-weight="bold" fill="#616161">Exception type</text>
-  <rect x="20" y="115" width="270" height="30" rx="0" fill="#E3F2FD" stroke="#9E9E9E" stroke-width="0.5"/>
+  <rect x="20" y="115" width="270" height="30" rx="0" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="155" y="135" text-anchor="middle" font-size="13" fill="#212121">#PF (interrupt vector 14)</text>
-  <rect x="315" y="115" width="270" height="30" rx="0" fill="#E8F5E9" stroke="#9E9E9E" stroke-width="0.5"/>
+  <rect x="315" y="115" width="270" height="30" rx="0" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="450" y="135" text-anchor="middle" font-size="13" fill="#212121">Data Abort / Instruction Abort</text>
-  <rect x="610" y="115" width="270" height="30" rx="0" fill="#FFF3E0" stroke="#9E9E9E" stroke-width="0.5"/>
+  <rect x="610" y="115" width="270" height="30" rx="0" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="745" y="135" text-anchor="middle" font-size="13" fill="#212121">Load/Store/Inst Page Fault</text>
 
   <!-- Row: Fault address register -->
@@ -6981,7 +6981,7 @@ Responsibility</h3>
   <text x="7" y="335" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle" transform="rotate(-90,7,335)">SOFTWARE (OS)</text>
 
   <!-- Software boxes x86 / ARM64 (combined) -->
-  <rect x="20" y="255" width="410" height="145" rx="4" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="20" y="255" width="410" height="145" rx="4" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="225" y="278" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">x86-64 &amp; ARM64 OS responsibilities</text>
   <text x="225" y="300" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Allocate physical frame (page frame allocator)</text>
   <text x="225" y="320" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Swap page in/out (swap daemon / kswapd)</text>

@@ -1190,7 +1190,7 @@ sizes</p>
   <text x="450" y="512" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161" text-anchor="middle">Latency: 20–200+ cycles (DRAM accesses)</text>
 
   <!-- Latency legend on right -->
-  <rect x="760" y="160" width="125" height="110" rx="6" fill="#FFF8E1" stroke="#F9A825" stroke-width="1.5"/>
+  <rect x="760" y="160" width="125" height="110" rx="6" fill="#F5F5F5" stroke="#F9A825" stroke-width="1.5"/>
   <text x="822" y="180" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">Access Cost</text>
   <text x="770" y="200" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#212121">L1 TLB hit: 0–1 cycle</text>
   <text x="770" y="218" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#212121">L2 TLB hit: 8–12 cycles</text>
@@ -2890,7 +2890,7 @@ be addressed by all TLB entries:</p>
 
   <!-- 4KB column -->
   <g filter="url(#shadow)">
-    <rect x="30" y="92" width="210" height="320" rx="6" fill="#E3F2FD" stroke="#1565C0" stroke-width="2"/>
+    <rect x="30" y="92" width="210" height="320" rx="6" fill="#F5F5F5" stroke="#1565C0" stroke-width="2"/>
   </g>
   <!-- TLB entries - 4KB: show many small pages = poor coverage -->
   <text x="135" y="118" text-anchor="middle" font-size="14" fill="#212121">512-entry TLB</text>
@@ -2902,16 +2902,16 @@ be addressed by all TLB entries:</p>
   <text x="73" y="380" text-anchor="middle" font-size="11" fill="#616161" transform="rotate(-90,73,295)">2 MB covered</text>
   <text x="135" y="230" text-anchor="middle" font-size="13" fill="#212121">512 entries ×</text>
   <text x="135" y="250" text-anchor="middle" font-size="13" fill="#212121">4 KB = 2 MB</text>
-  <text x="135" y="285" text-anchor="middle" font-size="13" fill="#D32F2F">⚠ 1 TB workset</text>
-  <text x="135" y="305" text-anchor="middle" font-size="13" fill="#D32F2F">needs 262M</text>
-  <text x="135" y="325" text-anchor="middle" font-size="13" fill="#D32F2F">TLB entries!</text>
+  <text x="135" y="285" text-anchor="middle" font-size="13" fill="#E65100">⚠ 1 TB workset</text>
+  <text x="135" y="305" text-anchor="middle" font-size="13" fill="#E65100">needs 262M</text>
+  <text x="135" y="325" text-anchor="middle" font-size="13" fill="#E65100">TLB entries!</text>
   <text x="135" y="358" text-anchor="middle" font-size="13" fill="#212121">Miss rate:</text>
-  <text x="135" y="378" text-anchor="middle" font-size="14" font-weight="bold" fill="#D32F2F">~25–50%</text>
+  <text x="135" y="378" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">~25–50%</text>
   <text x="135" y="398" text-anchor="middle" font-size="12" fill="#616161">(AI/ML workloads)</text>
 
   <!-- 2MB column -->
   <g filter="url(#shadow)">
-    <rect x="325" y="92" width="210" height="320" rx="6" fill="#E8F5E9" stroke="#00796B" stroke-width="2"/>
+    <rect x="325" y="92" width="210" height="320" rx="6" fill="#F5F5F5" stroke="#00796B" stroke-width="2"/>
   </g>
   <text x="430" y="118" text-anchor="middle" font-size="14" fill="#212121">512-entry TLB</text>
   <text x="430" y="138" text-anchor="middle" font-size="14" fill="#212121">@ 2 MB/entry</text>
@@ -2921,15 +2921,15 @@ be addressed by all TLB entries:</p>
   <rect x="360" y="205" width="16" height="130" rx="3" fill="#00796B" opacity="0.25" stroke="#00796B" stroke-width="1"/>
   <text x="430" y="230" text-anchor="middle" font-size="13" fill="#212121">512 entries ×</text>
   <text x="430" y="250" text-anchor="middle" font-size="13" fill="#212121">2 MB = 1 GB</text>
-  <text x="430" y="285" text-anchor="middle" font-size="13" fill="#1B5E20">✓ Typical model</text>
-  <text x="430" y="305" text-anchor="middle" font-size="13" fill="#1B5E20">fits in TLB</text>
+  <text x="430" y="285" text-anchor="middle" font-size="13" fill="#00796B">✓ Typical model</text>
+  <text x="430" y="305" text-anchor="middle" font-size="13" fill="#00796B">fits in TLB</text>
   <text x="430" y="358" text-anchor="middle" font-size="13" fill="#212121">Miss rate:</text>
   <text x="430" y="378" text-anchor="middle" font-size="14" font-weight="bold" fill="#00796B">~2–5%</text>
   <text x="430" y="398" text-anchor="middle" font-size="12" fill="#616161">(Linux default huge)</text>
 
   <!-- 1GB column -->
   <g filter="url(#shadow)">
-    <rect x="620" y="92" width="210" height="320" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="2"/>
+    <rect x="620" y="92" width="210" height="320" rx="6" fill="#F5F5F5" stroke="#E65100" stroke-width="2"/>
   </g>
   <text x="725" y="118" text-anchor="middle" font-size="14" fill="#212121">512-entry TLB</text>
   <text x="725" y="138" text-anchor="middle" font-size="14" fill="#212121">@ 1 GB/entry</text>
@@ -4584,10 +4584,10 @@ uses physical addresses directly - Simple but inflexible</p>
   <line x1="290" y1="232" x2="290" y2="252" stroke="#00796B" stroke-width="1.5" marker-end="url(#arr-t)"/>
 
   <!-- Page Table Walker -->
-  <rect x="80" y="316" width="270" height="44" rx="6" fill="#37474F" filter="url(#sh)"/>
+  <rect x="80" y="316" width="270" height="44" rx="6" fill="#212121" filter="url(#sh)"/>
   <text x="215" y="338" text-anchor="middle" font-size="14" fill="white" font-weight="bold">Hardware Page Table Walker</text>
   <text x="215" y="354" text-anchor="middle" font-size="11" fill="#B0BEC5">Walks CR3/TTBR1 on miss; ~100 ns</text>
-  <line x1="215" y1="296" x2="215" y2="316" stroke="#37474F" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="215" y1="296" x2="215" y2="316" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Key properties -->
   <rect x="55" y="375" width="320" height="140" rx="6" fill="white" stroke="#9E9E9E" stroke-width="1"/>
@@ -4595,11 +4595,11 @@ uses physical addresses directly - Simple but inflexible</p>
   <text x="75" y="420" font-size="13" fill="#212121">✓ 1 TLB per core — full isolation</text>
   <text x="75" y="440" font-size="13" fill="#212121">✓ Hardware shootdown via x2APIC IPI</text>
   <text x="75" y="460" font-size="13" fill="#212121">✓ ASID/PCID prevents full flush</text>
-  <text x="75" y="480" font-size="13" fill="#D32F2F">✗ 512 entries × 4 KB = 2 MB reach</text>
-  <text x="75" y="500" font-size="13" fill="#D32F2F">✗ 25% IPI overhead @128 cores</text>
+  <text x="75" y="480" font-size="13" fill="#E65100">✗ 512 entries × 4 KB = 2 MB reach</text>
+  <text x="75" y="500" font-size="13" fill="#E65100">✗ 25% IPI overhead @128 cores</text>
 
   <!-- RIGHT: GPU MMU section -->
-  <rect x="490" y="55" width="390" height="490" rx="8" fill="#FFF8E1" stroke="#E65100" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <rect x="490" y="55" width="390" height="490" rx="8" fill="#F5F5F5" stroke="#E65100" stroke-width="1.5" stroke-dasharray="6,3"/>
   <text x="685" y="82" text-anchor="middle" font-size="15" font-weight="bold" fill="#E65100">GPU MMU (NVIDIA / AMD)</text>
   <text x="685" y="102" text-anchor="middle" font-size="13" fill="#616161">Shared, massively parallel, 2-level TLB</text>
 
@@ -4621,19 +4621,19 @@ uses physical addresses directly - Simple but inflexible</p>
   <line x1="680" y1="232" x2="680" y2="252" stroke="#00796B" stroke-width="1.5" marker-end="url(#arr-t)"/>
 
   <!-- MMU / IOMMU -->
-  <rect x="510" y="316" width="340" height="44" rx="6" fill="#37474F" filter="url(#sh)"/>
+  <rect x="510" y="316" width="340" height="44" rx="6" fill="#212121" filter="url(#sh)"/>
   <text x="680" y="338" text-anchor="middle" font-size="14" fill="white" font-weight="bold">GPU MMU + IOMMU</text>
   <text x="680" y="354" text-anchor="middle" font-size="11" fill="#B0BEC5">PCIe ATS / NVLink 2-stage page walk; ~1–10 µs on miss</text>
-  <line x1="680" y1="296" x2="680" y2="316" stroke="#37474F" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="680" y1="296" x2="680" y2="316" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Key properties -->
   <rect x="525" y="375" width="320" height="140" rx="6" fill="white" stroke="#9E9E9E" stroke-width="1"/>
   <text x="685" y="398" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">GPU MMU Properties</text>
-  <text x="545" y="420" font-size="13" fill="#1B5E20">✓ Unified VA space via NVLink/SVM</text>
-  <text x="545" y="440" font-size="13" fill="#1B5E20">✓ HW broadcast shootdown via NVSwitch</text>
-  <text x="545" y="460" font-size="13" fill="#1B5E20">✓ 2 MB pages → 1,024× TLB reach</text>
-  <text x="545" y="480" font-size="13" fill="#D32F2F">✗ TLB miss = PCIe page fault (25× slower)</text>
-  <text x="545" y="500" font-size="13" fill="#D32F2F">✗ O(N) shootdown: all 128 SMs stall</text>
+  <text x="545" y="420" font-size="13" fill="#00796B">✓ Unified VA space via NVLink/SVM</text>
+  <text x="545" y="440" font-size="13" fill="#00796B">✓ HW broadcast shootdown via NVSwitch</text>
+  <text x="545" y="460" font-size="13" fill="#00796B">✓ 2 MB pages → 1,024× TLB reach</text>
+  <text x="545" y="480" font-size="13" fill="#E65100">✗ TLB miss = PCIe page fault (25× slower)</text>
+  <text x="545" y="500" font-size="13" fill="#E65100">✗ O(N) shootdown: all 128 SMs stall</text>
 
   <!-- Bottom connector -->
   <rect x="20" y="548" width="860" height="2" fill="#9E9E9E"/>
