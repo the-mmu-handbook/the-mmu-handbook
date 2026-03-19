@@ -900,7 +900,7 @@ and Optimization</h1>
   <text x="130" y="78" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Memory State</text>
 
   <!-- Watermark levels (vertical bar) -->
-  <rect x="60" y="95" width="70" height="360" rx="4" fill="#E8F5E9" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="60" y="95" width="70" height="360" rx="4" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
 
   <!-- HIGH watermark -->
   <rect x="60" y="95" width="70" height="80" rx="4" fill="#4CAF50" opacity="0.7"/>
@@ -948,7 +948,7 @@ and Optimization</h1>
   <text x="310" y="373" font-size="13" fill="#212121">Latency: 10–100 ms. Application stalls visibly.</text>
 
   <!-- Phase 4: OOM -->
-  <rect x="270" y="420" width="580" height="90" rx="6" fill="#FFCDD2" stroke="#B71C1C" stroke-width="2.5"/>
+  <rect x="270" y="420" width="580" height="90" rx="6" fill="#F5F5F5" stroke="#B71C1C" stroke-width="2.5"/>
   <text x="310" y="445" font-size="15" font-weight="bold" fill="#B71C1C">Phase 4: OOM Killer (memory exhausted)</text>
   <text x="310" y="465" font-size="13" fill="#212121">Kernel selects victim process via badness score. Sends SIGKILL.</text>
   <text x="310" y="483" font-size="13" fill="#212121">"17 GB available" = cached data, not truly free. PostgreSQL is killed.</text>
@@ -1016,7 +1016,7 @@ and Optimization</h1>
   <text x="670" y="72" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Cost / Impact</text>
 
   <!-- Type 1: Guest Page Fault -->
-  <rect x="20" y="84" width="860" height="95" rx="4" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1.5"/>
+  <rect x="20" y="84" width="860" height="95" rx="4" fill="#F5F5F5" stroke="#4CAF50" stroke-width="1.5"/>
   <text x="130" y="108" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Type 1</text>
   <text x="130" y="126" font-size="13" fill="#212121" text-anchor="middle">Guest Page Fault</text>
   <text x="130" y="143" font-size="13" fill="#4CAF50" text-anchor="middle">(Stage 1 fails)</text>
@@ -1027,16 +1027,16 @@ and Optimization</h1>
   <text x="285" y="144" font-size="13" fill="#212121">Allocates page, updates PTE, retries</text>
   <text x="285" y="162" font-size="13" fill="#212121">EPT walk completes normally for guest PT pages</text>
 
-  <rect x="612" y="90" width="250" height="82" rx="4" fill="#C8E6C9" stroke="#4CAF50" stroke-width="1"/>
-  <text x="737" y="115" font-size="16" font-weight="bold" fill="#2E7D32" text-anchor="middle">~1–10 µs</text>
+  <rect x="612" y="90" width="250" height="82" rx="4" fill="#F5F5F5" stroke="#4CAF50" stroke-width="1"/>
+  <text x="737" y="115" font-size="16" font-weight="bold" fill="#4A8A99" text-anchor="middle">~1–10 µs</text>
   <text x="737" y="135" font-size="13" fill="#212121" text-anchor="middle">Same as bare metal</text>
   <text x="737" y="153" font-size="13" fill="#212121" text-anchor="middle">No VM exit needed</text>
 
   <!-- Type 2: EPT Violation -->
-  <rect x="20" y="182" width="860" height="95" rx="4" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5"/>
+  <rect x="20" y="182" width="860" height="95" rx="4" fill="#FFF9C4" stroke="#BF616A" stroke-width="1.5"/>
   <text x="130" y="206" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Type 2</text>
   <text x="130" y="224" font-size="13" fill="#212121" text-anchor="middle">EPT / Stage-2</text>
-  <text x="130" y="241" font-size="13" fill="#F9A825" text-anchor="middle">Violation</text>
+  <text x="130" y="241" font-size="13" fill="#BF616A" text-anchor="middle">Violation</text>
   <text x="130" y="260" font-size="13" fill="#616161" text-anchor="middle">(Stage 2 fails)</text>
 
   <text x="285" y="206" font-size="13" fill="#212121">Stage 1 succeeds, but EPT entry missing</text>
@@ -1044,13 +1044,13 @@ and Optimization</h1>
   <text x="285" y="242" font-size="13" fill="#212121">Allocates host page, installs EPT entry</text>
   <text x="285" y="260" font-size="13" fill="#212121">VM re-entry to retry translation</text>
 
-  <rect x="612" y="188" width="250" height="82" rx="4" fill="#FFF176" stroke="#F9A825" stroke-width="1"/>
-  <text x="737" y="213" font-size="16" font-weight="bold" fill="#E65100" text-anchor="middle">~5–10 µs</text>
+  <rect x="612" y="188" width="250" height="82" rx="4" fill="#FFF176" stroke="#BF616A" stroke-width="1"/>
+  <text x="737" y="213" font-size="16" font-weight="bold" fill="#BF616A" text-anchor="middle">~5–10 µs</text>
   <text x="737" y="233" font-size="13" fill="#212121" text-anchor="middle">VM exit 2µs + alloc 3µs</text>
   <text x="737" y="251" font-size="13" fill="#212121" text-anchor="middle">+ VM entry 2µs</text>
 
   <!-- Type 3: Permission Violation -->
-  <rect x="20" y="280" width="860" height="95" rx="4" fill="#E3F2FD" stroke="#5E81AC" stroke-width="1.5"/>
+  <rect x="20" y="280" width="860" height="95" rx="4" fill="#F5F5F5" stroke="#5E81AC" stroke-width="1.5"/>
   <text x="130" y="304" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Type 3</text>
   <text x="130" y="322" font-size="13" fill="#212121" text-anchor="middle">Permission</text>
   <text x="130" y="339" font-size="13" fill="#5E81AC" text-anchor="middle">Violation</text>
@@ -1062,12 +1062,12 @@ and Optimization</h1>
   <text x="285" y="358" font-size="13" fill="#212121">Live migration: dirty-page tracking (~4 µs)</text>
 
   <rect x="612" y="286" width="250" height="82" rx="4" fill="#BBDEFB" stroke="#5E81AC" stroke-width="1"/>
-  <text x="737" y="311" font-size="16" font-weight="bold" fill="#1565C0" text-anchor="middle">4–500 µs</text>
+  <text x="737" y="311" font-size="16" font-weight="bold" fill="#5E81AC" text-anchor="middle">4–500 µs</text>
   <text x="737" y="331" font-size="13" fill="#212121" text-anchor="middle">Wide range by purpose</text>
   <text x="737" y="349" font-size="13" fill="#212121" text-anchor="middle">MMIO is worst case</text>
 
   <!-- Type 4: Cascading Storm -->
-  <rect x="20" y="378" width="860" height="110" rx="4" fill="#FFEBEE" stroke="#BF616A" stroke-width="2"/>
+  <rect x="20" y="378" width="860" height="110" rx="4" fill="#F5F5F5" stroke="#BF616A" stroke-width="2"/>
   <text x="130" y="404" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Type 4 ⚠</text>
   <text x="130" y="422" font-size="13" fill="#212121" text-anchor="middle">Cascading Fault</text>
   <text x="130" y="440" font-size="13" fill="#BF616A" text-anchor="middle">Storm</text>
@@ -1080,7 +1080,7 @@ and Optimization</h1>
   <text x="285" y="458" font-size="13" fill="#212121">VM boot: 10,000s of new EPT entries needed rapidly</text>
   <text x="285" y="476" font-size="13" fill="#212121">Mitigation: EPT pre-population (frontload at VM create)</text>
 
-  <rect x="612" y="384" width="250" height="97" rx="4" fill="#FFCDD2" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="612" y="384" width="250" height="97" rx="4" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="737" y="413" font-size="16" font-weight="bold" fill="#B71C1C" text-anchor="middle">~50 µs/access</text>
   <text x="737" y="433" font-size="13" fill="#212121" text-anchor="middle">5× VM exits × 10 µs each</text>
   <text x="737" y="453" font-size="13" fill="#212121" text-anchor="middle">50× slower than native</text>
@@ -1092,7 +1092,7 @@ and Optimization</h1>
   <!-- Scale bar -->
   <rect x="60" y="530" width="30" height="14" fill="#4CAF50"/>
   <text x="98" y="542" font-size="12" fill="#212121">Type 1: 1–10 µs</text>
-  <rect x="210" y="530" width="50" height="14" fill="#F9A825"/>
+  <rect x="210" y="530" width="50" height="14" fill="#BF616A"/>
   <text x="268" y="542" font-size="12" fill="#212121">Type 2: 5–10 µs</text>
   <rect x="380" y="530" width="80" height="14" fill="#5E81AC"/>
   <text x="468" y="542" font-size="12" fill="#212121">Type 3: 4–500 µs</text>
@@ -1355,13 +1355,13 @@ and Optimization</h1>
   <rect x="20" y="346" width="860" height="28" rx="4" fill="#EAF2F8"/>
   <text x="450" y="365" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Dirty Bit Impact: Clean vs Dirty Eviction Cost</text>
 
-  <rect x="20" y="376" width="420" height="80" rx="6" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2"/>
-  <text x="230" y="400" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">Clean Page (D=0)</text>
+  <rect x="20" y="376" width="420" height="80" rx="6" fill="#F5F5F5" stroke="#4CAF50" stroke-width="2"/>
+  <text x="230" y="400" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">Clean Page (D=0)</text>
   <text x="230" y="420" font-size="13" fill="#212121" text-anchor="middle">Simply discard from RAM</text>
   <text x="230" y="438" font-size="13" fill="#212121" text-anchor="middle">Reload from disk/file later if needed</text>
-  <text x="230" y="458" font-size="16" font-weight="bold" fill="#2E7D32" text-anchor="middle">Cost: ~150 µs</text>
+  <text x="230" y="458" font-size="16" font-weight="bold" fill="#4A8A99" text-anchor="middle">Cost: ~150 µs</text>
 
-  <rect x="460" y="376" width="420" height="80" rx="6" fill="#FFEBEE" stroke="#BF616A" stroke-width="2"/>
+  <rect x="460" y="376" width="420" height="80" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="2"/>
   <text x="670" y="400" font-size="14" font-weight="bold" fill="#B71C1C" text-anchor="middle">Dirty Page (D=1)</text>
   <text x="670" y="420" font-size="13" fill="#212121" text-anchor="middle">Must writeback to swap/disk first</text>
   <text x="670" y="438" font-size="13" fill="#212121" text-anchor="middle">Block I/O: ~1–10 ms (NVMe–HDD)</text>
@@ -1371,8 +1371,8 @@ and Optimization</h1>
   <text x="450" y="420" font-size="20" font-weight="bold" fill="#BF616A" text-anchor="middle">vs</text>
 
   <!-- Bottom note -->
-  <rect x="20" y="465" width="860" height="48" rx="4" fill="#FFF9C4" stroke="#F9A825" stroke-width="1"/>
-  <text x="450" y="486" font-size="14" font-weight="bold" fill="#E65100" text-anchor="middle">Key Insight: 5,000× cost difference between clean and dirty eviction</text>
+  <rect x="20" y="465" width="860" height="48" rx="4" fill="#FFF9C4" stroke="#BF616A" stroke-width="1"/>
+  <text x="450" y="486" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Key Insight: 5,000× cost difference between clean and dirty eviction</text>
   <text x="450" y="505" font-size="13" fill="#212121" text-anchor="middle">Dirty-page ratio determines actual memory pressure cost. kswapd prioritises cleaning pages early to avoid expensive sync writeback during reclaim.</text>
 </svg>
   </div>

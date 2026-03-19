@@ -2658,7 +2658,7 @@ production systems.</p>
   <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 2-5 (middle) -->
-  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
   <text x="450" y="274" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU 2 … GPU 5</text>
   <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">Same configuration</text>
   <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
@@ -2687,7 +2687,7 @@ production systems.</p>
   <text x="195" y="216" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">900 GB/s total</text>
 
   <!-- TLB invalidation broadcast annotation -->
-  <rect x="20" y="355" width="860" height="55" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="20" y="355" width="860" height="55" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="450" y="376" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB Invalidation Broadcast Flow</text>
   <text x="450" y="397" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">GPU issues TLBI → NVSwitch replicates to all peers in hardware → each GPU invalidates matching TLB entries atomically</text>
 </svg>
@@ -2818,7 +2818,7 @@ invalidation broadcast.</p>
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
     <marker id="arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#1565C0"/>
+      <path d="M0,0 L0,6 L9,3 z" fill="#5E81AC"/>
     </marker>
     <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
@@ -2828,55 +2828,55 @@ invalidation broadcast.</p>
   <text x="450" y="30" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">NVSwitch: Hardware-Accelerated TLB Broadcast (DGX H100)</text>
 
   <!-- NVSwitch central hub -->
-  <rect x="330" y="55" width="240" height="80" rx="6" fill="#E65100" stroke="#BF360C" stroke-width="2" filter="url(#sh)"/>
+  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2" filter="url(#sh)"/>
   <text x="450" y="87" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">NVSwitch (×4 per DGX)</text>
   <text x="450" y="107" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">Non-blocking crossbar • 13.6 TB/s bisection BW</text>
   <text x="450" y="124" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">Hardware TLB invalidation broadcast</text>
 
   <!-- GPU 0 -->
-  <rect x="20" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="82" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 0</text>
   <text x="82" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
   <text x="82" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 1 -->
-  <rect x="165" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="227" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 1</text>
   <text x="227" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
   <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 2-5 (middle) -->
-  <rect x="330" y="240" width="240" height="80" rx="6" fill="#00796B" stroke="#004D40" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
   <text x="450" y="274" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU 2 … GPU 5</text>
   <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#B2DFDB" text-anchor="middle">Same configuration</text>
   <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#B2DFDB" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
 
   <!-- GPU 6 -->
-  <rect x="590" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="652" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 6</text>
   <text x="652" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
   <text x="652" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 7 -->
-  <rect x="735" y="240" width="125" height="80" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
   <text x="797" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 7</text>
   <text x="797" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">H100 SXM5</text>
   <text x="797" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">80 GB HBM3</text>
 
   <!-- NVLink connections (bidirectional arrows, blue) -->
-  <line x1="82" y1="240" x2="380" y2="135" stroke="#1565C0" stroke-width="2.5"/>
-  <line x1="227" y1="240" x2="400" y2="135" stroke="#1565C0" stroke-width="2.5"/>
-  <line x1="450" y1="240" x2="450" y2="135" stroke="#1565C0" stroke-width="2.5"/>
-  <line x1="652" y1="240" x2="500" y2="135" stroke="#1565C0" stroke-width="2.5"/>
-  <line x1="797" y1="240" x2="520" y2="135" stroke="#1565C0" stroke-width="2.5"/>
+  <line x1="82" y1="240" x2="380" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="227" y1="240" x2="400" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="450" y1="240" x2="450" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="652" y1="240" x2="500" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
+  <line x1="797" y1="240" x2="520" y2="135" stroke="#5E81AC" stroke-width="2.5"/>
 
   <!-- NVLink bandwidth labels -->
-  <text x="195" y="200" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#1565C0" text-anchor="middle">NVLink 4.0</text>
-  <text x="195" y="216" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#1565C0" text-anchor="middle">900 GB/s total</text>
+  <text x="195" y="200" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">NVLink 4.0</text>
+  <text x="195" y="216" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">900 GB/s total</text>
 
   <!-- TLB invalidation broadcast annotation -->
-  <rect x="20" y="355" width="860" height="55" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
-  <text x="450" y="376" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#E65100" text-anchor="middle">TLB Invalidation Broadcast Flow</text>
+  <rect x="20" y="355" width="860" height="55" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="450" y="376" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB Invalidation Broadcast Flow</text>
   <text x="450" y="397" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">GPU issues TLBI → NVSwitch replicates to all peers in hardware → each GPU invalidates matching TLB entries atomically</text>
 </svg>
   </div>
@@ -3647,7 +3647,7 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <text x="460" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#DDEAF5" text-anchor="middle">Chiplet 5</text>
 
   <!-- HBM3 Stacks -->
-  <rect x="40" y="295" width="500" height="100" rx="5" fill="#4A8A99" stroke="#004D40" stroke-width="1.5"/>
+  <rect x="40" y="295" width="500" height="100" rx="5" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="290" y="325" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">HBM3 Memory Stacks (×8 stacks, 192 GB total)</text>
   <text x="290" y="347" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#CCE8EC" text-anchor="middle">5.2 TB/s aggregate bandwidth • 2.5D interposer connects all chiplets</text>
   <text x="290" y="367" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#CCE8EC" text-anchor="middle">Unified virtual address space spans all 6 compute chiplets via Infinity Fabric</text>
@@ -3669,7 +3669,7 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <text x="548" y="204" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">interconnect</text>
 
   <!-- Right panel: TLB challenge -->
-  <rect x="600" y="45" width="285" height="370" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="600" y="45" width="285" height="370" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
   <text x="742" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Chiplet TLB Challenge</text>
 
   <text x="610" y="95" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Per-Chiplet TLB Hierarchy:</text>
@@ -3709,7 +3709,7 @@ Challenge</h3>
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
     <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#E65100"/>
+      <path d="M0,0 L0,6 L9,3 z" fill="#BF616A"/>
     </marker>
   </defs>
 
@@ -3720,59 +3720,59 @@ Challenge</h3>
   <text x="300" y="68" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#607D8B" text-anchor="middle">AMD MI300X Package (2.5D Interposer + HBM3)</text>
 
   <!-- Row 1 compute chiplets -->
-  <rect x="40" y="80" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="40" y="80" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="120" y="115" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
   <text x="120" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 0</text>
   <text x="120" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">CDNA3 GPU</text>
 
-  <rect x="210" y="80" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="210" y="80" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="290" y="115" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
   <text x="290" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 1</text>
   <text x="290" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">CDNA3 GPU</text>
 
-  <rect x="380" y="80" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="380" y="80" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="460" y="115" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
   <text x="460" y="133" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 2</text>
   <text x="460" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#90CAF9" text-anchor="middle">CDNA3 GPU</text>
 
   <!-- Row 2 -->
-  <rect x="40" y="185" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="40" y="185" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="120" y="225" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
   <text x="120" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 3</text>
 
-  <rect x="210" y="185" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="210" y="185" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="290" y="225" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
   <text x="290" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 4</text>
 
-  <rect x="380" y="185" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="380" y="185" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="460" y="225" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Compute</text>
   <text x="460" y="243" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Chiplet 5</text>
 
   <!-- HBM3 Stacks -->
-  <rect x="40" y="295" width="500" height="100" rx="5" fill="#00796B" stroke="#004D40" stroke-width="1.5"/>
+  <rect x="40" y="295" width="500" height="100" rx="5" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="290" y="325" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">HBM3 Memory Stacks (×8 stacks, 192 GB total)</text>
   <text x="290" y="347" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#B2DFDB" text-anchor="middle">5.2 TB/s aggregate bandwidth • 2.5D interposer connects all chiplets</text>
   <text x="290" y="367" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#B2DFDB" text-anchor="middle">Unified virtual address space spans all 6 compute chiplets via Infinity Fabric</text>
 
   <!-- Infinity Fabric arrows between chiplets -->
-  <line x1="200" y1="125" x2="210" y2="125" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="370" y1="125" x2="380" y2="125" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="200" y1="230" x2="210" y2="230" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="370" y1="230" x2="380" y2="230" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="200" y1="125" x2="210" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="370" y1="125" x2="380" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="200" y1="230" x2="210" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="370" y1="230" x2="380" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
   <!-- Vertical connections -->
-  <line x1="120" y1="170" x2="120" y2="185" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="290" y1="170" x2="290" y2="185" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="460" y1="170" x2="460" y2="185" stroke="#E65100" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="120" y1="170" x2="120" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="290" y1="170" x2="290" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="460" y1="170" x2="460" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
 
   <!-- Infinity Fabric label -->
-  <text x="548" y="155" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#E65100" text-anchor="middle">Infinity</text>
-  <text x="548" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#E65100" text-anchor="middle">Fabric</text>
+  <text x="548" y="155" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Infinity</text>
+  <text x="548" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Fabric</text>
   <text x="548" y="188" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">cross-die</text>
   <text x="548" y="204" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">interconnect</text>
 
   <!-- Right panel: TLB challenge -->
-  <rect x="600" y="45" width="285" height="370" rx="6" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5" filter="url(#sh)"/>
-  <text x="742" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#E65100" text-anchor="middle">Chiplet TLB Challenge</text>
+  <rect x="600" y="45" width="285" height="370" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="742" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Chiplet TLB Challenge</text>
 
   <text x="610" y="95" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Per-Chiplet TLB Hierarchy:</text>
   <text x="615" y="115" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">L1 DTLB: ~64 entries</text>
@@ -3785,7 +3785,7 @@ Challenge</h3>
   <text x="615" y="238" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">across Infinity Fabric</text>
   <text x="615" y="256" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">to all 6 chiplets.</text>
 
-  <text x="610" y="285" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">Key stats (MI300X):</text>
+  <text x="610" y="285" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">Key stats (MI300X):</text>
   <text x="615" y="305" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">304 GB total HBM3</text>
   <text x="615" y="323" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">5.3 TB/s bandwidth</text>
   <text x="615" y="341" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">14,080 shader procs</text>
@@ -4115,8 +4115,8 @@ for distributed training.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">GPU + RDMA NIC Integration: Heterogeneous Address Space Challenge</text>
 
   <!-- Left: Integrated (desired) -->
-  <rect x="20" y="50" width="400" height="340" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" filter="url(#sh)"/>
-  <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#2E7D32" text-anchor="middle">✓ Integrated: Unified Address Space</text>
+  <rect x="20" y="50" width="400" height="340" rx="8" fill="#F5F5F5" stroke="#4CAF50" stroke-width="2" filter="url(#sh)"/>
+  <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#4A8A99" text-anchor="middle">✓ Integrated: Unified Address Space</text>
   <text x="220" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(AMD MI300A / Apple M-series approach)</text>
 
   <rect x="40" y="105" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
@@ -4130,7 +4130,7 @@ for distributed training.</p>
   <text x="310" y="176" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F0D9D9" text-anchor="middle">CPU page tables</text>
 
   <!-- Shared memory pool -->
-  <rect x="40" y="220" width="350" height="60" rx="5" fill="#4A8A99" stroke="#004D40" stroke-width="1.5"/>
+  <rect x="40" y="220" width="350" height="60" rx="5" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="215" y="248" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Unified Memory Pool (CPU + GPU + NIC)</text>
   <text x="215" y="267" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">Single virtual address space — zero-copy transfers</text>
 
@@ -4138,13 +4138,13 @@ for distributed training.</p>
   <line x1="120" y1="195" x2="120" y2="218" stroke="#4CAF50" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="310" y1="195" x2="310" y2="218" stroke="#4CAF50" stroke-width="2" marker-end="url(#arr)"/>
 
-  <rect x="40" y="300" width="350" height="75" rx="5" fill="#C8E6C9"/>
-  <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">Benefits:</text>
+  <rect x="40" y="300" width="350" height="75" rx="5" fill="#F5F5F5"/>
+  <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Benefits:</text>
   <text x="215" y="342" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GPU tensor → NIC DMA with zero copy</text>
   <text x="215" y="360" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Single TLB invalidation covers all devices</text>
 
   <!-- Right: Discrete (challenge) -->
-  <rect x="440" y="50" width="440" height="340" rx="8" fill="#FFEBEE" stroke="#EF5350" stroke-width="2" filter="url(#sh)"/>
+  <rect x="440" y="50" width="440" height="340" rx="8" fill="#F5F5F5" stroke="#EF5350" stroke-width="2" filter="url(#sh)"/>
   <text x="660" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#C62828" text-anchor="middle">⚠ Discrete: Separate Address Spaces</text>
   <text x="660" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(PCIe-attached GPU + separate NIC)</text>
 
@@ -4175,7 +4175,7 @@ for distributed training.</p>
   <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
 
-  <rect x="460" y="295" width="390" height="80" rx="5" fill="#FFCDD2"/>
+  <rect x="460" y="295" width="390" height="80" rx="5" fill="#F5F5F5"/>
   <text x="655" y="316" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#C62828" text-anchor="middle">Problems:</text>
   <text x="655" y="336" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GPU→NIC requires buffer copy through host memory</text>
   <text x="655" y="354" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Two separate TLB shootdowns per migration</text>
@@ -4209,8 +4209,8 @@ for distributed training.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">Intel Gaudi 2: Integrated Compute + RDMA on a Single Die</text>
 
   <!-- Gaudi 2 Die outer package -->
-  <rect x="60" y="50" width="540" height="320" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5" filter="url(#sh)"/>
-  <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#2E7D32" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
+  <rect x="60" y="50" width="540" height="320" rx="10" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2.5" filter="url(#sh)"/>
+  <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#4A8A99" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
 
   <!-- Compute Cores block -->
   <rect x="80" y="90" width="220" height="230" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
@@ -4251,12 +4251,12 @@ for distributed training.</p>
   <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
   <text x="752" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Integration Benefits</text>
 
-  <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">✓ Zero-copy tensor transfer:</text>
+  <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99">✓ Zero-copy tensor transfer:</text>
   <text x="640" y="118" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">RDMA engine DMA-reads</text>
   <text x="640" y="136" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">directly from HBM using</text>
   <text x="640" y="154" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">shared page tables.</text>
 
-  <text x="635" y="180" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">✓ Single TLB invalidation:</text>
+  <text x="635" y="180" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99">✓ Single TLB invalidation:</text>
   <text x="640" y="198" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">One TLBI flushes both</text>
   <text x="640" y="216" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">compute and network MMU</text>
   <text x="640" y="234" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">simultaneously.</text>
@@ -4285,10 +4285,10 @@ for distributed training.</p>
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
     <marker id="arrc" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
-      <path d="M0,0 L0,10 L10,5 z" fill="#1565C0"/>
+      <path d="M0,0 L0,10 L10,5 z" fill="#5E81AC"/>
     </marker>
     <marker id="arro" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#E65100"/>
+      <path d="M0,0 L0,6 L9,3 z" fill="#BF616A"/>
     </marker>
     <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
@@ -4298,22 +4298,22 @@ for distributed training.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">GPU + RDMA NIC Integration: Heterogeneous Address Space Challenge</text>
 
   <!-- Left: Integrated (desired) -->
-  <rect x="20" y="50" width="400" height="340" rx="8" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2" filter="url(#sh)"/>
-  <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#2E7D32" text-anchor="middle">✓ Integrated: Unified Address Space</text>
+  <rect x="20" y="50" width="400" height="340" rx="8" fill="#F5F5F5" stroke="#4CAF50" stroke-width="2" filter="url(#sh)"/>
+  <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#4A8A99" text-anchor="middle">✓ Integrated: Unified Address Space</text>
   <text x="220" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(AMD MI300A / Apple M-series approach)</text>
 
-  <rect x="40" y="105" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="40" y="105" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="120" y="138" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU Die</text>
   <text x="120" y="158" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">Compute + MMU</text>
   <text x="120" y="176" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">Shared page tables</text>
 
-  <rect x="230" y="105" width="160" height="90" rx="5" fill="#E65100" stroke="#BF360C" stroke-width="1.5"/>
+  <rect x="230" y="105" width="160" height="90" rx="5" fill="#BF616A" stroke="#BF360C" stroke-width="1.5"/>
   <text x="310" y="138" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">RDMA NIC</text>
   <text x="310" y="158" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">IOMMU shares</text>
   <text x="310" y="176" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">CPU page tables</text>
 
   <!-- Shared memory pool -->
-  <rect x="40" y="220" width="350" height="60" rx="5" fill="#00796B" stroke="#004D40" stroke-width="1.5"/>
+  <rect x="40" y="220" width="350" height="60" rx="5" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="215" y="248" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Unified Memory Pool (CPU + GPU + NIC)</text>
   <text x="215" y="267" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#B2DFDB" text-anchor="middle">Single virtual address space — zero-copy transfers</text>
 
@@ -4321,17 +4321,17 @@ for distributed training.</p>
   <line x1="120" y1="195" x2="120" y2="218" stroke="#4CAF50" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="310" y1="195" x2="310" y2="218" stroke="#4CAF50" stroke-width="2" marker-end="url(#arr)"/>
 
-  <rect x="40" y="300" width="350" height="75" rx="5" fill="#C8E6C9"/>
-  <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">Benefits:</text>
+  <rect x="40" y="300" width="350" height="75" rx="5" fill="#F5F5F5"/>
+  <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Benefits:</text>
   <text x="215" y="342" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GPU tensor → NIC DMA with zero copy</text>
   <text x="215" y="360" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Single TLB invalidation covers all devices</text>
 
   <!-- Right: Discrete (challenge) -->
-  <rect x="440" y="50" width="440" height="340" rx="8" fill="#FFEBEE" stroke="#EF5350" stroke-width="2" filter="url(#sh)"/>
+  <rect x="440" y="50" width="440" height="340" rx="8" fill="#F5F5F5" stroke="#EF5350" stroke-width="2" filter="url(#sh)"/>
   <text x="660" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#C62828" text-anchor="middle">⚠ Discrete: Separate Address Spaces</text>
   <text x="660" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(PCIe-attached GPU + separate NIC)</text>
 
-  <rect x="460" y="105" width="160" height="90" rx="5" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <rect x="460" y="105" width="160" height="90" rx="5" fill="#5E81AC" stroke="#0D47A1" stroke-width="1.5"/>
   <text x="540" y="132" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU Die</text>
   <text x="540" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">Compute + MMU</text>
   <text x="540" y="168" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BBDEFB" text-anchor="middle">GPU page tables</text>
@@ -4341,7 +4341,7 @@ for distributed training.</p>
   <text x="650" y="143" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">PCIe</text>
   <text x="650" y="167" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">32 GB/s</text>
 
-  <rect x="690" y="105" width="160" height="90" rx="5" fill="#E65100" stroke="#BF360C" stroke-width="1.5"/>
+  <rect x="690" y="105" width="160" height="90" rx="5" fill="#BF616A" stroke="#BF360C" stroke-width="1.5"/>
   <text x="770" y="132" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">RDMA NIC</text>
   <text x="770" y="150" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">Separate device</text>
   <text x="770" y="168" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#FFE0B2" text-anchor="middle">CPU IOMMU</text>
@@ -4358,7 +4358,7 @@ for distributed training.</p>
   <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
 
-  <rect x="460" y="295" width="390" height="80" rx="5" fill="#FFCDD2"/>
+  <rect x="460" y="295" width="390" height="80" rx="5" fill="#F5F5F5"/>
   <text x="655" y="316" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#C62828" text-anchor="middle">Problems:</text>
   <text x="655" y="336" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• GPU→NIC requires buffer copy through host memory</text>
   <text x="655" y="354" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Two separate TLB shootdowns per migration</text>
@@ -4384,10 +4384,10 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
     <marker id="bi" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
-      <path d="M9,0 L9,6 L0,3 z" fill="#00796B"/>
+      <path d="M9,0 L9,6 L0,3 z" fill="#4A8A99"/>
     </marker>
     <marker id="bi2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="#00796B"/>
+      <path d="M0,0 L0,6 L9,3 z" fill="#4A8A99"/>
     </marker>
     <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
@@ -4397,11 +4397,11 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">Intel Gaudi 2: Integrated Compute + RDMA on a Single Die</text>
 
   <!-- Gaudi 2 Die outer package -->
-  <rect x="60" y="50" width="540" height="320" rx="10" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2.5" filter="url(#sh)"/>
-  <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#2E7D32" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
+  <rect x="60" y="50" width="540" height="320" rx="10" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2.5" filter="url(#sh)"/>
+  <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#4A8A99" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
 
   <!-- Compute Cores block -->
-  <rect x="80" y="90" width="220" height="230" rx="6" fill="#1565C0" stroke="#0D47A1" stroke-width="2"/>
+  <rect x="80" y="90" width="220" height="230" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   <text x="190" y="118" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Compute Cores</text>
   <text x="190" y="140" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">21 × TPC (Tensor Processor)</text>
   <text x="190" y="160" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">Matrix engines + vector</text>
@@ -4414,12 +4414,12 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <text x="190" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BBDEFB" text-anchor="middle">2.45 TB/s BW</text>
 
   <!-- Bidirectional arrow between compute and RDMA -->
-  <line x1="300" y1="195" x2="360" y2="195" stroke="#00796B" stroke-width="2.5" marker-start="url(#bi)" marker-end="url(#bi2)"/>
-  <text x="330" y="185" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#00796B" text-anchor="middle">on-die</text>
-  <text x="330" y="215" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#00796B" text-anchor="middle">fabric</text>
+  <line x1="300" y1="195" x2="360" y2="195" stroke="#4A8A99" stroke-width="2.5" marker-start="url(#bi)" marker-end="url(#bi2)"/>
+  <text x="330" y="185" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">on-die</text>
+  <text x="330" y="215" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">fabric</text>
 
   <!-- RDMA Engines block -->
-  <rect x="360" y="90" width="220" height="230" rx="6" fill="#E65100" stroke="#BF360C" stroke-width="2"/>
+  <rect x="360" y="90" width="220" height="230" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2"/>
   <text x="470" y="118" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">RDMA Engines</text>
   <text x="470" y="140" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">24 × 100 GbE ports</text>
   <text x="470" y="160" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">= 2.4 Tb/s fabric BW</text>
@@ -4432,31 +4432,31 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <text x="470" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#FFE0B2" text-anchor="middle">Zero-copy DMA</text>
 
   <!-- HBM stacks at bottom of die -->
-  <rect x="80" y="335" width="500" height="25" rx="4" fill="#00796B"/>
+  <rect x="80" y="335" width="500" height="25" rx="4" fill="#4A8A99"/>
   <text x="330" y="352" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">HBM2E Stack — shared by compute cores and RDMA engines</text>
 
   <!-- Right side: benefits panel -->
   <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
   <text x="752" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Integration Benefits</text>
 
-  <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">✓ Zero-copy tensor transfer:</text>
+  <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99">✓ Zero-copy tensor transfer:</text>
   <text x="640" y="118" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">RDMA engine DMA-reads</text>
   <text x="640" y="136" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">directly from HBM using</text>
   <text x="640" y="154" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">shared page tables.</text>
 
-  <text x="635" y="180" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#2E7D32">✓ Single TLB invalidation:</text>
+  <text x="635" y="180" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99">✓ Single TLB invalidation:</text>
   <text x="640" y="198" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">One TLBI flushes both</text>
   <text x="640" y="216" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">compute and network MMU</text>
   <text x="640" y="234" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">simultaneously.</text>
 
-  <text x="635" y="260" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#1565C0">Vs. discrete GPU+NIC:</text>
+  <text x="635" y="260" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">Vs. discrete GPU+NIC:</text>
   <text x="640" y="278" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161">Eliminates 2× buffer copy</text>
   <text x="640" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161">and PCIe bottleneck</text>
   <text x="640" y="314" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161">(32 GB/s → 2.4 Tb/s).</text>
 
   <!-- Network ports at bottom -->
-  <rect x="60" y="385" width="540" height="28" rx="4" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
-  <text x="330" y="403" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#1565C0" text-anchor="middle">24 × 100 GbE ports → external fabric (used for AllReduce in LLM training)</text>
+  <rect x="60" y="385" width="540" height="28" rx="4" fill="#F5F5F5" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="330" y="403" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">24 × 100 GbE ports → external fabric (used for AllReduce in LLM training)</text>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">

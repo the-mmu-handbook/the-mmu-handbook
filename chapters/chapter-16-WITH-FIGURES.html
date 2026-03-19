@@ -2701,7 +2701,7 @@ Single TLB entry covers ENTIRE 2.1 GB tensor!
   <text x="320" y="74" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Virtual Limit Address</text>
   <text x="320" y="92" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">64 bits</text>
 
-  <rect x="420" y="50" width="200" height="55" rx="0" fill="#4A8A99" stroke="#004D40" stroke-width="1"/>
+  <rect x="420" y="50" width="200" height="55" rx="0" fill="#4A8A99" stroke="#4A8A99" stroke-width="1"/>
   <text x="520" y="74" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Physical Base Address</text>
   <text x="520" y="92" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">64 bits</text>
 
@@ -2720,16 +2720,16 @@ Single TLB entry covers ENTIRE 2.1 GB tensor!
   <!-- Compare with classic TLB entry -->
   <text x="450" y="130" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#616161" text-anchor="middle">vs. Classic 4-field TLB Entry:</text>
 
-  <rect x="20" y="145" width="200" height="45" rx="0" fill="#455A64" stroke="#37474F" stroke-width="1"/>
+  <rect x="20" y="145" width="200" height="45" rx="0" fill="#455A64" stroke="#34495E" stroke-width="1"/>
   <text x="120" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#ECEFF1" text-anchor="middle">VPN (single page)</text>
 
-  <rect x="220" y="145" width="200" height="45" rx="0" fill="#455A64" stroke="#37474F" stroke-width="1"/>
+  <rect x="220" y="145" width="200" height="45" rx="0" fill="#455A64" stroke="#34495E" stroke-width="1"/>
   <text x="320" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#ECEFF1" text-anchor="middle">PFN</text>
 
-  <rect x="420" y="145" width="200" height="45" rx="0" fill="#455A64" stroke="#37474F" stroke-width="1"/>
+  <rect x="420" y="145" width="200" height="45" rx="0" fill="#455A64" stroke="#34495E" stroke-width="1"/>
   <text x="520" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#ECEFF1" text-anchor="middle">Flags (R/W/X/U)</text>
 
-  <rect x="620" y="145" width="260" height="45" rx="0" fill="#455A64" stroke="#37474F" stroke-width="1"/>
+  <rect x="620" y="145" width="260" height="45" rx="0" fill="#455A64" stroke="#34495E" stroke-width="1"/>
   <text x="750" y="170" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#ECEFF1" text-anchor="middle">ASID + Valid</text>
 
   <text x="450" y="210" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" text-anchor="middle" font-weight="bold">Classic: 1 entry = 1 page (4 KB). FlexPointer: 1 entry = entire VA range (any size).</text>
@@ -2747,7 +2747,7 @@ Single TLB entry covers ENTIRE 2.1 GB tensor!
   <text x="35" y="400" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" font-style="italic">Eliminates page-granularity entries for contiguous ranges (e.g. 1 entry for 1 GB model weights)</text>
 
   <!-- Right: capacity comparison -->
-  <rect x="540" y="225" width="340" height="190" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="540" y="225" width="340" height="190" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
   <text x="710" y="248" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#BF616A" text-anchor="middle">Capacity Advantage</text>
 
   <text x="555" y="272" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Classic TLB (1,024 entries, 4 KB):</text>
@@ -2756,8 +2756,8 @@ Single TLB entry covers ENTIRE 2.1 GB tensor!
 
   <text x="555" y="342" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">FlexPointer TLB (1,024 entries):</text>
   <text x="560" y="362" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121">1 entry covers entire 1 GB tensor</text>
-  <text x="560" y="382" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#2E7D32" font-weight="bold">Remaining 1,023 entries for other tensors</text>
-  <text x="560" y="402" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#2E7D32">TLB miss rate: near zero for trained model</text>
+  <text x="560" y="382" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#4A8A99" font-weight="bold">Remaining 1,023 entries for other tensors</text>
+  <text x="560" y="402" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#4A8A99">TLB miss rate: near zero for trained model</text>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">

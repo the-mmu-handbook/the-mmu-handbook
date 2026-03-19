@@ -1075,7 +1075,7 @@ access each physical address it translates to.</p>
         transform="rotate(-90,74,375)">Faster / Smaller / More Expensive</text>
 
   <!-- Insight box — properly bounded, clear margins all sides -->
-  <rect x="630" y="575" width="330" height="90" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="630" y="575" width="330" height="90" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
   <text x="795" y="598" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">The Memory Wall</text>
   <line x1="645" y1="607" x2="945" y2="607" stroke="#BF616A" stroke-width="1" stroke-dasharray="3,3"/>
   <text x="795" y="624" font-size="13" fill="#212121" text-anchor="middle">CPU ~0.3 ns/cycle vs DRAM ~70 ns.</text>
@@ -1311,7 +1311,7 @@ program size</p>
   <text x="559" y="198" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Bounds Check</text>
   <line x1="492" y1="208" x2="626" y2="208" stroke="#BDBDBD" stroke-width="1"/>
   <text x="559" y="228" font-size="13" fill="#212121" text-anchor="middle">0x2000 &lt; 0x8000?</text>
-  <text x="559" y="252" font-size="20" font-weight="bold" fill="#2E7D32" text-anchor="middle">YES</text>
+  <text x="559" y="252" font-size="20" font-weight="bold" fill="#4A8A99" text-anchor="middle">YES</text>
   <text x="559" y="275" font-size="13" fill="#212121" text-anchor="middle">Access permitted</text>
 
   <!-- Arrow Checker -> Memory (good) -->
@@ -1332,8 +1332,8 @@ program size</p>
   <!-- Fault path -->
   <rect x="480" y="400" width="200" height="65" rx="6" fill="#B71C1C" filter="url(#sh)"/>
   <text x="580" y="426" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Protection Fault!</text>
-  <text x="580" y="446" font-size="13" fill="#FFCDD2" text-anchor="middle">Addr >= Limit: Trap to OS</text>
-  <text x="580" y="462" font-size="13" fill="#FFCDD2" text-anchor="middle">Process terminated</text>
+  <text x="580" y="446" font-size="13" fill="#F5F5F5" text-anchor="middle">Addr >= Limit: Trap to OS</text>
+  <text x="580" y="462" font-size="13" fill="#F5F5F5" text-anchor="middle">Process terminated</text>
 
   <!-- Arrow checker -> fault -->
   <line x1="559" y1="290" x2="559" y2="400" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ao)"/>
@@ -1348,7 +1348,7 @@ program size</p>
   <text x="44" y="478" font-size="13" fill="#4A8A99" font-weight="bold">Physical = 0x10000 + 0x2000 = 0x12000</text>
 
   <!-- Limitation note -->
-  <rect x="698" y="378" width="182" height="100" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="698" y="378" width="182" height="100" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="789" y="398" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Limitations</text>
   <text x="710" y="418" font-size="12" fill="#212121">- No memory sharing</text>
   <text x="710" y="436" font-size="12" fill="#212121">- External fragmentation</text>
@@ -1384,35 +1384,35 @@ if (Program Address &gt; Bounds Register):
   <text x="810" y="78" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Result</text>
 
   <!-- Example 1: Valid access -->
-  <rect x="22" y="91" width="856" height="80" rx="0" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <rect x="22" y="91" width="856" height="80" rx="0" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="130" y="115" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">0x2000</text>
   <text x="130" y="135" font-size="12" fill="#616161" text-anchor="middle">within program space</text>
   <text x="300" y="115" font-size="14" fill="#212121" text-anchor="middle">0x10000</text>
   <text x="300" y="135" font-size="12" fill="#616161" text-anchor="middle">program starts here</text>
   <text x="470" y="115" font-size="14" fill="#212121" text-anchor="middle">0x8000</text>
   <text x="470" y="135" font-size="12" fill="#616161" text-anchor="middle">32 KB program</text>
-  <text x="640" y="115" font-size="14" fill="#2E7D32" font-weight="bold" text-anchor="middle">0x2000 &lt; 0x8000: YES</text>
+  <text x="640" y="115" font-size="14" fill="#4A8A99" font-weight="bold" text-anchor="middle">0x2000 &lt; 0x8000: YES</text>
   <text x="640" y="135" font-size="12" fill="#616161" text-anchor="middle">within bounds</text>
-  <text x="810" y="108" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">Physical = 0x12000</text>
+  <text x="810" y="108" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Physical = 0x12000</text>
   <text x="810" y="128" font-size="13" fill="#212121" text-anchor="middle">0x10000 + 0x2000</text>
-  <text x="810" y="148" font-size="12" fill="#2E7D32" text-anchor="middle">Access ALLOWED</text>
+  <text x="810" y="148" font-size="12" fill="#4A8A99" text-anchor="middle">Access ALLOWED</text>
 
   <!-- Example 2: Boundary edge valid -->
-  <rect x="22" y="171" width="856" height="80" rx="0" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5"/>
+  <rect x="22" y="171" width="856" height="80" rx="0" fill="#FFF9C4" stroke="#BF616A" stroke-width="1.5"/>
   <text x="130" y="195" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">0x7FFF</text>
   <text x="130" y="215" font-size="12" fill="#616161" text-anchor="middle">last valid byte</text>
   <text x="300" y="195" font-size="14" fill="#212121" text-anchor="middle">0x10000</text>
   <text x="300" y="215" font-size="12" fill="#616161" text-anchor="middle">same program</text>
   <text x="470" y="195" font-size="14" fill="#212121" text-anchor="middle">0x8000</text>
   <text x="470" y="215" font-size="12" fill="#616161" text-anchor="middle">32 KB program</text>
-  <text x="640" y="195" font-size="14" fill="#F9A825" font-weight="bold" text-anchor="middle">0x7FFF &lt; 0x8000: YES</text>
+  <text x="640" y="195" font-size="14" fill="#BF616A" font-weight="bold" text-anchor="middle">0x7FFF &lt; 0x8000: YES</text>
   <text x="640" y="215" font-size="12" fill="#616161" text-anchor="middle">just barely in bounds</text>
-  <text x="810" y="188" font-size="13" font-weight="bold" fill="#F9A825" text-anchor="middle">Physical = 0x17FFF</text>
+  <text x="810" y="188" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Physical = 0x17FFF</text>
   <text x="810" y="208" font-size="13" fill="#212121" text-anchor="middle">0x10000 + 0x7FFF</text>
-  <text x="810" y="228" font-size="12" fill="#2E7D32" text-anchor="middle">Access ALLOWED</text>
+  <text x="810" y="228" font-size="12" fill="#4A8A99" text-anchor="middle">Access ALLOWED</text>
 
   <!-- Example 3: Out of bounds violation -->
-  <rect x="22" y="251" width="856" height="80" rx="0" fill="#FFEBEE" stroke="#B71C1C" stroke-width="1.5"/>
+  <rect x="22" y="251" width="856" height="80" rx="0" fill="#F5F5F5" stroke="#B71C1C" stroke-width="1.5"/>
   <text x="130" y="275" font-size="14" font-weight="bold" fill="#B71C1C" text-anchor="middle">0x9000</text>
   <text x="130" y="295" font-size="12" fill="#616161" text-anchor="middle">past end of program!</text>
   <text x="300" y="275" font-size="14" fill="#212121" text-anchor="middle">0x10000</text>
@@ -1431,7 +1431,7 @@ if (Program Address &gt; Bounds Register):
   <text x="438" y="396" font-size="14" fill="#212121" text-anchor="middle">IF (Logical_Address &lt; Limit) THEN Physical_Address = Base + Logical_Address  ELSE raise ProtectionFault()</text>
 
   <!-- Key distinction vs paging -->
-  <rect x="22" y="424" width="856" height="60" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="22" y="424" width="856" height="60" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="438" y="448" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Base-and-Bounds vs. Paging</text>
   <text x="438" y="470" font-size="13" fill="#212121" text-anchor="middle">Base-and-Bounds: Single contiguous region per process. Simple but causes external fragmentation. Replaced by paging in modern systems.</text>
 </svg>
@@ -1538,7 +1538,7 @@ processes</p>
   <text x="725" y="352" font-size="12" fill="#CCE8EC" text-anchor="middle">0x0804C000 – 0x08054000</text>
 
   <!-- Gap (fragmentation) -->
-  <rect x="588" y="362" width="274" height="36" rx="4" fill="#FFCDD2" stroke="#BF616A" stroke-width="1" stroke-dasharray="4,2"/>
+  <rect x="588" y="362" width="274" height="36" rx="4" fill="#F5F5F5" stroke="#BF616A" stroke-width="1" stroke-dasharray="4,2"/>
   <text x="725" y="384" font-size="13" fill="#BF616A" text-anchor="middle">External Fragmentation Gap</text>
 
   <!-- Heap -->
@@ -1568,8 +1568,8 @@ processes</p>
   <!-- Benefit/limitation callout -->
   <rect x="30" y="460" width="390" height="100" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
   <text x="225" y="481" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Segmentation vs. Base-and-Bounds</text>
-  <text x="44" y="500" font-size="13" fill="#2E7D32">+ Multiple segments per process (code/data/stack)</text>
-  <text x="44" y="518" font-size="13" fill="#2E7D32">+ Per-segment protection (R/W/X permissions)</text>
+  <text x="44" y="500" font-size="13" fill="#4A8A99">+ Multiple segments per process (code/data/stack)</text>
+  <text x="44" y="518" font-size="13" fill="#4A8A99">+ Per-segment protection (R/W/X permissions)</text>
   <text x="44" y="536" font-size="13" fill="#BF616A">- External fragmentation between segments</text>
   <text x="44" y="554" font-size="13" fill="#BF616A">- Segments must still be contiguous in RAM</text>
 </svg>
@@ -1674,11 +1674,11 @@ base and bounds.</p>
   <text x="200" y="114" font-size="13" fill="#212121" text-anchor="middle">Machine instructions</text>
   <text x="200" y="132" font-size="13" fill="#212121" text-anchor="middle">compiled program</text>
   <text x="380" y="114" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">R-X</text>
-  <text x="380" y="132" font-size="12" fill="#2E7D32" text-anchor="middle">Read + Execute only</text>
+  <text x="380" y="132" font-size="12" fill="#4A8A99" text-anchor="middle">Read + Execute only</text>
   <text x="380" y="148" font-size="12" fill="#BF616A" text-anchor="middle">No Write! (W^X policy)</text>
   <text x="530" y="121" font-size="13" fill="#212121" text-anchor="middle">10 KB – 10 MB</text>
   <text x="680" y="121" font-size="13" fill="#212121" text-anchor="middle">Fixed at load time</text>
-  <text x="820" y="114" font-size="13" fill="#2E7D32" font-weight="bold" text-anchor="middle">YES</text>
+  <text x="820" y="114" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">YES</text>
   <text x="820" y="132" font-size="12" fill="#212121" text-anchor="middle">Between processes</text>
 
   <!-- Data segment -->
@@ -1695,7 +1695,7 @@ base and bounds.</p>
   <text x="820" y="187" font-size="13" fill="#BF616A" text-anchor="middle">NO (private)</text>
 
   <!-- BSS segment -->
-  <rect x="22" y="223" width="856" height="66" rx="0" fill="#E8F5E9" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="22" y="223" width="856" height="66" rx="0" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="22" y="223" width="76" height="66" fill="#4A8A99" opacity="0.78"/>
   <text x="60" y="253" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">.bss</text>
   <text x="60" y="271" font-size="12" fill="#CCE8EC" text-anchor="middle">(Uninit. Data)</text>
@@ -1722,7 +1722,7 @@ base and bounds.</p>
   <text x="820" y="319" font-size="13" fill="#BF616A" text-anchor="middle">NO (private)</text>
 
   <!-- Stack -->
-  <rect x="22" y="355" width="856" height="66" rx="0" fill="#FFEBEE" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="22" y="355" width="856" height="66" rx="0" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="22" y="355" width="76" height="66" fill="#BF616A"/>
   <text x="60" y="385" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Stack</text>
   <text x="60" y="403" font-size="12" fill="#FFCCBC" text-anchor="middle">(Per-thread)</text>
@@ -1829,10 +1829,10 @@ Modern Solution (1960s-Present)</h3>
   <text x="330" y="193" font-size="13" fill="#212121" text-anchor="middle">2</text>
   <text x="420" y="193" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">8</text>
   <!-- Row 3 — NOT PRESENT, taller row -->
-  <rect x="300" y="204" width="180" height="44" fill="#FFF8E1" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="300" y="204" width="180" height="44" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <line x1="360" y1="204" x2="360" y2="248" stroke="#9E9E9E" stroke-width="1"/>
   <text x="330" y="222" font-size="13" fill="#212121" text-anchor="middle">3</text>
-  <rect x="364" y="213" width="112" height="28" rx="3" fill="#FFCC80"/>
+  <rect x="364" y="213" width="112" height="28" rx="3" fill="#DDEAF5"/>
   <text x="420" y="224" font-size="10" fill="#BF360C" font-weight="bold" text-anchor="middle">NOT</text>
   <text x="420" y="237" font-size="10" fill="#BF360C" font-weight="bold" text-anchor="middle">PRESENT</text>
 
@@ -1854,10 +1854,10 @@ Modern Solution (1960s-Present)</h3>
   <text x="330" y="373" font-size="13" fill="#212121" text-anchor="middle">1</text>
   <text x="420" y="373" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">7</text>
   <!-- Row 2 — NOT PRESENT, taller row -->
-  <rect x="300" y="384" width="180" height="44" fill="#FFF8E1" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="300" y="384" width="180" height="44" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <line x1="360" y1="384" x2="360" y2="428" stroke="#9E9E9E" stroke-width="1"/>
   <text x="330" y="402" font-size="13" fill="#212121" text-anchor="middle">2</text>
-  <rect x="364" y="393" width="112" height="28" rx="3" fill="#FFCC80"/>
+  <rect x="364" y="393" width="112" height="28" rx="3" fill="#DDEAF5"/>
   <text x="420" y="404" font-size="10" fill="#BF360C" font-weight="bold" text-anchor="middle">NOT</text>
   <text x="420" y="417" font-size="10" fill="#BF360C" font-weight="bold" text-anchor="middle">PRESENT</text>
 
@@ -1893,7 +1893,7 @@ Modern Solution (1960s-Present)</h3>
   <line x1="480" y1="369" x2="668" y2="384" stroke="#4A8A99" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#at)"/>
 
   <!-- Benefits annotation -->
-  <rect x="26" y="460" width="260" height="100" rx="6" fill="#E8F5E9" stroke="#4A8A99" stroke-width="1.5"/>
+  <rect x="26" y="460" width="260" height="100" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="156" y="481" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">Key Benefits of Paging</text>
   <text x="38" y="501" font-size="13" fill="#212121">+ Non-contiguous physical allocation</text>
   <text x="38" y="519" font-size="13" fill="#212121">+ Complete process isolation</text>
@@ -1901,7 +1901,7 @@ Modern Solution (1960s-Present)</h3>
   <text x="38" y="555" font-size="13" fill="#212121">+ Simple frame reclamation</text>
 
   <!-- Isolation annotation -->
-  <rect x="300" y="460" width="350" height="100" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="300" y="460" width="350" height="100" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="475" y="481" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Isolation in Action</text>
   <text x="312" y="501" font-size="13" fill="#212121">Proc A: VA 0x1000 → Frame 5 (PFN=5)</text>
   <text x="312" y="519" font-size="13" fill="#212121">Proc B: VA 0x1000 → Frame 3 (PFN=3)</text>
@@ -1983,7 +1983,7 @@ overhead</p>
   <text x="875" y="96" font-size="9" font-weight="bold" fill="#FFFFFF" text-anchor="middle">R/W</text>
   <text x="875" y="112" font-size="9" fill="#FFCCBC" text-anchor="middle">b1</text>
   <!-- P -->
-  <rect x="884" y="76" width="12" height="44" rx="3" fill="#2E7D32"/>
+  <rect x="884" y="76" width="12" height="44" rx="3" fill="#4A8A99"/>
   <text x="890" y="96" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">P</text>
   <text x="890" y="112" font-size="9" fill="#A5D6A7" text-anchor="middle">b0</text>
 
@@ -1997,8 +1997,8 @@ overhead</p>
   <text x="200" y="183" font-size="13" font-weight="bold" fill="#FFFFFF">Meaning</text>
 
   <rect x="22" y="196" width="420" height="28" fill="#F5F5F5"/>
-  <text x="40" y="214" font-size="13" fill="#2E7D32" font-weight="bold">0</text>
-  <text x="90" y="214" font-size="13" fill="#2E7D32" font-weight="bold">P (Present)</text>
+  <text x="40" y="214" font-size="13" fill="#4A8A99" font-weight="bold">0</text>
+  <text x="90" y="214" font-size="13" fill="#4A8A99" font-weight="bold">P (Present)</text>
   <text x="200" y="214" font-size="13" fill="#212121">1 = page in RAM; 0 = page fault</text>
 
   <rect x="22" y="224" width="420" height="28" fill="#FFFFFF"/>
@@ -2040,21 +2040,21 @@ overhead</p>
   <text x="468" y="152" font-size="15" font-weight="bold" fill="#212121">PTE State Machine:</text>
 
   <!-- State 1: Present -->
-  <rect x="468" y="162" width="200" height="90" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
-  <text x="568" y="186" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">PRESENT (P=1)</text>
+  <rect x="468" y="162" width="200" height="90" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <text x="568" y="186" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">PRESENT (P=1)</text>
   <text x="568" y="206" font-size="13" fill="#212121" text-anchor="middle">Page is in physical RAM</text>
   <text x="568" y="224" font-size="13" fill="#212121" text-anchor="middle">PFN field is valid</text>
   <text x="568" y="242" font-size="13" fill="#212121" text-anchor="middle">TLB can cache this entry</text>
 
   <!-- State 2: Swapped -->
-  <rect x="468" y="272" width="200" height="90" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="468" y="272" width="200" height="90" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
   <text x="568" y="296" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">SWAPPED (P=0)</text>
   <text x="568" y="316" font-size="13" fill="#212121" text-anchor="middle">Page is on disk/swap</text>
   <text x="568" y="334" font-size="13" fill="#212121" text-anchor="middle">OS uses PFN bits for</text>
   <text x="568" y="352" font-size="13" fill="#212121" text-anchor="middle">swap location info</text>
 
   <!-- State 3: Never allocated -->
-  <rect x="468" y="382" width="200" height="90" rx="6" fill="#FFEBEE" stroke="#B71C1C" stroke-width="2" filter="url(#sh)"/>
+  <rect x="468" y="382" width="200" height="90" rx="6" fill="#F5F5F5" stroke="#B71C1C" stroke-width="2" filter="url(#sh)"/>
   <text x="568" y="406" font-size="14" font-weight="bold" fill="#B71C1C" text-anchor="middle">NOT ALLOCATED</text>
   <text x="568" y="426" font-size="13" fill="#212121" text-anchor="middle">Virtual page not mapped</text>
   <text x="568" y="444" font-size="13" fill="#212121" text-anchor="middle">Access = SIGSEGV</text>
@@ -2069,15 +2069,15 @@ overhead</p>
   <text x="782" y="183" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">On Access:</text>
   <text x="698" y="203" font-size="13" fill="#212121">TLB gets Physical Address</text>
   <text x="698" y="221" font-size="13" fill="#212121">Memory access proceeds</text>
-  <text x="698" y="239" font-size="13" fill="#2E7D32" font-weight="bold">Fast path (0-1 cycles)</text>
+  <text x="698" y="239" font-size="13" fill="#4A8A99" font-weight="bold">Fast path (0-1 cycles)</text>
 
-  <rect x="686" y="272" width="192" height="90" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="686" y="272" width="192" height="90" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="782" y="293" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">On Access:</text>
   <text x="698" y="313" font-size="13" fill="#212121">Page fault exception</text>
   <text x="698" y="331" font-size="13" fill="#212121">OS loads page from disk</text>
   <text x="698" y="349" font-size="13" fill="#BF616A" font-weight="bold">Slow (25 us - 10 ms)</text>
 
-  <rect x="686" y="382" width="192" height="90" rx="6" fill="#FFEBEE" stroke="#B71C1C" stroke-width="1.5"/>
+  <rect x="686" y="382" width="192" height="90" rx="6" fill="#F5F5F5" stroke="#B71C1C" stroke-width="1.5"/>
   <text x="782" y="403" font-size="13" font-weight="bold" fill="#B71C1C" text-anchor="middle">On Access:</text>
   <text x="698" y="423" font-size="13" fill="#212121">Page fault exception</text>
   <text x="698" y="441" font-size="13" fill="#212121">OS sends SIGSEGV</text>
@@ -2374,8 +2374,8 @@ Level: The Memory Management Unit (MMU)</h3>
   <text x="620" y="578" font-size="12" fill="#616161" text-anchor="middle">to 0x(RAM size)</text>
 
   <!-- Key insight box -->
-  <rect x="762" y="96" width="126" height="490" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5" filter="url(#sh)"/>
-  <text x="825" y="120" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">Key Insights</text>
+  <rect x="762" y="96" width="126" height="490" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="825" y="120" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Key Insights</text>
   <text x="772" y="148" font-size="11" fill="#212121">Virtual spaces</text>
   <text x="772" y="162" font-size="11" fill="#212121">are huge:</text>
   <text x="772" y="176" font-size="12" font-weight="bold" fill="#5E81AC">128 TB each</text>
@@ -2399,11 +2399,11 @@ Level: The Memory Management Unit (MMU)</h3>
   <text x="772" y="452" font-size="11" fill="#212121">U/S bit blocks</text>
   <text x="772" y="466" font-size="11" fill="#212121">user access</text>
   <line x1="772" y1="482" x2="876" y2="482" stroke="#BDBDBD" stroke-width="1"/>
-  <text x="772" y="500" font-size="11" fill="#2E7D32">libc.so pages</text>
-  <text x="772" y="514" font-size="11" fill="#2E7D32">shared in</text>
-  <text x="772" y="528" font-size="11" fill="#2E7D32">physical RAM</text>
-  <text x="772" y="542" font-size="11" fill="#2E7D32">between all</text>
-  <text x="772" y="556" font-size="11" fill="#2E7D32">processes!</text>
+  <text x="772" y="500" font-size="11" fill="#4A8A99">libc.so pages</text>
+  <text x="772" y="514" font-size="11" fill="#4A8A99">shared in</text>
+  <text x="772" y="528" font-size="11" fill="#4A8A99">physical RAM</text>
+  <text x="772" y="542" font-size="11" fill="#4A8A99">between all</text>
+  <text x="772" y="556" font-size="11" fill="#4A8A99">processes!</text>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
@@ -2678,20 +2678,20 @@ hardware<br />
   <text x="546" y="205" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">PT Index</text>
   <text x="546" y="222" font-size="11" fill="#F0D9D9" text-anchor="middle">9 bits (20:12)</text>
 
-  <rect x="620" y="184" width="260" height="50" rx="5" fill="#37474F" filter="url(#sh)"/>
+  <rect x="620" y="184" width="260" height="50" rx="5" fill="#34495E" filter="url(#sh)"/>
   <text x="750" y="205" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Page Offset</text>
   <text x="750" y="222" font-size="13" fill="#B0BEC5" text-anchor="middle">12 bits (11:0) → 4 KB</text>
 
   <!-- ===== OFFSET STAYS THE SAME ANNOTATION ===== -->
-  <rect x="20" y="252" width="860" height="50" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
-  <text x="450" y="272" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">Key Rule: The Page Offset is NEVER translated — it passes through unchanged</text>
+  <rect x="20" y="252" width="860" height="50" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5"/>
+  <text x="450" y="272" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">Key Rule: The Page Offset is NEVER translated — it passes through unchanged</text>
   <text x="450" y="292" font-size="13" fill="#212121" text-anchor="middle">Only the VPN (upper bits) changes during translation. The offset selects the byte within the page. Offset = VA mod 4096.</text>
 
   <!-- ===== COMPARISON TABLE ===== -->
   <rect x="20" y="316" width="860" height="140" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
   <text x="450" y="336" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Page Size vs. Offset Bits</text>
 
-  <rect x="30" y="346" width="840" height="26" rx="2" fill="#37474F"/>
+  <rect x="30" y="346" width="840" height="26" rx="2" fill="#34495E"/>
   <text x="200" y="363" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Page Size</text>
   <text x="400" y="363" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Offset Bits</text>
   <text x="600" y="363" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">VPN Bits (32-bit)</text>
@@ -2703,7 +2703,7 @@ hardware<br />
   <text x="600" y="389" font-size="13" fill="#212121" text-anchor="middle">20 bits</text>
   <text x="780" y="389" font-size="13" fill="#212121" text-anchor="middle">36 bits (4 levels × 9)</text>
 
-  <rect x="30" y="398" width="840" height="26" rx="2" fill="#E0F2F1"/>
+  <rect x="30" y="398" width="840" height="26" rx="2" fill="#F5F5F5"/>
   <text x="200" y="412" font-size="12" fill="#4A8A99" text-anchor="middle">2 MB huge page</text>
   <text x="400" y="412" font-size="12" fill="#212121" text-anchor="middle">21 bits</text>
   <text x="600" y="412" font-size="12" fill="#212121" text-anchor="middle">11 bits</text>
@@ -2749,8 +2749,8 @@ page)</p>
   <text x="730" y="132" font-size="14" fill="#F0D9D9" text-anchor="middle">12 bits — identical to VA offset</text>
 
   <!-- Annotation: offset same -->
-  <rect x="20" y="162" width="860" height="42" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
-  <text x="450" y="179" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">The 12-bit offset is identical in the virtual and physical address — it is never changed</text>
+  <rect x="20" y="162" width="860" height="42" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5"/>
+  <text x="450" y="179" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">The 12-bit offset is identical in the virtual and physical address — it is never changed</text>
   <text x="450" y="197" font-size="13" fill="#212121" text-anchor="middle">Only the upper bits change: VPN (virtual) is replaced with PFN (physical) via the page table lookup</text>
 
   <!-- Worked example -->
@@ -2830,12 +2830,12 @@ Address Translation</h2>
   <text x="30" y="236" font-size="15" font-weight="bold" fill="#212121">Step 2 — TLB Lookup with VPN:</text>
   <rect x="20" y="246" width="390" height="108" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#sh)"/>
   <text x="40" y="268" font-size="13" fill="#212121">Check TLB for VPN = 0x00403</text>
-  <text x="40" y="288" font-size="13" fill="#2E7D32" font-weight="bold">TLB HIT!  PFN = 0x1B7  (found in TLB)</text>
+  <text x="40" y="288" font-size="13" fill="#4A8A99" font-weight="bold">TLB HIT!  PFN = 0x1B7  (found in TLB)</text>
   <text x="40" y="308" font-size="13" fill="#212121">TLB also confirms: R/W=1, U/S=1 (user writable)</text>
   <text x="40" y="328" font-size="13" fill="#212121">Latency: ~1–4 cycles (1 ns)</text>
 
   <!-- OR miss path -->
-  <rect x="490" y="246" width="380" height="130" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="490" y="246" width="380" height="130" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
   <text x="500" y="268" font-size="13" fill="#212121">If TLB MISS: Hardware walks page table</text>
   <text x="500" y="288" font-size="13" fill="#BF616A" font-weight="bold">4 DRAM reads to find PFN</text>
   <text x="500" y="308" font-size="13" fill="#212121">PML4[0] → PDPT[0] → PD[1] → PT[0x003]</text>
@@ -2846,11 +2846,11 @@ Address Translation</h2>
 
   <!-- Step 3: Compute PA -->
   <text x="30" y="400" font-size="15" font-weight="bold" fill="#212121">Step 3 — Compute Physical Address:</text>
-  <rect x="30" y="410" width="840" height="80" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
-  <text x="50" y="434" font-size="14" font-weight="bold" fill="#2E7D32">Physical Address = PFN shifted left by 12 bits | Offset</text>
+  <rect x="30" y="410" width="840" height="80" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <text x="50" y="434" font-size="14" font-weight="bold" fill="#4A8A99">Physical Address = PFN shifted left by 12 bits | Offset</text>
   <text x="50" y="458" font-size="14" fill="#212121">= 0x1B7 &lt;&lt; 12 | 0xA7C</text>
   <text x="50" y="480" font-size="14" fill="#212121">= 0x001B7000 | 0xA7C</text>
-  <text x="400" y="434" font-size="14" font-weight="bold" fill="#2E7D32">= 0x001B7A7C</text>
+  <text x="400" y="434" font-size="14" font-weight="bold" fill="#4A8A99">= 0x001B7A7C</text>
   <text x="400" y="458" font-size="13" fill="#212121">The CPU now accesses physical address 0x001B7A7C in DRAM</text>
   <text x="400" y="480" font-size="13" fill="#212121">The page offset (0xA7C) is passed through unchanged!</text>
 
@@ -2912,7 +2912,7 @@ Lookaside Buffer (TLB)</h2>
     <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
     <!-- All markers use userSpaceOnUse — absolute pixel sizes, no stroke-width scaling -->
     <marker id="ab"    markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="#5E81AC"/></marker>
-    <marker id="at"    markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="#2E7D32"/></marker>
+    <marker id="at"    markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="#4A8A99"/></marker>
     <marker id="ao"    markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="#BF616A"/></marker>
     <marker id="ateal" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="#4A8A99"/></marker>
     <marker id="ag"    markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto"><polygon points="0 0,12 4.5,0 9" fill="#616161"/></marker>
@@ -2944,8 +2944,8 @@ Lookaside Buffer (TLB)</h2>
   <text x="490" y="186" font-size="13" fill="#424242" text-anchor="middle">Translation Lookaside Buffer</text>
 
   <!-- TLB → HIT diagonal (left) -->
-  <text x="218" y="229" font-size="13" font-weight="bold" fill="#2E7D32">HIT (~95%)</text>
-  <line x1="385" y1="199" x2="315" y2="247" stroke="#2E7D32" stroke-width="2.5" marker-end="url(#at)"/>
+  <text x="218" y="229" font-size="13" font-weight="bold" fill="#4A8A99">HIT (~95%)</text>
+  <line x1="385" y1="199" x2="315" y2="247" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
 
   <!-- TLB → MISS diagonal (right) -->
   <text x="572" y="229" font-size="13" font-weight="bold" fill="#BF616A">MISS (~5%)</text>
@@ -2955,19 +2955,19 @@ Lookaside Buffer (TLB)</h2>
        LEFT: HIT path — column centered ~x=259
        PFN box: x=165, w=188, right=353, center=259, y=249, h=54, bottom=303
   ══════════════════════════════════════════════ -->
-  <rect x="165" y="249" width="188" height="54" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
-  <text x="259" y="274" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">PFN Found in TLB</text>
+  <rect x="165" y="249" width="188" height="54" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <text x="259" y="274" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">PFN Found in TLB</text>
   <text x="259" y="294" font-size="12" fill="#424242" text-anchor="middle">Latency: 1–4 cycles</text>
 
   <!-- HIT → Physical Address straight down -->
-  <line x1="259" y1="303" x2="259" y2="355" stroke="#2E7D32" stroke-width="2.5" marker-end="url(#at)"/>
-  <text x="271" y="335" font-size="12" fill="#2E7D32" font-weight="bold">Fast path!</text>
+  <line x1="259" y1="303" x2="259" y2="355" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
+  <text x="271" y="335" font-size="12" fill="#4A8A99" font-weight="bold">Fast path!</text>
 
   <!-- ══════════════════════════════════════════════
        RIGHT: MISS path — column centered ~x=684
        Walker: x=596, w=188, right=784, center=690, y=249, h=54, bottom=303
   ══════════════════════════════════════════════ -->
-  <rect x="596" y="249" width="188" height="54" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="596" y="249" width="188" height="54" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
   <text x="690" y="274" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Page Table Walker</text>
   <text x="690" y="294" font-size="12" fill="#424242" text-anchor="middle">Hardware page walk</text>
 
@@ -3034,7 +3034,7 @@ Lookaside Buffer (TLB)</h2>
   <text x="75" y="378" font-size="12" font-weight="bold" fill="#212121" text-anchor="middle">Permission</text>
   <text x="75" y="394" font-size="12" font-weight="bold" fill="#212121" text-anchor="middle">Check</text>
   <text x="75" y="411" font-size="12" fill="#212121" text-anchor="middle">R/W/X/U/S bits</text>
-  <text x="75" y="427" font-size="11" fill="#2E7D32" text-anchor="middle">Pass → proceed</text>
+  <text x="75" y="427" font-size="11" fill="#4A8A99" text-anchor="middle">Pass → proceed</text>
   <text x="75" y="442" font-size="11" fill="#BF616A" text-anchor="middle">Fail → page fault</text>
   <!-- dashed line from PA left edge → Permission Check right edge -->
   <line x1="165" y1="387" x2="145" y2="387" stroke="#9E9E9E" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#ag)"/>
@@ -3045,10 +3045,10 @@ Lookaside Buffer (TLB)</h2>
   <rect x="30" y="556" width="398" height="130" rx="6" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5" filter="url(#sh)"/>
   <text x="229" y="576" font-size="15" font-weight="bold" fill="#5E81AC" text-anchor="middle">Latency Summary</text>
   <line x1="42" y1="584" x2="416" y2="584" stroke="#9E9E9E" stroke-width="1"/>
-  <rect x="42" y="590" width="374" height="34" rx="4" fill="#E8F5E9"/>
-  <text x="229" y="607" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">TLB HIT PATH: 1–4 cycles (~1 ns)</text>
+  <rect x="42" y="590" width="374" height="34" rx="4" fill="#F5F5F5"/>
+  <text x="229" y="607" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">TLB HIT PATH: 1–4 cycles (~1 ns)</text>
   <text x="229" y="622" font-size="12" fill="#212121" text-anchor="middle">No memory access — fastest possible</text>
-  <rect x="42" y="628" width="374" height="34" rx="4" fill="#FFF3E0"/>
+  <rect x="42" y="628" width="374" height="34" rx="4" fill="#F5F5F5"/>
   <text x="229" y="645" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB MISS PATH: 4 × 70 ns ≈ 280 ns</text>
   <text x="229" y="660" font-size="12" fill="#212121" text-anchor="middle">≈ 840 CPU cycles wasted per TLB miss</text>
   <rect x="42" y="666" width="374" height="14" rx="3" fill="#5E81AC"/>
@@ -3057,7 +3057,7 @@ Lookaside Buffer (TLB)</h2>
   <rect x="442" y="556" width="448" height="130" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
   <text x="666" y="576" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Path Legend</text>
   <line x1="454" y1="584" x2="878" y2="584" stroke="#9E9E9E" stroke-width="1"/>
-  <line x1="458" y1="602" x2="510" y2="602" stroke="#2E7D32" stroke-width="2.5" marker-end="url(#at)"/>
+  <line x1="458" y1="602" x2="510" y2="602" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
   <text x="520" y="607" font-size="13" fill="#212121">TLB Hit — fast path</text>
   <line x1="458" y1="624" x2="510" y2="624" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ao)"/>
   <text x="520" y="629" font-size="13" fill="#212121">TLB Miss — slow path</text>
@@ -3107,26 +3107,26 @@ Translation Lookaside Buffer</h4>
   <text x="440" y="99" font-size="13" font-weight="bold" fill="#FFFFFF">V</text>
 
   <!-- TLB rows -->
-  <rect x="22" y="114" width="440" height="30" fill="#E8F5E9" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="22" y="114" width="440" height="30" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <text x="100" y="133" font-size="13" fill="#212121" text-anchor="middle">0x01</text>
   <text x="190" y="133" font-size="13" fill="#212121" text-anchor="middle">0x7FFF5</text>
   <text x="310" y="133" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">0x1B7</text>
   <text x="400" y="133" font-size="13" fill="#212121" text-anchor="middle">RW-</text>
-  <text x="449" y="133" font-size="13" fill="#2E7D32" font-weight="bold">1</text>
+  <text x="449" y="133" font-size="13" fill="#4A8A99" font-weight="bold">1</text>
 
   <rect x="22" y="144" width="440" height="30" fill="#FFFFFF" stroke="#9E9E9E" stroke-width="1"/>
   <text x="100" y="163" font-size="13" fill="#212121" text-anchor="middle">0x01</text>
   <text x="190" y="163" font-size="13" fill="#212121" text-anchor="middle">0x40000</text>
   <text x="310" y="163" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">0x2A1</text>
   <text x="400" y="163" font-size="13" fill="#212121" text-anchor="middle">R-X</text>
-  <text x="449" y="163" font-size="13" fill="#2E7D32" font-weight="bold">1</text>
+  <text x="449" y="163" font-size="13" fill="#4A8A99" font-weight="bold">1</text>
 
-  <rect x="22" y="174" width="440" height="30" fill="#E8F5E9" stroke="#9E9E9E" stroke-width="1"/>
+  <rect x="22" y="174" width="440" height="30" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <text x="100" y="193" font-size="13" fill="#212121" text-anchor="middle">0x02</text>
   <text x="190" y="193" font-size="13" fill="#212121" text-anchor="middle">0x7FFF5</text>
   <text x="310" y="193" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">0x5C2</text>
   <text x="400" y="193" font-size="13" fill="#212121" text-anchor="middle">RW-</text>
-  <text x="449" y="193" font-size="13" fill="#2E7D32" font-weight="bold">1</text>
+  <text x="449" y="193" font-size="13" fill="#4A8A99" font-weight="bold">1</text>
 
   <rect x="22" y="204" width="440" height="30" fill="#FFFFFF" stroke="#9E9E9E" stroke-width="1"/>
   <text x="100" y="223" font-size="13" fill="#424242" text-anchor="middle">0x01</text>
@@ -3145,36 +3145,36 @@ Translation Lookaside Buffer</h4>
   <text x="242" y="302" font-size="13" fill="#212121" text-anchor="middle">Allows multiple processes to share TLB without flushing on context switch</text>
 
   <!-- TLB HIT diagram (right top) -->
-  <text x="496" y="68" font-size="15" font-weight="bold" fill="#2E7D32">TLB HIT Path (~1–4 cycles):</text>
-  <rect x="490" y="78" width="388" height="220" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
+  <text x="496" y="68" font-size="15" font-weight="bold" fill="#4A8A99">TLB HIT Path (~1–4 cycles):</text>
+  <rect x="490" y="78" width="388" height="220" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
 
   <rect x="504" y="92" width="160" height="50" rx="4" fill="#5E81AC"/>
   <text x="584" y="117" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">CPU Virtual Addr</text>
   <text x="584" y="134" font-size="13" fill="#DDEAF5" text-anchor="middle">VPN=0x7FFF5 | Off=0x123</text>
   <line x1="664" y1="117" x2="714" y2="117" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
 
-  <rect x="718" y="92" width="148" height="50" rx="4" fill="#F5F5F5" stroke="#2E7D32" stroke-width="2"/>
-  <text x="792" y="117" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">TLB LOOKUP</text>
+  <rect x="718" y="92" width="148" height="50" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2"/>
+  <text x="792" y="117" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">TLB LOOKUP</text>
   <text x="792" y="134" font-size="12" fill="#424242" text-anchor="middle">VPN match found!</text>
 
-  <line x1="792" y1="142" x2="792" y2="180" stroke="#2E7D32" stroke-width="2.5" marker-end="url(#at)"/>
-  <text x="800" y="165" font-size="12" fill="#2E7D32" font-weight="bold">HIT!</text>
+  <line x1="792" y1="142" x2="792" y2="180" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
+  <text x="800" y="165" font-size="12" fill="#4A8A99" font-weight="bold">HIT!</text>
 
-  <rect x="718" y="182" width="148" height="50" rx="4" fill="#2E7D32"/>
+  <rect x="718" y="182" width="148" height="50" rx="4" fill="#4A8A99"/>
   <text x="792" y="207" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Physical Addr</text>
   <text x="792" y="224" font-size="13" fill="#CCE8EC" text-anchor="middle">PFN=0x1B7, Off=0x123</text>
 
-  <line x1="718" y1="207" x2="668" y2="207" stroke="#2E7D32" stroke-width="2.5" marker-end="url(#at)"/>
+  <line x1="718" y1="207" x2="668" y2="207" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
   <rect x="504" y="182" width="160" height="50" rx="4" fill="#4A8A99"/>
   <text x="584" y="207" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Access Memory</text>
   <text x="584" y="224" font-size="13" fill="#CCE8EC" text-anchor="middle">PA: 0x1B7123</text>
 
-  <rect x="504" y="248" width="362" height="40" rx="4" fill="#C8E6C9"/>
-  <text x="685" y="274" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">Total: ~1–4 cycles. No memory access needed!</text>
+  <rect x="504" y="248" width="362" height="40" rx="4" fill="#F5F5F5"/>
+  <text x="685" y="274" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">Total: ~1–4 cycles. No memory access needed!</text>
 
   <!-- TLB MISS diagram (right bottom) -->
   <text x="496" y="328" font-size="15" font-weight="bold" fill="#BF616A">TLB MISS Path (~280+ ns penalty):</text>
-  <rect x="490" y="338" width="388" height="220" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="490" y="338" width="388" height="220" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
 
   <rect x="504" y="352" width="134" height="46" rx="4" fill="#5E81AC"/>
   <text x="571" y="375" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Virtual Addr</text>
@@ -3276,10 +3276,10 @@ avoid the slow page table walk entirely.</p>
   <text x="246" y="136" font-size="12" fill="#DDEAF5" text-anchor="middle">36 bits (x86-64, 4-level)</text>
 
   <!-- Valid bit -->
-  <rect x="362" y="74" width="60" height="70" rx="5" fill="#2E7D32" filter="url(#sh)"/>
+  <rect x="362" y="74" width="60" height="70" rx="5" fill="#4A8A99" filter="url(#sh)"/>
   <text x="392" y="102" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">V</text>
-  <text x="392" y="120" font-size="13" fill="#C8E6C9" text-anchor="middle">Valid</text>
-  <text x="392" y="136" font-size="12" fill="#C8E6C9" text-anchor="middle">1 bit</text>
+  <text x="392" y="120" font-size="13" fill="#F5F5F5" text-anchor="middle">Valid</text>
+  <text x="392" y="136" font-size="12" fill="#F5F5F5" text-anchor="middle">1 bit</text>
 
   <!-- PFN (data) -->
   <rect x="428" y="74" width="210" height="70" rx="5" fill="#4A8A99" filter="url(#sh)"/>
@@ -3300,10 +3300,10 @@ avoid the slow page table walk entirely.</p>
 
   <rect x="776" y="74" width="55" height="70" rx="5" fill="#C62828" filter="url(#sh)"/>
   <text x="803" y="100" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">NX</text>
-  <text x="803" y="118" font-size="12" fill="#FFCDD2" text-anchor="middle">No-Exec</text>
-  <text x="803" y="136" font-size="12" fill="#FFCDD2" text-anchor="middle">1 bit</text>
+  <text x="803" y="118" font-size="12" fill="#F5F5F5" text-anchor="middle">No-Exec</text>
+  <text x="803" y="136" font-size="12" fill="#F5F5F5" text-anchor="middle">1 bit</text>
 
-  <rect x="837" y="74" width="43" height="70" rx="5" fill="#37474F" filter="url(#sh)"/>
+  <rect x="837" y="74" width="43" height="70" rx="5" fill="#34495E" filter="url(#sh)"/>
   <text x="858" y="96" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">PCD/</text>
   <text x="858" y="112" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">PWT</text>
   <text x="858" y="128" font-size="11" fill="#B0BEC5" text-anchor="middle">Cache</text>
@@ -3326,8 +3326,8 @@ avoid the slow page table walk entirely.</p>
   <text x="55" y="258" font-size="13" fill="#212121">incoming VPN against all TLB tags simultaneously (fully-associative) in a single cycle.</text>
 
   <!-- Valid -->
-  <rect x="35" y="270" width="12" height="12" rx="2" fill="#2E7D32"/>
-  <text x="55" y="280" font-size="13" font-weight="bold" fill="#2E7D32">Valid:</text>
+  <rect x="35" y="270" width="12" height="12" rx="2" fill="#4A8A99"/>
+  <text x="55" y="280" font-size="13" font-weight="bold" fill="#4A8A99">Valid:</text>
   <text x="115" y="280" font-size="13" fill="#212121">1=entry is live; 0=entry has been invalidated (by INVLPG or TLB flush). Invalid entries</text>
   <text x="55" y="296" font-size="13" fill="#212121">are ignored during lookup even if the VPN tag matches.</text>
 
@@ -3472,10 +3472,10 @@ spaces.</p>
   <rect x="20" y="204" width="200" height="34" rx="3" fill="#EAF2F8"/>
   <text x="120" y="225" font-size="14" fill="#5E81AC" font-weight="bold" text-anchor="middle">VPN 3  (0x3000)</text>
 
-  <rect x="20" y="240" width="200" height="34" rx="3" fill="#E0F2F1"/>
+  <rect x="20" y="240" width="200" height="34" rx="3" fill="#F5F5F5"/>
   <text x="120" y="261" font-size="14" fill="#4A8A99" font-weight="bold" text-anchor="middle">VPN 4  (0x4000)</text>
 
-  <rect x="20" y="276" width="200" height="34" rx="3" fill="#E0F2F1"/>
+  <rect x="20" y="276" width="200" height="34" rx="3" fill="#F5F5F5"/>
   <text x="120" y="297" font-size="14" fill="#4A8A99" font-weight="bold" text-anchor="middle">VPN 5  (0x5000)</text>
 
   <rect x="20" y="312" width="200" height="34" rx="3" fill="#FAFAFA" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="4,2"/>
@@ -3485,7 +3485,7 @@ spaces.</p>
   <text x="120" y="369" font-size="14" fill="#5E81AC" font-weight="bold" text-anchor="middle">VPN 7  (0x7000)</text>
 
   <!-- PTE column -->
-  <rect x="340" y="56" width="220" height="38" rx="4" fill="#37474F"/>
+  <rect x="340" y="56" width="220" height="38" rx="4" fill="#34495E"/>
   <text x="450" y="79" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Page Table Entry</text>
 
   <rect x="340" y="96" width="220" height="34" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
@@ -3496,9 +3496,9 @@ spaces.</p>
   <text x="450" y="189" font-size="13" fill="#9E9E9E" text-anchor="middle">P=0 (page fault if accessed)</text>
   <rect x="340" y="204" width="220" height="34" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
   <text x="450" y="225" font-size="13" fill="#212121" text-anchor="middle">PFN=1, P=1, R/W, U/S</text>
-  <rect x="340" y="240" width="220" height="34" rx="3" fill="#E0F2F1" stroke="#4A8A99" stroke-width="1"/>
+  <rect x="340" y="240" width="220" height="34" rx="3" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1"/>
   <text x="450" y="261" font-size="13" fill="#212121" text-anchor="middle">PFN=9, P=1, R/W, U/S</text>
-  <rect x="340" y="276" width="220" height="34" rx="3" fill="#E0F2F1" stroke="#4A8A99" stroke-width="1"/>
+  <rect x="340" y="276" width="220" height="34" rx="3" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1"/>
   <text x="450" y="297" font-size="13" fill="#212121" text-anchor="middle">PFN=2, P=1, R/W, U/S</text>
   <rect x="340" y="312" width="220" height="34" rx="3" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="1" stroke-dasharray="3,2"/>
   <text x="450" y="333" font-size="13" fill="#9E9E9E" text-anchor="middle">P=0</text>
@@ -3513,7 +3513,7 @@ spaces.</p>
   <text x="780" y="117" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">Frame 3  (0x3000)</text>
   <rect x="680" y="130" width="200" height="34" rx="3" fill="#CCE8EC"/>
   <text x="780" y="149" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">Frame 7  (0x7000)</text>
-  <rect x="680" y="164" width="200" height="38" rx="3" fill="#FFEBEE" stroke="#C62828" stroke-width="1"/>
+  <rect x="680" y="164" width="200" height="38" rx="3" fill="#F5F5F5" stroke="#C62828" stroke-width="1"/>
   <text x="780" y="181" font-size="13" fill="#C62828" font-weight="bold" text-anchor="middle">— (no frame allocated) —</text>
   <text x="780" y="197" font-size="11" fill="#C62828" text-anchor="middle">Page fault if accessed</text>
   <rect x="680" y="204" width="200" height="34" rx="3" fill="#CCE8EC"/>
@@ -3522,7 +3522,7 @@ spaces.</p>
   <text x="780" y="261" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">Frame 9  (0x9000)</text>
   <rect x="680" y="276" width="200" height="34" rx="3" fill="#CCE8EC"/>
   <text x="780" y="297" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">Frame 2  (0x2000)</text>
-  <rect x="680" y="312" width="200" height="34" rx="3" fill="#FFEBEE" stroke="#C62828" stroke-width="1"/>
+  <rect x="680" y="312" width="200" height="34" rx="3" fill="#F5F5F5" stroke="#C62828" stroke-width="1"/>
   <text x="780" y="335" font-size="13" fill="#C62828" font-weight="bold" text-anchor="middle">— (no frame) —</text>
   <rect x="680" y="348" width="200" height="34" rx="3" fill="#CCE8EC"/>
   <text x="780" y="369" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">Frame 11 (0xB000)</text>
@@ -3544,7 +3544,7 @@ spaces.</p>
   <line x1="561" y1="365" x2="678" y2="365" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-b)"/>
 
   <!-- Note at bottom -->
-  <rect x="20" y="398" width="860" height="88" rx="4" fill="#FFF9E6" stroke="#F9A825" stroke-width="1.5"/>
+  <rect x="20" y="398" width="860" height="88" rx="4" fill="#FFF9E6" stroke="#BF616A" stroke-width="1.5"/>
   <text x="450" y="418" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Non-Contiguous Mapping in Action</text>
   <text x="450" y="438" font-size="13" fill="#212121" text-anchor="middle">VPN 0→Frame 3, VPN 1→Frame 7, VPN 3→Frame 1 : virtual pages appear contiguous to the program</text>
   <text x="450" y="456" font-size="13" fill="#212121" text-anchor="middle">but physically occupy non-adjacent frames scattered across RAM. This is the power of paging.</text>
@@ -3678,7 +3678,7 @@ Hierarchical Page Tables</h4>
   <rect x="534" y="130" width="120" height="30" rx="4" fill="#4A8A99"/>
   <text x="594" y="149" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Page Directory</text>
   <text x="594" y="163" font-size="11" fill="#CCE8EC" text-anchor="middle">512 entries</text>
-  <rect x="542" y="170" width="104" height="26" rx="2" fill="#E8F5E9" stroke="#4A8A99" stroke-width="1"/>
+  <rect x="542" y="170" width="104" height="26" rx="2" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1"/>
   <text x="594" y="187" font-size="12" fill="#4A8A99" text-anchor="middle">entry[0] → PT</text>
   <rect x="542" y="198" width="104" height="26" rx="2" fill="#BDBDBD" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,2"/>
   <text x="594" y="215" font-size="12" fill="#9E9E9E" text-anchor="middle">entry[1] = NULL</text>
@@ -3695,9 +3695,9 @@ Hierarchical Page Tables</h4>
   <rect x="710" y="130" width="120" height="30" rx="4" fill="#4A8A99" opacity="0.78"/>
   <text x="770" y="149" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Page Table</text>
   <text x="770" y="163" font-size="11" fill="#CCE8EC" text-anchor="middle">512 PTEs</text>
-  <rect x="718" y="170" width="104" height="26" rx="2" fill="#E8F5E9" stroke="#4A8A99" stroke-width="1"/>
+  <rect x="718" y="170" width="104" height="26" rx="2" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1"/>
   <text x="770" y="187" font-size="12" fill="#4A8A99" text-anchor="middle">PTE[0]: PFN=0x1B7</text>
-  <rect x="718" y="198" width="104" height="26" rx="2" fill="#E8F5E9" stroke="#4A8A99" stroke-width="1"/>
+  <rect x="718" y="198" width="104" height="26" rx="2" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1"/>
   <text x="770" y="215" font-size="12" fill="#4A8A99" text-anchor="middle">PTE[1]: PFN=0x3C2</text>
   <rect x="718" y="226" width="104" height="20" rx="2" fill="#F5F5F5"/>
   <text x="770" y="241" font-size="11" fill="#616161" text-anchor="middle">... 510 more ...</text>
@@ -3712,7 +3712,7 @@ Hierarchical Page Tables</h4>
   <text x="874" y="185" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" transform="rotate(-90,874,185)">Page 0x1B7</text>
 
   <!-- 4 accesses annotation -->
-  <rect x="30" y="400" width="520" height="80" rx="6" fill="#FFF3E0" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="400" width="520" height="80" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
   <text x="270" y="424" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB Miss Penalty: 4 Separate DRAM Accesses!</text>
   <text x="50" y="446" font-size="13" fill="#212121">Access 1: Read PML4 entry from DRAM   (+70 ns)</text>
   <text x="50" y="462" font-size="13" fill="#212121">Access 2: Read PDPT entry from DRAM   (+70 ns)</text>
@@ -3722,11 +3722,11 @@ Hierarchical Page Tables</h4>
   <text x="310" y="478" font-size="13" fill="#212121">+ actual data access (+70 ns more)</text>
 
   <!-- Memory savings explanation -->
-  <rect x="560" y="400" width="316" height="80" rx="6" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2" filter="url(#sh)"/>
-  <text x="718" y="424" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">Memory Savings of Hierarchy</text>
+  <rect x="560" y="400" width="316" height="80" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <text x="718" y="424" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">Memory Savings of Hierarchy</text>
   <text x="572" y="444" font-size="13" fill="#212121">Flat table for 256 TB: 512 GB/process</text>
   <text x="572" y="462" font-size="13" fill="#212121">4-level for typical process: ~1 MB</text>
-  <text x="572" y="480" font-size="14" font-weight="bold" fill="#2E7D32">Saving: 512,000x reduction in PT memory!</text>
+  <text x="572" y="480" font-size="14" font-weight="bold" fill="#4A8A99">Saving: 512,000x reduction in PT memory!</text>
 
   <!-- Walkthrough example -->
   <rect x="30" y="498" width="816" height="106" rx="6" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
@@ -3996,7 +3996,7 @@ Real-World Impact</h2>
 
   <!-- TLB miss annotation -->
   <line x1="540" y1="190" x2="400" y2="150" stroke="#BF616A" stroke-width="1.5" stroke-dasharray="4,2"/>
-  <rect x="310" y="118" width="250" height="36" rx="4" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5"/>
+  <rect x="310" y="118" width="250" height="36" rx="4" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="435" y="138" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">TLB miss = 4x DRAM reads = 280 ns</text>
 
   <!-- Ratios annotation -->
@@ -4023,7 +4023,7 @@ TLB Misses</h3>
   <defs>
     <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
     <marker id="arr-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#2E7D32"/></marker>
+    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
     <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#C62828"/></marker>
     <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
   </defs>
@@ -4042,14 +4042,14 @@ TLB Misses</h3>
   <rect x="35" y="106" width="370" height="70" rx="4" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
   <text x="220" y="126" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">① Process A Running</text>
   <text x="220" y="146" font-size="12" fill="#212121" text-anchor="middle">TLB filled with A's translations</text>
-  <text x="220" y="163" font-size="12" fill="#2E7D32" text-anchor="middle">TLB hit rate: ~95%  — Fast! ✓</text>
+  <text x="220" y="163" font-size="12" fill="#4A8A99" text-anchor="middle">TLB hit rate: ~95%  — Fast! ✓</text>
 
   <!-- Arrow down -->
-  <line x1="220" y1="176" x2="220" y2="200" stroke="#37474F" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="220" y1="176" x2="220" y2="200" stroke="#34495E" stroke-width="2" marker-end="url(#arr-b)"/>
   <text x="240" y="193" font-size="12" fill="#616161">OS schedules switch</text>
 
   <!-- Context switch / flush event -->
-  <rect x="35" y="200" width="370" height="54" rx="4" fill="#FFEBEE" stroke="#C62828" stroke-width="2"/>
+  <rect x="35" y="200" width="370" height="54" rx="4" fill="#F5F5F5" stroke="#C62828" stroke-width="2"/>
   <text x="220" y="222" font-size="14" font-weight="bold" fill="#C62828" text-anchor="middle">② Context Switch — TLB FLUSHED</text>
   <text x="220" y="242" font-size="12" fill="#424242" text-anchor="middle">mov cr3, [B's page table] → ALL TLB entries invalidated</text>
 
@@ -4063,49 +4063,49 @@ TLB Misses</h3>
   <text x="220" y="334" font-size="12" fill="#C62828" text-anchor="middle">TLB hit rate: ~0% initially — Very slow! ✗</text>
 
   <!-- Arrow down -->
-  <line x1="220" y1="348" x2="220" y2="372" stroke="#37474F" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="220" y1="348" x2="220" y2="372" stroke="#34495E" stroke-width="2" marker-end="url(#arr-b)"/>
 
   <!-- Warm-up cost -->
-  <rect x="35" y="372" width="370" height="54" rx="4" fill="#FFF9E6" stroke="#F9A825" stroke-width="1.5"/>
+  <rect x="35" y="372" width="370" height="54" rx="4" fill="#FFF9E6" stroke="#BF616A" stroke-width="1.5"/>
   <text x="220" y="392" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">④ TLB Warm-up Period</text>
   <text x="220" y="412" font-size="12" fill="#424242" text-anchor="middle">Hundreds of page walks required before TLB is useful</text>
 
   <!-- Cost box -->
-  <rect x="35" y="440" width="370" height="80" rx="4" fill="#FFEBEE" stroke="#C62828" stroke-width="2"/>
+  <rect x="35" y="440" width="370" height="80" rx="4" fill="#F5F5F5" stroke="#C62828" stroke-width="2"/>
   <text x="220" y="462" font-size="14" font-weight="bold" fill="#C62828" text-anchor="middle">Cost Per Context Switch</text>
   <text x="220" y="482" font-size="13" fill="#424242" text-anchor="middle">• Each TLB miss: ~280 ns (4 DRAM accesses)</text>
   <text x="220" y="500" font-size="13" fill="#424242" text-anchor="middle">• 100–500 misses to warm TLB</text>
   <text x="220" y="518" font-size="13" fill="#C62828" text-anchor="middle">• Overhead: 28–140 µs per switch</text>
 
   <!-- ===== RIGHT: ASID/PCID APPROACH ===== -->
-  <rect x="480" y="72" width="400" height="480" rx="6" fill="#F5F5F5" stroke="#2E7D32" stroke-width="2"/>
-  <text x="680" y="94" font-size="15" font-weight="bold" fill="#2E7D32" text-anchor="middle">Approach 2: ASID / PCID Tagging</text>
+  <rect x="480" y="72" width="400" height="480" rx="6" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2"/>
+  <text x="680" y="94" font-size="15" font-weight="bold" fill="#4A8A99" text-anchor="middle">Approach 2: ASID / PCID Tagging</text>
 
   <!-- State 1: Process A running -->
   <rect x="495" y="106" width="370" height="70" rx="4" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
   <text x="680" y="126" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">① Process A Running (ASID=1)</text>
   <text x="680" y="146" font-size="12" fill="#212121" text-anchor="middle">TLB entries tagged with ASID=1</text>
-  <text x="680" y="163" font-size="12" fill="#2E7D32" text-anchor="middle">TLB hit rate: ~95% — Fast! ✓</text>
+  <text x="680" y="163" font-size="12" fill="#4A8A99" text-anchor="middle">TLB hit rate: ~95% — Fast! ✓</text>
 
   <!-- Arrow down -->
-  <line x1="680" y1="176" x2="680" y2="200" stroke="#37474F" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="680" y1="176" x2="680" y2="200" stroke="#34495E" stroke-width="2" marker-end="url(#arr-b)"/>
 
   <!-- Context switch NO flush -->
-  <rect x="495" y="200" width="370" height="54" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
-  <text x="680" y="222" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">② Context Switch — NO FLUSH!</text>
+  <rect x="495" y="200" width="370" height="54" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2"/>
+  <text x="680" y="222" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">② Context Switch — NO FLUSH!</text>
   <text x="680" y="242" font-size="12" fill="#424242" text-anchor="middle">mov cr3, [B's PT] + PCID=2 → A's entries RETAINED in TLB</text>
 
   <!-- Arrow down -->
-  <line x1="680" y1="254" x2="680" y2="278" stroke="#2E7D32" stroke-width="2" marker-end="url(#arr-g)"/>
+  <line x1="680" y1="254" x2="680" y2="278" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr-g)"/>
 
   <!-- State 2: Process B running — warm TLB -->
-  <rect x="495" y="278" width="370" height="70" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
-  <text x="680" y="298" font-size="13" font-weight="bold" fill="#2E7D32" text-anchor="middle">③ Process B Running (ASID=2)</text>
+  <rect x="495" y="278" width="370" height="70" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5"/>
+  <text x="680" y="298" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">③ Process B Running (ASID=2)</text>
   <text x="680" y="316" font-size="12" fill="#212121" text-anchor="middle">B's entries accumulate in TLB alongside A's</text>
-  <text x="680" y="334" font-size="12" fill="#2E7D32" text-anchor="middle">Warms up quickly — misses only for new pages ✓</text>
+  <text x="680" y="334" font-size="12" fill="#4A8A99" text-anchor="middle">Warms up quickly — misses only for new pages ✓</text>
 
   <!-- ASID tagging detail -->
-  <rect x="495" y="360" width="370" height="90" rx="4" fill="#E0F2F1" stroke="#4A8A99" stroke-width="1.5"/>
+  <rect x="495" y="360" width="370" height="90" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5"/>
   <text x="680" y="380" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">TLB Entry With ASID/PCID Tag</text>
   <!-- mini TLB entry -->
   <rect x="510" y="390" width="70" height="36" rx="2" fill="#9E9E9E"/>
@@ -4118,11 +4118,11 @@ TLB Misses</h3>
   <text x="800" y="412" font-size="11" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Flags</text>
 
   <!-- Benefit box -->
-  <rect x="495" y="454" width="370" height="80" rx="4" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
-  <text x="680" y="474" font-size="14" font-weight="bold" fill="#2E7D32" text-anchor="middle">Benefit: Near-Zero Switch Cost</text>
+  <rect x="495" y="454" width="370" height="80" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2"/>
+  <text x="680" y="474" font-size="14" font-weight="bold" fill="#4A8A99" text-anchor="middle">Benefit: Near-Zero Switch Cost</text>
   <text x="680" y="494" font-size="13" fill="#212121" text-anchor="middle">• No TLB flush on context switch</text>
   <text x="680" y="512" font-size="13" fill="#212121" text-anchor="middle">• x86-64: 4096 PCIDs supported</text>
-  <text x="680" y="530" font-size="13" fill="#2E7D32" text-anchor="middle">• 5–30% performance improvement</text>
+  <text x="680" y="530" font-size="13" fill="#4A8A99" text-anchor="middle">• 5–30% performance improvement</text>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
@@ -4231,7 +4231,7 @@ the entire virtual memory model?</p></li>
   <defs>
     <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
     <marker id="arr-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#2E7D32"/></marker>
+    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
     <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#C62828"/></marker>
     <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
   </defs>
@@ -4247,7 +4247,7 @@ the entire virtual memory model?</p></li>
   <line x1="450" y1="104" x2="450" y2="128" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#arr-b)"/>
 
   <!-- Step 2: MMU checks -->
-  <rect x="300" y="128" width="300" height="52" rx="6" fill="#37474F" filter="url(#sh)"/>
+  <rect x="300" y="128" width="300" height="52" rx="6" fill="#34495E" filter="url(#sh)"/>
   <text x="450" y="150" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">② MMU: TLB Lookup</text>
   <text x="450" y="168" font-size="12" fill="#B0BEC5" text-anchor="middle">TLB miss → Page Table Walk → P=0 in PTE</text>
 
@@ -4256,7 +4256,7 @@ the entire virtual memory model?</p></li>
   <!-- Step 3: Hardware trap -->
   <rect x="300" y="204" width="300" height="52" rx="6" fill="#C62828" filter="url(#sh)"/>
   <text x="450" y="226" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">③ #PF Exception Raised</text>
-  <text x="450" y="244" font-size="12" fill="#FFCDD2" text-anchor="middle">Hardware saves PC + CR2 (faulting VA) → OS</text>
+  <text x="450" y="244" font-size="12" fill="#F5F5F5" text-anchor="middle">Hardware saves PC + CR2 (faulting VA) → OS</text>
 
   <line x1="450" y1="256" x2="450" y2="280" stroke="#BF616A" stroke-width="2.5" marker-end="url(#arr-o)"/>
 
@@ -4269,13 +4269,13 @@ the entire virtual memory model?</p></li>
   <!-- No path → SIGSEGV -->
   <line x1="570" y1="312" x2="660" y2="312" stroke="#C62828" stroke-width="2" marker-end="url(#arr-r)"/>
   <text x="613" y="306" font-size="12" font-weight="bold" fill="#C62828" text-anchor="middle">NO</text>
-  <rect x="660" y="288" width="220" height="48" rx="6" fill="#FFEBEE" stroke="#C62828" stroke-width="2" filter="url(#sh)"/>
+  <rect x="660" y="288" width="220" height="48" rx="6" fill="#F5F5F5" stroke="#C62828" stroke-width="2" filter="url(#sh)"/>
   <text x="770" y="308" font-size="14" font-weight="bold" fill="#C62828" text-anchor="middle">SIGSEGV Delivered</text>
   <text x="770" y="326" font-size="12" fill="#C62828" text-anchor="middle">Program killed (segfault)</text>
 
   <!-- Yes path → where is page -->
-  <line x1="450" y1="344" x2="450" y2="368" stroke="#2E7D32" stroke-width="2" marker-end="url(#arr-g)"/>
-  <text x="464" y="360" font-size="12" font-weight="bold" fill="#2E7D32">YES</text>
+  <line x1="450" y1="344" x2="450" y2="368" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr-g)"/>
+  <text x="464" y="360" font-size="12" font-weight="bold" fill="#4A8A99">YES</text>
 
   <!-- Step 5: Find page source -->
   <polygon points="450,368 590,404 450,440 310,404" fill="#5C6BC0" filter="url(#sh)"/>
@@ -4286,7 +4286,7 @@ the entire virtual memory model?</p></li>
   <!-- Outcome A: Zero fill (new allocation) -->
   <line x1="310" y1="404" x2="170" y2="450" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr-g)"/>
   <text x="220" y="432" font-size="11" fill="#4A8A99" text-anchor="middle">New alloc</text>
-  <rect x="20" y="450" width="200" height="60" rx="4" fill="#E0F2F1" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="20" y="450" width="200" height="60" rx="4" fill="#F5F5F5" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
   <text x="120" y="470" font-size="12" font-weight="bold" fill="#4A8A99" text-anchor="middle">Zero-Fill Page</text>
   <text x="120" y="486" font-size="11" fill="#424242" text-anchor="middle">Allocate frame, zero it</text>
   <text x="120" y="502" font-size="11" fill="#4A8A99" text-anchor="middle">~1 µs</text>
@@ -4302,7 +4302,7 @@ the entire virtual memory model?</p></li>
   <!-- Outcome C: Swap -->
   <line x1="510" y1="440" x2="590" y2="490" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-o)"/>
   <text x="570" y="466" font-size="11" fill="#BF616A" text-anchor="middle">On swap</text>
-  <rect x="464" y="490" width="200" height="60" rx="4" fill="#FFF3E0" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="464" y="490" width="200" height="60" rx="4" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
   <text x="564" y="510" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">Swap In from Disk</text>
   <text x="564" y="526" font-size="11" fill="#424242" text-anchor="middle">Read from swap partition</text>
   <text x="564" y="542" font-size="11" fill="#C62828" text-anchor="middle">~100 µs–10 ms</text>
@@ -4317,24 +4317,24 @@ the entire virtual memory model?</p></li>
 
   <!-- Convergence: Update PTE and resume -->
   <!-- Arrows from all outcomes to final step -->
-  <line x1="120" y1="510" x2="120" y2="590" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <line x1="120" y1="590" x2="295" y2="590" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arr-g)"/>
-  <line x1="326" y1="550" x2="326" y2="590" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <line x1="326" y1="590" x2="295" y2="590" stroke="#2E7D32" stroke-width="1.5"/>
-  <line x1="564" y1="550" x2="564" y2="590" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <line x1="564" y1="590" x2="605" y2="590" stroke="#2E7D32" stroke-width="1.5" marker-end="url(#arr-g)"/>
-  <line x1="794" y1="510" x2="794" y2="590" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="3,2"/>
-  <line x1="794" y1="590" x2="605" y2="590" stroke="#2E7D32" stroke-width="1.5"/>
+  <line x1="120" y1="510" x2="120" y2="590" stroke="#4A8A99" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="120" y1="590" x2="295" y2="590" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <line x1="326" y1="550" x2="326" y2="590" stroke="#4A8A99" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="326" y1="590" x2="295" y2="590" stroke="#4A8A99" stroke-width="1.5"/>
+  <line x1="564" y1="550" x2="564" y2="590" stroke="#4A8A99" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="564" y1="590" x2="605" y2="590" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-g)"/>
+  <line x1="794" y1="510" x2="794" y2="590" stroke="#4A8A99" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="794" y1="590" x2="605" y2="590" stroke="#4A8A99" stroke-width="1.5"/>
 
   <!-- Step 6: Update PTE and retry -->
-  <rect x="295" y="568" width="310" height="60" rx="6" fill="#2E7D32" filter="url(#sh)"/>
+  <rect x="295" y="568" width="310" height="60" rx="6" fill="#4A8A99" filter="url(#sh)"/>
   <text x="450" y="590" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">⑥ Update PTE → Set P=1 → Retry</text>
-  <text x="450" y="610" font-size="12" fill="#C8E6C9" text-anchor="middle">PTE updated, TLB filled, instruction re-executed transparently</text>
+  <text x="450" y="610" font-size="12" fill="#F5F5F5" text-anchor="middle">PTE updated, TLB filled, instruction re-executed transparently</text>
 
   <!-- Latency summary sidebar -->
-  <rect x="20" y="52" width="270" height="130" rx="4" fill="#FFF9E6" stroke="#F9A825" stroke-width="1.5"/>
+  <rect x="20" y="52" width="270" height="130" rx="4" fill="#FFF9E6" stroke="#BF616A" stroke-width="1.5"/>
   <text x="155" y="72" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Page Fault Cost Summary</text>
-  <text x="35" y="93" font-size="12" fill="#2E7D32" font-weight="bold">Zero/COW fill:</text>
+  <text x="35" y="93" font-size="12" fill="#4A8A99" font-weight="bold">Zero/COW fill:</text>
   <text x="35" y="110" font-size="12" fill="#424242">~1–10 µs</text>
   <text x="35" y="128" font-size="12" fill="#BF616A" font-weight="bold">SSD swap in:</text>
   <text x="35" y="145" font-size="12" fill="#424242">~100 µs = 400,000 cycles</text>
