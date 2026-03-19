@@ -1508,7 +1508,7 @@ diving into platform-specific details.</p>
 
   <!-- Physical Memory -->
   <g filter="url(#shadow)">
-    <rect x="700" y="60" width="170" height="180" rx="6" fill="#4A8A99" stroke="#00574B" stroke-width="2"/>
+    <rect x="700" y="60" width="170" height="180" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="785" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Physical Memory</text>
   <rect x="716" y="96" width="138" height="30" rx="3" fill="white" fill-opacity="0.20"/>
@@ -1523,19 +1523,19 @@ diving into platform-specific details.</p>
 
   <!-- Devices (bottom) -->
   <g filter="url(#shadow)">
-    <rect x="30" y="310" width="160" height="60" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2"/>
+    <rect x="30" y="310" width="160" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="110" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="white">NIC / Network</text>
   <text x="110" y="357" text-anchor="middle" font-size="13" fill="white">Device DMA</text>
 
   <g filter="url(#shadow)">
-    <rect x="210" y="310" width="110" height="60" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2"/>
+    <rect x="210" y="310" width="110" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="265" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="white">GPU</text>
   <text x="265" y="357" text-anchor="middle" font-size="13" fill="white">Device DMA</text>
 
   <g filter="url(#shadow)">
-    <rect x="700" y="310" width="170" height="60" rx="6" fill="#BF616A" stroke="#BF360C" stroke-width="2"/>
+    <rect x="700" y="310" width="170" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="785" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="white">NVMe / Storage</text>
   <text x="785" y="357" text-anchor="middle" font-size="13" fill="white">Device DMA</text>
@@ -1817,7 +1817,7 @@ devices</p>
     <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
     <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
     <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#c62828"/></marker>
+    <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">IOMMU DMA Translation Flow (Step-by-Step)</text>
@@ -1878,7 +1878,7 @@ devices</p>
   <text x="400" y="500" text-anchor="middle" font-size="12" fill="white">Fill IOTLB + allow DMA</text>
 
   <!-- Fault path -->
-  <g filter="url(#sh)"><rect x="560" y="375" width="200" height="55" rx="6" fill="#c62828"/></g>
+  <g filter="url(#sh)"><rect x="560" y="375" width="200" height="55" rx="6" fill="#BF616A"/></g>
   <text x="660" y="397" text-anchor="middle" font-size="13" font-weight="bold" fill="white">⑥B IOMMU Fault</text>
   <text x="660" y="415" text-anchor="middle" font-size="12" fill="white">Log event, notify OS</text>
 
@@ -1893,8 +1893,8 @@ devices</p>
   <line x1="400" y1="435" x2="400" y2="458" stroke="#4A8A99" stroke-width="2" marker-end="url(#ag)"/>
   <text x="415" y="450" font-size="12" fill="#4A8A99">YES</text>
   <!-- Valid NO -->
-  <line x1="470" y1="405" x2="558" y2="400" stroke="#c62828" stroke-width="2" marker-end="url(#ar)"/>
-  <text x="515" y="395" font-size="12" fill="#c62828">NO</text>
+  <line x1="470" y1="405" x2="558" y2="400" stroke="#BF616A" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="515" y="395" font-size="12" fill="#BF616A">NO</text>
 
   <!-- Right panel: latency box -->
   <rect x="690" y="55" width="190" height="240" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
@@ -1914,7 +1914,7 @@ devices</p>
   <text x="700" y="218" font-size="13" fill="#212121">Total miss path:</text>
   <text x="870" y="218" text-anchor="end" font-size="13" fill="#BF616A">120–600 ns</text>
   <text x="700" y="238" font-size="13" fill="#212121">Fault path:</text>
-  <text x="870" y="238" text-anchor="end" font-size="13" fill="#c62828">1–10 µs</text>
+  <text x="870" y="238" text-anchor="end" font-size="13" fill="#BF616A">1–10 µs</text>
   <text x="700" y="282" font-size="12" fill="#616161">~90% of DMA ops</text>
   <text x="700" y="298" font-size="12" fill="#616161">hit IOTLB in practice</text>
 </svg>

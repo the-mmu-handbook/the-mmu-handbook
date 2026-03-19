@@ -5088,8 +5088,8 @@ HugeGPT:
 
   <!-- Dimension 2: Isolation (top-right) -->
   <rect x="460" y="50" width="415" height="225" rx="8" style="fill:#F0EAF8;stroke:#7B68AC;stroke-width:2;"/>
-  <text x="667" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#7B68AC">Dimension 2 — Isolation Mechanism</text>
-  <rect x="475" y="82" width="385" height="22" rx="3" style="fill:#7B68AC;"/>
+  <text x="667" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#5E81AC">Dimension 2 — Isolation Mechanism</text>
+  <rect x="475" y="82" width="385" height="22" rx="3" style="fill:#5E81AC;"/>
   <text x="580" y="97" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">Mechanism</text>
   <text x="720" y="97" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">Security Level</text>
   <text x="833" y="97" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">Perf cost</text>
@@ -5115,13 +5115,13 @@ HugeGPT:
   <text x="833" y="185" text-anchor="middle" font-size="12" fill="#9E9E9E">~3%</text>
 
   <rect x="475" y="202" width="385" height="55" rx="4" style="fill:#E8E0F5;stroke:#7B68AC;stroke-width:1;"/>
-  <text x="667" y="221" text-anchor="middle" font-size="12" font-weight="bold" fill="#7B68AC">Key Insight</text>
+  <text x="667" y="221" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">Key Insight</text>
   <text x="667" y="239" text-anchor="middle" font-size="12" fill="#212121">HW PASID costs less than SW flush (8% vs 15%).</text>
   <text x="667" y="255" text-anchor="middle" font-size="12" fill="#212121">CryptoMMU cheapest: ~3% with AES-128.</text>
 
   <!-- Dimension 3: Virtualization (full width, bottom) -->
   <rect x="25" y="295" width="850" height="220" rx="8" style="fill:#F8F5E8;stroke:#A07830;stroke-width:2;"/>
-  <text x="450" y="317" text-anchor="middle" font-size="15" font-weight="bold" fill="#A07830">Dimension 3 — Virtualization Fault Strategy</text>
+  <text x="450" y="317" text-anchor="middle" font-size="15" font-weight="bold" fill="#BF616A">Dimension 3 — Virtualization Fault Strategy</text>
 
   <!-- 4 boxes -->
   <rect x="45" y="330" width="188" height="160" rx="6" style="fill:#FDECEA;stroke:#BF616A;stroke-width:1.5;"/>
@@ -5164,7 +5164,7 @@ HugeGPT:
   <line x1="235" y1="410" x2="246" y2="410" style="stroke:#4A8A99;stroke-width:1.5;stroke-dasharray:4,2;" marker-end="url(#arr-12-4)"/>
   <line x1="438" y1="410" x2="449" y2="410" style="stroke:#4A8A99;stroke-width:1.5;stroke-dasharray:4,2;" marker-end="url(#arr-12-4)"/>
   <line x1="641" y1="410" x2="652" y2="410" style="stroke:#4A8A99;stroke-width:1.5;stroke-dasharray:4,2;" marker-end="url(#arr-12-4)"/>
-  <text x="450" y="507" text-anchor="middle" font-size="12" fill="#A07830">→ Lower overhead, more HW/SW change required →</text>
+  <text x="450" y="507" text-anchor="middle" font-size="12" fill="#BF616A">→ Lower overhead, more HW/SW change required →</text>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 12.6:</strong> Chapter synthesis: MMU design for AI workloads involves three independent trade-off dimensions. Coherence (top-left) trades flexibility for overhead — XLA eliminates dynamic remapping entirely at 0% cost. Isolation (top-right) shows hardware PASID beats software TLB flush in both security and performance. Virtualization fault strategy (bottom) shows a progression from 75% throughput loss (naïve) to ~3% overhead (HugeGPT), with increasing hardware and software complexity required.</figcaption>
