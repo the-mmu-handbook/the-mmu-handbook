@@ -37,9 +37,7 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 6 | 212 KB |
 | [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 8 | 217 KB |
 
-| [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 3 | 112 KB |
-
-**Total: 168 embedded SVG figures across 17 chapters (~4.1 MB)**
+**Total: 165 embedded SVG figures across 16 chapters (~4.0 MB)**
 
 ---
 
