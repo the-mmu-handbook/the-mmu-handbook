@@ -93,6 +93,12 @@ Network-level address translation. Processing-in-Memory TLB (PIM-TLB) co-locatin
 **Chapter 16 — Advanced TLB Optimization Techniques**
 COLT entry-level coalescing (production-deployed). Pichai request-level coalescing. SpecTLB and Avatar speculative translation. SnakeByte Markov-chain prefetching. FlexPointer variable-granularity entries. Evaluation methodology across SPEC, cloud, and ML workloads.
 
+**Chapter 17 — Page Table Walker Microarchitecture**
+The hardware PTW as a micro-machine: six-stage x86-64 pipeline (TLB miss → CR3 load → PML4E/PDPTE/PDE/PTE fetch → TLB fill), per-stage latency model (12–50 cycles LLC-resident to 720–1,000 cycles cold DRAM). Three-level page walk cache (PWC) structure, hit-rate analysis, and PCID/KPTI interaction. Miss-Status Holding Registers (MSHR) enabling concurrent walks, MSHR coalescing, AMD Zen 4 four-walker vs Intel two-walker design. Speculative page table walks and the microarchitectural gap that enables L1TF. x86-64 microcode-assisted FSM vs ARM64 pure-hardware TTW vs RISC-V software-managed handler. NUMA PTW latency, Apple M-series and AWS Graviton3/4 implementation survey.
+
+**Chapter 18 — MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits**
+How speculative execution converts the paging model's five protection bits (P, U/S, R/W, NX, CR3/PCID) into attack surfaces. Meltdown (CVE-2017-5754): speculative U/S bypass, kernel physmap disclosure at 500 KB/s, AMD immunity via early fault delivery. Spectre v1 (CVE-2017-5753): bounds-check bypass, TLB translation as attack enabler, `lfence` and `array_index_mask_nospec` mitigations. Spectre v2 (CVE-2017-5715): BTB poisoning of PTW microcode indirect branches, retpoline, IBRS/EIBRS, BHI and Retbleed extensions. L1TF/Foreshadow (CVE-2018-3615/3620/3646): speculative P=0 PTE PA-field read, three attack surfaces (SGX enclave, OS/SMM, VMM), microcode suppression and Cascade Lake silicon fix. MDS family (CVE-2018-12126/12127/12130): fill buffer (RIDL), store buffer (Fallout), load buffer (ZombieLoad), TAA, SRBDS, and the shared-buffer PTW amplification effect. KPTI: dual-CR3 design, PCID amortisation, ARM64 structural immunity via TTBR0/TTBR1. Quantified mitigation overhead by workload class (5–20% database/network; <1% compute-bound; 18–35% cloud hypervisor). Production deployment decision framework and hardware-generation fix timeline.
+
 ---
 
 ## Architecture Coverage
