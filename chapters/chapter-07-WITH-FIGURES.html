@@ -739,7 +739,7 @@ the Translation Lookaside Buffer caches these translations, turning a
 extended these concepts to devices, showing how DMA remapping provides
 the same protections for hardware as the MMU provides for software. And
 in Chapter 6 (Memory Protection), we examined how permission bits—R/W/X,
-U/S, NX, SMEP, SMAP—enforce security policies at the hardware level. Chapter 17 examines the microarchitectural PTW circuit that performs this walk — how many walks can proceed concurrently (MSHR capacity), how page walk caches eliminate redundant upper-level fetches, and why speculative walks on not-present PTEs produced the Foreshadow vulnerability class.</p>
+U/S, NX, SMEP, SMAP—enforce security policies at the hardware level. Chapter 17 examines the microarchitectural PTW circuit that performs this walk — how many walks can proceed concurrently (MSHR capacity), how page walk caches eliminate redundant upper-level fetches, and why speculative walks on not-present PTEs produced the Foreshadow vulnerability class. Chapter 18 examines Meltdown in full — showing how the U/S permission fault that would normally prevent this access fires at retirement, after the speculative load has already populated the cache and transmitted the kernel byte to a Flush+Reload side-channel — and covers the full spectrum of paging-related transient execution vulnerabilities including Spectre, L1TF/Foreshadow, MDS, and KPTI.</p>
 <p>But we've largely assumed that translation succeeds. We've studied
 the happy path: virtual address enters the TLB, TLB hits, translation
 completes, memory access proceeds. We've examined page table structures

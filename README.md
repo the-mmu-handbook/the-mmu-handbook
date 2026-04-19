@@ -37,8 +37,9 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 6 | 212 KB |
 | [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 8 | 217 KB |
 | [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 5 | 158 KB |
+| [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 6 | 185 KB |
 
-**Total: 129 embedded SVG figures across 17 chapters (~4.0 MB)**
+**Total: 135 embedded SVG figures across 18 chapters (~4.0 MB)**
 
 ---
 
@@ -109,11 +110,11 @@ COLT entry-level coalescing (production-deployed). Pichai request-level coalesci
 
 **Systems / OS developers** → Chapters 1–9 form a complete foundation.
 
-**Hardware architects** → Chapters 4, 5, 10, 15, 16, 17 cover translation hardware, IOMMUs, advanced TLB design, and PTW microarchitecture in depth.
+**Hardware architects** → Chapters 4, 5, 10, 15, 16, 17, 18 cover translation hardware, IOMMUs, advanced TLB design, PTW microarchitecture, and paging-level security vulnerabilities in depth.
 
 **AI/ML infrastructure engineers** → Chapters 11–14 directly address GPU/accelerator memory challenges.
 
-**Security researchers** → Chapter 6 covers the full protection model; Chapters 5 and 12 cover isolation at device and multi-tenant GPU scale; Chapter 17 covers speculative PTW vulnerabilities (L1TF/Foreshadow, CVE-2018-3615/3620/3646).
+**Security researchers** → Chapter 6 covers the full protection model; Chapters 5 and 12 cover isolation at device and multi-tenant GPU scale; Chapter 18 covers Meltdown, Spectre, L1TF/Foreshadow, MDS, and KPTI in full depth (CVE-2017-5754, CVE-2017-5753/5715, CVE-2018-3615/3620/3646, CVE-2018-12126/12127/12130).
 
 ---
 
