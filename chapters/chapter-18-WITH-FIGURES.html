@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Chapter 18: MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits</title>
+  <style>
+
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  
+  
+    figure{page-break-inside:avoid;}
+    figure svg{max-width:100%;height:auto;}
+    @media print{figure{page-break-inside:avoid;margin:1.5em 0;}figcaption{font-size:9pt;}}
+  
+
+/* ── Sidebar (injected) ── */
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION — MMU Handbook (v2)
+══════════════════════════════════════════════════════════ */
+:root {
+  --sidebar-w: 280px;
+  --sidebar-bg: #1E2533;
+  --sidebar-border: #2E3A4E;
+  --sidebar-text: #CBD8E8;
+  --sidebar-muted: #7B92B0;
+  --sidebar-accent: #5E81AC;
+  --sidebar-hover-bg: #28324A;
+  --sidebar-active-bg: #2E3A4E;
+  --sidebar-active-text: #DDEAF5;
+  --toc-indent: #4A8A99;
+}
+
+/* Override Pandoc base body constraints */
+body {
+  margin: 0 !important;
+  margin-left: calc(var(--sidebar-w) + 40px) !important;
+  margin-right: 40px !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 40px !important;
+  transition: margin-left 0.28s cubic-bezier(.4,0,.2,1);
+  box-sizing: border-box;
+}
+body.sidebar-collapsed {
+  margin-left: 56px !important;
+}
+
+/* Scroll offset so headings aren't cut off */
+h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: 24px;
+}
+
+/* ── Sidebar shell ── */
+#mmu-sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  transition: width 0.28s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: 13.5px;
+}
+#mmu-sidebar.collapsed { width: 44px; }
+
+/* CRITICAL: override Pandoc a/a:visited inside sidebar */
+#mmu-sidebar a,
+#mmu-sidebar a:visited,
+#mmu-sidebar a:active,
+#mmu-sidebar a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* ── Header ── */
+#sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+  min-height: 52px;
+}
+#sidebar-logo { display: flex; align-items: center; gap: 10px; overflow: hidden; white-space: nowrap; }
+#sidebar-logo-icon {
+  width: 28px; height: 28px;
+  background: var(--sidebar-accent);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px; font-weight: 700; color: #fff;
+}
+#sidebar-logo-text {
+  color: var(--sidebar-active-text);
+  font-size: 11.5px; font-weight: 600;
+  line-height: 1.3; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 1; transition: opacity 0.2s;
+}
+#mmu-sidebar.collapsed #sidebar-logo-text { opacity: 0; pointer-events: none; }
+
+#sidebar-toggle {
+  background: none; border: none; cursor: pointer;
+  padding: 5px; border-radius: 4px;
+  color: var(--sidebar-muted);
+  display: flex; align-items: center; flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+#sidebar-toggle:hover { color: var(--sidebar-active-text); background: var(--sidebar-hover-bg); }
+#sidebar-toggle svg { width: 18px; height: 18px; }
+
+/* ── Scroll area ── */
+#sidebar-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 8px 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-border) transparent;
+}
+#sidebar-scroll::-webkit-scrollbar { width: 4px; }
+#sidebar-scroll::-webkit-scrollbar-thumb { background: var(--sidebar-border); border-radius: 2px; }
+#mmu-sidebar.collapsed #sidebar-scroll { overflow: hidden; }
+
+/* ── Chapter item ── */
+.ch-item { border-bottom: 1px solid var(--sidebar-border); }
+
+.ch-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px;
+  cursor: pointer; user-select: none;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+.ch-header:hover { background: var(--sidebar-hover-bg); }
+.ch-item.active > .ch-header { background: var(--sidebar-active-bg); }
+
+.ch-num {
+  font-size: 10px; font-weight: 700;
+  color: var(--sidebar-accent);
+  background: rgba(94,129,172,0.15);
+  border-radius: 3px; padding: 1px 5px;
+  flex-shrink: 0; letter-spacing: 0.04em;
+  min-width: 26px; text-align: center;
+}
+.ch-item.active .ch-num { background: var(--sidebar-accent); color: #fff; }
+
+.ch-title-link {
+  color: var(--sidebar-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.35;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.ch-header:hover .ch-title-link { color: var(--sidebar-active-text) !important; }
+.ch-item.active .ch-title-link { color: var(--sidebar-active-text) !important; font-weight: 500; }
+
+.ch-arrow {
+  margin-left: auto; flex-shrink: 0;
+  color: var(--sidebar-muted);
+  transition: transform 0.22s, color 0.12s;
+  width: 14px; height: 14px;
+}
+.ch-item.open .ch-arrow { transform: rotate(90deg); color: var(--sidebar-accent); }
+
+/* ── TOC list ── */
+.ch-toc {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,0.12);
+}
+.ch-item.open .ch-toc { max-height: 2000px; }
+#mmu-sidebar.collapsed .ch-toc { max-height: 0 !important; }
+
+.toc-entry {
+  display: block;
+  padding: 5px 14px 5px 28px;
+  color: var(--sidebar-muted) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
+}
+.toc-entry:hover {
+  color: var(--sidebar-active-text) !important;
+  background: var(--sidebar-hover-bg);
+  border-left-color: var(--toc-indent);
+}
+.toc-entry.active-section {
+  color: #8BBFD4 !important;
+  border-left-color: var(--toc-indent);
+  background: rgba(74,138,153,0.12);
+  font-weight: 500;
+}
+
+/* ── Collapsed ── */
+#mmu-sidebar.collapsed .ch-header { justify-content: center; padding: 9px 0; }
+#mmu-sidebar.collapsed .ch-title-link,
+#mmu-sidebar.collapsed .ch-arrow { display: none; }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 260px; }
+  body { margin-left: 52px !important; }
+  #mmu-sidebar { width: 44px; }
+  #mmu-sidebar.mobile-open { width: var(--sidebar-w); }
+}
+@media print {
+  #mmu-sidebar { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+
+/* ═══ Sidebar v3 ═══ */
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION — MMU Handbook v3
+   Uses Pandoc IDs for reliable anchor navigation
+══════════════════════════════════════════════════════════ */
+:root {
+  --sb-w: 280px;
+  --sb-bg: #F5F7FA;
+  --sb-border: #DDE4EE;
+  --sb-text: #3A5070;
+  --sb-muted: #7A92AA;
+  --sb-accent: #4A7BAC;
+  --sb-hover-bg: #EAF0F8;
+  --sb-active-bg: #DDE8F4;
+  --sb-active-text: #1E3A5A;
+  --sb-toc-active: #B05A00;
+  --sb-toc-inactive: #5A7A9C;
+}
+
+/* ── Reset Pandoc body constraints ── */
+body {
+  margin: 0 !important;
+  margin-left: calc(var(--sb-w) + 36px) !important;
+  margin-right: 40px !important;
+  max-width: none !important;
+  width: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 36px !important;
+  transition: margin-left 0.26s cubic-bezier(.4,0,.2,1);
+  box-sizing: border-box;
+}
+body.sb-collapsed { margin-left: 52px !important; }
+
+/* Heading scroll offset */
+h1,h2,h3,h4 { scroll-margin-top: 20px; }
+
+/* ── Sidebar shell ── */
+#sb {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sb-w);
+  background: var(--sb-bg);
+  border-right: 1px solid var(--sb-border);
+  display: flex; flex-direction: column;
+  z-index: 1000; overflow: hidden;
+  transition: width 0.26s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+#sb.collapsed { width: 44px; }
+
+/* ── Override ALL link colours inside sidebar ── */
+#sb a,
+#sb a:link,
+#sb a:visited,
+#sb a:hover,
+#sb a:active,
+#sb a:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+/* ── Header ── */
+#sb-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 12px; border-bottom: 1px solid var(--sb-border);
+  flex-shrink: 0; min-height: 50px;
+}
+#sb-logo { display: flex; align-items: center; gap: 9px; overflow: hidden; }
+#sb-icon {
+  width: 28px; height: 28px; background: var(--sb-accent);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+}
+#sb-wordmark {
+  color: #4A6882; font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; line-height: 1.3; white-space: nowrap;
+  opacity: 1; transition: opacity 0.2s;
+}
+#sb.collapsed #sb-wordmark { opacity: 0; pointer-events: none; }
+
+#sb-btn {
+  background: none; border: none; cursor: pointer; padding: 5px;
+  border-radius: 4px; color: #8AADCC; flex-shrink: 0;
+  display: flex; align-items: center;
+  transition: color 0.14s, background 0.14s;
+}
+#sb-btn:hover { color: var(--sb-active-text); background: var(--sb-hover-bg); }
+#sb-btn svg { width: 17px; height: 17px; }
+
+/* ── Scroll area ── */
+#sb-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 0 20px;
+  scrollbar-width: thin; scrollbar-color: var(--sb-border) transparent;
+}
+#sb-scroll::-webkit-scrollbar { width: 4px; }
+#sb-scroll::-webkit-scrollbar-thumb { background: var(--sb-border); border-radius: 2px; }
+#sb.collapsed #sb-scroll { overflow: hidden; }
+
+/* ── Chapter row ── */
+.sb-ch { border-bottom: 1px solid var(--sb-border); }
+
+.sb-ch-head {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 11px; cursor: pointer; user-select: none;
+  transition: background 0.12s; white-space: nowrap;
+}
+.sb-ch-head:hover { background: var(--sb-hover-bg); }
+.sb-ch.active > .sb-ch-head { background: var(--sb-active-bg); }
+
+.sb-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  color: #4A7BAC; background: rgba(74,123,172,0.1);
+  border-radius: 3px; padding: 1px 5px; flex-shrink: 0;
+  min-width: 24px; text-align: center;
+}
+.sb-ch.active .sb-num { background: var(--sb-accent); color: #fff; }
+
+.sb-ch-link {
+  color: var(--sb-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.3;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.sb-ch-head:hover .sb-ch-link { color: var(--sb-active-text) !important; }
+.sb-ch.active .sb-ch-link { color: var(--sb-active-text) !important; font-weight: 500; }
+
+.sb-arrow {
+  margin-left: auto; flex-shrink: 0; color: #4E6B8C;
+  transition: transform 0.2s, color 0.12s; width: 13px; height: 13px;
+}
+.sb-ch.open .sb-arrow { transform: rotate(90deg); color: var(--sb-accent); }
+
+/* ── TOC ── */
+.sb-toc {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,0.03);
+}
+.sb-ch.open .sb-toc { max-height: 2400px; }
+#sb.collapsed .sb-toc { max-height: 0 !important; }
+
+.sb-sec {
+  display: block; padding: 5px 12px 5px 26px;
+  color: var(--sb-toc-inactive) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, background 0.1s, border-color 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sb-sec:hover {
+  color: var(--sb-active-text) !important;
+  background: rgba(74,123,172,0.1);
+  border-left-color: var(--sb-accent);
+}
+.sb-sec.here {
+  color: var(--sb-toc-active) !important;
+  border-left-color: var(--sb-toc-active);
+  background: rgba(176,90,0,0.08);
+  font-weight: 500;
+}
+
+
+/* ── Home link ── */
+#sb-home-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; cursor: pointer;
+  border-bottom: 1px solid var(--sb-border);
+  white-space: nowrap; color: var(--sb-text) !important;
+  font-size: 12px; font-weight: 500;
+  transition: background 0.12s;
+}
+#sb-home-link:hover { background: var(--sb-hover-bg); color: var(--sb-active-text) !important; }
+#sb.collapsed #sb-home-link span { display: none; }
+#sb.collapsed #sb-home-link { justify-content: center; padding: 9px 0; }
+
+/* ── Collapsed mode ── */
+#sb.collapsed .sb-ch-head { justify-content: center; padding: 8px 0; }
+#sb.collapsed .sb-ch-link,
+#sb.collapsed .sb-arrow { display: none; }
+
+/* ── Mobile / print ── */
+@media (max-width: 860px) {
+  :root { --sb-w: 250px; }
+  body { margin-left: 50px !important; }
+  #sb { width: 44px; }
+  #sb.mob-open { width: var(--sb-w); }
+}
+@media print {
+  #sb { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+</style>
+  <style>
+
+      body {
+          max-width: 900px;
+          margin: 40px auto;
+          padding: 20px;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          background-color: #f5f5f5;
+      }
+      .container {
+          background: white;
+          padding: 40px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      h1 {
+          color: #2c3e50;
+          border-bottom: 3px solid #3498db;
+          padding-bottom: 10px;
+      }
+      h2 {
+          color: #34495e;
+          border-bottom: 2px solid #e0e0e0;
+          padding-bottom: 8px;
+          margin-top: 40px;
+      }
+      h3 {
+          color: #555;
+          margin-top: 30px;
+      }
+      code {
+          background-color: #f4f4f4;
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 0.9em;
+      }
+      pre {
+          background-color: #f8f8f8;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 15px;
+          overflow-x: auto;
+      }
+      pre code {
+          background-color: transparent;
+          padding: 0;
+      }
+      blockquote {
+          border-left: 4px solid #3498db;
+          padding-left: 20px;
+          margin-left: 0;
+          color: #555;
+          font-style: italic;
+          background-color: #f9f9f9;
+          padding: 15px 20px;
+          border-radius: 4px;
+      }
+      table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 20px 0;
+      }
+      th, td {
+          border: 1px solid #ddd;
+          padding: 12px;
+          text-align: left;
+      }
+      th {
+          background-color: #3498db;
+          color: white;
+      }
+      tr:nth-child(even) {
+          background-color: #f9f9f9;
+      }
+      #TOC {
+          background-color: #f0f7ff;
+          border: 1px solid #3498db;
+          border-radius: 8px;
+          padding: 20px;
+          margin-bottom: 40px;
+      }
+      #TOC ul {
+          list-style-type: none;
+          padding-left: 20px;
+      }
+      #TOC > ul {
+          padding-left: 0;
+      }
+      #TOC a {
+          color: #2980b9;
+          text-decoration: none;
+      }
+      #TOC a:hover {
+          text-decoration: underline;
+      }
+  
+  </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Chapter 18: MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#section-18.1">18.1 Introduction: When the Memory Map Becomes a Weapon</a></li>
+<li><a href="#section-18.2">18.2 The Paging Model&#x27;s Trust Assumptions</a></li>
+<li><a href="#section-18.3">18.3 Meltdown: Speculative PTE Permission Checks</a></li>
+<li><a href="#section-18.4">18.4 Spectre v1: Bounds Bypass via Virtual Address Speculation</a></li>
+<li><a href="#section-18.5">18.5 Spectre v2: Branch Target Injection and the PTW Control Path</a></li>
+<li><a href="#section-18.6">18.6 L1TF and Foreshadow: P=0 PTEs as Physical Address Leaks</a></li>
+<li><a href="#section-18.7">18.7 Microarchitectural Data Sampling: Buffers the PTW Shares</a></li>
+<li><a href="#section-18.8">18.8 KPTI: Splitting the Page Table as an Architectural Fix</a></li>
+<li><a href="#section-18.9">18.9 Mitigation Costs and Production Deployment Trade-offs</a></li>
+<li><a href="#section-18.10">18.10 Chapter Summary</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</nav>
+
+<h2 id="section-18.1">18.1 Introduction: When the Memory Map Becomes a Weapon</h2>
+
+<p>The paging hardware described in this book was designed to enforce isolation. The Present bit prevents access to unmapped pages. The User/Supervisor bit prevents ring-3 code from reading kernel memory. The No-Execute bit prevents data pages from being run as code. The page walk cache and TLB make these checks fast enough to be transparent. For three decades this isolation model was effective: no userspace program, properly sandboxed, could read kernel memory. The assumption was not merely correct — it was widely regarded as axiomatic.</p>
+
+<p>In January 2018 that axiom collapsed. Three teams of researchers disclosed two vulnerability classes — Meltdown and Spectre — that demonstrated a fundamental gap between the architectural guarantees of the paging model and its microarchitectural reality. The gap existed in every processor that performed out-of-order speculative execution — every high-performance CPU sold in the previous two decades. The architectural model checked permissions at instruction retirement; the microarchitectural implementation executed speculatively for 100–300 µops before retirement, accumulating observable side-effects in caches and fill buffers that persisted even after the pipeline was rolled back. The paging isolation model had not been broken at the architectural level — the hardware ultimately delivered the correct fault. But the window between speculative access and architectural retirement was wide enough to exfiltrate a kernel byte at roughly 500 KB/s.</p>
+
+<p>The disclosure was not an isolated event but the beginning of a vulnerability class. In the months and years that followed, researchers demonstrated L1 Terminal Fault (L1TF, CVE-2018-3615/3620/3646), which exploited the page table walker's handling of not-present PTEs to read arbitrary physical memory — a direct extension of the speculative PTW behaviour established in Chapter 17 (§17.5). They demonstrated Microarchitectural Data Sampling (MDS), a family of attacks exploiting the fill buffer, store buffer, and load buffer shared between the page table walker and user code. Each new variant exploited a different aspect of the same root cause: the microarchitectural pipeline does not enforce the isolation that the page table's permission bits promise.</p>
+
+<p>This chapter examines these vulnerabilities through the lens of MMU and paging architecture. The five PTE bits that Chapter 6 defined as the x86-64 protection model — P, U/S, R/W, NX, and CR3/PCID — each correspond to a specific vulnerability class, as Figure 18.1 summarises.</p>
+
+<figure id="fig-18-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
+  <text x="450" y="26" font-family="Arial,sans-serif" font-size="16" font-weight="bold" fill="#212121" text-anchor="middle">PTE Protection Bits: Architectural Role vs Vulnerability Enabled</text>
+  <rect x="15" y="40" width="200" height="32" rx="4" fill="#34495E"/><text x="115" y="61" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">PTE Bit</text>
+  <rect x="220" y="40" width="255" height="32" rx="4" fill="#5E81AC"/><text x="347" y="61" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Architectural Protection</text>
+  <rect x="480" y="40" width="255" height="32" rx="4" fill="#BF616A"/><text x="607" y="61" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Vulnerability / Exploit</text>
+  <rect x="740" y="40" width="145" height="32" rx="4" fill="#4A8A99"/><text x="812" y="61" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">CVE(s)</text>
+  <rect x="15" y="76" width="200" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="115" y="99" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">P (Present) bit 0</text><text x="115" y="119" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">mandatory for any access</text>
+  <rect x="220" y="76" width="255" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="347" y="99" font-family="Arial,sans-serif" font-size="12" fill="#212121" text-anchor="middle">Walk terminates; #PF raised</text><text x="347" y="119" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">PA field architecturally undefined</text>
+  <rect x="480" y="76" width="255" height="56" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/><text x="607" y="99" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">PTW speculatively reads PA field</text><text x="607" y="119" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" text-anchor="middle">before #PF fires &#x2192; L1D fill</text>
+  <rect x="740" y="76" width="145" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="812" y="107" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" font-weight="bold" text-anchor="middle">Foreshadow/L1TF</text>
+  <rect x="15" y="136" width="200" height="56" fill="#fff" stroke="#9E9E9E"/><text x="115" y="159" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">U/S (User/Super) bit 2</text><text x="115" y="179" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">ring-3 cannot read ring-0</text>
+  <rect x="220" y="136" width="255" height="56" fill="#fff" stroke="#9E9E9E"/><text x="347" y="159" font-family="Arial,sans-serif" font-size="12" fill="#212121" text-anchor="middle">S-pages inaccessible at ring 3</text><text x="347" y="179" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Check at retirement</text>
+  <rect x="480" y="136" width="255" height="56" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/><text x="607" y="159" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">Speculative load before U/S check</text><text x="607" y="179" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" text-anchor="middle">kernel data in cache</text>
+  <rect x="740" y="136" width="145" height="56" fill="#fff" stroke="#9E9E9E"/><text x="812" y="167" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" font-weight="bold" text-anchor="middle">Meltdown</text>
+  <rect x="15" y="196" width="200" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="115" y="219" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">R/W bit 1</text><text x="115" y="239" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">CoW, immutable code pages</text>
+  <rect x="220" y="196" width="255" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="347" y="219" font-family="Arial,sans-serif" font-size="12" fill="#212121" text-anchor="middle">Read-only pages not writable</text><text x="347" y="239" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Enforced at retirement</text>
+  <rect x="480" y="196" width="255" height="56" fill="#EAF2F8" stroke="#5E81AC"/><text x="607" y="219" font-family="Arial,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">Probe arrays use RO mappings</text><text x="607" y="239" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Spectre gadgets don't need write</text>
+  <rect x="740" y="196" width="145" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="812" y="227" font-family="Arial,sans-serif" font-size="11" fill="#5E81AC" font-weight="bold" text-anchor="middle">Spectre v1</text>
+  <rect x="15" y="256" width="200" height="56" fill="#fff" stroke="#9E9E9E"/><text x="115" y="279" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">NX (No-Execute) bit 63</text><text x="115" y="299" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">data pages non-executable</text>
+  <rect x="220" y="256" width="255" height="56" fill="#fff" stroke="#9E9E9E"/><text x="347" y="279" font-family="Arial,sans-serif" font-size="12" fill="#212121" text-anchor="middle">Prevents data page execution</text><text x="347" y="299" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Defence-in-depth</text>
+  <rect x="480" y="256" width="255" height="56" fill="#EAF2F8" stroke="#5E81AC"/><text x="607" y="279" font-family="Arial,sans-serif" font-size="12" fill="#5E81AC" text-anchor="middle">Spectre bypasses NX entirely</text><text x="607" y="299" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">no code execution required</text>
+  <rect x="740" y="256" width="145" height="56" fill="#fff" stroke="#9E9E9E"/><text x="812" y="287" font-family="Arial,sans-serif" font-size="11" fill="#5E81AC" font-weight="bold" text-anchor="middle">Spectre v1/v2</text>
+  <rect x="15" y="316" width="200" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="115" y="339" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">CR3/PCID</text><text x="115" y="359" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">address space selector</text>
+  <rect x="220" y="316" width="255" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="347" y="339" font-family="Arial,sans-serif" font-size="12" fill="#212121" text-anchor="middle">Isolates address spaces</text><text x="347" y="359" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Kernel in user CR3 pre-KPTI</text>
+  <rect x="480" y="316" width="255" height="56" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/><text x="607" y="339" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">Kernel VAs TLB-hot in user mode</text><text x="607" y="359" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" text-anchor="middle">enables Meltdown speculation</text>
+  <rect x="740" y="316" width="145" height="56" fill="#F0F4F8" stroke="#9E9E9E"/><text x="812" y="347" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" font-weight="bold" text-anchor="middle">Meltdown/KPTI</text>
+  <rect x="15" y="376" width="870" height="52" rx="5" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="30" y="396" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">The architectural gap: all five bits checked at retirement. Speculative execution accumulates</text>
+  <text x="30" y="418" font-family="Arial,sans-serif" font-size="12" fill="#212121">microarchitectural side-effects (cache lines, fill buffer entries) during the 100-300 &#xb5;op window that persist even after pipeline rollback.</text>
+  <line x1="15" y1="76" x2="885" y2="76" stroke="#9E9E9E"/><line x1="15" y1="136" x2="885" y2="136" stroke="#9E9E9E"/><line x1="15" y1="196" x2="885" y2="196" stroke="#9E9E9E"/><line x1="15" y1="256" x2="885" y2="256" stroke="#9E9E9E"/><line x1="15" y1="316" x2="885" y2="316" stroke="#9E9E9E"/><line x1="15" y1="376" x2="885" y2="376" stroke="#9E9E9E"/>
+  <line x1="220" y1="40" x2="220" y2="376" stroke="#9E9E9E"/><line x1="480" y1="40" x2="480" y2="376" stroke="#9E9E9E"/><line x1="740" y1="40" x2="740" y2="376" stroke="#9E9E9E"/>
+  <rect x="15" y="40" width="870" height="336" fill="none" stroke="#9E9E9E" stroke-width="1.5"/>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.1:</strong> PTE protection bits as both the architectural defence model and the microarchitectural attack surface. Each bit enforces isolation at retirement; the speculative execution window of 100–300 µops before retirement enables each vulnerability class.</figcaption>
+</figure>
+
+<p>The scale of the disclosure effort was itself unprecedented. The three research groups — Graz University of Technology, Cyberus Technology / Red Hat, and Google Project Zero — co-ordinated a simultaneous disclosure to Intel, AMD, ARM, Apple, and the major operating system vendors in June 2017, more than six months before public release. During those six months, patches were developed in secret: the Linux kernel KPTI patch set (initially named PTI in the mailing list) was developed with deliberate obfuscation to avoid alerting the security community before the coordinated release date. The NDA period was unusually long — reflecting the scope of affected hardware and the difficulty of retrofitting mitigations into deployed operating systems — but ultimately untenable: partial public disclosure of the Linux kernel changes in late December 2017 forced an accelerated public release on 3 January 2018, before all affected software had been patched.</p>
+
+<p>The economic and operational impact of the vulnerabilities is difficult to overstate. Within weeks of disclosure, cloud providers applied emergency kernel updates requiring instance reboots — AWS's first infrastructure-wide emergency maintenance since its founding. Intel's stock fell approximately 4% on the day of disclosure. The subsequent patch cycle consumed engineering resources across every major operating system and hypervisor vendor for months. The performance implications — a 5–30% overhead for high-syscall workloads — created immediate pressure on cloud pricing models and capacity planning. For database and storage workloads running on pre-PCID hardware (any system prior to Broadwell, still common in 2018 data centres), the initial KPTI implementation with full TLB flush on every CR3 switch produced overhead as high as 30% for transaction-intensive workloads, prompting emergency tuning work to restore PCID-based mitigation within weeks of the initial deployment.</p>
+
+<p>The vulnerability class exposed in 2018 also revealed a deeper truth about the security model of modern processors: the threat model that processor architects had optimised against was primarily physical attackers and software bugs, not adversaries who could observe microarchitectural timing from within a co-tenant process or VM. The entire TLB and PTW design optimisation programme described in Chapters 3, 4, and 17 — page walk caches, concurrent walkers, MSHR coalescing, speculative walks — was built to minimise TLB miss latency and maximise throughput under the assumption that the attacker cannot observe which cache lines are hot. Flush+Reload invalidated that assumption: any process that can allocate and access shared memory or shared code (virtually all processes on a system with a code-sharing operating system) can measure cache residency with nanosecond precision. This made the optimised PTW a more powerful attack tool than a slower one: the faster and more parallelised the PTW, the more frequently fill buffers are populated and the more data transits the shared MDS sampling buffers per unit time.</p>
+
+<p> Section 18.2 analyses the trust assumptions in the x86-64 paging model and where they break under speculative execution. Section 18.3 dissects Meltdown through the U/S permission check timing. Section 18.4 examines Spectre v1 and the TLB speculation window. Section 18.5 covers Spectre v2 and branch target injection in the PTW microcode path. Section 18.6 returns to L1TF — the direct consequence of the speculative PTW behaviour from Chapter 17 — covering all three CVE variants. Section 18.7 covers MDS and the shared buffers between the PTW and user code. Section 18.8 analyses KPTI as the architectural mitigation. Section 18.9 provides a quantified cost model for production deployment. The chapter concludes with a unified model of the vulnerability class.</p>
+
+<p>The six figures in this chapter provide quantitative and structural anchors for the analysis. Figure 18.1 maps each PTE bit to its vulnerability class and the CVE(s) that exploit it. Figure 18.2 shows the Meltdown pipeline timing diagram and the Flush+Reload measurement chain that converts the speculative cache fill into a recoverable kernel byte. Figure 18.3 contrasts Spectre v1 and v2 attack flows side by side, showing how different prediction structures create different attack surfaces. Figure 18.4 shows the L1TF exploit path with the P=0 PTE physical address speculation mechanism and the three CVE attack surfaces. Figure 18.5 shows the KPTI dual-CR3 design, the PCID-based amortisation of the switch cost, and the per-workload performance characteristics. Figure 18.6 provides the quantified mitigation overhead matrix for production deployment planning across five workload categories. Together they constitute a reference that can be consulted independently of the prose analysis for deployment decisions and security reviews.</p>
+
+<p>A note on scope: this chapter focuses on vulnerabilities that originate in or are directly mediated by the MMU and paging hardware — the PTW, the TLB, the page table permission bits, and the microarchitectural buffers shared with the PTW. The transient execution literature is substantially broader than this, encompassing vulnerabilities in the floating-point unit, in the branch prediction structures without any paging involvement, and in the memory controller. The Spectre and Meltdown vulnerability classes chosen here represent the core intersection of speculative execution with the memory isolation model, and their analysis provides the conceptual framework necessary to reason about the broader class. Readers interested in the full scope of transient execution attacks are referred to the systematic survey by Canella et al. (2019, Reference 6), which catalogues 28 distinct variants across the transient execution space and provides a unified classification framework.</p>
+
+<h2 id="section-18.2">18.2 The Paging Model's Trust Assumptions</h2>
+
+<p>The x86-64 protection model, as established in Chapter 6, is built on five PTE-level controls. The Present bit (P, bit 0) determines whether the virtual address is backed by a physical page; a P=0 entry causes a page fault before any memory access proceeds. The User/Supervisor bit (U/S, bit 2) determines whether a page is accessible from ring 3; a supervisor page (U/S=0) accessed from user mode causes a privilege violation fault, as documented in Chapter 7 (§7.9). The Read/Write bit (R/W, bit 1) restricts write access. The No-Execute bit (NX, bit 63) prevents code execution from data pages, documented in Chapter 6 (§6.3). The CR3 register selects the page table root and, with PCID enabled, identifies the address space. Chapter 3 documented the full PTE format; Chapter 6 (§6.2, §6.5) defined each bit's semantics.</p>
+
+<p>These controls share a critical property: they are enforced at instruction retirement. In the sequential execution model that the architecture specification describes, a load instruction addressing a supervisor page immediately causes a fault — the load never executes. In the out-of-order execution model implemented by every modern high-performance processor, the situation is more complex. An OOO processor issues instructions before they retire, executing them in an order determined by data availability rather than program order. A speculative load may be issued dozens to hundreds of cycles before it reaches the retirement queue. During those cycles, dependent instructions — including instructions that access memory and bring cache lines into L1D or populate microarchitectural buffers — may have executed.</p>
+
+<p>The architectural guarantee is preserved: the load will be squashed and a fault delivered when the instruction retires. But the microarchitectural side-effects — which cache lines were brought in, which fill buffer entries were populated, which store buffer entries were touched — are not rolled back. They persist, and they are observable via timing differences in subsequent memory accesses. The Flush+Reload technique (Yarom and Falkner, 2014) provides the measurement primitive: flush a set of locations from cache, allow the victim to execute, then measure access time to each location. Sub-threshold time indicates the victim brought in that line — revealing which one was accessed and therefore what address was computed speculatively.</p>
+
+<p>This gap between architectural enforcement and microarchitectural observability is not a bug in any individual processor implementation. It is a fundamental consequence of speculative execution — the optimisation that makes modern processors fast. The architecture specification explicitly does not constrain microarchitectural side-effects of speculative execution; it specifies only what state is committed at retirement. Every processor optimised for throughput exploits this freedom. The vulnerability class is therefore architectural in scope even when its manifestation is microarchitectural.</p>
+
+<p>Three structural properties of x86-64 paging amplified the impact significantly. First, kernel pages were mapped in the user-mode page table at supervisor-only permissions (U/S=0), but present and TLB-hot — a deliberate performance optimisation that avoided CR3 reloads on syscall and interrupt entry. Second, the page table walker executes speculatively, producing microarchitectural state for addresses that may never architecturally complete; Chapter 17 (§17.4 and §17.5) analysed the MSHR-based concurrent walker design whose same properties that enable concurrent walk throughput also create the L1TF vulnerability surface. Third, x86-64's microcode-assisted PTW reads not-present PTE physical address fields speculatively before raising the fault — the property that Chapter 17 (§17.5) identified and this chapter extends to its three CVE variants.</p>
+
+<p>ARM64 was structurally better positioned for all three reasons. Its TTBR0/TTBR1 split means kernel pages are never present in the user address space: TTBR0 (user) and TTBR1 (kernel) are separate page table roots active at different exception levels. A speculative access to a kernel virtual address from EL0 traverses TTBR0, which contains no kernel translations. ARM64 processors also raise Data Aborts earlier in the pipeline for some permission violations, shrinking the speculative window. These properties made ARM64 substantially less vulnerable to Meltdown, though all Spectre variants apply wherever branch predictors are implemented. RISC-V's software-managed TLB base design, as detailed in Chapter 17 (§17.9), is structurally immune to L1TF — the trap handler explicitly validates the PTE before acting on the physical address field.</p>
+
+
+<p>The SMAP (Supervisor Mode Access Prevention) and SMEP (Supervisor Mode Execution Prevention) controls added in Intel Haswell represent another layer of the protection model: SMEP prevents the kernel from executing user-space pages, and SMAP prevents the kernel from reading user-space pages without explicit opt-in via the <code>STAC</code>/<code>CLAC</code> instruction pair. These controls constrain attacker-supplied gadgets that would otherwise run at ring-0 privilege, and they are enforced at retirement — not at speculative issue. A kernel function that speculatively accesses a user-space page protected by SMAP still completes the speculative access before the SMAP check fires at retirement. SMAP and SMEP therefore do not address the speculative execution gap that underpins Meltdown and Spectre; they are orthogonal controls that add depth to the protection model without closing the speculative window.</p>
+
+<p>The historical reason for mapping kernel pages in the user address space deserves deeper examination, because it makes clear that the vulnerability was not a mistake but a deliberate trade-off made without foreknowledge of speculative side-channels. On x86-64, the <code>syscall</code> instruction does not save the user stack pointer or switch the page table — it merely raises the privilege level and jumps to the kernel entry point. If the kernel were not mapped in the user address space at the point of syscall entry, the first kernel instruction would cause a page fault (a non-present page under the current CR3), which would itself require the kernel to be mapped to handle. The circular dependency is resolved by mapping the kernel in both address spaces. Every interrupt, exception, and NMI has the same requirement: the handler must be reachable from whatever CR3 is active at the time of the event. The KPTI trampoline resolves this by mapping only the entry points themselves — not the full kernel — in the user CR3, and switching to the kernel CR3 as the first action of the entry code before touching any kernel data.</p>
+
+<p>The x86-64 paging model's decision to enforce all checks at retirement rather than issue is not unique to x86-64 — it is a property of any ISA that allows speculative execution past faults. The critical question is whether the speculative execution can produce observable microarchitectural effects, and whether sensitive data flows through shared microarchitectural structures during the speculation window. ARM64's structural protections are worth summarising precisely. First, TTBR0/TTBR1 split prevents kernel VAs from being speculatively accessible from EL0 — no speculative TLB lookup in TTBR0 will find a kernel mapping. Second, ARM64's fault delivery for permission violations on many implementations occurs before the physical address is resolved, preventing the speculative load from reaching the memory system at all. Third, ARM64's pure-hardware TTW avoids the microcode-assisted PTW that provides the BTB-targeted indirect branch surface for Spectre v2 on x86-64. None of these properties were designed with Meltdown/Spectre in mind; all of them happen to be structurally protective.</p>
+
+<h2 id="section-18.3">18.3 Meltdown: Speculative PTE Permission Checks</h2>
+
+<p>Meltdown (CVE-2017-5754, Lipp et al., 2018) exploits the timing gap between a speculative load and the U/S permission check that enforces kernel/user isolation. On a vulnerable x86-64 processor, a user-mode instruction that speculatively loads from a kernel virtual address succeeds in issuing the load and bringing kernel data into registers and cache before the U/S=0 check fires at retirement. The fault is delivered and the register squashed, but the cache line containing the kernel data remains in L1D. A Flush+Reload measurement on a probe array whose index was derived from the kernel data reveals the value.</p>
+
+<p>The three conditions required were all present in standard x86-64 systems before 2018. The target kernel virtual address was mapped in the user-mode page table — present, valid translation, U/S=0. The processor speculated past the U/S fault by design; this is the speculative execution model. The kernel data was TLB-hot or cache-hot from recent syscalls, satisfying the latency requirement for the speculative access to complete within the speculation window.</p>
+
+<figure id="fig-18-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="390" viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="a2" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#34495E"/></marker></defs>
+  <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Meltdown Exploit Path &#x2014; Speculative U/S Permission Check Bypass</text>
+  <text x="22" y="48" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#212121">Lane</text>
+  <text x="210" y="48" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Cycle 0</text><text x="350" y="48" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">+4-8c</text><text x="490" y="48" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">+10-50c</text><text x="640" y="48" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">+50-200c</text><text x="800" y="48" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Retire</text>
+  <rect x="15" y="54" width="115" height="34" rx="4" fill="#34495E"/><text x="72" y="75" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Arch. spec</text>
+  <rect x="135" y="54" width="730" height="34" rx="4" fill="#E0E0E0" stroke="#9E9E9E" stroke-dasharray="4,3"/>
+  <text x="500" y="75" font-family="Arial,sans-serif" font-size="11" fill="#757575" text-anchor="middle">Architectural expectation: stall &#x2192; #PF at issue &#x2192; exception delivered &#x2192; no data access</text>
+  <rect x="15" y="96" width="115" height="34" rx="4" fill="#5E81AC"/><text x="72" y="117" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">OOO issue</text>
+  <rect x="135" y="96" width="125" height="34" rx="4" fill="#5E81AC"/><text x="197" y="110" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">mov rax,</text><text x="197" y="124" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">[kernel_addr]</text>
+  <line x1="260" y1="113" x2="270" y2="113" stroke="#34495E" stroke-width="2" marker-end="url(#a2)"/>
+  <rect x="270" y="96" width="130" height="34" rx="4" fill="#4A8A99"/><text x="335" y="110" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">TLB hit:</text><text x="335" y="124" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">kernel page mapped</text>
+  <line x1="400" y1="113" x2="410" y2="113" stroke="#34495E" stroke-width="2" marker-end="url(#a2)"/>
+  <rect x="410" y="96" width="140" height="34" rx="4" fill="#BF616A"/><text x="480" y="110" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">U/S=0: should</text><text x="480" y="124" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">fault &#x2014; later!</text>
+  <line x1="550" y1="113" x2="560" y2="113" stroke="#34495E" stroke-width="2" marker-end="url(#a2)"/>
+  <rect x="560" y="96" width="145" height="34" rx="4" fill="#BF616A"/><text x="632" y="110" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">Kernel byte &#x2192;</text><text x="632" y="124" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">rax (speculative)</text>
+  <line x1="705" y1="113" x2="715" y2="113" stroke="#34495E" stroke-width="2" marker-end="url(#a2)"/>
+  <rect x="715" y="96" width="135" height="34" rx="4" fill="#34495E"/><text x="782" y="110" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">#PF raised;</text><text x="782" y="124" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">rax squashed</text>
+  <rect x="15" y="138" width="115" height="34" rx="4" fill="#5E81AC"/><text x="72" y="159" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Gadget</text>
+  <rect x="560" y="138" width="145" height="34" rx="4" fill="#BF616A"/><text x="632" y="152" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">probe[rax*4096]</text><text x="632" y="166" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">cache fill issued</text>
+  <rect x="15" y="180" width="115" height="34" rx="4" fill="#4A8A99"/><text x="72" y="201" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Cache</text>
+  <rect x="560" y="180" width="145" height="34" rx="4" fill="#BF616A"/><text x="632" y="196" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">L1D line hot</text><text x="632" y="210" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">even after rollback!</text>
+  <rect x="715" y="180" width="135" height="34" rx="4" fill="#4A8A99"/><text x="782" y="196" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">Cache NOT</text><text x="782" y="210" font-family="Arial,sans-serif" font-size="11" fill="#fff" text-anchor="middle">rolled back &#x2190; key</text>
+  <rect x="15" y="228" width="870" height="64" rx="5" fill="#F0F4F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="30" y="248" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">Flush+Reload recovery (attacker measures cache):</text>
+  <text x="30" y="266" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2460; CLFLUSH probe[0..255 &#xd7; 4096]  &#x2461; Trigger gadget  &#x2462; Time all 256 probe pages &#x2014; page with &lt;100 cycle access time = kernel_byte revealed</text>
+  <text x="30" y="284" font-family="Arial,sans-serif" font-size="12" fill="#212121">Rate: 500 KB/s &#x2013; 2 MB/s on unpatched systems. Reads entire kernel address space from ring 3.</text>
+  <rect x="15" y="304" width="870" height="74" rx="5" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="30" y="324" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#BF616A">Root cause: kernel pages present in user page table (deliberate pre-KPTI performance optimisation)</text>
+  <text x="30" y="342" font-family="Arial,sans-serif" font-size="12" fill="#212121">Linux kept the full kernel mapped at high VAs with U/S=0 in every process CR3 to avoid CR3 reload on syscall/interrupt entry.</text>
+  <text x="30" y="360" font-family="Arial,sans-serif" font-size="12" fill="#212121">This made kernel VAs TLB-hot during user execution. ARM64 TTBR0/TTBR1 split was intrinsically immune: kernel pages not in user address space.</text>
+  <text x="30" y="376" font-family="Arial,sans-serif" font-size="11" fill="#616161">AMD largely unaffected: privilege fault delivered earlier in pipeline, preventing speculative L1D fill in practice.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.2:</strong> Meltdown exploit timeline. The U/S check fires at retirement but the speculative load has already transmitted the kernel byte via the probe array cache fill. The L1D line persists after pipeline rollback.</figcaption>
+</figure>
+
+<p>The Meltdown gadget is simple: <code>mov rax, [kernel_address]</code> speculatively loads a kernel byte; <code>and rax, 0xff</code> isolates the byte; <code>mov rbx, [probe_array + rax * 4096]</code> brings one of 256 probe array cache lines into L1D. All three execute transiently before the U/S fault squashes the pipeline. The probe array line is now in L1D. The attacker times access to all 256 probe pages: the one with sub-100-cycle access time reveals the kernel byte. This repeats across offsets to provide arbitrary kernel read access, at 500 KB/s to 2 MB/s on unpatched systems — sufficient to exfiltrate a 4 KB page in under 10 milliseconds.</p>
+
+<p>The paging dimension of Meltdown is the critical insight: the vulnerability exists not because speculation is inherently broken, but because kernel pages were present in the user address space as a performance optimisation. If kernel pages were absent from the user page table entirely — as ARM64's TTBR0/TTBR1 architecture effectively achieves — a speculative TLB lookup for a kernel address would miss in TTBR0, and the PTW would find no valid translation. The speculative load would stall before producing data. Meltdown is, at its core, a consequence of the shared page table design combined with speculative execution — a trade-off between performance and security that the architecture made implicitly, without anticipating that speculative execution would make the trade-off adversarially exploitable.</p>
+
+<p>Intel processors from Pentium 4 through the 9th generation Core are broadly affected. AMD processors were largely unaffected due to differences in how their speculative execution pipeline handles privilege faults — AMD delivers the privilege fault sufficiently early that the speculative access does not complete. ARM64 Cortex-A designs raised Data Aborts early enough in the pipeline to prevent the cache side-effect on most implementations, consistent with the TTBR split analysis above. Exception suppression variants extended Meltdown beyond the basic U/S check: Meltdown-PK exploited Memory Protection Keys, Meltdown-P partially overlapped with L1TF, and Meltdown-NM exploited FPU save/restore state — all sharing the same structure of bypassing a retirement-stage check to exfiltrate data via cache timing.</p>
+
+
+<p>The performance characteristics of the Meltdown attack deserve quantification. On unpatched Intel Broadwell hardware, Lipp et al. measured kernel read bandwidth of approximately 503 KB/s with an error rate below 0.02%. This is sufficient to exfiltrate a 4 KB kernel page in approximately 8 milliseconds, a 4 MB kernel code region in approximately 8 seconds, and in principle the entire kernel address space (typically 128 GB of physical memory mapped in the kernel direct map) in roughly 70 hours of sustained reading. In a cloud environment where a tenant VM runs continuously, this is a practical attack timeline. The Meltdown proof-of-concept released alongside the paper demonstrated reading from <code>/proc/kallsyms</code>-protected kernel symbol addresses, <code>/dev/mem</code>-protected physical memory, and from other processes' memory via the kernel's physmap region.</p>
+
+<p>AMD processors' immunity to Meltdown deserves precise explanation. AMD's microarchitecture raises the privilege violation fault earlier in the pipeline — at the point where the virtual address is checked against the current privilege level, before the physical address is resolved and before the speculative load is issued. The load itself is therefore never executed speculatively against a supervisor-only page from user mode, eliminating the cache side-channel at source. This is not a deliberate security feature but a consequence of AMD's pipeline ordering decision: AMD chose to validate privilege before resolving the physical address, while Intel resolved the physical address first and validated privilege at retirement. The two approaches are equally correct architecturally — the architectural specification does not require either ordering — but produce opposite security outcomes under speculative execution.</p>
+
+<p>Several Meltdown variants extend the basic U/S bypass. Meltdown-PK (CVE-2019-0162) exploits the Memory Protection Keys mechanism: if a page's protection key state disallows access but the page is present and mapped with appropriate U/S and R/W bits, a speculative load bypasses the PKU check to fill the cache. Meltdown-P, overlapping with L1TF, targets not-present pages whose PA field contains a valid physical address — discussed in Section 18.6. Meltdown-NM targets the FPU state save/restore mechanism: when the FPU state is marked as not available (CR0.TS=1), a speculative FPU instruction can load the prior task's FPU register state before the #NM is delivered. In each variant the structure is identical: an architectural check that fires at retirement, bypassed speculatively, with the exfiltration carried in microarchitectural state that survives the pipeline rollback.</p>
+
+<p>The Linux kernel's physical memory direct map — the region in which all of physical RAM is mapped at a fixed virtual address offset, allowing the kernel to access any physical frame by adding the offset to the physical address — is a particularly high-value Meltdown target. On a system with 256 GB of RAM, the kernel's physmap covers 256 GB of virtual address space, all mapped in the user page table (pre-KPTI) with U/S=0. An attacker using Meltdown can read any byte of any physical frame by computing the corresponding physmap virtual address: <code>physmap_base + physical_address</code>. This includes memory belonging to other processes (their pages remain physically present even when logically not in the attacker's address space), kernel data structures, and device memory-mapped regions. The physmap is the primary reason that Meltdown enables full physical memory disclosure rather than merely kernel virtual address disclosure: all of RAM is accessible via the physmap, and the physmap is mapped in every process's page table.</p>
+
+<p>The KPTI fix for the physmap is conceptually straightforward but operationally significant. With KPTI, the physmap is in the kernel CR3 but not in the user CR3. A Meltdown gadget executing in user mode attempts to speculate using a physmap address, but the speculative TLB lookup fails to find a translation in the user CR3's page table — the physmap VA range is not present. The PTW terminates the walk without a translation, and no cache fill is issued. From the L1TF perspective, the KPTI removal of physmap from the user page table also prevents the construction of P=0 PTEs with PA fields pointing to physmap entries — removing one of the easier methods of setting up an L1TF exploit. The physmap remains in the kernel CR3 for the kernel's own legitimate use; the isolation is between the user and kernel page tables, not within the kernel's address space.</p>
+
+<h2 id="section-18.4">18.4 Spectre v1: Bounds Bypass via Virtual Address Speculation</h2>
+
+<p>Spectre variant 1 (CVE-2017-5753, Kocher et al., 2019) exploits the conditional branch predictor to speculatively execute past a bounds check and perform an out-of-bounds array access before the misprediction is detected. Unlike Meltdown, which directly bypasses a hardware permission check, Spectre v1 bypasses a software-enforced guard — but it does so by manipulating the speculative execution of the victim program's own legitimate code. The attacker needs no kernel privileges; the attack exploits the victim's own code to leak the victim's own data, operating entirely within user/supervisor boundaries in many configurations.</p>
+
+<p>The canonical vulnerable pattern is: <code>if (index &lt; array_size) { return array2[array1[index] * 4096]; }</code>. When index is always in-bounds, the branch predictor learns to predict the branch taken. The attacker primes the predictor with in-bounds values, then sends an out-of-bounds index pointing to a secret. The processor predicts the branch taken and speculatively executes the body: <code>array1[index]</code> reads a secret byte out of bounds; <code>array2[secret * 4096]</code> brings one of 256 cache lines into L1D. The branch retires as mispredicted and the pipeline is squashed, but the cache line is hot. Flush+Reload recovers the secret byte.</p>
+
+<figure id="fig-18-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="354" viewBox="0 0 900 354" xmlns="http://www.w3.org/2000/svg">
+  <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Spectre v1 (Bounds Bypass) vs Spectre v2 (Branch Target Injection)</text>
+  <rect x="15" y="34" width="420" height="310" rx="6" fill="#F0F4F8" stroke="#5E81AC" stroke-width="2"/>
+  <rect x="15" y="34" width="420" height="28" rx="6" fill="#5E81AC"/>
+  <text x="225" y="53" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Spectre v1 &#x2014; CVE-2017-5753</text>
+  <text x="30" y="82" font-family="Arial,sans-serif" font-size="12" fill="#212121" font-weight="bold">Vulnerable pattern (bounds check):</text>
+  <rect x="25" y="90" width="400" height="40" rx="3" fill="#fff" stroke="#9E9E9E"/>
+  <text x="35" y="107" font-family="Arial,sans-serif" font-size="11" fill="#424242">if (index &lt; array_size)                 // software guard</text>
+  <text x="35" y="123" font-family="Arial,sans-serif" font-size="11" fill="#BF616A">  return array2[array1[index] * 4096];  // secret access</text>
+  <text x="30" y="152" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2460; Train branch predictor: index in-bounds repeatedly</text>
+  <text x="30" y="170" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2461; Send out-of-bounds index pointing to secret data</text>
+  <text x="30" y="188" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2462; CPU predicts branch taken &#x2192; speculative exec of body</text>
+  <text x="30" y="206" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2463; array1[secret] read; array2[val*4096] cache fill issued</text>
+  <text x="30" y="224" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2464; Branch retires mis-predicted; state squashed</text>
+  <text x="30" y="242" font-family="Arial,sans-serif" font-size="12" fill="#34495E">&#x2465; Cache timing reveals secret byte (Flush+Reload)</text>
+  <rect x="25" y="256" width="395" height="20" rx="3" fill="#EAF2F8"/>
+  <text x="222" y="270" font-family="Arial,sans-serif" font-size="11" fill="#5E81AC" text-anchor="middle">Fix: lfence serialisation; array_index_mask_nospec()</text>
+  <rect x="25" y="280" width="395" height="20" rx="3" fill="#F8F4F0"/>
+  <text x="222" y="294" font-family="Arial,sans-serif" font-size="11" fill="#424242" text-anchor="middle">MMU: TLB translates probe array normally &#x2014; no hardware defence</text>
+  <rect x="25" y="304" width="395" height="20" rx="3" fill="#F0F4F8"/>
+  <text x="222" y="318" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">Affects all ISAs with branch predictors; x86-64, ARM64, RISC-V HW</text>
+  <rect x="465" y="34" width="420" height="310" rx="6" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2"/>
+  <rect x="465" y="34" width="420" height="28" rx="6" fill="#4A8A99"/>
+  <text x="675" y="53" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Spectre v2 &#x2014; CVE-2017-5715</text>
+  <text x="480" y="82" font-family="Arial,sans-serif" font-size="12" fill="#212121" font-weight="bold">Target: indirect branch via function pointer</text>
+  <rect x="475" y="90" width="400" height="40" rx="3" fill="#fff" stroke="#9E9E9E"/>
+  <text x="485" y="107" font-family="Arial,sans-serif" font-size="11" fill="#424242">call [syscall_table + rax*8]     // indirect call</text>
+  <text x="485" y="123" font-family="Arial,sans-serif" font-size="11" fill="#BF616A">// BTB poisoned &#x2192; predicts attacker-chosen gadget</text>
+  <text x="480" y="152" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2460; Attacker trains BTB: target = gadget address</text>
+  <text x="480" y="170" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2461; Victim executes same indirect branch instruction</text>
+  <text x="480" y="188" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2462; BTB predicts attacker target &#x2192; speculative exec</text>
+  <text x="480" y="206" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2463; Gadget leaks victim memory via cache side-channel</text>
+  <text x="480" y="224" font-family="Arial,sans-serif" font-size="12" fill="#34495E">&#x2464; Correct target computed; misprediction squashed</text>
+  <text x="480" y="242" font-family="Arial,sans-serif" font-size="12" fill="#616161">Cross-privilege: user poisons kernel BTB entries</text>
+  <rect x="475" y="256" width="395" height="20" rx="3" fill="#EAF2F8"/>
+  <text x="672" y="270" font-family="Arial,sans-serif" font-size="11" fill="#4A8A99" text-anchor="middle">Fix: Retpoline; IBRS; IBPB on context switch; EIBRS (HW, Ice Lake+)</text>
+  <rect x="475" y="280" width="395" height="20" rx="3" fill="#F8F4F0"/>
+  <text x="672" y="294" font-family="Arial,sans-serif" font-size="11" fill="#424242" text-anchor="middle">PTW microcode uses indirect branches &#x2014; amplified attack surface on TLB misses</text>
+  <rect x="475" y="304" width="395" height="20" rx="3" fill="#F0F8F8"/>
+  <text x="672" y="318" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">RISC-V in-order base: structurally immune (no BTB speculation)</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.3:</strong> Spectre v1 (bounds-check bypass, left) and Spectre v2 (branch target injection, right). Both exploit the speculation window to leak data via cache timing but differ in how speculation is triggered.</figcaption>
+</figure>
+
+<p>The TLB and paging connection in Spectre v1 is less direct than in Meltdown but architecturally important. The speculative access to <code>array2[secret * 4096]</code> requires a valid virtual-to-physical mapping in the TLB for that address. The TLB enforces no bounds between array elements within the same mapped region — from the TLB's perspective, this is a normal user-mode read of a legitimately mapped page. The page table hardware has no mechanism to detect that this access is speculative and out-of-intended-bounds; the vulnerability is in the software bounds check, not in the hardware permission model. The mapping requirement provides limited containment: the speculative access cannot reach a page absent from the current address space, regardless of branch predictor state.</p>
+
+<p>The primary mitigation is preventing the speculative access from reaching the side-channel. The <code>lfence</code> instruction serialises speculative execution: instructions after it do not execute until all prior loads have retired. Inserting <code>lfence</code> between the bounds check and array access prevents transient execution of the body, at a cost of 10–30 cycles per site. The Linux kernel has tens of thousands of such patterns; mass <code>lfence</code> insertion would be prohibitive. The <code>array_index_mask_nospec()</code> primitive computes a mask that is all-ones if the index is in bounds and all-zeros otherwise, using arithmetic that the branch predictor cannot bypass because no branch instruction is involved — eliminating the misprediction channel at lower cost than serialisation.</p>
+
+<p>JIT-compiled environments present the hardest mitigation problem. A JavaScript engine compiling untrusted code must ensure its output contains no exploitable bounds-check bypass gadgets, requiring the JIT compiler to understand the transient execution threat model at every array access. Browsers addressed this through a combination of JIT hardening, reduced SharedArrayBuffer resolution (degrading the timing measurement), and site isolation. Spectre v1 affects all architectures with conditional branch predictors, including ARM64 and RISC-V hardware walker implementations. Chapter 13 (§13.X) noted Spectre-style attacks via ML prefetcher timing side-channels — a variant of the same fundamental class applied to the prefetch history state rather than the branch history state.</p>
+
+
+<p>The breadth of Spectre v1 gadgets in the Linux kernel was surveyed by the Google Project Zero team and by subsequent automated analysis tools. The initial survey identified over 1,000 candidate gadgets in the Linux kernel — places where a conditional bounds check guards an array access with an attacker-controlled index. Not all are exploitable: the secret data must be reachable from the attacker's address space or be mappable via an inter-process side-channel, and the branch predictor training must be achievable from the attacker's execution context. However, the sheer number of candidate sites means that patching individual gadgets is insufficient — the mitigation strategy must be systemic, either through compiler-inserted serialisation barriers (<code>lfence</code>) or through runtime masking (<code>array_index_mask_nospec()</code>).</p>
+
+<p>The Spectre v1 threat model in the context of the Linux kernel syscall interface is particularly relevant. Many syscall arguments are used as array indices into kernel structures without explicit bounds checking — the bounds check is implicit in the data structure's size as checked earlier in the syscall path. If the earlier bounds check is the conditional branch that the attacker trains, the subsequent array access is the Spectre gadget. The Linux kernel's adoption of Spectre-hardened index arithmetic throughout the syscall parameter handling paths, starting with kernel 4.15 in January 2018, systematically addressed the highest-risk gadget categories. However, new gadgets are continuously introduced as the kernel evolves, requiring ongoing vigilance and static analysis tooling (such as <code>smatch</code> with Spectre-awareness checks) to catch new instances before they are merged.</p>
+
+<p>The TLB mapping requirement for Spectre v1 provides a limited architectural containment that is worth exploiting in system design. If the probe array is in a region that is not mapped for the attacker's process — for example, if the probe is placed in a memory-mapped file that requires a separate <code>mmap()</code> call — the attacker must first map it. This requirement can be enforced in high-security environments by restricting <code>mmap()</code> permissions or by using systems that limit the attacker's ability to create probe arrays, such as seccomp filters that restrict the set of available syscalls. These measures do not prevent Spectre v1 exploitation entirely but raise the bar and constrain the attack to attackers with more extensive execution capabilities.</p>
+
+<p>The cross-process variant of Spectre v1, sometimes called Spectre v1.1 or Spectre-STL (Speculative Store Bypass), exploits speculative store forwarding to bypass bounds checks on store-then-load sequences. In this variant, an attacker speculatively stores a crafted bounds-overflowing value and observes whether a subsequent load speculatively uses that stored value before the store is validated. The attack is subtler than classic Spectre v1 because it exploits the memory disambiguation hardware — the processor's logic for determining whether a load can bypass a pending store — rather than the branch predictor directly. The mitigation, Speculative Store Bypass Disable (SSBD), prevents stores from being speculatively forwarded to loads in the same thread, at a cost of 2–8% performance reduction on store-intensive workloads. SSBD is controlled via a bit in the SPEC_CTRL MSR, allowing it to be applied selectively to security-sensitive processes rather than system-wide. Linux sets SSBD for processes that opt in via the <code>prctl(PR_SET_SPECULATION_CTRL, PR_SPEC_STORE_BYPASS, PR_SPEC_DISABLE)</code> interface — typically used by security-sensitive applications such as secret key material handlers, browsers, and container runtimes, not by general-purpose application code.</p>
+<h2 id="section-18.5">18.5 Spectre v2: Branch Target Injection and the PTW Control Path</h2>
+
+<p>Spectre variant 2 (CVE-2017-5715) targets the Branch Target Buffer (BTB) — the microarchitectural structure that predicts the destination address of indirect branches (calls through function pointers, jumps through registers). An attacker who runs on the same physical core as a victim can train the BTB to misdirect the victim's indirect branch predictions to attacker-chosen addresses. When the victim subsequently executes an indirect branch, the processor speculatively executes code at the attacker-chosen target in the victim's address space and privilege context. If code at that target is a gadget that transmits data via cache timing, the attacker reads memory accessible to the victim.</p>
+
+<p>The connection to the page table walker is architecturally significant. The x86-64 PTW uses microcode for complex cases — reserved bit violations, NX faults, A/D bit maintenance, PCID interactions, as detailed in Chapter 17 (§17.7). This microcode contains indirect branches. An attacker who poisons the BTB to redirect a PTW microcode indirect branch causes speculative execution within kernel context every time the victim incurs a TLB miss that exercises the complex-case PTW path. The frequency of TLB misses under large-working-set workloads — the regime Chapter 17 (§17.6) identified as PTW-throughput-bound — also maximises Spectre v2 exposure through the PTW amplification path. High TLB miss rates, analysed in detail for AI/ML workloads in Chapter 11, create the same amplified Spectre v2 surface on the CPU.</p>
+
+<p>Retpoline replaces indirect branches with a call-return sequence designed so the Return Stack Buffer (RSB) predicts a spin loop rather than any attacker-controlled address. An attacker's BTB training does not affect RSB predictions, making the speculative window harmless. The cost ranges from near-zero for compute-bound code to 5–15% for syscall-heavy workloads where kernel execution time concentrates in paths replaced with retpoline sequences. IBRS (Indirect Branch Restricted Speculation) provides hardware enforcement by ignoring BTB entries created at lower privilege levels; pre-Enhanced IBRS implementations require a serialising MSR write per kernel entry, adding 200–500 cycles to the syscall path. Enhanced IBRS (EIBRS, Ice Lake 2019+) eliminates this per-entry cost, recovering the Spectre v2 overhead on new silicon. IBPB flushes BTB state entirely on privilege transitions for cross-tenant boundary protection.</p>
+
+<p>Branch History Injection (BHI, CVE-2022-0001/0002, Horn 2022) demonstrated that EIBRS-protected systems remained exploitable through the Branch History Buffer — a structure recording recent branch address sequences that influences indirect prediction even under EIBRS. The mitigation requires BHB clearing on privilege transitions. This pattern — each hardware mitigation addressing the specific predictor structure of the disclosed variant, prompting researchers to identify adjacent structures — illustrates the depth of the architectural challenge. RISC-V in-order base processors, as noted in Chapter 17 (§17.9), are structurally immune to BTB-based Spectre v2: they do not speculate on indirect branches. This immunity is incidental but represents a genuine structural advantage in the security domain.</p>
+
+
+<p>A related Spectre v2 mechanism, RSB (Return Stack Buffer) underflow, arises when context switches, VM entries, and other events consume RSB entries faster than they are replenished. The RSB is a hardware predictor for return addresses — it is populated by <code>call</code> instructions and consumed by <code>ret</code> instructions. On deep call stacks, this balance is maintained. But when a context switch occurs or when a VM entry happens with a shallow call stack, the RSB may be empty or contain stale entries from the previous context. An empty RSB causes the processor to fall back to the BTB for return target prediction — exactly the structure that Spectre v2 targets. The mitigation is RSB stuffing: filling the RSB with benign targets (the retpoline spin loop) on every context switch and VM entry, preventing the fallback to BTB prediction.</p>
+
+<p>The cross-VM Spectre v2 attack surface is particularly relevant to cloud deployments where multiple guest VMs share a physical host with hyperthreading (SMT) enabled. An attacker in one VM can train the BTB from their execution context, because BTB entries are not tagged with VM identifiers — they are a shared microarchitectural resource scoped to the physical core. When the hypervisor switches to a victim VM on the same physical core, the attacker's BTB training persists and can misdirect the victim's indirect branches during the VM's execution. The hypervisor mitigation is IBPB (Indirect Branch Predictor Barrier) on every VM entry: flushing the entire BTB state before switching to a new VM, preventing the prior VM's training from affecting the new VM's indirect branch predictions. IBPB is an expensive operation (approximately 1–4 µs on Skylake hardware) and must be applied on every VM context switch, contributing significantly to the hypervisor overhead in dense VM environments.</p>
+
+<p>The interaction between Spectre v2 and the TLB miss handler is a second-order effect that is important for high-TLB-miss workloads such as AI inference serving. When the kernel handles a TLB miss that requires the full PTW path — specifically, the complex-case PTW path that invokes microcode (the A/D bit write path, the NX fault path, PCID-related paths as described in Chapter 17 §17.7) — the microcode's indirect dispatch is a BTB-indexed prediction. An attacker who has poisoned the BTB specifically to target these PTW microcode indirect branches can achieve speculative execution within the PTW's kernel context every time the victim's workload triggers a cold TLB miss. AI inference workloads with large model weight tensors and high TLB miss rates (as characterised in Chapter 14) are therefore elevated Spectre v2 targets on BTB-shared SMT systems, independent of the workload's own indirect branch density.</p>
+
+<p>Retbleed (CVE-2022-29900/29901, Wikner and Razavi, 2022) demonstrated that return instructions — not just indirect calls and jumps — can be used as Spectre v2 attack vectors on AMD and older Intel processors. On AMD Zen 1 and Zen 2, the RSB (Return Stack Buffer) can underflow and fall back to the BTB for return prediction, and the BTB can be poisoned by an attacker to redirect a victim's return to an attacker-chosen address. On Intel Skylake-family processors in certain modes, a similar underflow is possible. Retbleed specifically targets the Linux kernel's syscall return path — one of the most frequently executed return instructions in the system — and exploits it to leak kernel data via a Spectre gadget activated at the return prediction. The mitigation, merged into Linux 5.19, requires either extending the retpoline mitigation to cover return instructions (via Stuffing Return Stack Buffers with safe targets) or enabling IBRS in enhanced mode. This further illustrates that the Spectre v2 mitigation landscape is not static: each time a mitigation is developed for a specific predictor structure, researchers find adjacent structures that exhibit the same fundamental vulnerability.</p>
+
+<h2 id="section-18.6">18.6 L1TF and Foreshadow: P=0 PTEs as Physical Address Leaks</h2>
+
+<p>Chapter 17 (§17.5) established the foundation for this section: pre-2018 Intel processors, when encountering a PTE with the Present bit cleared during a speculative page table walk, read the physical address field (bits [51:12]) of the not-present entry and issued a speculative L1D cache fill for that physical address before raising the fault. The fill is not rolled back. This converts a software-controlled field in a not-present PTE into the capability to read arbitrary physical memory from L1D, bypassing all page-level permission checks.</p>
+
+<figure id="fig-18-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="350" viewBox="0 0 900 350" xmlns="http://www.w3.org/2000/svg">
+  <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">L1 Terminal Fault (L1TF/Foreshadow) &#x2014; P=0 PTE Physical Address Speculation</text>
+  <rect x="15" y="36" width="415" height="120" rx="5" fill="#F0F4F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="222" y="54" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">Not-Present PTE (P=0) &#x2014; bit layout</text>
+  <rect x="25" y="62" width="395" height="24" rx="3" fill="#E0E0E0"/>
+  <text x="222" y="78" font-family="Arial,sans-serif" font-size="11" fill="#424242" text-anchor="middle">bits [63:0] &#x2014; software-defined when P=0 (swap entry, migration entry, etc.)</text>
+  <rect x="25" y="92" width="185" height="28" rx="3" fill="#EAF2F8" stroke="#5E81AC"/>
+  <text x="117" y="106" font-family="Arial,sans-serif" font-size="11" fill="#5E81AC" text-anchor="middle">Architecture: bits[51:12]</text>
+  <text x="117" y="118" font-family="Arial,sans-serif" font-size="10" fill="#616161" text-anchor="middle">undefined &#x2014; #PF must fire first</text>
+  <rect x="218" y="92" width="195" height="28" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="315" y="106" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" text-anchor="middle">Pre-2018 Intel: PTW reads PA</text>
+  <text x="315" y="118" font-family="Arial,sans-serif" font-size="10" fill="#BF616A" text-anchor="middle">bits[51:12] speculatively!</text>
+  <text x="25" y="148" font-family="Arial,sans-serif" font-size="11" fill="#212121">Attacker places target_physical_frame in PA field of P=0 PTE they control</text>
+  <rect x="450" y="36" width="435" height="120" rx="5" fill="#FFF0F0" stroke="#BF616A" stroke-width="2"/>
+  <text x="667" y="54" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Exploit flow</text>
+  <text x="462" y="74" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2460; Craft P=0 PTE: PA field = victim physical frame</text>
+  <text x="462" y="92" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2461; Trigger speculative access to that virtual address</text>
+  <text x="462" y="110" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2462; PTW reads PA speculatively &#x2192; L1D fill from victim frame</text>
+  <text x="462" y="128" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2463; #PF raised &#x2014; but L1D already has victim data!</text>
+  <text x="462" y="146" font-family="Arial,sans-serif" font-size="12" fill="#34495E">&#x2464; Flush+Reload reveals victim frame content</text>
+  <rect x="15" y="166" width="870" height="70" rx="5" fill="#F8F4F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="30" y="184" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#BF616A">Three Foreshadow attack surfaces</text>
+  <rect x="25" y="192" width="265" height="34" rx="4" fill="#FFF0F0"/>
+  <text x="157" y="207" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">CVE-2018-3615 (SGX)</text>
+  <text x="157" y="221" font-family="Arial,sans-serif" font-size="11" fill="#424242" text-anchor="middle">Enclave secrets via EPC P=0 PTE</text>
+  <rect x="300" y="192" width="265" height="34" rx="4" fill="#FFF0F0"/>
+  <text x="432" y="207" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">CVE-2018-3620 (OS/SMM)</text>
+  <text x="432" y="221" font-family="Arial,sans-serif" font-size="11" fill="#424242" text-anchor="middle">User reads kernel via swap entry PA</text>
+  <rect x="575" y="192" width="300" height="34" rx="4" fill="#FFF0F0"/>
+  <text x="725" y="207" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">CVE-2018-3646 (VMM)</text>
+  <text x="725" y="221" font-family="Arial,sans-serif" font-size="11" fill="#424242" text-anchor="middle">Guest VM reads host physical memory</text>
+  <rect x="15" y="248" width="870" height="90" rx="5" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="30" y="266" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">Mitigations (in deployment order)</text>
+  <text x="30" y="284" font-family="Arial,sans-serif" font-size="12" fill="#212121"><tspan font-weight="bold">Microcode (Aug 2018):</tspan> suppress speculative L1D fill when PTE.P=0. Cost: +1&#x2013;3 cycles/walk. No silicon re-spin needed (microcode-assisted FSM &#x2014; Ch17 &#xa7;17.7).</text>
+  <text x="30" y="302" font-family="Arial,sans-serif" font-size="12" fill="#212121"><tspan font-weight="bold">Hypervisor L1D flush on VM-exit:</tspan> VERW + microcode flush clears entire L1D before context switch. Cost: 30&#x2013;100 &#xb5;s per VM-exit on unmitigated silicon.</text>
+  <text x="30" y="320" font-family="Arial,sans-serif" font-size="12" fill="#212121"><tspan font-weight="bold">Cascade Lake+ silicon (2019):</tspan> hardware fix &#x2014; PTW never speculatively fills from P=0 PTE PA field. Zero overhead. Direct continuation of Ch17 &#xa7;17.5 analysis.</text>
+  <text x="30" y="338" font-family="Arial,sans-serif" font-size="11" fill="#616161">ARM64 not publicly confirmed vulnerable. RISC-V SW PTW handler checks P bit explicitly before acting &#x2014; structurally immune.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.4:</strong> L1 Terminal Fault (L1TF/Foreshadow). Pre-2018 Intel hardware reads the PA field of a P=0 PTE speculatively before faulting. Three CVE variants exploit this across SGX, OS/SMM, and VMM isolation boundaries.</figcaption>
+</figure>
+
+<p>L1 Terminal Fault — disclosed simultaneously as Foreshadow (Van Bulck et al., 2018) and Foreshadow-NG (Weisse et al., 2018) — exposed three attack surfaces distinguished by who controls the P=0 PTE and who is the victim. In each case the attacker exploits the fact that operating system software legitimately uses not-present PTE bits for purposes other than translation: swap entries recording where a page was written to disk, migration entries recording a page in flight to a new NUMA node (documented in Chapter 9), and SGX enclave page cache entries indicating a page swapped out of the EPC. Each of these uses places a non-translation value in bits [51:12] of a P=0 PTE — and on pre-L1TF silicon, the PTW treats that value as a physical address.</p>
+
+<p>CVE-2018-3615 targets Intel SGX enclaves. SGX's isolation model relies on the Enclave Page Cache (EPC) — physical frames decrypted by the Memory Encryption Engine as they enter the processor. When an enclave page is demand-loaded or swapped, it is momentarily mapped P=0. If the PA field of that P=0 PTE points to an EPC frame holding decrypted secrets, a speculative PTW walk loads the MEE-decrypted contents into L1D. A co-resident attacker recovers them via Flush+Reload. This breaks the primary SGX guarantee: that enclave contents are inaccessible to the host OS and co-tenants.</p>
+
+<p>CVE-2018-3620 targets OS and SMM memory. The kernel constantly creates P=0 PTEs with non-zero PA fields in managing swap entries, page migration, and hardware page table management. A user-mode attacker triggering speculative walks of these entries — achievable through controlled page faults or the normal TLB miss path — causes L1D fills from whatever physical frame the PA field happens to reference. Any kernel operating swap or migration is continuously creating the required conditions. CVE-2018-3646 targets VM isolation: a guest OS crafting a Stage-1 P=0 PTE with a controlled PA field can, through the nested walk described in Chapter 17 (§17.8), cause L1D fills from host physical memory, readable via Flush+Reload from within the VM — breaking cloud tenant isolation.</p>
+
+<p>The swap entry vulnerability deserves closer analysis because it illustrates how two legitimate design decisions — the OS's reuse of P=0 PTE bits for swap metadata and the processor's speculative PTW — interact to create a vulnerability that neither design anticipated. When Linux swaps a page to disk, it writes a swap entry into the PTE: a P=0 entry whose remaining 63 bits encode the swap device, slot index, and various flags as documented in Chapter 9 (§9.X). On a 48-bit PA system, bits [51:12] of the swap entry are frequently non-zero — they encode part of the swap identifier. From the pre-L1TF processor's perspective, these bits are indistinguishable from a physical address, and the PTW dutifully reads from whatever physical frame they point to when a speculative walk encounters the swap entry. A kernel developer writing swap entry code in 1998 had no reason to consider what the PA field of a P=0 entry might mean to a speculative hardware walker — speculative execution existed, but its microarchitectural side-effects were not understood as an attack surface for another two decades.</p>
+
+<p>The SGX attack variant (CVE-2018-3615) introduced the concept of architectural isolation being defeated by microarchitectural means in the most adversarial context: SGX was Intel's explicit answer to the question of how to protect computation from a compromised OS or hypervisor, and Foreshadow demonstrated that the protection was incomplete. An SGX enclave is designed to be verifiable: its code and initial data are measured and sealed, and the hardware guarantees that the enclave's memory cannot be read or modified by the host software stack. Foreshadow bypassed this guarantee without modifying any enclave code or data, without exploiting any bug in the SGX firmware, and without requiring any special privileges — it exploited the PTW's speculative behaviour against the memory isolation model that SGX depends on. The disclosure prompted Intel to redesign the SGX attestation model to account for L1TF risk in multi-tenant SGX deployments, and to introduce the L1D flush on enclave exit as a mandatory operational control.</p>
+
+<p>The Intel microcode fix adds a P bit check in the PTW microcode sequence: before issuing a speculative L1D fill from a PTE's PA field, the walker verifies P=1. If P=0, the fill is suppressed and the fault is delivered without speculative data movement. As Chapter 17 (§17.7) noted, this is deliverable via microcode because the PTW uses a microcode-assisted FSM — a property of x86-64's design that allows security patches without silicon revision. The overhead is 1–3 cycles per TLB miss walk. Hypervisors unable to guarantee patched guest processors must L1D-flush on every VM exit (VERW plus microcode buffer overwrite), adding 30–100 µs per VM exit. Cascade Lake server processors (2019) fix the issue in silicon — zero overhead on that generation and forward.</p>
+
+
+<p>The hypervisor mitigation for CVE-2018-3646 required changes at every level of the virtualisation stack. The guest VM's own kernel is not directly addressable by the hypervisor's mitigation code — the hypervisor cannot directly inspect or control the guest's page tables without cooperation from the guest OS (in a non-modified guest, paravirtualisation interfaces such as the KPTI/L1TF interface defined for KVM provide this cooperation). The hypervisor's primary lever is the L1D flush on VM exit: before switching from the guest's execution context to the hypervisor's context, the hypervisor executes a VERW instruction (after microcode update) or a software L1D flush sequence, clearing the L1D of any guest-loaded content. This prevents the newly-executing hypervisor code (which runs under the host's page table with host physical memory visible) from speculating on guest-loaded fill buffer entries.</p>
+
+<p>The L1D flush on VM exit was initially implemented as a full 512-cacheline software flush (iterating through a 32 KB buffer to evict all L1D contents), later optimised to the microcode-assisted VERW approach. The full software flush adds approximately 4–5 µs per VM exit; the microcode VERW approach reduces this to approximately 0.5–1 µs. In a cloud environment where a hypervisor may handle thousands of VM exits per second (for timer interrupts, I/O completions, and APIC virtualisations), this overhead accumulates to 0.5–5% of hypervisor CPU time. AWS, Google Cloud, and Azure all deployed L1D flush on VM exit within days of the L1TF disclosure, accepting this overhead as a necessary cost of multi-tenant isolation.</p>
+
+<h2 id="section-18.7">18.7 Microarchitectural Data Sampling: Buffers the PTW Shares</h2>
+
+<p>The MDS vulnerability family, disclosed in May 2019, extends the transient execution attack surface beyond the page table's permission bits to the microarchitectural buffers shared between the page table walker and user-mode execution. The PTW uses the same L1D cache, fill buffer, store buffer, and load buffer infrastructure as ordinary loads, as detailed in Chapter 17. When the PTW fetches a page table entry, the resulting fill passes through the line fill buffer. When the kernel page fault handler writes a new PTE, that write passes through the store buffer. These buffers are shared between hardware threads on the same physical core — the same sharing that makes SMT effective also makes buffer contents potentially observable across thread boundaries under speculative forwarding conditions.</p>
+
+<p>RIDL (Rogue In-Flight Data Load, CVE-2018-12127, Van Schaik et al., 2019) demonstrated that data transiting the fill buffer — including from PTW stage fetches — can be sampled by a co-resident thread. The attacker constructs a speculative load that faults (ensuring transient execution) and measures what value is forwarded from the fill buffer. If the sibling thread's PTW recently fetched a PTE through the fill buffer, that entry may be sampled — potentially revealing physical address mappings, protection bit state, or referenced page contents. Fallout (CVE-2018-12126, Canella et al., 2019) targets the store buffer: stale store buffer entries from a prior context may remain after a privilege change, forwarding to a new context's speculative loads. If the prior context included the page fault handler writing PTE values, those values may be forwarded. ZombieLoad (CVE-2018-12130, Schwarz et al., 2019) exploits load buffer forwarding during load replay events — when a load retried due to cache miss or port conflict receives a value from a fill buffer entry populated by a different load, including from a different address space on the sibling thread.</p>
+
+<p>TAA (TSX Async Abort, CVE-2019-11135) extends the MDS surface to Intel TSX. A TSX transaction aborting due to a microarchitectural event causes speculative forwarding from fill buffer and load buffer state at the abort point. If the abort coincides with PTW activity on a sibling thread, it provides another sampling window into the same buffers that RIDL and ZombieLoad target. TSX is used in some kernel synchronisation primitives and userspace memory libraries, making this vector broadly applicable.</p>
+
+<p>The MDS family reveals a structural challenge for the paging model: the same hardware structures that make the PTW fast — the fill buffer for pipelining multi-level PTE fetches, the store buffer for PTE update writes — are shared between privilege levels and hardware threads in ways that create sampling channels. No PTE bit controls fill buffer sharing. The VERW-based buffer overwrite mitigation, applied on every kernel-to-user transition, overwrites all MDS-affected buffers with zeroes, preventing cross-context sampling at a cost of approximately 30–60 nanoseconds per transition. For cloud environments where SMT creates the widest cross-context exposure, the strongest mitigation is disabling SMT entirely at 25–50% throughput cost. AMD EPYC Zen 2 and later are unaffected by the specific Intel fill-buffer MDS class, reducing overhead on AMD-based deployments. Chapter 12 (§12.5) documented multi-tenant isolation challenges in GPU contexts; the CPU MDS surface is an analogous challenge in the CPU multi-tenancy domain.</p>
+
+
+<p>SRBDS (Special Register Buffer Data Sampling, CVE-2020-0543) extends the MDS class to Intel's special register read instructions: RDRAND, RDSEED, and EGETKEY. These instructions read from hardware entropy sources through a staging buffer that is shared between hardware threads on the same physical core. A sibling thread executing RDRAND while the victim executes RDRAND or RDSEED can sample the random number values generated for the victim — leaking cryptographic entropy intended to be secret. The SRBDS mitigation uses a hardware serialisation instruction around the special register read path, preventing the staging buffer from being sampled by the sibling thread. The overhead is modest (additional cycles per RDRAND call) but is notable in systems that use RDRAND heavily for TLS session key generation.</p>
+
+<p>CROSSTalk (CVE-2020-0543, also known as Special Register Buffer Data Sampling) revealed that the staging buffer for special register reads is shared not just between threads on the same physical core but between all cores on the same socket — an unexpectedly wide sharing domain that makes the attack viable across physical cores, not just across SMT siblings. This finding significantly expanded the threat model: a single attacker core can sample entropy values generated by any victim core on the same socket, without requiring co-location on the same physical core. The mitigation extends to socket-scope serialisation, making it significantly more expensive than per-core VERW.</p>
+
+<p>The MDS vulnerabilities collectively demonstrate that the page table management path — PTW traversal, PTE write on fault, A/D bit update, swap entry manipulation — leaves a broader microarchitectural trace than any architectural model suggests. Chapter 9 (§9.X) described how the Linux kernel uses the full 64 bits of a P=0 PTE for swap and migration entries; the MDS analysis shows that these bits transit shared buffers that are visible to co-resident attackers. This has prompted discussion in the Linux kernel community about encrypting swap entries with per-process keys, so that even a successful MDS sampling of a swap PTE reveals only a ciphertext that the attacker cannot use without the key. As of kernel 6.x, this remains an open design space rather than a deployed feature, reflecting the ongoing interaction between page table design and microarchitectural security research.</p>
+
+<p>The MDS vulnerability family also affected Intel's Vector Register Sampling (VERW-MDS) surface: on some Intel microarchitectures, SIMD registers that hold intermediate values from PTW fill buffer data can be read by sibling threads via speculative forwarding. This was not separately named but is addressed by the same VERW-based buffer flush that mitigates RIDL and ZombieLoad. The breadth of the MDS mitigations — fill buffer, store buffer, load buffer, TSX abort buffer, special register buffer, vector register sampling — reflects the comprehensive sharing of microarchitectural state between threads on a shared physical core. The x86-64 SMT architecture was designed to improve throughput by sharing microarchitectural resources; the MDS family demonstrates that every shared resource is a potential cross-context information channel under transient execution. For kernel developers, the operational implication is that any kernel data structure that is written or read during interrupt, syscall, or PTW handling is potentially visible to MDS attacks on systems with SMT enabled and any microcode prior to the 2019 MDS mitigation updates.</p>
+
+<p>From the page table management perspective, the most important operational implication of MDS is that the <em>frequency</em> of PTW operations directly affects the rate at which sensitive data populates the fill buffer. A workload with a high TLB miss rate — as characterised in detail in Chapter 17 for large-working-set AI inference and database workloads — generates PTW operations at correspondingly high frequency, populating the fill buffer with PTE values, PA translations, and intermediate PxE lookups more rapidly than a workload with a warm TLB. Under MDS conditions, a high TLB miss rate is not merely a performance problem (the PTW throughput bottleneck documented in Chapter 17 §17.6) but also a security amplifier: it creates a faster-refreshing fill buffer that provides more frequent sampling opportunities for a co-resident attacker. This creates an unusual interaction between the memory management optimisations discussed throughout this book and the security mitigations discussed in this chapter: the same recommendation to increase huge page coverage that reduces TLB miss rate for performance also reduces fill buffer population rate for MDS risk reduction. The VERW mitigation already addresses the MDS channel on privilege transitions, but reducing the total information flow through the shared buffers via reduced TLB miss frequency is a complementary defence-in-depth measure.</p>
+<h2 id="section-18.8">18.8 KPTI: Splitting the Page Table as an Architectural Fix</h2>
+
+<p>The architectural response to Meltdown was Kernel Page-Table Isolation (KPTI). First proposed as KAISER by Gruss et al. (2017), merged into the Linux kernel in December 2017 under the name KPTI, and deployed within weeks of the January 2018 public disclosure, KPTI removes kernel mappings from the user-mode page table entirely. This severs the speculative access path that Meltdown requires and eliminates the L1TF vector for kernel physical frame leakage via user-mode P=0 PTEs.</p>
+
+<figure id="fig-18-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="390" viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="a5" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#34495E"/></marker></defs>
+  <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">KPTI: Kernel Page-Table Isolation &#x2014; Two CR3s Per Process</text>
+  <rect x="15" y="36" width="415" height="218" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="2"/>
+  <rect x="15" y="36" width="415" height="28" rx="6" fill="#BF616A"/>
+  <text x="222" y="55" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Pre-KPTI: single CR3 (vulnerable)</text>
+  <rect x="28" y="72" width="390" height="28" rx="4" fill="#5E81AC"/>
+  <text x="223" y="91" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">User mappings (VA 0 &#x2013; 128 TB)</text>
+  <rect x="28" y="106" width="390" height="28" rx="4" fill="#BF616A"/>
+  <text x="223" y="125" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Kernel mappings (U/S=0) &#x2014; present in user CR3!</text>
+  <text x="28" y="158" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2022; No CR3 switch on syscall &#x2014; fast</text>
+  <text x="28" y="176" font-family="Arial,sans-serif" font-size="12" fill="#212121">&#x2022; Kernel pages TLB-hot during user execution</text>
+  <text x="28" y="194" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2022; Speculative load hits kernel TLB &#x2192; Meltdown</text>
+  <text x="28" y="212" font-family="Arial,sans-serif" font-size="12" fill="#BF616A">&#x2022; P=0 PTEs reach kernel frames &#x2192; L1TF path</text>
+  <rect x="28" y="226" width="390" height="16" rx="3" fill="#E0E0E0"/>
+  <text x="223" y="238" font-family="Arial,sans-serif" font-size="10" fill="#424242" text-anchor="middle">CR3: same value for user and kernel execution</text>
+  <rect x="465" y="36" width="420" height="218" rx="6" fill="#F0F8F0" stroke="#4A8A99" stroke-width="2"/>
+  <rect x="465" y="36" width="420" height="28" rx="6" fill="#4A8A99"/>
+  <text x="675" y="55" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Post-KPTI: two CR3s per process (safe)</text>
+  <rect x="478" y="72" width="188" height="78" rx="4" fill="#5E81AC"/>
+  <text x="572" y="94" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">User CR3</text>
+  <text x="572" y="112" font-family="Arial,sans-serif" font-size="11" fill="#ddf" text-anchor="middle">Full user space</text>
+  <text x="572" y="128" font-family="Arial,sans-serif" font-size="11" fill="#ddf" text-anchor="middle">Kernel: trampoline only</text>
+  <text x="572" y="144" font-family="Arial,sans-serif" font-size="10" fill="#cce" text-anchor="middle">(syscall entry, IDT stub)</text>
+  <rect x="676" y="72" width="196" height="78" rx="4" fill="#34495E"/>
+  <text x="774" y="94" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Kernel CR3</text>
+  <text x="774" y="112" font-family="Arial,sans-serif" font-size="11" fill="#ddd" text-anchor="middle">Full user space</text>
+  <text x="774" y="128" font-family="Arial,sans-serif" font-size="11" fill="#ddd" text-anchor="middle">Full kernel space</text>
+  <text x="774" y="144" font-family="Arial,sans-serif" font-size="10" fill="#bbb" text-anchor="middle">(normal kernel execution)</text>
+  <text x="572" y="168" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" text-anchor="middle">syscall &#x2192; MOV CR3(kernel)</text>
+  <text x="774" y="168" font-family="Arial,sans-serif" font-size="11" fill="#4A8A99" text-anchor="middle">sysret &#x2192; MOV CR3(user)</text>
+  <rect x="478" y="180" width="394" height="32" rx="3" fill="#EAF2F8"/>
+  <text x="675" y="194" font-family="Arial,sans-serif" font-size="11" fill="#5E81AC" text-anchor="middle">PCID: user=2N, kernel=2N+1. Non-flushing MOV CR3 (bit 63)</text>
+  <text x="675" y="208" font-family="Arial,sans-serif" font-size="10" fill="#616161" text-anchor="middle">TLB entries retained across switch; PWC coexistence &#x2014; amortises reload cost (Ch17 &#xa7;17.3)</text>
+  <rect x="15" y="264" width="870" height="118" rx="5" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="30" y="282" font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#5E81AC">KPTI overhead &#x2014; by workload class and PCID availability</text>
+  <text x="30" y="300" font-family="Arial,sans-serif" font-size="12" fill="#212121"><tspan font-weight="bold">Database/network (high syscall rate):</tspan> 5&#x2013;20% throughput reduction. Every read()/write() pays 2&#xd7; MOV CR3.</text>
+  <text x="30" y="318" font-family="Arial,sans-serif" font-size="12" fill="#212121"><tspan font-weight="bold">With PCID (Broadwell+):</tspan> overhead &#x223c;halved. TLB entries retained; only CR3 switch itself costs &#x223c;10 cycles per transition.</text>
+  <text x="30" y="336" font-family="Arial,sans-serif" font-size="12" fill="#212121"><tspan font-weight="bold">Compute-bound (ML training, HPC):</tspan> &lt;1% overhead. Minimal syscall rate; CR3 transitions infrequent vs compute time.</text>
+  <text x="30" y="354" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99"><tspan font-weight="bold">ARM64:</tspan> KPTI not required &#x2014; TTBR0/TTBR1 split already achieves kernel/user page table separation at the ISA level. Intrinsically immune to Meltdown.</text>
+  <text x="30" y="372" font-family="Arial,sans-serif" font-size="11" fill="#616161">nopti kernel parameter disables KPTI for single-tenant trusted hardware. Never disable on shared/cloud systems.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.5:</strong> KPTI design. Each process has two CR3 values; the user CR3 contains only the minimal syscall trampoline. PCID amortises the MOV-CR3 cost by retaining TLB and PWC entries for both address spaces.</figcaption>
+</figure>
+
+<p>The KPTI design gives each process two page table roots. The user CR3 — active during ring-3 execution — contains the full user virtual address space plus a minimal kernel stub: the interrupt/exception entry trampoline, the syscall entry point, and the minimal IDT entries needed for user-mode exceptions. No kernel code or data beyond these entry points is mapped in the user CR3. When user code executes, a speculative access to a kernel virtual address fails at the TLB lookup stage: the kernel VA has no translation in the user page table, and the PTW traversal of the user CR3's tree finds no PML4E for the kernel VA range. Both the Meltdown speculative load and the L1TF speculative PTW are severed because kernel physical frames are unreachable from the user address space. The kernel CR3 — active during ring-0 execution — maps both the full user space (for <code>copy_to_user</code> and related functions) and the complete kernel.</p>
+
+<p>The primary KPTI cost is the MOV-to-CR3 pair on every user/kernel transition. On pre-PCID systems, MOV-to-CR3 flushes all non-global TLB entries, making every syscall a full TLB cold start. On PCID-capable systems (Broadwell and later), separate PCID values are assigned: user CR3 gets PCID 2N, kernel CR3 gets PCID 2N+1 for process N. MOV-to-CR3 with bit 63 set (the non-flushing load) swaps the active set without invalidating the inactive set's TLB entries. Both user and kernel TLB entries coexist and are immediately available after a CR3 switch. As Chapter 17 (§17.3) established, the PWC is tagged with CR3 and PCID, so both user and kernel PWC entries coexist similarly — eliminating the PWC cold-start overhead on PCID-capable hardware.</p>
+
+<p>ARM64 is intrinsically immune to the Meltdown attack class that KPTI addresses. TTBR0 serves user mappings (VA bit 63 = 0) and TTBR1 serves kernel mappings (VA bit 63 = 1); they are never merged. A speculative access to a kernel VA from EL0 traverses TTBR0, which contains no kernel translations. ARM64 Linux did not require KPTI. This architectural difference between TTBR0/TTBR1 separation and x86-64's single-CR3 design illustrates how an architectural decision made for clean address space management — the TTBR split was designed for performance, not security — provided structural protection against an attack class not anticipated at design time. The x86-64 kernel-in-user-page-table optimisation is precisely the mirror image: a design made for performance that created an unforeseen security exposure.</p>
+
+<p>The KPTI trampoline — the minimal kernel stub present in the user CR3 — must fit within a single 4 KB page. Linux's <code>entry_SYSCALL_64</code> path handles the CR3 switch to the kernel page table as the very first action after the <code>syscall</code> instruction, before touching any kernel data structure. This careful design ensures correctness even for nested exceptions during the transition window. The interaction with the PTW throughput analysis from Chapter 17 reveals a second-order effect: with KPTI and PCID, the user and kernel CR3s each hold their own TLB and PWC entries and do not compete for TLB ways. For workloads that mix user computation and syscalls, this separation can partially offset the CR3-switch overhead by reducing eviction pressure on hot user-mode TLB entries during kernel execution.</p>
+
+
+<p>The KPTI trampoline design has several correctness subtleties that illustrate the depth of its integration with the kernel's exception handling architecture. The trampoline must switch CR3 to the kernel page table before executing any kernel code that touches kernel data. But it must do this while still running under the user CR3 — meaning the trampoline code itself must be mapped in the user page table. This creates a bootstrapping constraint: the trampoline must be small enough to fit in the single page that is mapped in both page tables, and every instruction in the trampoline must be written to work correctly without any kernel data access. In practice, the trampoline uses the kernel stack (saved in a CPU-local per-processor data structure, which is mapped in both page tables) to save the user's RSP and then switches CR3 before accessing any other kernel structure.</p>
+
+<p>The interaction between KPTI and Intel's Total Memory Encryption (TME) and AMD's Secure Memory Encryption (SME) adds another layer of complexity. Both TME and SME encrypt all physical memory, ensuring that DRAM contents are unintelligible without the encryption key. However, encryption is applied per-physical-address: a physical page that is mapped in both the user CR3 and the kernel CR3 uses the same physical address and therefore the same encryption key. KPTI's security benefit — removing kernel mappings from the user page table — is not affected by memory encryption, because the attack path involves speculative L1D fills of decrypted data within the processor, not reads from encrypted DRAM. Memory encryption is a complementary control addressing physical DRAM access; KPTI addresses speculative execution within the CPU's unencrypted execution pipeline.</p>
+
+<p>The security benefit of KPTI extends beyond Meltdown to any attack that requires kernel virtual addresses to be TLB-resident during user execution. Kernel address space layout randomisation (KASLR) randomises the virtual address at which the kernel is loaded, preventing attackers from knowing the address of target kernel data or code without a prior information leak. Meltdown would have provided precisely such an information leak — by reading the page table directly, an attacker could recover the base address of the kernel mapping and defeat KASLR. With KPTI, the kernel's virtual address range is not visible in the user page table at all; not only does Meltdown not work, but any speculative side-channel that requires TLB-warm kernel addresses is also blocked. Gruss et al. (2017) coined the term KAISER specifically to note that it addressed a broader class of kernel address layout disclosure than Meltdown alone.</p>
+
+<h2 id="section-18.9">18.9 Mitigation Costs and Production Deployment Trade-offs</h2>
+
+<p>The four primary mitigations — KPTI for Meltdown/L1TF, retpoline for Spectre v2, MDS buffer overwrite for RIDL/Fallout/ZombieLoad, and optional SMT disable for highest-security environments — interact with workload characteristics in ways that require careful analysis. Figure 18.6 provides the quantitative overview; this section analyses the mechanisms behind each row and the conditions under which deployment choices change.</p>
+
+<figure id="fig-18-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="326" viewBox="0 0 900 326" xmlns="http://www.w3.org/2000/svg">
+  <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Mitigation Overhead Matrix &#x2014; Production Deployment Reference</text>
+  <rect x="15" y="34" width="188" height="36" rx="4" fill="#34495E"/><text x="109" y="56" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">Workload</text>
+  <rect x="208" y="34" width="102" height="36" rx="4" fill="#5E81AC"/><text x="259" y="49" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">KPTI</text><text x="259" y="64" font-family="Arial,sans-serif" font-size="10" fill="#ddf" text-anchor="middle">Meltdown/L1TF</text>
+  <rect x="315" y="34" width="102" height="36" rx="4" fill="#5E81AC"/><text x="366" y="49" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Retpoline</text><text x="366" y="64" font-family="Arial,sans-serif" font-size="10" fill="#ddf" text-anchor="middle">Spectre v2</text>
+  <rect x="422" y="34" width="102" height="36" rx="4" fill="#4A8A99"/><text x="473" y="49" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">MDS flush</text><text x="473" y="64" font-family="Arial,sans-serif" font-size="10" fill="#ddf" text-anchor="middle">RIDL/ZombieLoad</text>
+  <rect x="529" y="34" width="102" height="36" rx="4" fill="#BF616A"/><text x="580" y="49" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">SMT off</text><text x="580" y="64" font-family="Arial,sans-serif" font-size="10" fill="#fdd" text-anchor="middle">extreme only</text>
+  <rect x="636" y="34" width="110" height="36" rx="4" fill="#34495E"/><text x="691" y="49" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Total est.</text><text x="691" y="64" font-family="Arial,sans-serif" font-size="10" fill="#ddd" text-anchor="middle">no SMT off</text>
+  <rect x="751" y="34" width="134" height="36" rx="4" fill="#34495E"/><text x="818" y="56" font-family="Arial,sans-serif" font-size="11" font-weight="bold" fill="#fff" text-anchor="middle">Recommendation</text>
+  <rect x="15" y="74" width="870" height="36" fill="#F5F5F5"/>
+  <text x="22" y="96" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#212121">Database / OLTP</text>
+  <text x="259" y="96" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">10&#x2013;20%</text><text x="366" y="96" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">2&#x2013;5%</text><text x="473" y="96" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">1&#x2013;3%</text><text x="580" y="96" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">25&#x2013;50%</text><text x="691" y="96" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" font-weight="bold" text-anchor="middle">13&#x2013;28%</text><text x="818" y="96" font-family="Arial,sans-serif" font-size="11" fill="#212121" text-anchor="middle">All on; no SMT off</text>
+  <rect x="15" y="110" width="870" height="36" fill="#fff"/>
+  <text x="22" y="132" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#212121">Network / web server</text>
+  <text x="259" y="132" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">5&#x2013;15%</text><text x="366" y="132" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">2&#x2013;8%</text><text x="473" y="132" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">1&#x2013;2%</text><text x="580" y="132" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">25&#x2013;50%</text><text x="691" y="132" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" font-weight="bold" text-anchor="middle">8&#x2013;25%</text><text x="818" y="132" font-family="Arial,sans-serif" font-size="11" fill="#212121" text-anchor="middle">All on; no SMT off</text>
+  <rect x="15" y="146" width="870" height="36" fill="#F5F5F5"/>
+  <text x="22" y="168" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#212121">ML training / HPC</text>
+  <text x="259" y="168" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">&lt;1%</text><text x="366" y="168" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">2&#x2013;5%</text><text x="473" y="168" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">&lt;1%</text><text x="580" y="168" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">25&#x2013;50%</text><text x="691" y="168" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">3&#x2013;7%</text><text x="818" y="168" font-family="Arial,sans-serif" font-size="11" fill="#212121" text-anchor="middle">All on; no SMT off</text>
+  <rect x="15" y="182" width="870" height="36" fill="#fff"/>
+  <text x="22" y="204" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#212121">Cloud hypervisor (multi-tenant)</text>
+  <text x="259" y="204" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">10&#x2013;20%</text><text x="366" y="204" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">5&#x2013;10%</text><text x="473" y="204" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">3&#x2013;5%</text><text x="580" y="204" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" text-anchor="middle">25&#x2013;50%</text><text x="691" y="204" font-family="Arial,sans-serif" font-size="12" fill="#BF616A" font-weight="bold" text-anchor="middle">18&#x2013;35%</text><text x="818" y="204" font-family="Arial,sans-serif" font-size="11" fill="#BF616A" text-anchor="middle">All on + SMT off</text>
+  <rect x="15" y="218" width="870" height="36" fill="#F0F8F0"/>
+  <text x="22" y="240" font-family="Arial,sans-serif" font-size="12" font-weight="bold" fill="#212121">Bare metal (trusted single tenant)</text>
+  <text x="259" y="240" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">optional*</text><text x="366" y="240" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">required</text><text x="473" y="240" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">optional*</text><text x="580" y="240" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">no</text><text x="691" y="240" font-family="Arial,sans-serif" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">2&#x2013;7%</text><text x="818" y="240" font-family="Arial,sans-serif" font-size="11" fill="#4A8A99" text-anchor="middle">nopti + retpoline</text>
+  <rect x="15" y="264" width="870" height="52" rx="4" fill="#EAF2F8" stroke="#5E81AC"/>
+  <text x="30" y="280" font-family="Arial,sans-serif" font-size="11" fill="#212121">* Use nopti/mds=off only on trusted single-tenant hardware. Never on cloud or shared systems. Hardware fixes: Cascade Lake+ (L1TF), Ice Lake+ (EIBRS replaces retpoline),</text>
+  <text x="30" y="296" font-family="Arial,sans-serif" font-size="11" fill="#212121">Tiger Lake+ (BHI mitigation), Sapphire Rapids+ (reduced MDS surface). AMD Zen 3+ largely unaffected by Intel fill-buffer MDS class. With PCID, KPTI overhead &#x223c;halved.</text>
+  <text x="30" y="312" font-family="Arial,sans-serif" font-size="11" fill="#616161">Overheads are approximate for Intel Skylake/Cascade Lake baseline. Figures are cumulative; retpoline + KPTI + MDS totals are additive, not independent.</text>
+  <line x1="15" y1="74" x2="885" y2="74" stroke="#9E9E9E"/><line x1="15" y1="110" x2="885" y2="110" stroke="#9E9E9E"/><line x1="15" y1="146" x2="885" y2="146" stroke="#9E9E9E"/><line x1="15" y1="182" x2="885" y2="182" stroke="#9E9E9E"/><line x1="15" y1="218" x2="885" y2="218" stroke="#9E9E9E"/><line x1="15" y1="254" x2="885" y2="254" stroke="#9E9E9E"/>
+  <line x1="208" y1="34" x2="208" y2="254" stroke="#9E9E9E"/><line x1="315" y1="34" x2="315" y2="254" stroke="#9E9E9E"/><line x1="422" y1="34" x2="422" y2="254" stroke="#9E9E9E"/><line x1="529" y1="34" x2="529" y2="254" stroke="#9E9E9E"/><line x1="636" y1="34" x2="636" y2="254" stroke="#9E9E9E"/><line x1="751" y1="34" x2="751" y2="254" stroke="#9E9E9E"/>
+  <rect x="15" y="34" width="870" height="220" fill="none" stroke="#9E9E9E" stroke-width="1.5"/>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.6:</strong> Mitigation overhead matrix by workload class. Database and network workloads are hardest hit by KPTI. Compute-bound workloads are largely unaffected. Cloud hypervisors require all mitigations including SMT disable.</figcaption>
+</figure>
+
+<p>KPTI overhead is dominated by the syscall and interrupt rate. For workloads calling <code>read()</code>, <code>write()</code>, <code>send()</code>, or <code>recv()</code> at high frequency — databases executing frequent queries, web servers, key-value stores — every system call pays two MOV-to-CR3 instructions at entry and exit. On Broadwell and later with PCID, each MOV-to-CR3 costs approximately 10 cycles plus serialisation. Without PCID, the cost includes a full non-global TLB flush: 200–500 cycles per syscall. nginx on pre-PCID Linux measured 25–30% throughput regression at KPTI launch in early 2018; on PCID systems the regression dropped to 5–10%. A compute workload performing no syscalls — a deep learning training job running entirely within a CUDA stream with pre-allocated arenas — sees essentially zero KPTI overhead because it never crosses the user/kernel boundary.</p>
+
+<p>Retpoline overhead depends on indirect branch density in the kernel execution paths exercised by the workload. Each retpoline adds approximately 5–15 cycles of serialisation per invoked indirect call, replacing a well-predicted indirect branch. System-call-heavy workloads that spend significant kernel time in the VFS layer, network stack, or scheduler typically see 3–8% throughput reduction from retpoline on Skylake/Kaby Lake silicon. On Alder Lake and later with EIBRS, the kernel selects hardware enforcement at boot, recovering the retpoline overhead entirely. Deployments on Ice Lake and later silicon recover the retpoline tax without any software change beyond kernel update.</p>
+
+<p>MDS mitigation cost is nearly workload-independent per transition: the VERW-triggered buffer overwrite executes on every kernel-to-user transition regardless of kernel activity. The cost is roughly 30–60 nanoseconds per transition. For workloads with millions of syscalls per second — NVMe I/O at full throughput, high-frequency trading infrastructure — MDS overhead accumulates to 3–5% of wall time. For compute-bound workloads with syscall rates below 100,000 per second, MDS is below measurement noise. AMD EPYC Zen 2 and later are unaffected by the Intel fill-buffer MDS class; Linux detects AMD via CPUID and applies a narrower MDS mitigation set.</p>
+
+<p>The SMT disable decision is a threat model decision rather than mitigation tuning. Disabling SMT eliminates all cross-hardware-thread sampling channels for MDS and reduces the BTB sharing surface for Spectre v2, at the fixed cost of halving logical core count (25–50% throughput reduction for throughput-bound workloads). Cloud providers hosting untrusted VMs have generally enabled SMT disable. Private cloud and enterprise environments with controlled co-tenancy can make a risk-based decision: if co-resident workloads are trusted, SMT disable provides negligible incremental benefit at significant cost.</p>
+
+<p>New silicon progressively reduces the mitigation tax. Intel Cascade Lake (2019) fixes L1TF in silicon. Ice Lake (2019) adds EIBRS eliminating retpoline overhead. Tiger Lake (2020) adds BHI mitigation. Sapphire Rapids (2023) redesigns the fill buffer architecture to eliminate several MDS vectors. The Linux kernel queries CPUID at boot and selects the lowest-overhead mitigation set for the detected silicon automatically. An upgrade from Kaby Lake to Sapphire Rapids can expect total mitigation overhead to drop from 15–25% (syscall-heavy workloads) to 2–5%, reflecting four generations of accumulated silicon fixes. The interaction with huge page optimisations analysed in Chapters 3 and 16 is relevant: huge pages reduce TLB miss rates and therefore reduce PTW execution frequency, marginally shrinking the fill buffer activity that creates MDS sampling windows and reducing the KPTI overhead by reducing TLB entry count pressure across the two page table trees.</p>
+
+
+<p>Measuring the actual mitigation overhead in production requires the right performance counter discipline. For KPTI specifically, the Intel PMU event <code>cpu_clk_unhalted.thread</code> counted at user/kernel boundary crossing provides direct evidence of CR3-switch overhead. A more practical approach is to compare <code>syscalls:sys_enter_*</code> tracepoint duration before and after KPTI enablement using Linux <code>perf trace</code>. For retpoline, the <code>frontend_retired.indirect_jmp</code> and <code>frontend_retired.indirect_call</code> PMU events reveal indirect branch frequency; multiplied by the retpoline overhead per call, these give the total retpoline cost. For MDS, the per-CPU counter <code>cpu/event=0x79,umask=0x00/</code> (MDS VERW executions) in Linux kernel's MDS mitigation telemetry directly counts the VERW executions and can be correlated with syscall frequency to validate the model.</p>
+
+<p>The deployment sequencing for systems being hardened from scratch also matters. The most impactful single change for most production systems is enabling KPTI with PCID (ensuring PCID is enabled in the kernel command line via the <code>pti=on</code> or default behaviour on affected hardware). The second most impactful is upgrading to silicon with EIBRS support, removing the retpoline overhead entirely. The third is deploying MDS mitigation by ensuring the kernel and microcode are up to date and that <code>mds=full</code> is set (the default on affected hardware). SMT disable should be applied only to systems with an explicit multi-tenant threat model: cloud hypervisors, shared HPC systems, and production environments where untrusted code runs on hardware shared with trusted workloads. The prioritisation follows the threat model: Meltdown is the highest-severity kernel memory disclosure; Spectre v2 is the most persistent and difficult to fully mitigate; MDS is lower-severity but affects a broader class of sensitive information.</p>
+
+<p>NUMA topology interacts with mitigation overhead in a way that production deployments should account for. On multi-socket servers where the OS kernel's page table management code executes on socket 0 but a tenant workload runs on socket 1, the KPTI trampoline code (which must be in both user and kernel CR3s) may be placed on socket 0's local memory. When the tenant workload on socket 1 executes a syscall, the trampoline code fetch crosses the NUMA fabric — adding NUMA latency (typically 80–150 ns on a two-socket AMD EPYC system) to the already-present CR3 switch overhead. Linux's NUMA-aware memory allocation for kernel text code (a feature of the kernel's memory layout when <code>CONFIG_NUMA_BALANCING</code> is enabled) can partially mitigate this by placing frequently-accessed kernel code pages on the NUMA node where they are most frequently executed. For deployments where KPTI overhead on syscall-intensive workloads is a primary concern, NUMA-local kernel memory placement combined with PCID-enabled KPTI can collectively reduce the syscall overhead by 30–50% compared to a naive KPTI deployment on non-PCID hardware.</p>
+
+<h2 id="section-18.10">18.10 Chapter Summary</h2>
+
+<p>The transient execution vulnerability class revealed in 2018 and extended through subsequent years represents the most consequential reckoning with the gap between architectural specification and microarchitectural reality in the history of commercial processors. This chapter has traced that gap through five attack paths — Meltdown, Spectre v1, Spectre v2, L1TF, and MDS — each corresponding to a distinct aspect of the MMU and paging design.</p>
+
+<p>The five PTE protection bits defined in Chapter 6 (§6.2, §6.3, §6.5) each proved to be enforced at architectural retirement rather than speculative issue. The U/S bit was bypassed in Meltdown because kernel pages were present in the user page table as a deliberate performance optimisation — reversed by KPTI at a cost of 5–20% for syscall-intensive workloads. The Present bit was bypassed in L1TF because the PTW speculatively read the physical address field before faulting — the property that Chapter 17 (§17.5) identified and this chapter extended to three CVE variants across SGX, OS, and VMM isolation boundaries. Conditional branch prediction state provided the Spectre v1 entry point wherever software bounds checks guard sensitive data. The shared indirect branch predictor provided the Spectre v2 entry point, amplified by PTW microcode indirect branches on every TLB miss. The fill buffer, store buffer, and load buffer populated by PTW memory accesses provided the MDS sampling surface — unreachable by any PTE bit, addressed only by buffer overwrite on privilege transitions.</p>
+
+<p>The architectural fix — KPTI — addresses Meltdown's root cause by reversing the page table sharing optimisation. ARM64's intrinsic immunity, arising from the TTBR0/TTBR1 split, illustrates how architectural choices made for clean address space management can provide structural security properties against attack classes not contemplated at design time. RISC-V's software-managed TLB handler explicitly validates the Present bit before acting on the PA field — providing structural L1TF immunity as a consequence of the software-handler design. These structural properties, compared against x86-64's vulnerable microcode-assisted FSM, illustrate that the richest source of security benefit from speculative execution mitigations is architectural redesign rather than software patching — a principle that will continue to shape processor design across all ISAs.</p>
+
+<p>The unified model for this vulnerability class is precise: the paging model provides isolation at the level of architectural state committed at retirement. It does not provide isolation at the level of microarchitectural state accumulated speculatively during the retirement window. Any attacker who can cause a victim to execute speculatively — by training branch predictors, by causing TLB misses that trigger PTW execution, or by sharing a physical core — can observe the microarchitectural footprint of that execution and infer architectural state. The three-layer defence: architectural (KPTI, TTBR split, EIBRS), microarchitectural (VERW, IBPB, L1D flush), and deployment (hardware generation selection, PCID enablement, threat-model-based SMT policy) — represents the current state of the art. It is effective, measurably costly for some workloads, and will continue to evolve as researchers identify further microarchitectural channels and processor vendors respond with silicon fixes.</p>
+
+
+<p>A practical checklist for production systems engineers synthesises this chapter's analysis into actionable steps. First, verify microcode currency: any Intel processor from Pentium 4 through 9th Gen Core that has not received the August 2018 microcode update is vulnerable to L1TF with zero software mitigation possible — the software KPTI fix does not address L1TF for unpatched microcode on affected hardware. Second, verify kernel currency: Linux 4.15+ includes KPTI, retpoline, and initial MDS support; 4.19+ includes TAA mitigation; 5.10+ includes the full mitigation stack including SRBDS. Third, verify PCID enablement: on Broadwell and later hardware, the kernel should report <code>Spectre V2: Enhanced IBRS</code> or <code>Mitigation: KPTI</code> in <code>/sys/devices/system/cpu/vulnerabilities/</code> entries. Fourth, assess the threat model explicitly: bare-metal single-tenant systems with no untrusted code can safely use <code>nopti mitigations=off</code> to recover performance, while multi-tenant cloud systems must apply the full mitigation stack. Fifth, consider hardware refresh cycles as a mitigation strategy: upgrading from pre-Cascade Lake Intel to current-generation silicon eliminates the L1TF surface in hardware, eliminates MDS for most variants, and on Ice Lake or later, eliminates the Spectre v2 retpoline overhead via EIBRS.</p>
+
+<p><p>Taken together, the five vulnerability paths examined in this chapter — Meltdown, Spectre v1, Spectre v2, L1TF, and MDS — trace a complete map of how the paging model's architectural guarantees interact with microarchitectural speculative execution to create exploitable information disclosure channels. The cross-chapter synthesis that this vulnerability class demands is worth making explicit. Chapter 3 documented the PTE format — the bits that provide the protection model. Chapter 6 defined how those bits are meant to work. Chapter 7 documented the fault delivery mechanism — the mechanism that is bypassed speculatively. Chapter 9 explained how the OS uses P=0 PTE fields for software purposes — the same fields that L1TF reads speculatively. Chapter 17 established the PTW microarchitecture — the hardware that implements the walk and whose speculative behaviour is the root cause of L1TF. This chapter assembled those pieces into a unified model of the vulnerability class: paging provides architectural isolation, but microarchitectural speculative execution creates observable channels below the architectural boundary.</p>
+
+<p>The timeline of vulnerability disclosure from 2018 to 2023 maps almost exactly onto the timeline of the speculative execution attack surface being systematically explored. Meltdown (January 2018) exploited the U/S check bypass. Foreshadow (August 2018) exploited the P=0 PTW speculative fill. MDS (May 2019) exploited fill and store buffer sharing. TAA (November 2019) exploited TSX abort forwarding. SRBDS (June 2020) exploited special register buffer sharing. CROSSTalk (June 2020) extended SRBDS across cores. BHI (March 2022) found a gap in EIBRS protection. Retbleed (July 2022) exploited return instructions on AMD and certain Intel configurations. Each disclosure followed the same pattern: a new microarchitectural buffer or predictor structure was found to contain exploitable information, a mitigation was developed to overwrite or restrict that structure on privilege transitions, and the cycle continued. The full extent of the speculative execution attack surface remains an open research question; the academic community continues to discover new variants, and processor vendors continue to respond with silicon fixes and microcode updates.</p>
+
+<p>For hardware architects designing future processors, the lessons are structural. The x86-64 vulnerability surface is disproportionate to ARM64's because of three specific architectural choices: kernel pages present in user address space (solved by KPTI), microcode-assisted FSM PTW reading P=0 PA fields (solved by microcode patch), and single-CR3 address space (solved by KPTI's dual-CR3 design). ARM64's TTBR0/TTBR1 split avoided the first and third; its pure-hardware TTW avoided the second. RISC-V's software-managed TLB avoided all three by placing the PTW in the software handler that explicitly validates before acting. The security lesson is that performance optimisations at the architectural level — kernel-in-user-page-table, microcode-assisted PTW, shared CR3 — create microarchitectural attack surfaces that are difficult to patch post-silicon. Future architecture designs should evaluate the speculative execution implications of every performance optimisation that makes sensitive state reachable from less-privileged execution contexts.</p>
+
+<h2 id="references">References</h2>
+<ol>
+<li><p>Lipp, M., Schwarz, M., Gruss, D., Prescher, T., Haas, W., Fogh, A., Horn, J., Mangard, S., Kocher, P., Genkin, D., Yarom, Y., and Hamburg, M. (2018). Meltdown: Reading Kernel Memory from User Space. <em>27th USENIX Security Symposium</em>, 973–990.</p></li>
+<li><p>Kocher, P., Horn, J., Fogh, A., Genkin, D., Gruss, D., Haas, W., Hamburg, M., Lipp, M., Mangard, S., Prescher, T., Schwarz, M., and Yarom, Y. (2019). Spectre Attacks: Exploiting Speculative Execution. <em>2019 IEEE Symposium on Security and Privacy</em>, 1–19. https://doi.org/10.1109/SP.2019.00002</p></li>
+<li><p>Van Bulck, J., Minkin, M., Weisse, O., Genkin, D., Kasikci, B., Piessens, F., Silberstein, M., Sherr, T. F., Yarom, Y., and Strackx, R. (2018). Foreshadow: Extracting the Keys to the Intel SGX Kingdom with Transient Out-of-Order Execution. <em>27th USENIX Security Symposium</em>, 991–1008.</p></li>
+<li><p>Weisse, O., Van Bulck, J., Minkin, M., Genkin, D., Kasikci, B., Piessens, F., Silberstein, M., Sherr, T. F., Yarom, Y., and Strackx, R. (2018). Foreshadow-NG: Breaking the Virtual Memory Abstraction with Transient Out-of-Order Execution. Technical Report. https://foreshadowattack.eu/foreshadow-NG.pdf</p></li>
+<li><p>Van Schaik, S., Milburn, A., Österlund, S., Frigo, P., Maisuradze, G., Razavi, K., Bos, H., and Giuffrida, C. (2019). RIDL: Rogue In-Flight Data Load. <em>2019 IEEE Symposium on Security and Privacy</em>, 88–105. https://doi.org/10.1109/SP.2019.00087</p></li>
+<li><p>Canella, C., Van Bulck, J., Schwarz, M., Lipp, M., von Berg, B., Ortner, P., Piessens, F., Evtyushkin, D., and Gruss, D. (2019). A Systematic Evaluation of Transient Execution Attacks and Defenses. <em>28th USENIX Security Symposium</em>, 249–266.</p></li>
+<li><p>Schwarz, M., Lipp, M., Moghimi, D., Van Bulck, J., Stecklina, J., Prescher, T., and Gruss, D. (2019). ZombieLoad: Cross-Privilege-Boundary Data Sampling. <em>ACM CCS 2019</em>, 753–768. https://doi.org/10.1145/3319535.3354252</p></li>
+<li><p>Gruss, D., Lipp, M., Schwarz, M., Fellner, R., Maurice, C., and Mangard, S. (2017). KASLR is Dead: Long Live KASLR. <em>Engineering Secure Software and Systems (ESSoS)</em>, LNCS 10379, 161–176.</p></li>
+<li><p>Intel Corporation. (2018). L1 Terminal Fault / CVE-2018-3615, CVE-2018-3620, CVE-2018-3646 Deep Dive. Technical White Paper. https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/intel-analysis-l1tf.html</p></li>
+<li><p>Yarom, Y., and Falkner, K. (2014). FLUSH+RELOAD: A High Resolution, Low Noise, L3 Cache Side-Channel Attack. <em>23rd USENIX Security Symposium</em>, 719–732.</p></li>
+<li><p>Intel Corporation. (2019). Microarchitectural Data Sampling Advisory / CVE-2019-11091, CVE-2018-12126, CVE-2018-12127, CVE-2018-12130. Technical White Paper. https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/advisory-guidance/microarchitectural-data-sampling.html</p></li>
+<li><p>Arm Limited. (2018). Cache Speculation Side-channels. Whitepaper v2.5. https://developer.arm.com/documentation/102816/0100</p></li>
+<li><p>Horn, J. (2022). Branch History Injection: On the Effectiveness of Hardware Mitigations Against Cross-Privilege Spectre-v2 Attacks. <em>31st USENIX Security Symposium</em>, 971–988.</p></li>
+<li><p>Linux Kernel Documentation. (2023). Spectre Side Channel Mitigation for x86 Processors. https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/spectre.html</p></li>
+<li><p>Linux Kernel Documentation. (2023). MDS — Microarchitectural Data Sampling. https://www.kernel.org/doc/html/latest/admin-guide/hw-vuln/mds.html</p></li>
+</ol>
+
+<script>
+
+(function() {
+  var CHAPTERS = [
+          {
+                "num": 1,
+                "file": "chapter-01-WITH-FIGURES.html",
+                "short": "Memory Management Basics",
+                "sections": [
+                      {
+                            "text": "1.1 Introduction: Why Virtual Memory Exists",
+                            "id": "introduction-why-virtual-memory-exists"
+                      },
+                      {
+                            "text": "1.2 What is Memory Management?",
+                            "id": "what-is-memory-management"
+                      },
+                      {
+                            "text": "1.3 The Evolution of Memory Management",
+                            "id": "the-evolution-of-memory-management"
+                      },
+                      {
+                            "text": "1.4 Hierarchical Levels of Memory Management",
+                            "id": "hierarchical-levels-of-memory-management"
+                      },
+                      {
+                            "text": "1.5 The Virtual Memory Abstraction",
+                            "id": "the-virtual-memory-abstraction"
+                      },
+                      {
+                            "text": "1.6 Key Concepts and Terminology",
+                            "id": "key-concepts-and-terminology"
+                      },
+                      {
+                            "text": "1.7 A Concrete Example: Address Translation",
+                            "id": "a-concrete-example-address-translation"
+                      },
+                      {
+                            "text": "1.8 The Translation Lookaside Buffer (TLB)",
+                            "id": "the-translation-lookaside-buffer-tlb"
+                      },
+                      {
+                            "text": "1.9 Multi-Level Page Tables",
+                            "id": "multi-level-page-tables"
+                      },
+                      {
+                            "text": "1.10 Why MMU Matters: Real-World Impact",
+                            "id": "why-mmu-matters-real-world-impact"
+                      },
+                      {
+                            "text": "1.11 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 2,
+                "file": "chapter-02-WITH-FIGURES.html",
+                "short": "Virtual Memory Concepts",
+                "sections": [
+                      {
+                            "text": "2.1 Introduction: The Illusion of Unlimited Memory",
+                            "id": "introduction-the-illusion-of-unlimited-memory"
+                      },
+                      {
+                            "text": "2.2 Demand Paging: Loading Pages on Demand",
+                            "id": "demand-paging-loading-pages-on-demand"
+                      },
+                      {
+                            "text": "2.3 Page Replacement Algorithms",
+                            "id": "page-replacement-algorithms"
+                      },
+                      {
+                            "text": "2.4 Thrashing and the Working Set Model",
+                            "id": "thrashing-and-the-working-set-model"
+                      },
+                      {
+                            "text": "2.5 Copy-on-Write (COW)",
+                            "id": "copy-on-write-cow"
+                      },
+                      {
+                            "text": "2.6 Memory-Mapped Files",
+                            "id": "memory-mapped-files"
+                      },
+                      {
+                            "text": "2.7 Advanced Topics",
+                            "id": "advanced-topics"
+                      },
+                      {
+                            "text": "2.8 Performance Optimization Strategies",
+                            "id": "performance-optimization-strategies"
+                      },
+                      {
+                            "text": "2.9 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 3,
+                "file": "chapter-03-WITH-FIGURES.html",
+                "short": "Page Table Structures and Implementation",
+                "sections": [
+                      {
+                            "text": "3.1 Introduction",
+                            "id": "3.1-introduction"
+                      },
+                      {
+                            "text": "3.2 Single-Level Page Tables: The Simplest Approach",
+                            "id": "3.2-single-level-page-tables-the-simplest-approach"
+                      },
+                      {
+                            "text": "3.3 Two-Level Page Tables",
+                            "id": "3.3-two-level-page-tables"
+                      },
+                      {
+                            "text": "3.4 Multi-Level Page Tables (3+ Levels)",
+                            "id": "3.4-multi-level-page-tables-3-levels"
+                      },
+                      {
+                            "text": "3.5 Virtualization: Two-Stage Address Translation",
+                            "id": "3.5-virtualization-two-stage-address-translation"
+                      },
+                      {
+                            "text": "3.6 What Gets Cached: TLB and Page Walk Caches",
+                            "id": "3.6-what-gets-cached-tlb-and-page-walk-caches"
+                      },
+                      {
+                            "text": "3.7 Hardware Page Table Walker",
+                            "id": "3.7-hardware-page-table-walker"
+                      },
+                      {
+                            "text": "3.8 Page Table Management from the OS Perspective",
+                            "id": "3.8-page-table-management-from-the-os-perspective"
+                      },
+                      {
+                            "text": "3.9 Design Trade-offs",
+                            "id": "3.9-design-trade-offs"
+                      },
+                      {
+                            "text": "3.10 Chapter Summary",
+                            "id": "3.10-chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 4,
+                "file": "chapter-04-WITH-FIGURES.html",
+                "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
+                "sections": [
+                      {
+                            "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
+                            "id": "introduction-the-most-critical-cache-youve-never-heard-of"
+                      },
+                      {
+                            "text": "4.2 TLB Architecture and Organization",
+                            "id": "tlb-architecture-and-organization"
+                      },
+                      {
+                            "text": "4.3 TLB Management: Hardware vs Software",
+                            "id": "tlb-management-hardware-vs-software"
+                      },
+                      {
+                            "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
+                            "id": "address-space-identifiers-asid-pcid-and-vmid"
+                      },
+                      {
+                            "text": "4.5 TLB Operations and Instructions",
+                            "id": "tlb-operations-and-instructions"
+                      },
+                      {
+                            "text": "4.6 Large Pages and TLB Coverage",
+                            "id": "large-pages-and-tlb-coverage"
+                      },
+                      {
+                            "text": "4.7 Multicore TLB Coherency",
+                            "id": "multicore-tlb-coherency"
+                      },
+                      {
+                            "text": "4.8 Platform-Specific TLB Implementations",
+                            "id": "platform-specific-tlb-implementations"
+                      },
+                      {
+                            "text": "4.9 Alternative Page Table Structures and TLB Implications",
+                            "id": "alternative-page-table-structures-and-tlb-implications"
+                      },
+                      {
+                            "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
+                            "id": "self-modifying-code-and-instructiondata-coherency"
+                      },
+                      {
+                            "text": "4.11 Multithreading and TLB Sharing",
+                            "id": "multithreading-and-tlb-sharing"
+                      },
+                      {
+                            "text": "4.12 Virtualization with Mismatched Page Sizes",
+                            "id": "virtualization-with-mismatched-page-sizes"
+                      },
+                      {
+                            "text": "4.13 GPU and Hardware Accelerator MMUs",
+                            "id": "gpu-and-hardware-accelerator-mmus"
+                      },
+                      {
+                            "text": "4.14 Chapter Summary",
+                            "id": "chapter-4-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "chapter-4-references"
+                      }
+                ]
+          },
+          {
+                "num": 5,
+                "file": "chapter-05-WITH-FIGURES.html",
+                "short": "IOMMU and DMA Remapping - Deep Dive",
+                "sections": [
+                      {
+                            "text": "5.1 Introduction: The I/O Device Memory Access Problem",
+                            "id": "introduction-the-io-device-memory-access-problem"
+                      },
+                      {
+                            "text": "5.2 IOMMU Architecture Fundamentals",
+                            "id": "iommu-architecture-fundamentals"
+                      },
+                      {
+                            "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
+                            "id": "intel-vt-d-virtualization-technology-for-directed-io"
+                      },
+                      {
+                            "text": "5.4 AMD IOMMU (AMD-Vi)",
+                            "id": "amd-iommu-amd-vi"
+                      },
+                      {
+                            "text": "5.5 ARM SMMU (System Memory Management Unit)",
+                            "id": "arm-smmu-system-memory-management-unit"
+                      },
+                      {
+                            "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
+                            "id": "iommu-page-tables-cross-platform-analysis"
+                      },
+                      {
+                            "text": "5.7 IOTLB Performance and Optimization",
+                            "id": "iotlb-performance-and-optimization"
+                      },
+                      {
+                            "text": "5.8 Device Assignment and SR-IOV",
+                            "id": "device-assignment-and-sr-iov"
+                      },
+                      {
+                            "text": "5.11 Chapter Summary",
+                            "id": "chapter-summary-and-key-takeaways"
+                      },
+                      {
+                            "text": "5.9 IOMMU in Operating Systems",
+                            "id": "iommu-in-operating-systems"
+                      },
+                      {
+                            "text": "5.10 Performance Optimization and Best Practices",
+                            "id": "performance-optimization-and-best-practices"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 6,
+                "file": "chapter-06-WITH-FIGURES.html",
+                "short": "Memory Protection and Access Control",
+                "sections": [
+                      {
+                            "text": "6.1 Introduction: Memory Protection Fundamentals",
+                            "id": "6.1-introduction-memory-protection-fundamentals"
+                      },
+                      {
+                            "text": "6.2 Page-Level Protection Bits",
+                            "id": "6.2-page-level-protection-bits"
+                      },
+                      {
+                            "text": "6.3 The No-Execute (NX) Bit",
+                            "id": "6.3-the-no-execute-nx-bit"
+                      },
+                      {
+                            "text": "6.4 Privilege Levels and Protection Rings",
+                            "id": "6.4-privilege-levels-and-protection-rings"
+                      },
+                      {
+                            "text": "6.5 User vs Supervisor Pages",
+                            "id": "6.5-user-vs-supervisor-pages"
+                      },
+                      {
+                            "text": "6.6 Advanced Protection Features",
+                            "id": "6.6-advanced-protection-features"
+                      },
+                      {
+                            "text": "6.7 Protection Keys and Domains",
+                            "id": "6.7-protection-keys-and-domains"
+                      },
+                      {
+                            "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
+                            "id": "6.8-trusted-execution-environments-tee-deep-dive"
+                      },
+                      {
+                            "text": "6.9 Copy-On-Write (COW)",
+                            "id": "6.9-copy-on-write-cow"
+                      },
+                      {
+                            "text": "6.10 Memory Access Ordering and Protection",
+                            "id": "6.10-memory-access-ordering-and-protection"
+                      },
+                      {
+                            "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
+                            "id": "6.11-confidential-computing-hardware-based-vm-isolation"
+                      },
+                      {
+                            "text": "6.12 AMD Memory Guard and Memory Encryption",
+                            "id": "6.12-amd-memory-guard-and-memory-encryption"
+                      },
+                      {
+                            "text": "6.13 RISC-V Security Extensions",
+                            "id": "6.13-risc-v-security-extensions"
+                      },
+                      {
+                            "text": "6.14 GPU and Accelerator Security",
+                            "id": "6.14-gpu-and-accelerator-security"
+                      },
+                      {
+                            "text": "6.15 Heterogeneous Computing Security",
+                            "id": "6.15-heterogeneous-computing-security"
+                      },
+                      {
+                            "text": "6.16 Performance vs Security Trade-offs",
+                            "id": "6.16-performance-vs-security-trade-offs"
+                      },
+                      {
+                            "text": "6.17 Best Practices and Guidelines",
+                            "id": "6.17-best-practices-and-guidelines"
+                      },
+                      {
+                            "text": "6.18 Common Pitfalls and How to Avoid Them",
+                            "id": "6.18-common-pitfalls-and-how-to-avoid-them"
+                      },
+                      {
+                            "text": "6.19 Chapter Summary",
+                            "id": "6.19-summary-and-future-directions"
+                      },
+                      {
+                            "text": "References",
+                            "id": "chapter-6-references"
+                      }
+                ]
+          },
+          {
+                "num": 7,
+                "file": "chapter-07-WITH-FIGURES.html",
+                "short": "Page Faults and Exception Handling",
+                "sections": [
+                      {
+                            "text": "7.1 Introduction: When Address Translation Fails",
+                            "id": "introduction-when-address-translation-fails"
+                      },
+                      {
+                            "text": "7.2 Page Fault Fundamentals",
+                            "id": "page-fault-fundamentals"
+                      },
+                      {
+                            "text": "7.3 x86-64 Page Faults (#PF)",
+                            "id": "x86-64-page-faults-pf"
+                      },
+                      {
+                            "text": "7.4 ARM64 Data and Instruction Aborts",
+                            "id": "arm64-data-and-instruction-aborts"
+                      },
+                      {
+                            "text": "7.5 RISC-V Page Faults",
+                            "id": "risc-v-page-faults"
+                      },
+                      {
+                            "text": "7.6 TLB-Related Exceptions",
+                            "id": "tlb-related-exceptions"
+                      },
+                      {
+                            "text": "7.7 Page Table Walk Failures",
+                            "id": "page-table-walk-failures"
+                      },
+                      {
+                            "text": "7.8 Page Overlapping and Aliasing Faults",
+                            "id": "page-overlapping-and-aliasing-faults"
+                      },
+                      {
+                            "text": "7.9 Permission Violations",
+                            "id": "permission-violations"
+                      },
+                      {
+                            "text": "7.10 Page Fault Handling Flow",
+                            "id": "page-fault-handling-flow"
+                      },
+                      {
+                            "text": "7.11 Performance Implications",
+                            "id": "performance-implications"
+                      },
+                      {
+                            "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
+                            "id": "historical-architectures-sparc-mips-powerpc"
+                      },
+                      {
+                            "text": "7.13 Architecture Comparison",
+                            "id": "architecture-comparison"
+                      },
+                      {
+                            "text": "7.14 Debugging Page Faults",
+                            "id": "debugging-page-faults"
+                      },
+                      {
+                            "text": "7.15 Chapter Summary",
+                            "id": "advanced-topics-and-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 8,
+                "file": "chapter-08-WITH-FIGURES.html",
+                "short": "Advanced MMU Topics: System Integration and Optimization",
+                "sections": [
+                      {
+                            "text": "8.1 Introduction: The Crisis Point",
+                            "id": "introduction-the-crisis-point"
+                      },
+                      {
+                            "text": "8.2 Nested Page Tables: Beyond the Basics",
+                            "id": "nested-page-tables-beyond-the-basics"
+                      },
+                      {
+                            "text": "8.3 Architecture Differences in Nested Fault Handling",
+                            "id": "architecture-differences-nested-fault-handling"
+                      },
+                      {
+                            "text": "8.4 Accessed and Dirty Bits",
+                            "id": "accessed-dirty-bits"
+                      },
+                      {
+                            "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
+                            "id": "page-replacement-algorithms"
+                      },
+                      {
+                            "text": "8.6 Memory Reclaim: When and How to Free Pages",
+                            "id": "memory-reclaim"
+                      },
+                      {
+                            "text": "8.7 Page Table Management: The Meta-Problem",
+                            "id": "page-table-management"
+                      },
+                      {
+                            "text": "8.8 Performance Analysis and Tuning",
+                            "id": "performance-analysis-and-tuning"
+                      },
+                      {
+                            "text": "8.9 Chapter Summary",
+                            "id": "chapter-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 9,
+                "file": "chapter-09-WITH-FIGURES.html",
+                "short": "Advanced Page Table Optimizations",
+                "sections": [
+                      {
+                            "text": "9.1 Introduction: The Container Crisis",
+                            "id": "introduction-the-container-crisis"
+                      },
+                      {
+                            "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
+                            "id": "memory-deduplication-kernel-samepage-merging"
+                      },
+                      {
+                            "text": "9.3 Page Table Locking and Concurrency",
+                            "id": "page-table-locking-and-concurrency"
+                      },
+                      {
+                            "text": "9.4 NUMA-Aware Page Table Management",
+                            "id": "numa-aware-page-table-management"
+                      },
+                      {
+                            "text": "9.5 Advanced Huge Page Strategies",
+                            "id": "advanced-huge-page-strategies"
+                      },
+                      {
+                            "text": "9.6 Page Table Compaction and Sharing",
+                            "id": "page-table-compaction-and-sharing"
+                      },
+                      {
+                            "text": "9.7 Parallel Page Table Operations",
+                            "id": "parallel-page-table-operations"
+                      },
+                      {
+                            "text": "9.8 Memory Compression Integration",
+                            "id": "memory-compression-integration"
+                      },
+                      {
+                            "text": "9.9 Production Case Study: Cloud Provider Memory Optimization Stack",
+                            "id": "production-case-study-cloud-provider-memory-optimization-stack"
+                      },
+                      {
+                            "text": "9.10 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 10,
+                "file": "chapter-10-WITH-FIGURES.html",
+                "short": "Hardware Accelerators and External MMU Access",
+                "sections": [
+                      {
+                            "text": "10.1 Introduction: Beyond the CPU Core",
+                            "id": "introduction-beyond-the-cpu-core"
+                      },
+                      {
+                            "text": "10.2 IOMMU Architecture Deep Dive",
+                            "id": "iommu-architecture-deep-dive"
+                      },
+                      {
+                            "text": "10.3 PCIe ATS and Address Translation Services",
+                            "id": "pcie-ats-and-address-translation-services"
+                      },
+                      {
+                            "text": "10.4 RDMA and Memory Registration",
+                            "id": "rdma-and-memory-registration"
+                      },
+                      {
+                            "text": "10.5 Smart NICs and Data Processing Units",
+                            "id": "smart-nics-and-data-processing-units"
+                      },
+                      {
+                            "text": "10.6 Video and Media Accelerators",
+                            "id": "video-and-media-accelerators"
+                      },
+                      {
+                            "text": "10.7 Multi-Device Coherency and Coordination",
+                            "id": "multi-device-coherency-and-coordination"
+                      },
+                      {
+                            "text": "10.8 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 11,
+                "file": "chapter-11-WITH-FIGURES.html",
+                "short": "Virtual Memory Challenges in AI/ML Accelerators",
+                "sections": [
+                      {
+                            "text": "11.1 Introduction: Scale Changes Everything",
+                            "id": "introduction-scale-changes-everything"
+                      },
+                      {
+                            "text": "11.2 Google TPU: Compiler-Managed Memory",
+                            "id": "section-11.2"
+                      },
+                      {
+                            "text": "11.3 NVIDIA GPU Unified Virtual Memory",
+                            "id": "section-11.3"
+                      },
+                      {
+                            "text": "11.4 Multi-GPU TLB Synchronization: NVLink and NVSwitch",
+                            "id": "section-11.4"
+                      },
+                      {
+                            "text": "11.5 Page Size Strategy for AI Workloads",
+                            "id": "section-11.5"
+                      },
+                      {
+                            "text": "11.6 AMD MI300X: Chiplet Architecture and Unified Memory",
+                            "id": "section-11.6"
+                      },
+                      {
+                            "text": "11.7 Intel Gaudi 2 and RDMA Integration",
+                            "id": "section-11.7"
+                      },
+                      {
+                            "text": "11.8 Apple M-Series Unified Memory Architecture",
+                            "id": "section-11.8"
+                      },
+                      {
+                            "text": "11.9 Common Pitfalls and Production Best Practices",
+                            "id": "section-11.9"
+                      },
+                      {
+                            "text": "11.10 Chapter Summary",
+                            "id": "chapter-11-summary"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 12,
+                "file": "chapter-12-WITH-FIGURES.html",
+                "short": "When MMU Architecture Breaks - AI at Scale",
+                "sections": [
+                      {
+                            "text": "12.1 The Six Drivers of AI Memory Systems",
+                            "id": "section-12.1"
+                      },
+                      {
+                            "text": "12.2 The Architectural Cost of Runtime Address Translation",
+                            "id": "section-12.2"
+                      },
+                      {
+                            "text": "12.3 Introduction - When Good Architecture Faces New Constraints",
+                            "id": "section-12.3"
+                      },
+                      {
+                            "text": "12.4 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
+                            "id": "section-12.4"
+                      },
+                      {
+                            "text": "12.5 Multi-Tenancy - Isolation vs Performance Trade-Offs",
+                            "id": "section-12.5"
+                      },
+                      {
+                            "text": "12.6 Virtualization - The Page Fault Challenge",
+                            "id": "section-12.6"
+                      },
+                      {
+                            "text": "12.7 Chapter Summary",
+                            "id": "section-12.7"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 13,
+                "file": "chapter-13-WITH-FIGURES.html",
+                "short": "Machine Learning for Memory Management - The False Hope",
+                "sections": [
+                      {
+                            "text": "13.1 Introduction: The ML Seduction",
+                            "id": "section-13.1"
+                      },
+                      {
+                            "text": "13.2 Pythia: Why Hardware RL Failed",
+                            "id": "section-13.2"
+                      },
+                      {
+                            "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
+                            "id": "section-13.3"
+                      },
+                      {
+                            "text": "13.4 LeCaR: The Rare Success (And Why)",
+                            "id": "section-13.4"
+                      },
+                      {
+                            "text": "13.5 Chapter Summary",
+                            "id": "section-13.5"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 14,
+                "file": "chapter-14-WITH-FIGURES.html",
+                "short": "Software-Managed Memory for AI Workloads",
+                "sections": [
+                      {
+                            "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
+                            "id": "section-14.1"
+                      },
+                      {
+                            "text": "14.2 Memory Management Failure Modes",
+                            "id": "section-14.2"
+                      },
+                      {
+                            "text": "14.3 Software-Managed Memory: The vLLM System",
+                            "id": "section-14.3"
+                      },
+                      {
+                            "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
+                            "id": "section-14.4"
+                      },
+                      {
+                            "text": "14.5 Comparative Analysis and Design Trade-offs",
+                            "id": "section-14.5"
+                      },
+                      {
+                            "text": "14.6 Future Research Directions",
+                            "id": "section-14.6"
+                      },
+                      {
+                            "text": "14.7 Chapter Summary",
+                            "id": "section-14.7"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 15,
+                "file": "chapter-15-WITH-FIGURES.html",
+                "short": "Beyond Traditional MMU - Alternative Translation Architectures",
+                "sections": [
+                      {
+                            "text": "15.1 Introduction",
+                            "id": "section-15.1"
+                      },
+                      {
+                            "text": "15.2 Network-Level Translation",
+                            "id": "section-15.2"
+                      },
+                      {
+                            "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
+                            "id": "section-15.3"
+                      },
+                      {
+                            "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
+                            "id": "section-15.4"
+                      },
+                      {
+                            "text": "15.5 Comparative Analysis",
+                            "id": "section-15.5"
+                      },
+                      {
+                            "text": "15.6 Chapter Summary",
+                            "id": "section-15.6"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
+                ]
+          },
+          {
+                "num": 16,
+                "file": "chapter-16-WITH-FIGURES.html",
+                "short": "Advanced TLB Optimization Techniques",
+                "sections": [
+                      {"text": "16.1 Introduction: The TLB Reach Crisis", "id": "section-16.1"},
+                      {"text": "16.2 Entry-Level Coalescing: COLT and Production Implementations", "id": "section-16.2"},
+                      {"text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization", "id": "section-16.3"},
+                      {"text": "16.4 Speculative Translation: SpecTLB and Avatar", "id": "section-16.4"},
+                      {"text": "16.5 Predictive Prefetching: SnakeByte Markov Model", "id": "section-16.5"},
+                      {"text": "16.6 Hashing-Based Compression: Mosaic Pages", "id": "section-16.6"},
+                      {"text": "16.7 Range-Based Translation: FlexPointer", "id": "section-16.7"},
+                      {"text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)", "id": "section-16.8"},
+                      {"text": "16.9 Comparative Analysis: When to Use Each Technique", "id": "section-16.9"},
+                      {"text": "16.10 Chapter Summary", "id": "section-16.10"},
+                      {"text": "References", "id": "references"}
+                ]
+          },
+          {
+                "num": 17,
+                "file": "chapter-17-WITH-FIGURES.html",
+                "short": "Page Table Walker Microarchitecture",
+                "sections": [
+                      {"text": "17.1 Introduction", "id": "section-17.1"},
+                      {"text": "17.2 PTW Pipeline Stages", "id": "section-17.2"},
+                      {"text": "17.3 Page Walk Caches", "id": "section-17.3"},
+                      {"text": "17.4 MSHR and Concurrent Walks", "id": "section-17.4"},
+                      {"text": "17.5 Speculative Page Table Walks", "id": "section-17.5"},
+                      {"text": "17.6 PTW Parallelism and Throughput", "id": "section-17.6"},
+                      {"text": "17.7 x86-64 PTW Microarchitecture", "id": "section-17.7"},
+                      {"text": "17.8 ARM64 Translation Table Walk", "id": "section-17.8"},
+                      {"text": "17.9 RISC-V Software-Managed PTW", "id": "section-17.9"},
+                      {"text": "17.10 Chapter Summary", "id": "section-17.10"},
+                      {"text": "References", "id": "references"}
+                ]
+          },
+          {
+                "num": 18,
+                "file": "chapter-18-WITH-FIGURES.html",
+                "short": "MMU-Level Vulnerabilities",
+                "sections": [
+                      {"text": "18.1 Introduction: When the Memory Map Becomes a Weapon", "id": "section-18.1"},
+                      {"text": "18.2 The Paging Model's Trust Assumptions", "id": "section-18.2"},
+                      {"text": "18.3 Meltdown: Speculative PTE Permission Checks", "id": "section-18.3"},
+                      {"text": "18.4 Spectre v1: Bounds Bypass via Virtual Address Speculation", "id": "section-18.4"},
+                      {"text": "18.5 Spectre v2: Branch Target Injection and the PTW Control Path", "id": "section-18.5"},
+                      {"text": "18.6 L1TF and Foreshadow: P=0 PTEs as Physical Address Leaks", "id": "section-18.6"},
+                      {"text": "18.7 Microarchitectural Data Sampling: Buffers the PTW Shares", "id": "section-18.7"},
+                      {"text": "18.8 KPTI: Splitting the Page Table as an Architectural Fix", "id": "section-18.8"},
+                      {"text": "18.9 Mitigation Costs and Production Deployment Trade-offs", "id": "section-18.9"},
+                      {"text": "18.10 Chapter Summary", "id": "section-18.10"},
+                      {"text": "References", "id": "references"}
+                ]
+          }
+    ];
+
+
+  var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
+  var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
+
+  /* Build HTML */
+  var html = '';
+  CHAPTERS.forEach(function(ch) {
+    var isCur = ch.num === curCh.num;
+    var toc = '';
+    ch.sections.forEach(function(s) {
+      var href = isCur ? '#' + s.id : ch.file + '#' + s.id;
+      toc += '<a class="sb-sec" href="' + href + '" title="' + s.text.replace(/"/g,'&quot;') + '">'
+           + s.text + '</a>';
+    });
+    var n = ch.num < 10 ? '0' + ch.num : '' + ch.num;
+    var arrow = ch.sections.length
+      ? '<svg class="sb-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="4,2 8,6 4,10"/></svg>'
+      : '';
+    html += '<div class="sb-ch' + (isCur?' active open':'') + '" data-c="' + ch.num + '">'
+      + '<div class="sb-ch-head" onclick=\"sbChClick(' + ch.num + ',\'' + ch.file + '\')\">'
+      + '<span class="sb-num">' + n + '</span>'
+      + (isCur
+        ? '<span class="sb-ch-link">' + ch.short + '</span>'
+        : '<a class="sb-ch-link" href="' + ch.file + '">' + ch.short + '</a>')
+      + arrow + '</div>'
+      + (toc ? '<div class="sb-toc">' + toc + '</div>' : '')
+      + '</div>';
+  });
+
+  var nav = document.createElement('nav');
+  nav.id = 'sb';
+  nav.innerHTML =
+    '<div id="sb-head">'
+    + '<div id="sb-logo"><div id="sb-icon">M</div>'
+    + '<div id="sb-wordmark">MMU<br>Handbook</div></div>'
+    + '<button id="sb-btn" onclick="sbCollapse()" title="Toggle sidebar [\\]">'
+    + '<svg viewBox="0 0 18 18" fill="currentColor">'
+    + '<rect x="1" y="3" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="8" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="13" width="16" height="2" rx="1"/>'
+    + '</svg></button></div>'
+    + '<div id="sb-scroll">' + html + '</div>';
+  document.body.insertBefore(nav, document.body.firstChild);
+
+
+  /* Inject Home link before scroll area */
+  var homeLink = document.createElement('a');
+  homeLink.id = 'sb-home-link';
+  homeLink.href = '../index.html';
+  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
+  nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
+
+  /* Restore state */
+  if (localStorage.getItem('sb-off') === '1') {
+    nav.classList.add('collapsed');
+    document.body.classList.add('sb-collapsed');
+  }
+
+  /* Scroll current chapter into view */
+  var el = nav.querySelector('.sb-ch.active');
+  if (el) setTimeout(function() { el.scrollIntoView({block:'center',behavior:'smooth'}); }, 100);
+
+  /* Active-section tracking — uses Pandoc IDs directly */
+  var links = Array.from(nav.querySelectorAll('.sb-ch.active .sb-sec'));
+  var map = links.map(function(a) {
+    var id = a.getAttribute('href').replace(/^.*#/, '');
+    return { a: a, el: document.getElementById(id) };
+  }).filter(function(h) { return h.el; });
+
+  function tick() {
+    if (!map.length) return;
+    var y = window.scrollY + 90;
+    var cur = map[0];
+    map.forEach(function(h) { if (h.el.offsetTop <= y) cur = h; });
+    links.forEach(function(a) { a.classList.remove('here'); });
+    cur.a.classList.add('here');
+  }
+  var pending = false;
+  window.addEventListener('scroll', function() {
+    if (!pending) { pending = true; requestAnimationFrame(function() { tick(); pending = false; }); }
+  });
+  tick();
+
+  /* Keyboard shortcut */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === '\\' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') sbCollapse();
+  });
+
+  window.sbCollapse = function() {
+    var s = document.getElementById('sb');
+    s.classList.toggle('collapsed');
+    document.body.classList.toggle('sb-collapsed');
+    localStorage.setItem('sb-off', s.classList.contains('collapsed') ? '1' : '0');
+  };
+  window.sbChClick = function(n, file) {
+    var s = document.getElementById('sb');
+    if (s.classList.contains('collapsed')) {
+      location.href = file;
+      return;
+    }
+    var item = document.querySelector('.sb-ch[data-c="' + n + '"]');
+    if (!item) return;
+    if (item.classList.contains('active')) {
+      /* Current chapter — toggle expand/collapse in place */
+      item.classList.toggle('open');
+    } else {
+      /* Different chapter — toggle its TOC preview, then navigate */
+      item.classList.toggle('open');
+      location.href = file;
+    }
+  };
+  window.sbToggle = window.sbChClick;
+})();
+
+
+
+</script>
+</body>
+</html>
