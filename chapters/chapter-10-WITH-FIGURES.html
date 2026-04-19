@@ -4935,15 +4935,42 @@ everywhere, with explicit copies only when demonstrably necessary.</p><script>
                 "file": "chapter-10-WITH-FIGURES.html",
                 "short": "Hardware Accelerators and External MMU Access",
                 "sections": [
-                      {"text": "10.1 Introduction: Beyond the CPU Core", "id": "section-10.1"},
-                      {"text": "10.2 IOMMU Architecture Deep Dive", "id": "section-10.2"},
-                      {"text": "10.3 PCIe ATS and Address Translation Services", "id": "section-10.3"},
-                      {"text": "10.4 RDMA and Memory Registration", "id": "section-10.4"},
-                      {"text": "10.5 Smart NICs and Data Processing Units", "id": "section-10.5"},
-                      {"text": "10.6 Video and Media Accelerators", "id": "section-10.6"},
-                      {"text": "10.7 Multi-Device Coherency and Coordination", "id": "section-10.7"},
-                      {"text": "10.8 Chapter Summary", "id": "section-10.8"},
-                      {"text": "References", "id": "references"}
+                      {
+                            "text": "10.1 Introduction: Beyond the CPU Core",
+                            "id": "introduction-beyond-the-cpu-core"
+                      },
+                      {
+                            "text": "10.2 IOMMU Architecture Deep Dive",
+                            "id": "iommu-architecture-deep-dive"
+                      },
+                      {
+                            "text": "10.3 PCIe ATS and Address Translation Services",
+                            "id": "pcie-ats-and-address-translation-services"
+                      },
+                      {
+                            "text": "10.4 RDMA and Memory Registration",
+                            "id": "rdma-and-memory-registration"
+                      },
+                      {
+                            "text": "10.5 Smart NICs and Data Processing Units",
+                            "id": "smart-nics-and-data-processing-units"
+                      },
+                      {
+                            "text": "10.6 Video and Media Accelerators",
+                            "id": "video-and-media-accelerators"
+                      },
+                      {
+                            "text": "10.7 Multi-Device Coherency and Coordination",
+                            "id": "multi-device-coherency-and-coordination"
+                      },
+                      {
+                            "text": "10.8 Chapter Summary",
+                            "id": "summary-and-best-practices"
+                      },
+                      {
+                            "text": "References",
+                            "id": "references"
+                      }
                 ]
           },
           {
@@ -5146,50 +5173,53 @@ everywhere, with explicit copies only when demonstrably necessary.</p><script>
                 "file": "chapter-16-WITH-FIGURES.html",
                 "short": "Advanced TLB Optimization Techniques",
                 "sections": [
-                      {
-                            "text": "16.1 Introduction: The TLB Reach Crisis",
-                            "id": "section-16.1"
-                      },
-                      {
-                            "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
-                            "id": "section-16.2"
-                      },
-                      {
-                            "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
-                            "id": "section-16.3"
-                      },
-                      {
-                            "text": "16.4 Speculative Translation: SpecTLB and Avatar",
-                            "id": "section-16.4"
-                      },
-                      {
-                            "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
-                            "id": "section-16.5"
-                      },
-                      {
-                            "text": "16.6 Hashing-Based Compression: Mosaic Pages",
-                            "id": "section-16.6"
-                      },
-                      {
-                            "text": "16.7 Range-Based Translation: FlexPointer",
-                            "id": "section-16.7"
-                      },
-                      {
-                            "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
-                            "id": "section-16.8"
-                      },
-                      {
-                            "text": "16.9 Comparative Analysis: When to Use Each Technique",
-                            "id": "section-16.9"
-                      },
-                      {
-                            "text": "16.10 Chapter Summary",
-                            "id": "section-16.10"
-                      },
-                      {
-                            "text": "References",
-                            "id": "references"
-                      }
+                      {"text": "16.1 Introduction: The TLB Reach Crisis", "id": "section-16.1"},
+                      {"text": "16.2 Entry-Level Coalescing: COLT and Production Implementations", "id": "section-16.2"},
+                      {"text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization", "id": "section-16.3"},
+                      {"text": "16.4 Speculative Translation: SpecTLB and Avatar", "id": "section-16.4"},
+                      {"text": "16.5 Predictive Prefetching: SnakeByte Markov Model", "id": "section-16.5"},
+                      {"text": "16.6 Hashing-Based Compression: Mosaic Pages", "id": "section-16.6"},
+                      {"text": "16.7 Range-Based Translation: FlexPointer", "id": "section-16.7"},
+                      {"text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)", "id": "section-16.8"},
+                      {"text": "16.9 Comparative Analysis: When to Use Each Technique", "id": "section-16.9"},
+                      {"text": "16.10 Chapter Summary", "id": "section-16.10"},
+                      {"text": "References", "id": "references"}
+                ]
+          },
+          {
+                "num": 17,
+                "file": "chapter-17-WITH-FIGURES.html",
+                "short": "Page Table Walker Microarchitecture",
+                "sections": [
+                      {"text": "17.1 Introduction", "id": "section-17.1"},
+                      {"text": "17.2 PTW Pipeline Stages", "id": "section-17.2"},
+                      {"text": "17.3 Page Walk Caches", "id": "section-17.3"},
+                      {"text": "17.4 MSHR and Concurrent Walks", "id": "section-17.4"},
+                      {"text": "17.5 Speculative Page Table Walks", "id": "section-17.5"},
+                      {"text": "17.6 PTW Parallelism and Throughput", "id": "section-17.6"},
+                      {"text": "17.7 x86-64 PTW Microarchitecture", "id": "section-17.7"},
+                      {"text": "17.8 ARM64 Translation Table Walk", "id": "section-17.8"},
+                      {"text": "17.9 RISC-V Software-Managed PTW", "id": "section-17.9"},
+                      {"text": "17.10 Chapter Summary", "id": "section-17.10"},
+                      {"text": "References", "id": "references"}
+                ]
+          },
+          {
+                "num": 18,
+                "file": "chapter-18-WITH-FIGURES.html",
+                "short": "MMU-Level Vulnerabilities",
+                "sections": [
+                      {"text": "18.1 Introduction: When the Memory Map Becomes a Weapon", "id": "section-18.1"},
+                      {"text": "18.2 The Paging Model's Trust Assumptions", "id": "section-18.2"},
+                      {"text": "18.3 Meltdown: Speculative PTE Permission Checks", "id": "section-18.3"},
+                      {"text": "18.4 Spectre v1: Bounds Bypass via Virtual Address Speculation", "id": "section-18.4"},
+                      {"text": "18.5 Spectre v2: Branch Target Injection and the PTW Control Path", "id": "section-18.5"},
+                      {"text": "18.6 L1TF and Foreshadow: P=0 PTEs as Physical Address Leaks", "id": "section-18.6"},
+                      {"text": "18.7 Microarchitectural Data Sampling: Buffers the PTW Shares", "id": "section-18.7"},
+                      {"text": "18.8 KPTI: Splitting the Page Table as an Architectural Fix", "id": "section-18.8"},
+                      {"text": "18.9 Mitigation Costs and Production Deployment Trade-offs", "id": "section-18.9"},
+                      {"text": "18.10 Chapter Summary", "id": "section-18.10"},
+                      {"text": "References", "id": "references"}
                 ]
           }
     ];
