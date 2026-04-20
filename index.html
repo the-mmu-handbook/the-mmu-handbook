@@ -106,8 +106,9 @@ body.sb-collapsed { margin-left: 44px; }
   font-size: 12px; font-weight: 600; color: var(--sb-active-text);
   letter-spacing: 0.02em;
 }
-#sb.collapsed #sb-home-label, #sb.collapsed #sb-home-icon { display: none; }
-#sb.collapsed #sb-home { justify-content: center; }
+#sb.collapsed #sb-home-label { display: none; }
+#sb.collapsed #sb-home-icon { display: flex; align-items: center; justify-content: center; }
+#sb.collapsed #sb-home { justify-content: center; padding: 10px 0; }
 
 /* Scroll */
 #sb-scroll {
