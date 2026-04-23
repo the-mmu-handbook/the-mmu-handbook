@@ -567,9 +567,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   #sb { display: none !important; }
   body { margin-left: 0 !important; }
 }
-
-
-  </style>
+</style>
 </head>
 <body>
 
@@ -609,7 +607,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>RISC-V is explicitly out of scope for this chapter. As of 2025, no production RISC-V CPU implements a CXL host bridge; the RISC-V open-ISA philosophy and software-managed TLB design make CXL integration a future research direction rather than a current deployment consideration. The chapter covers x86-64 (Intel Sapphire Rapids and successors) and ARM64 (NVIDIA Grace Hopper), where production CXL support exists and can be measured.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
@@ -617,7 +615,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
     <marker id="arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
     <filter id="sh1"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
-  <text x="450" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.1 — CXL Protocol Family and Device Taxonomy</text>
+  <text x="450" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">CXL Protocol Family and Device Taxonomy</text>
   <!-- Protocol columns header -->
   <text x="220" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">CXL Sub-Protocols</text>
   <text x="660" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">Device Types</text>
@@ -704,14 +702,14 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>On x86-64, Intel's Sapphire Rapids processor family (2023) was the first production CPU to ship with CXL 1.1 host bridge support. Subsequent Xeon generations extend this to CXL 2.0 and CXL 3.0. On ARM64, NVIDIA's Grace Hopper Superchip incorporates CXL support through the Grace CPU chiplet; Grace Hopper systems can combine CXL-attached memory with NVLink-attached GPU HBM in a single unified address space. AMD's MI300X AI accelerator includes CXL through its CPU chiplet, supplementing the 192 GB on-package HBM. SK Hynix and Samsung have shipped Type 3 CXL DRAM expander modules in volume since 2023.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
     <marker id="arrb" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
     <filter id="sh2"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.2 — CXL Physical Address Space Map</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">CXL Physical Address Space Map</text>
 
   <!-- CPU Package -->
   <rect x="30" y="45" width="220" height="160" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh2)"/>
@@ -862,10 +860,10 @@ node   0   1   2
 
 <p>This matters most for workloads with high TLB miss rates. Chapter 11 documented that LLM attention computation over large KV caches can drive DRAM TLB miss rates above 40%. Chapter 12 showed that multi-GPU workloads spend measurable fractions of their time in TLB shootdowns. When such workloads are deployed on CXL-tiered systems, each TLB miss resolution is 25–75% more expensive than it was with local DRAM alone. For a workload spending 20% of execution time on TLB misses (a high but plausible figure for attention-heavy LLM inference), migrating data to CXL adds 5–15% to total execution time even if the data would otherwise have hit in the DRAM page cache — because the miss penalty has grown.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="460" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.3 — Memory Access Latency Hierarchy with CXL</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Memory Access Latency Hierarchy with CXL</text>
 
   <!-- Y axis label -->
   <text x="15" y="280" text-anchor="middle" font-size="12" fill="#212121" transform="rotate(-90,15,280)">Latency (nanoseconds, log scale)</text>
@@ -966,13 +964,13 @@ Total PTW:  ~2,000 ns  (6.25× worse than 320 ns baseline)
 
 <p>The danger is that Linux's memory tiering infrastructure does not, by default, distinguish page table pages from application data pages when deciding what to demote to the slow tier. The kernel allocates page table pages through <code>alloc_page(GFP_KERNEL)</code> with the <code>GFP_KERNEL</code> flag, which requests memory from <code>ZONE_NORMAL</code> — the normal zone that spans local DRAM. Under ordinary conditions this is safe. However, when memory tiering is enabled with CXL as a NUMA node, the kernel's demotion path in <code>kswapd</code> and the explicit migration path triggered by <code>migrate_pages()</code> can move any page classified as cold — including pages in <code>ZONE_NORMAL</code> — to the CXL-backed NUMA node. Page table pages are not exempt from this classification unless the kernel is explicitly configured to protect them.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
     <filter id="sh4"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.4 — Page Table Walk Latency: Local DRAM vs CXL</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Page Table Walk Latency: Local DRAM vs CXL</text>
 
   <!-- Scenario 1: Normal DRAM PTW -->
   <rect x="30" y="50" width="260" height="340" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh4)"/>
@@ -1104,7 +1102,7 @@ $ cat /proc/sys/vm/demote_page_tables
 
 <p><strong>Transparent Huge Page demotion</strong> is a subtle interaction that becomes significant at scale. Linux Transparent Huge Pages (THP) allocate 2 MB contiguous pages in DRAM to reduce TLB miss rates. When memory pressure forces demotion of THP-backed regions to CXL, the kernel must first split the 2 MB huge page into 512 × 4 KB pages, update 512 PTEs, issue a shootdown for all 512 entries, and only then migrate the 4 KB fragments to CXL. The cost is 512× the per-page cost — potentially 26 ms of stall time for one 2 MB demotion. In production deployments with many gigabytes of THP-backed memory under pressure, this can cause observable latency spikes. The mitigation is to pre-emptively split THP pages before CXL memory pressure forces emergency demotion, using <code>madvise(MADV_NOHUGEPAGE)</code> on memory regions identified as CXL-bound before they are mapped.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
@@ -1113,7 +1111,7 @@ $ cat /proc/sys/vm/demote_page_tables
     <marker id="arrr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
     <filter id="sh5"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.5 — Memory Tiering State Machine Under CXL</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Memory Tiering State Machine Under CXL</text>
 
   <!-- HOT state -->
   <rect x="60" y="80" width="200" height="130" rx="10" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2.5" filter="url(#sh5)"/>
@@ -1227,7 +1225,7 @@ $ cat /proc/sys/vm/demote_page_tables
 
 <p>The latency of this sequence is substantially larger than a simple OS-initiated shootdown, because it includes the Fabric Manager decision time, the interrupt delivery to the host OS, and the completion handshake traversing the CXL fabric. On a 128-core server, the measured range is 50–200 µs for the complete back-invalidation sequence — compared to ~10–50 µs for a standard OS-initiated shootdown of the same address range. This overhead is acceptable for the use cases that require Back-Invalidation (memory region reallocation across hosts), which occur on timescales of milliseconds to seconds rather than microseconds.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
@@ -1235,7 +1233,7 @@ $ cat /proc/sys/vm/demote_page_tables
     <marker id="ardr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
     <filter id="sh6"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.6 — TLB Shootdown: Standard (OS-Initiated) vs CXL Back-Invalidation</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">TLB Shootdown: Standard (OS-Initiated) vs CXL Back-Invalidation</text>
 
   <!-- LEFT: Standard OS-initiated shootdown -->
   <rect x="20" y="48" width="410" height="30" rx="5" fill="#5E81AC"/>
@@ -1354,7 +1352,7 @@ $ cat /proc/sys/vm/demote_page_tables
 
 <p>CXL 3.0 Shared Memory introduces concurrency. Host A and Host B are both running, and both have live mappings into the same CXL Type 3 device's memory. Host A's physical address 0x8000_0000 and Host B's physical address 0xC000_0000 both correspond to CXL Device Physical Address 0x0000_0000 — the same physical memory cell. Host A and Host B each have their own virtual address spaces, their own page tables, their own TLBs, and their own operating systems. Neither OS has direct knowledge of the other's mapping.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-7" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
@@ -1362,7 +1360,7 @@ $ cat /proc/sys/vm/demote_page_tables
     <marker id="ar7r" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
     <filter id="sh7"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.7 — CXL 3.0 Shared Memory: Two-Stage Address Translation</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">CXL 3.0 Shared Memory: Two-Stage Address Translation</text>
 
   <!-- Host A -->
   <rect x="20" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh7)"/>
@@ -1523,14 +1521,14 @@ $ cat /proc/sys/vm/demote_page_tables
 
 <p><strong>Rule 5: Monitor TLB miss rate per NUMA node.</strong> Use <code>perf stat -e dTLB-load-misses,dTLB-store-misses</code> broken down by NUMA node. A workload on the CXL node with high TLB miss rate is a strong signal to promote it to local DRAM or to increase the huge page allocation for that workload.</p>
 
-<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-19-8" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
     <filter id="sh8"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
     <marker id="ar8" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
   </defs>
-  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.8 — Pond Production CXL Pool Topology (Azure, ASPLOS 2023)</text>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Pond Production CXL Pool Topology (Azure, ASPLOS 2023)</text>
 
   <!-- Servers (8-16 sockets) -->
   <!-- Server 1 -->
@@ -1639,20 +1637,22 @@ $ cat /proc/sys/vm/demote_page_tables
 <h2 id="references">References</h2>
 
 <ol>
-<li>CXL Consortium. <em>Compute Express Link Specification, Revision 3.0</em>. CXL Consortium, 2022. https://www.computeexpresslink.org/</li>
-<li>CXL Consortium. <em>Compute Express Link Specification, Revision 4.0</em>. CXL Consortium, November 2025. https://www.computeexpresslink.org/</li>
-<li>Glisse, M., Abramson, D., Bhatia, T., and Sharma, D. "An Introduction to the Compute Express Link (CXL) Interconnect." <em>ACM Computing Surveys</em>, 2024. DOI: 10.1145/3669900</li>
-<li>Gouk, D., Lee, S., Kwon, M., and Jung, M. "Direct Access, High-Performance Memory Disaggregation with DirectCXL." In <em>Proceedings of the 2022 USENIX Annual Technical Conference (USENIX ATC '22)</em>, pp. 287–294, 2022. https://www.usenix.org/conference/atc22/presentation/gouk</li>
-<li>Jang, J., Choi, H., Bae, H., Lee, S., Kwon, M., and Jung, M. "CXL-ANNS: Software-Hardware Collaborative Memory Disaggregation and Computation for Billion-Scale Approximate Nearest Neighbor Search." In <em>Proceedings of the 2023 USENIX Annual Technical Conference (USENIX ATC '23)</em>, 2023.</li>
-<li>Kim, J., Nam, H., Kim, J., and Huh, J. "Exploring the Design Space of Page Management for Multi-Tiered Memory Systems." In <em>Proceedings of the 2021 USENIX Annual Technical Conference (USENIX ATC '21)</em>, 2021.</li>
-<li>Li, H., Berger, D.S., Hsu, L., Ernst, D., Zardoshti, P., Novakovic, S., Shah, M., Rajadnya, S., Lee, S., Agarwal, I., Hill, M.D., Fontoura, M., and Bianchini, R. "Pond: CXL-Based Memory Pooling Systems for Cloud Platforms." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23)</em>, Volume 2, pp. 574–587, 2023. DOI: 10.1145/3575693.3578835</li>
-<li>Liang, Y., Huang, T., Chen, K., et al. "Innovation in Computational Architecture: Opportunities and Challenges of CXL Memory Disaggregation Technology in Intelligent Computing Centers." <em>Tsinghua Science and Technology</em>, vol. 31, no. 4, pp. 2020–2039, 2026. DOI: 10.26599/TST.2025.9010010</li>
-<li>Al Maruf, H., Wang, H., Dhanotia, A., Weiner, J., Agarwal, N., Bhattacharya, P., Petersen, C., Chowdhury, M., Kanaujia, S., and Chauhan, P. "TPP: Transparent Page Placement for CXL-Enabled Tiered Memory." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23)</em>, 2023. arXiv:2206.02878</li>
-<li>Pan, Y., Lala, Y., Unal, M., Ren, Y., Lee, S., Bhattacharjee, A., Khandelwal, A., and Kashyap, S. "Scalable Far Memory: Balancing Faults and Evictions." In <em>Proceedings of the ACM Symposium on Operating Systems Principles (SOSP '25)</em>, 2025.</li>
-<li>PCI-SIG. <em>Address Translation Services Revision 1.1</em>. PCI Special Interest Group, 2020.</li>
-<li>Tang, Y., Lee, S., Bhattacharjee, A., and Khandelwal, A. "pulse: Accelerating Distributed Pointer-Traversals on Disaggregated Memory." In <em>Proceedings of the 30th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '25)</em>, 2025.</li>
-<li>Wang, S., et al. "Bandwidth Expansion via CXL: A Pathway to Accelerating In-Memory Analytical Processing." In <em>Fifteenth International Workshop on Accelerating Analytics and Data Management Systems Using Modern Processor and Storage Architectures (ADMS '24), co-located with VLDB 2024</em>, 2024.</li>
-<li>Zhang, R., et al. "Next-Gen Computing Systems with Compute Express Link: A Comprehensive Survey." arXiv preprint arXiv:2412.20249, 2025.</li>
+
+<li><p>CXL Consortium. <em>Compute Express Link Specification, Revision 3.0</em>. CXL Consortium, 2022. https://www.computeexpresslink.org/</p></li>
+<li><p>CXL Consortium. <em>Compute Express Link Specification, Revision 4.0</em>. CXL Consortium, November 2025. https://www.computeexpresslink.org/</p></li>
+<li><p>Glisse, M., Abramson, D., Bhatia, T., and Sharma, D. "An Introduction to the Compute Express Link (CXL) Interconnect." <em>ACM Computing Surveys</em>, 2024. DOI: 10.1145/3669900</p></li>
+<li><p>Gouk, D., Lee, S., Kwon, M., and Jung, M. "Direct Access, High-Performance Memory Disaggregation with DirectCXL." In <em>Proceedings of the 2022 USENIX Annual Technical Conference (USENIX ATC '22)</em>, pp. 287–294, 2022. https://www.usenix.org/conference/atc22/presentation/gouk</p></li>
+<li><p>Jang, J., Choi, H., Bae, H., Lee, S., Kwon, M., and Jung, M. "CXL-ANNS: Software-Hardware Collaborative Memory Disaggregation and Computation for Billion-Scale Approximate Nearest Neighbor Search." In <em>Proceedings of the 2023 USENIX Annual Technical Conference (USENIX ATC '23)</em>, 2023.</p></li>
+<li><p>Kim, J., Nam, H., Kim, J., and Huh, J. "Exploring the Design Space of Page Management for Multi-Tiered Memory Systems." In <em>Proceedings of the 2021 USENIX Annual Technical Conference (USENIX ATC '21)</em>, 2021.</p></li>
+<li><p>Li, H., Berger, D.S., Hsu, L., Ernst, D., Zardoshti, P., Novakovic, S., Shah, M., Rajadnya, S., Lee, S., Agarwal, I., Hill, M.D., Fontoura, M., and Bianchini, R. "Pond: CXL-Based Memory Pooling Systems for Cloud Platforms." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23)</em>, Volume 2, pp. 574–587, 2023. DOI: 10.1145/3575693.3578835</p></li>
+<li><p>Liang, Y., Huang, T., Chen, K., et al. "Innovation in Computational Architecture: Opportunities and Challenges of CXL Memory Disaggregation Technology in Intelligent Computing Centers." <em>Tsinghua Science and Technology</em>, vol. 31, no. 4, pp. 2020–2039, 2026. DOI: 10.26599/TST.2025.9010010</p></li>
+<li><p>Al Maruf, H., Wang, H., Dhanotia, A., Weiner, J., Agarwal, N., Bhattacharya, P., Petersen, C., Chowdhury, M., Kanaujia, S., and Chauhan, P. "TPP: Transparent Page Placement for CXL-Enabled Tiered Memory." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23)</em>, 2023. arXiv:2206.02878</p></li>
+<li><p>Pan, Y., Lala, Y., Unal, M., Ren, Y., Lee, S., Bhattacharjee, A., Khandelwal, A., and Kashyap, S. "Scalable Far Memory: Balancing Faults and Evictions." In <em>Proceedings of the ACM Symposium on Operating Systems Principles (SOSP '25)</em>, 2025.</p></li>
+<li><p>PCI-SIG. <em>Address Translation Services Revision 1.1</em>. PCI Special Interest Group, 2020.</p></li>
+<li><p>Tang, Y., Lee, S., Bhattacharjee, A., and Khandelwal, A. "pulse: Accelerating Distributed Pointer-Traversals on Disaggregated Memory." In <em>Proceedings of the 30th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '25)</em>, 2025.</p></li>
+<li><p>Wang, S., et al. "Bandwidth Expansion via CXL: A Pathway to Accelerating In-Memory Analytical Processing." In <em>Fifteenth International Workshop on Accelerating Analytics and Data Management Systems Using Modern Processor and Storage Architectures (ADMS '24), co-located with VLDB 2024</em>, 2024.</p></li>
+<li><p>Zhang, R., et al. "Next-Gen Computing Systems with Compute Express Link: A Comprehensive Survey." arXiv preprint arXiv:2412.20249, 2025.</p></li>
+
 </ol>
 
 <script>

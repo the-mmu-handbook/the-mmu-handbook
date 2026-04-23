@@ -38,8 +38,9 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 8 | 217 KB |
 | [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 5 | 158 KB |
 | [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 6 | 185 KB |
+| [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 8 | 179 KB |
 
-**Total: 135 embedded SVG figures across 18 chapters (~4.0 MB)**
+**Total: 143 embedded SVG figures across 19 chapters (~4.2 MB)**
 
 ---
 
@@ -98,6 +99,9 @@ The hardware PTW as a micro-machine: six-stage x86-64 pipeline (TLB miss → CR3
 
 **Chapter 18 — MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits**
 How speculative execution converts the paging model's five protection bits (P, U/S, R/W, NX, CR3/PCID) into attack surfaces. Meltdown (CVE-2017-5754): speculative U/S bypass, kernel physmap disclosure at 500 KB/s, AMD immunity via early fault delivery. Spectre v1 (CVE-2017-5753): bounds-check bypass, TLB translation as attack enabler, `lfence` and `array_index_mask_nospec` mitigations. Spectre v2 (CVE-2017-5715): BTB poisoning of PTW microcode indirect branches, retpoline, IBRS/EIBRS, BHI and Retbleed extensions. L1TF/Foreshadow (CVE-2018-3615/3620/3646): speculative P=0 PTE PA-field read, three attack surfaces (SGX enclave, OS/SMM, VMM), microcode suppression and Cascade Lake silicon fix. MDS family (CVE-2018-12126/12127/12130): fill buffer (RIDL), store buffer (Fallout), load buffer (ZombieLoad), TAA, SRBDS, and the shared-buffer PTW amplification effect. KPTI: dual-CR3 design, PCID amortisation, ARM64 structural immunity via TTBR0/TTBR1. Quantified mitigation overhead by workload class (5–20% database/network; <1% compute-bound; 18–35% cloud hypervisor). Production deployment decision framework and hardware-generation fix timeline.
+
+**Chapter 19 — CXL and the Disaggregated Address Space**
+CXL Type 3 memory expanders, the CXL .io/.cache/.mem protocol stack, and how HDM appears in the host physical address space. How Linux presents CXL as a cpuless NUMA node, the critical page table pinning constraint, memory tiering mechanics, TLB shootdown inversion via CXL 3.0 Back-Invalidation, and the two-stage address translation structure of CXL Shared Memory. Production measurements from Azure Pond, DirectCXL, and Meta TPP.
 
 ---
 
