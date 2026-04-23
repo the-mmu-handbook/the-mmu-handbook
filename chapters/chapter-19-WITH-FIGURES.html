@@ -1,0 +1,2757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Chapter 19: CXL and the Disaggregated Address Space</title>
+  <style>
+
+
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  
+  
+    figure{page-break-inside:avoid;}
+    figure svg{max-width:100%;height:auto;}
+    @media print{figure{page-break-inside:avoid;margin:1.5em 0;}figcaption{font-size:9pt;}}
+  
+
+/* ── Sidebar (injected) ── */
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION — MMU Handbook (v2)
+══════════════════════════════════════════════════════════ */
+:root {
+  --sidebar-w: 280px;
+  --sidebar-bg: #1E2533;
+  --sidebar-border: #2E3A4E;
+  --sidebar-text: #CBD8E8;
+  --sidebar-muted: #7B92B0;
+  --sidebar-accent: #5E81AC;
+  --sidebar-hover-bg: #28324A;
+  --sidebar-active-bg: #2E3A4E;
+  --sidebar-active-text: #DDEAF5;
+  --toc-indent: #4A8A99;
+}
+
+/* Override Pandoc base body constraints */
+body {
+  margin: 0 !important;
+  margin-left: calc(var(--sidebar-w) + 40px) !important;
+  margin-right: 40px !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 40px !important;
+  transition: margin-left 0.28s cubic-bezier(.4,0,.2,1);
+  box-sizing: border-box;
+}
+body.sidebar-collapsed {
+  margin-left: 56px !important;
+}
+
+/* Scroll offset so headings aren't cut off */
+h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: 24px;
+}
+
+/* ── Sidebar shell ── */
+#mmu-sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  transition: width 0.28s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: 13.5px;
+}
+#mmu-sidebar.collapsed { width: 44px; }
+
+/* CRITICAL: override Pandoc a/a:visited inside sidebar */
+#mmu-sidebar a,
+#mmu-sidebar a:visited,
+#mmu-sidebar a:active,
+#mmu-sidebar a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* ── Header ── */
+#sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+  min-height: 52px;
+}
+#sidebar-logo { display: flex; align-items: center; gap: 10px; overflow: hidden; white-space: nowrap; }
+#sidebar-logo-icon {
+  width: 28px; height: 28px;
+  background: var(--sidebar-accent);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px; font-weight: 700; color: #fff;
+}
+#sidebar-logo-text {
+  color: var(--sidebar-active-text);
+  font-size: 11.5px; font-weight: 600;
+  line-height: 1.3; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 1; transition: opacity 0.2s;
+}
+#mmu-sidebar.collapsed #sidebar-logo-text { opacity: 0; pointer-events: none; }
+
+#sidebar-toggle {
+  background: none; border: none; cursor: pointer;
+  padding: 5px; border-radius: 4px;
+  color: var(--sidebar-muted);
+  display: flex; align-items: center; flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+#sidebar-toggle:hover { color: var(--sidebar-active-text); background: var(--sidebar-hover-bg); }
+#sidebar-toggle svg { width: 18px; height: 18px; }
+
+/* ── Scroll area ── */
+#sidebar-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 8px 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-border) transparent;
+}
+#sidebar-scroll::-webkit-scrollbar { width: 4px; }
+#sidebar-scroll::-webkit-scrollbar-thumb { background: var(--sidebar-border); border-radius: 2px; }
+#mmu-sidebar.collapsed #sidebar-scroll { overflow: hidden; }
+
+/* ── Chapter item ── */
+.ch-item { border-bottom: 1px solid var(--sidebar-border); }
+
+.ch-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px;
+  cursor: pointer; user-select: none;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+.ch-header:hover { background: var(--sidebar-hover-bg); }
+.ch-item.active > .ch-header { background: var(--sidebar-active-bg); }
+
+.ch-num {
+  font-size: 10px; font-weight: 700;
+  color: var(--sidebar-accent);
+  background: rgba(94,129,172,0.15);
+  border-radius: 3px; padding: 1px 5px;
+  flex-shrink: 0; letter-spacing: 0.04em;
+  min-width: 26px; text-align: center;
+}
+.ch-item.active .ch-num { background: var(--sidebar-accent); color: #fff; }
+
+.ch-title-link {
+  color: var(--sidebar-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.35;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.ch-header:hover .ch-title-link { color: var(--sidebar-active-text) !important; }
+.ch-item.active .ch-title-link { color: var(--sidebar-active-text) !important; font-weight: 500; }
+
+.ch-arrow {
+  margin-left: auto; flex-shrink: 0;
+  color: var(--sidebar-muted);
+  transition: transform 0.22s, color 0.12s;
+  width: 14px; height: 14px;
+}
+.ch-item.open .ch-arrow { transform: rotate(90deg); color: var(--sidebar-accent); }
+
+/* ── TOC list ── */
+.ch-toc {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,0.12);
+}
+.ch-item.open .ch-toc { max-height: 2000px; }
+#mmu-sidebar.collapsed .ch-toc { max-height: 0 !important; }
+
+.toc-entry {
+  display: block;
+  padding: 5px 14px 5px 28px;
+  color: var(--sidebar-muted) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
+}
+.toc-entry:hover {
+  color: var(--sidebar-active-text) !important;
+  background: var(--sidebar-hover-bg);
+  border-left-color: var(--toc-indent);
+}
+.toc-entry.active-section {
+  color: #8BBFD4 !important;
+  border-left-color: var(--toc-indent);
+  background: rgba(74,138,153,0.12);
+  font-weight: 500;
+}
+
+/* ── Collapsed ── */
+#mmu-sidebar.collapsed .ch-header { justify-content: center; padding: 9px 0; }
+#mmu-sidebar.collapsed .ch-title-link,
+#mmu-sidebar.collapsed .ch-arrow { display: none; }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 260px; }
+  body { margin-left: 52px !important; }
+  #mmu-sidebar { width: 44px; }
+  #mmu-sidebar.mobile-open { width: var(--sidebar-w); }
+}
+@media print {
+  #mmu-sidebar { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+
+/* ═══ Sidebar v3 ═══ */
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION — MMU Handbook v3
+   Uses Pandoc IDs for reliable anchor navigation
+══════════════════════════════════════════════════════════ */
+:root {
+  --sb-w: 280px;
+  --sb-bg: #F5F7FA;
+  --sb-border: #DDE4EE;
+  --sb-text: #3A5070;
+  --sb-muted: #7A92AA;
+  --sb-accent: #4A7BAC;
+  --sb-hover-bg: #EAF0F8;
+  --sb-active-bg: #DDE8F4;
+  --sb-active-text: #1E3A5A;
+  --sb-toc-active: #B05A00;
+  --sb-toc-inactive: #5A7A9C;
+}
+
+/* ── Reset Pandoc body constraints ── */
+body {
+  margin: 0 !important;
+  margin-left: calc(var(--sb-w) + 36px) !important;
+  margin-right: 40px !important;
+  max-width: none !important;
+  width: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 36px !important;
+  transition: margin-left 0.26s cubic-bezier(.4,0,.2,1);
+  box-sizing: border-box;
+}
+body.sb-collapsed { margin-left: 52px !important; }
+
+/* Heading scroll offset */
+h1,h2,h3,h4 { scroll-margin-top: 20px; }
+
+/* ── Sidebar shell ── */
+#sb {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sb-w);
+  background: var(--sb-bg);
+  border-right: 1px solid var(--sb-border);
+  display: flex; flex-direction: column;
+  z-index: 1000; overflow: hidden;
+  transition: width 0.26s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+#sb.collapsed { width: 44px; }
+
+/* ── Override ALL link colours inside sidebar ── */
+#sb a,
+#sb a:link,
+#sb a:visited,
+#sb a:hover,
+#sb a:active,
+#sb a:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+/* ── Header ── */
+#sb-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 12px; border-bottom: 1px solid var(--sb-border);
+  flex-shrink: 0; min-height: 50px;
+}
+#sb-logo { display: flex; align-items: center; gap: 9px; overflow: hidden; }
+#sb-icon {
+  width: 28px; height: 28px; background: var(--sb-accent);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+}
+#sb-wordmark {
+  color: #4A6882; font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; line-height: 1.3; white-space: nowrap;
+  opacity: 1; transition: opacity 0.2s;
+}
+#sb.collapsed #sb-wordmark { opacity: 0; pointer-events: none; }
+
+#sb-btn {
+  background: none; border: none; cursor: pointer; padding: 5px;
+  border-radius: 4px; color: #8AADCC; flex-shrink: 0;
+  display: flex; align-items: center;
+  transition: color 0.14s, background 0.14s;
+}
+#sb-btn:hover { color: var(--sb-active-text); background: var(--sb-hover-bg); }
+#sb-btn svg { width: 17px; height: 17px; }
+
+/* ── Scroll area ── */
+#sb-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 0 20px;
+  scrollbar-width: thin; scrollbar-color: var(--sb-border) transparent;
+}
+#sb-scroll::-webkit-scrollbar { width: 4px; }
+#sb-scroll::-webkit-scrollbar-thumb { background: var(--sb-border); border-radius: 2px; }
+#sb.collapsed #sb-scroll { overflow: hidden; }
+
+/* ── Chapter row ── */
+.sb-ch { border-bottom: 1px solid var(--sb-border); }
+
+.sb-ch-head {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 11px; cursor: pointer; user-select: none;
+  transition: background 0.12s; white-space: nowrap;
+}
+.sb-ch-head:hover { background: var(--sb-hover-bg); }
+.sb-ch.active > .sb-ch-head { background: var(--sb-active-bg); }
+
+.sb-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  color: #4A7BAC; background: rgba(74,123,172,0.1);
+  border-radius: 3px; padding: 1px 5px; flex-shrink: 0;
+  min-width: 24px; text-align: center;
+}
+.sb-ch.active .sb-num { background: var(--sb-accent); color: #fff; }
+
+.sb-ch-link {
+  color: var(--sb-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.3;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.sb-ch-head:hover .sb-ch-link { color: var(--sb-active-text) !important; }
+.sb-ch.active .sb-ch-link { color: var(--sb-active-text) !important; font-weight: 500; }
+
+.sb-arrow {
+  margin-left: auto; flex-shrink: 0; color: #4E6B8C;
+  transition: transform 0.2s, color 0.12s; width: 13px; height: 13px;
+}
+.sb-ch.open .sb-arrow { transform: rotate(90deg); color: var(--sb-accent); }
+
+/* ── TOC ── */
+.sb-toc {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,0.03);
+}
+.sb-ch.open .sb-toc { max-height: 2400px; }
+#sb.collapsed .sb-toc { max-height: 0 !important; }
+
+.sb-sec {
+  display: block; padding: 5px 12px 5px 26px;
+  color: var(--sb-toc-inactive) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, background 0.1s, border-color 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sb-sec:hover {
+  color: var(--sb-active-text) !important;
+  background: rgba(74,123,172,0.1);
+  border-left-color: var(--sb-accent);
+}
+.sb-sec.here {
+  color: var(--sb-toc-active) !important;
+  border-left-color: var(--sb-toc-active);
+  background: rgba(176,90,0,0.08);
+  font-weight: 500;
+}
+
+
+/* ── Home link ── */
+#sb-home-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; cursor: pointer;
+  border-bottom: 1px solid var(--sb-border);
+  white-space: nowrap; color: var(--sb-text) !important;
+  font-size: 12px; font-weight: 500;
+  transition: background 0.12s;
+}
+#sb-home-link:hover { background: var(--sb-hover-bg); color: var(--sb-active-text) !important; }
+#sb.collapsed #sb-home-link span { display: none; }
+#sb.collapsed #sb-home-link { justify-content: center; padding: 9px 0; }
+
+/* ── Collapsed mode ── */
+#sb.collapsed .sb-ch-head { justify-content: center; padding: 8px 0; }
+#sb.collapsed .sb-ch-link,
+#sb.collapsed .sb-arrow { display: none; }
+
+/* ── Mobile / print ── */
+@media (max-width: 860px) {
+  :root { --sb-w: 250px; }
+  body { margin-left: 50px !important; }
+  #sb { width: 44px; }
+  #sb.mob-open { width: var(--sb-w); }
+}
+@media print {
+  #sb { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+
+  </style>
+</head>
+<body>
+
+<header id="title-block-header">
+<h1 class="title">Chapter 19: CXL and the Disaggregated Address Space</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#section-19.1">19.1 Introduction: When Physical Memory Leaves the Socket</a></li>
+<li><a href="#section-19.2">19.2 CXL Protocol Architecture: .io, .cache, .mem</a></li>
+<li><a href="#section-19.3">19.3 CXL as a NUMA Node: How Linux Sees Disaggregated Memory</a></li>
+<li><a href="#section-19.4">19.4 The Unchanged Mechanism, the Changed Cost</a></li>
+<li><a href="#section-19.5">19.5 The Page Table Pinning Constraint</a></li>
+<li><a href="#section-19.6">19.6 Memory Tiering: The OS Page Allocator Under CXL</a></li>
+<li><a href="#section-19.7">19.7 TLB Shootdown Inverted: CXL Back-Invalidation</a></li>
+<li><a href="#section-19.8">19.8 CXL 3.0 Shared Memory: Two-Stage Translation Returns</a></li>
+<li><a href="#section-19.9">19.9 Production Deployments and Performance Engineering</a></li>
+<li><a href="#section-19.10">19.10 Chapter Summary</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</nav>
+
+<h2 id="section-19.1">19.1 Introduction: When Physical Memory Leaves the Socket</h2>
+
+<p>Every chapter in this book has rested on an assumption so fundamental it was never stated: when the MMU finishes a page table walk and produces a physical address, that address names a location in DRAM attached directly to the same die or package by a local memory controller. The address traverses a few centimetres of silicon interconnect and reaches its destination in roughly 80 nanoseconds. This coupling between the CPU and its memory has defined processor architecture since the 1960s, and every mechanism described in the preceding eighteen chapters — TLB design, page table structures, PTW microarchitecture, OS page allocation, TLB shootdown protocols — was designed with it as bedrock.</p>
+
+<p>Compute Express Link (CXL) dissolves that assumption. CXL is a cache-coherent interconnect, built on the PCIe physical layer, that extends the CPU's physical address space to memory devices that may be on a separate add-in card, a separate tray, or a separate chassis. The CPU MMU produces a physical address, exactly as it always has, and that address may refer to a DRAM module sitting 200 to 500 nanoseconds away over a PCIe fabric. The page table entry that produced this address is indistinguishable from any other PTE; there is no CXL bit, no far-memory flag, no hint to the hardware that anything unusual is happening. The TLB caches the translation with exactly the same priority as it would cache a translation for local DRAM. The page walker traverses exactly the same four-level hierarchy. The only difference is what happens after the physical address is produced: instead of a ~80 ns round trip to the local memory controller, the request must traverse the CPU's PCIe root complex, the CXL host bridge, possibly a CXL switch, and a CXL memory controller before the data returns.</p>
+
+<p>Three things change under CXL; one thing does not.</p>
+
+<p>What changes: the access latency of a TLB-miss resolution (a page walk followed by a data access can now cost 600–800 ns instead of 160 ns); the correct placement of page table pages (they must be pinned in local DRAM or every TLB miss will cost 2,000 ns); and the direction of TLB coherence in CXL 3.0 Shared Memory configurations (the CXL device can now initiate a shootdown toward the CPU — the first device-initiated TLB invalidation protocol described in this book).</p>
+
+<p>What does not change: the virtual-to-physical address translation mechanism itself. The same CR3-chained four-level walk on x86-64, the same TTBR0/TTBR1 mechanism on ARM64, the same satp register on RISC-V — all are unchanged. CXL operates entirely below the level at which the MMU functions, in the memory bus layer that the CPU's translation hardware has always treated as a black box. This distinction is the chapter's central theme: CXL is a revolution in memory topology but a non-event for translation architecture, and understanding both sides of that sentence is required to deploy CXL correctly.</p>
+
+<p>Readers with strong familiarity with the book's earlier chapters will recognise several connections. The two-stage address translation model introduced for virtualisation in Chapter 3 reappears in CXL 3.0 Shared Memory, where multiple hosts each have their own virtual-to-physical mapping but must ultimately resolve to a unified CXL device physical address. The NUMA-aware page table placement discussed in Chapter 9 becomes critically important under CXL tiering, because a page table page that migrates to the CXL tier inflicts the same 6× PTW slowdown regardless of whether the application intended it. The PTW latency model developed in Chapter 17 requires a new row for CXL-resident memory. And the TLB shootdown protocols from Chapters 4, 9, and 12 — all CPU-initiated — now have an inversion introduced by CXL 3.0 Back-Invalidation that this chapter documents for the first time.</p>
+
+<p>RISC-V is explicitly out of scope for this chapter. As of 2025, no production RISC-V CPU implements a CXL host bridge; the RISC-V open-ISA philosophy and software-managed TLB design make CXL integration a future research direction rather than a current deployment consideration. The chapter covers x86-64 (Intel Sapphire Rapids and successors) and ARM64 (NVIDIA Grace Hopper), where production CXL support exists and can be measured.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arr1" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+    <filter id="sh1"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  </defs>
+  <text x="450" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.1 — CXL Protocol Family and Device Taxonomy</text>
+  <!-- Protocol columns header -->
+  <text x="220" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">CXL Sub-Protocols</text>
+  <text x="660" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">Device Types</text>
+  <line x1="450" y1="45" x2="450" y2="510" stroke="#E0E0E0" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- CXL.io -->
+  <rect x="30" y="70" width="380" height="90" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh1)"/>
+  <text x="50" y="96" font-size="15" font-weight="bold" fill="#5E81AC">CXL.io</text>
+  <text x="50" y="116" font-size="12" fill="#212121">PCIe-compatible I/O semantics</text>
+  <text x="50" y="133" font-size="12" fill="#616161">Device enumeration · BAR mapping · Config space</text>
+  <text x="50" y="150" font-size="12" fill="#616161">Used by ALL CXL device types</text>
+  <!-- CXL.cache -->
+  <rect x="30" y="175" width="380" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh1)"/>
+  <text x="50" y="201" font-size="15" font-weight="bold" fill="#4A8A99">CXL.cache</text>
+  <text x="50" y="221" font-size="12" fill="#212121">Device-side caching of host memory</text>
+  <text x="50" y="238" font-size="12" fill="#616161">Device TLB (DTLB) · ATS for VA→PA translation</text>
+  <text x="50" y="255" font-size="12" fill="#616161">Back-Invalidation protocol (CXL 3.0)</text>
+  <text x="50" y="272" font-size="12" fill="#BF616A">Used by Type 1 and Type 2 devices</text>
+  <!-- CXL.mem -->
+  <rect x="30" y="290" width="380" height="100" rx="8" fill="#F8F4F0" stroke="#BF616A" stroke-width="2" filter="url(#sh1)"/>
+  <text x="50" y="316" font-size="15" font-weight="bold" fill="#BF616A">CXL.mem</text>
+  <text x="50" y="336" font-size="12" fill="#212121">Load/store access to device-attached memory</text>
+  <text x="50" y="353" font-size="12" fill="#616161">Host-managed Device Memory (HDM)</text>
+  <text x="50" y="370" font-size="12" fill="#616161">Memory appears in host physical address space</text>
+  <text x="50" y="387" font-size="12" fill="#BF616A">Used by Type 2 and Type 3 devices</text>
+  <!-- Type 1 -->
+  <rect x="490" y="70" width="380" height="90" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh1)"/>
+  <text x="510" y="96" font-size="15" font-weight="bold" fill="#5E81AC">Type 1 — Accelerator</text>
+  <text x="510" y="116" font-size="12" fill="#212121">Compute device, no device-attached memory</text>
+  <text x="510" y="133" font-size="12" fill="#616161">Uses CXL.io + CXL.cache</text>
+  <text x="510" y="150" font-size="12" fill="#616161">Example: SmartNIC, DPU, FPGA accelerator</text>
+  <!-- Type 2 -->
+  <rect x="490" y="175" width="380" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh1)"/>
+  <text x="510" y="201" font-size="15" font-weight="bold" fill="#4A8A99">Type 2 — Accelerator + Memory</text>
+  <text x="510" y="221" font-size="12" fill="#212121">Compute + device-attached memory</text>
+  <text x="510" y="238" font-size="12" fill="#616161">Uses all three: CXL.io + CXL.cache + CXL.mem</text>
+  <text x="510" y="255" font-size="12" fill="#616161">Example: GPU with CXL-attached HBM</text>
+  <text x="510" y="272" font-size="12" fill="#616161">Most complex: simultaneous cache + memory protocols</text>
+  <!-- Type 3 -->
+  <rect x="490" y="290" width="380" height="100" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh1)"/>
+  <text x="510" y="316" font-size="15" font-weight="bold" fill="#BF616A">Type 3 — Memory Expander ★</text>
+  <text x="510" y="336" font-size="12" fill="#212121">Pure memory device, no compute</text>
+  <text x="510" y="353" font-size="12" fill="#616161">Uses CXL.io + CXL.mem only</text>
+  <text x="510" y="370" font-size="12" fill="#616161">Example: SK Hynix / Samsung CXL DRAM expander</text>
+  <text x="510" y="387" font-size="12" fill="#BF616A">Primary focus of this chapter</text>
+  <!-- Evolution bar -->
+  <rect x="30" y="410" width="840" height="95" rx="8" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="450" y="432" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">CXL Specification Evolution — Memory Management Perspective</text>
+  <text x="80" y="455" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">CXL 1.0 (2019)</text>
+  <text x="80" y="470" text-anchor="middle" font-size="11" fill="#616161">Type 1/2 only</text>
+  <text x="80" y="485" text-anchor="middle" font-size="11" fill="#616161">No Type 3</text>
+  <text x="270" y="455" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">CXL 2.0 (2020)</text>
+  <text x="270" y="470" text-anchor="middle" font-size="11" fill="#616161">Type 3 added</text>
+  <text x="270" y="485" text-anchor="middle" font-size="11" fill="#616161">Memory pooling via switch</text>
+  <text x="490" y="455" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">CXL 3.0 (2022)</text>
+  <text x="490" y="470" text-anchor="middle" font-size="11" fill="#616161">Shared Memory (multi-host)</text>
+  <text x="490" y="485" text-anchor="middle" font-size="11" fill="#616161">Back-Invalidation added</text>
+  <text x="720" y="455" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF616A">CXL 4.0 (Nov 2025)</text>
+  <text x="720" y="470" text-anchor="middle" font-size="11" fill="#616161">128 GT/s (2× CXL 3.0)</text>
+  <text x="720" y="485" text-anchor="middle" font-size="11" fill="#616161">Multi-rack pooling</text>
+  <!-- Evolution arrows -->
+  <line x1="140" y1="465" x2="190" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr1)"/>
+  <line x1="345" y1="465" x2="400" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr1)"/>
+  <line x1="565" y1="465" x2="620" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr1)"/>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.1:</strong> CXL Protocol Family and Device Taxonomy. Three sub-protocols (.io, .cache, .mem) combine to define three device types. Type 3 memory expanders — the focus of this chapter — use CXL.io for device management and CXL.mem for load/store access to device-attached DRAM that appears in the host physical address space as Host-managed Device Memory (HDM).
+  </figcaption>
+</figure>
+
+<h2 id="section-19.2">19.2 CXL Protocol Architecture: .io, .cache, .mem</h2>
+
+<p>CXL is not a single protocol but a layered stack of three sub-protocols, each serving a different purpose, built on top of the PCIe physical and link layers. Understanding which sub-protocol handles which function is prerequisite to understanding how CXL devices interact with the CPU's address translation machinery.</p>
+
+<p><strong>CXL.io</strong> is a superset of PCIe's transaction layer protocol. It handles all device management tasks: device discovery during system boot, configuration space access, Base Address Register (BAR) mapping through which the OS enumerates the device's memory ranges, and interrupt delivery. CXL.io carries no cache coherence semantics; it is the administrative channel. Every CXL device uses CXL.io regardless of type.</p>
+
+<p><strong>CXL.cache</strong> enables a CXL device to cache host memory. A device that uses CXL.cache implements a Device Translation Look-aside Buffer (DTLB), structurally analogous to the CPU's TLB. When the device accesses host memory using a virtual address, it uses the Address Translation Services (ATS) mechanism — defined originally in the PCIe ATS specification and extended by CXL — to request a virtual-to-physical translation from the host MMU. The host fulfils this request, the device caches the result in its DTLB, and subsequent accesses with the same virtual address are served from the DTLB without further host involvement. The DTLB is non-coherent with the host's TLBs, so when the host OS modifies a PTE, it must send an ATS INVALIDATE message to the device and receive an acknowledgement before proceeding. This is a straightforward extension of the standard TLB shootdown protocol described in Chapter 4: the device DTLB is simply one more invalidation target alongside the CPU cores. CXL 3.0 introduces Back-Invalidation, which inverts this protocol entirely; Section 19.7 addresses that mechanism in detail.</p>
+
+<p><strong>CXL.mem</strong> provides direct load/store semantics for device-attached memory. A CXL.mem device exposes its DRAM to the host as Host-managed Device Memory (HDM): a range of host physical addresses that, when accessed via load or store instructions, cause the request to traverse the CXL link to the device's memory controller and return data across the same link. From the CPU's perspective, HDM is identical to ordinary DRAM: it lives in the physical address map, it is page-allocatable by the kernel, and its contents are accessible through standard memory operations. The translation mechanism that produced the physical address has no knowledge of what happens next.</p>
+
+<p>These three sub-protocols combine to define the three device types that CXL specifies. Type 1 devices — SmartNICs, DPUs, FPGAs used as accelerators — implement CXL.io and CXL.cache but have no device-attached memory; they cache the host's memory in their own on-device SRAM. Type 2 devices implement all three protocols simultaneously: they are accelerators with device-attached memory that both caches host data (CXL.cache) and exposes additional capacity (CXL.mem). Type 3 devices — the central subject of this chapter — implement only CXL.io and CXL.mem. They are pure memory expanders: no compute, no caching of host memory, only DRAM exposed as HDM.</p>
+
+<p>The CXL specification has evolved through four generations with progressively richer memory management implications. CXL 1.0 (2019) introduced the protocol family but only supported Type 1 and Type 2 devices; Type 3 memory expanders were absent. CXL 2.0 (2020) added Type 3 devices and, critically, introduced memory pooling via a CXL switch: a single Type 3 device could serve multiple hosts, but only one host could own the device at a time — no concurrent access across hosts. CXL 3.0 (2022) made the architectural leap to Shared Memory, allowing multiple hosts to simultaneously map the same physical CXL memory with hardware-managed MESI coherence; it also introduced Back-Invalidation. CXL 4.0, published by the CXL Consortium in November 2025, doubles the link bandwidth from 64 GT/s to 128 GT/s (matching PCIe 7.0), introduces bundled port aggregation for multi-rack topologies, and enhances memory reliability, availability, and serviceability (RAS) features — all without changing the fundamental address translation model.</p>
+
+<p>On x86-64, Intel's Sapphire Rapids processor family (2023) was the first production CPU to ship with CXL 1.1 host bridge support. Subsequent Xeon generations extend this to CXL 2.0 and CXL 3.0. On ARM64, NVIDIA's Grace Hopper Superchip incorporates CXL support through the Grace CPU chiplet; Grace Hopper systems can combine CXL-attached memory with NVLink-attached GPU HBM in a single unified address space. AMD's MI300X AI accelerator includes CXL through its CPU chiplet, supplementing the 192 GB on-package HBM. SK Hynix and Samsung have shipped Type 3 CXL DRAM expander modules in volume since 2023.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arrb" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <filter id="sh2"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.2 — CXL Physical Address Space Map</text>
+
+  <!-- CPU Package -->
+  <rect x="30" y="45" width="220" height="160" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh2)"/>
+  <text x="140" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">CPU Package</text>
+  <rect x="45" y="78" width="90" height="45" rx="5" fill="#5E81AC"/>
+  <text x="90" y="99" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Cores</text>
+  <text x="90" y="114" text-anchor="middle" font-size="10" fill="white">+ L1/L2/L3</text>
+  <rect x="145" y="78" width="90" height="45" rx="5" fill="#4A8A99"/>
+  <text x="190" y="99" text-anchor="middle" font-size="12" fill="white" font-weight="bold">MMU/TLB</text>
+  <text x="190" y="114" text-anchor="middle" font-size="10" fill="white">PTW</text>
+  <rect x="45" y="133" width="190" height="35" rx="5" fill="#34495E"/>
+  <text x="140" y="155" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Memory Controller</text>
+  <text x="140" y="170" text-anchor="middle" font-size="11" fill="#9E9E9E">+ PCIe Root Complex</text>
+  <rect x="45" y="175" width="190" height="22" rx="4" fill="#BF616A"/>
+  <text x="140" y="191" text-anchor="middle" font-size="11" fill="white">CXL Host Bridge</text>
+
+  <!-- Local DRAM -->
+  <rect x="30" y="222" width="220" height="70" rx="8" fill="#4A8A99" stroke="#34495E" stroke-width="2" filter="url(#sh2)"/>
+  <text x="140" y="246" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Local DRAM</text>
+  <text x="140" y="263" text-anchor="middle" font-size="11" fill="#E0E0E0">PA: 0x0000_0000</text>
+  <text x="140" y="278" text-anchor="middle" font-size="11" fill="#E0E0E0">→ 0x7FFF_FFFF (128 GB)</text>
+
+  <!-- PCIe Root + CXL switch -->
+  <rect x="310" y="45" width="200" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh2)"/>
+  <text x="410" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">PCIe Root Complex</text>
+  <text x="410" y="90" text-anchor="middle" font-size="11" fill="#616161">CXL Host Bridge</text>
+  <text x="410" y="107" text-anchor="middle" font-size="11" fill="#616161">ACPI SRAT / HMAT</text>
+  <text x="410" y="124" text-anchor="middle" font-size="11" fill="#BF616A">Enumerates HDM ranges</text>
+
+  <rect x="310" y="160" width="200" height="80" rx="8" fill="#F0F4F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh2)"/>
+  <text x="410" y="184" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">CXL Switch</text>
+  <text x="410" y="202" text-anchor="middle" font-size="11" fill="#616161">Fabric Manager</text>
+  <text x="410" y="218" text-anchor="middle" font-size="11" fill="#616161">CXL 3.0: Snoop Filter</text>
+  <text x="410" y="232" text-anchor="middle" font-size="11" fill="#BF616A">Back-Invalidate router</text>
+
+  <!-- CXL Type 3 Devices -->
+  <rect x="580" y="45" width="290" height="115" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2" filter="url(#sh2)"/>
+  <text x="725" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">CXL Type 3 Memory Expanders</text>
+  <rect x="595" y="80" width="120" height="68" rx="5" fill="#BF616A"/>
+  <text x="655" y="103" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Expander A</text>
+  <text x="655" y="120" text-anchor="middle" font-size="11" fill="white">128 GB DDR5</text>
+  <text x="655" y="137" text-anchor="middle" font-size="10" fill="white">SK Hynix</text>
+  <rect x="730" y="80" width="125" height="68" rx="5" fill="#BF616A"/>
+  <text x="792" y="103" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Expander B</text>
+  <text x="792" y="120" text-anchor="middle" font-size="11" fill="white">128 GB DDR5</text>
+  <text x="792" y="137" text-anchor="middle" font-size="10" fill="white">Samsung</text>
+
+  <!-- Physical Address Space Map (right side) -->
+  <rect x="580" y="175" width="290" height="230" rx="8" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="725" y="197" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Host Physical Address Space</text>
+  <!-- DRAM range -->
+  <rect x="595" y="205" width="255" height="40" rx="4" fill="#4A8A99"/>
+  <text x="722" y="223" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Local DRAM: 0x0 → 0x1FFF_FFFF</text>
+  <text x="722" y="238" text-anchor="middle" font-size="10" fill="white">128 GB — ~80 ns latency</text>
+  <!-- HDM range A -->
+  <rect x="595" y="252" width="255" height="40" rx="4" fill="#BF616A"/>
+  <text x="722" y="270" text-anchor="middle" font-size="11" fill="white" font-weight="bold">HDM — Expander A: 0x2000_0000...</text>
+  <text x="722" y="285" text-anchor="middle" font-size="10" fill="white">128 GB — ~300 ns latency</text>
+  <!-- HDM range B -->
+  <rect x="595" y="299" width="255" height="40" rx="4" fill="#BF616A" fill-opacity="0.75"/>
+  <text x="722" y="317" text-anchor="middle" font-size="11" fill="white" font-weight="bold">HDM — Expander B: 0x6000_0000...</text>
+  <text x="722" y="332" text-anchor="middle" font-size="10" fill="white">128 GB — ~300 ns latency</text>
+  <!-- Key insight -->
+  <rect x="595" y="346" width="255" height="50" rx="4" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="722" y="364" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">PTEs for HDM pages are identical</text>
+  <text x="722" y="379" text-anchor="middle" font-size="11" fill="#212121">to local DRAM PTEs — the MMU</text>
+  <text x="722" y="394" text-anchor="middle" font-size="11" fill="#212121">cannot distinguish tiers</text>
+
+  <!-- Latency annotation -->
+  <rect x="30" y="307" width="220" height="65" rx="8" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="140" y="327" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Access Latency</text>
+  <text x="140" y="345" text-anchor="middle" font-size="11" fill="#4A8A99">Local DRAM: ~80 ns</text>
+  <text x="140" y="360" text-anchor="middle" font-size="11" fill="#BF616A">CXL 8-sock pool: +70–90 ns</text>
+  <text x="140" y="375" text-anchor="middle" font-size="11" fill="#BF616A">CXL rack-scale: +180 ns</text>
+
+  <!-- NUMA annotation -->
+  <rect x="30" y="385" width="220" height="55" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="140" y="405" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">Linux OS Model</text>
+  <text x="140" y="422" text-anchor="middle" font-size="11" fill="#212121">DRAM = NUMA node 0</text>
+  <text x="140" y="437" text-anchor="middle" font-size="11" fill="#212121">CXL = NUMA node 1 (cpuless)</text>
+
+  <!-- Arrows -->
+  <line x1="250" y1="130" x2="308" y2="95" stroke="#5E81AC" stroke-width="2" marker-end="url(#arrb)"/>
+  <line x1="410" y1="145" x2="410" y2="158" stroke="#4A8A99" stroke-width="2" marker-end="url(#arrb)"/>
+  <line x1="510" y1="100" x2="578" y2="100" stroke="#BF616A" stroke-width="2" marker-end="url(#arrb)"/>
+  <line x1="510" y1="200" x2="578" y2="200" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrb)"/>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.2:</strong> CXL Physical Address Space Map. CXL Type 3 memory expanders are enumerated via ACPI SRAT/HMAT tables and appear as Host-managed Device Memory (HDM) ranges in the host's physical address space. The CPU MMU translates virtual addresses to these physical addresses using the same page table mechanism as local DRAM — the latency difference (80 ns vs 300+ ns) is invisible to the translation hardware and only manifests after the physical address is issued to the memory bus.
+  </figcaption>
+</figure>
+
+<h2 id="section-19.3">19.3 CXL as a NUMA Node: How Linux Sees Disaggregated Memory</h2>
+
+<p>When a Linux system boots with CXL Type 3 memory attached, the firmware enumerates the device's HDM ranges in the ACPI SRAT (System Resource Affinity Table) and HMAT (Heterogeneous Memory Attribute Table). The SRAT declares which physical address ranges belong to which memory domain; the HMAT quantifies the access latency and bandwidth of each range relative to each CPU. From this information, the Linux kernel constructs its NUMA topology model, and CXL memory appears as a new NUMA node — one with no CPU cores, only memory. The kernel community calls this a "cpuless" or "memory-only" NUMA node.</p>
+
+<p>The practical consequence is visible immediately:</p>
+
+<pre><code>$ numactl --hardware
+available: 3 nodes (0-2)
+node 0 cpus: 0-55
+node 0 size: 512000 MB
+node 0 free: 340221 MB
+node 1 cpus: 56-111
+node 1 size: 512000 MB
+node 1 free: 298413 MB
+node 2 cpus: (none)           # CXL node — no CPUs
+node 2 size: 131072 MB
+node 2 free: 130048 MB
+node distances:
+node   0   1   2
+  0:  10  20  40             # CXL node 2 is "farther" than NUMA node 1
+  1:  20  10  40
+  2:  40  40  10
+</code></pre>
+
+<p>The NUMA distance of 40 for the CXL node (compared to 10 for local access and 20 for cross-socket) reflects the additional latency measured and reported in the HMAT. Applications that use <code>numactl --membind=2</code> or <code>mmap</code> with <code>MPOL_BIND</code> targeting NUMA node 2 will receive CXL-backed allocations. Most applications that use no explicit NUMA policy will, by default, allocate from local DRAM (nodes 0 or 1) unless memory pressure forces overflow.</p>
+
+<p>The Linux CXL subsystem, introduced in kernel 5.12 and substantially expanded in 5.14 through 6.x, lives under <code>drivers/cxl/</code> and provides two operating modes for CXL memory. In <em>system-ram mode</em>, the HDM region is hot-added to the kernel's memory management as a fully allocatable memory region belonging to the cpuless NUMA node; this is the standard deployment mode for memory tiering. In <em>DAX mode</em> (direct access), the region is exposed as a character device (<code>/dev/daxN.M</code>) or as a DAX-capable filesystem, bypassing the page cache entirely and allowing applications to map CXL memory directly via <code>mmap</code> without OS page management overhead — useful for persistent memory semantics or when the application manages its own memory layout.</p>
+
+<p>The interaction between CXL's cpuless NUMA model and the kernel's AutoNUMA (Automatic NUMA Balancing) mechanism creates a well-documented pitfall. AutoNUMA was designed to migrate pages toward the NUMA node where they are most frequently accessed, reducing cross-socket latency. With CXL as NUMA node 2, AutoNUMA can identify a page being accessed primarily by CPUs on node 0, observe that the page is currently on the CXL node, and migrate it to node 0 — which is exactly the desired behaviour. However, the same mechanism can work in reverse: a page on node 0 that is accessed from both node 0 and node 1 may be classified as a candidate for migration to the "neutral" CXL node 2, which is the wrong outcome. More critically, without explicit CXL-tier awareness, AutoNUMA has no way to distinguish the CXL node from a standard NUMA node, and may freely migrate pages in both directions without regard to the 3–5× latency differential.</p>
+
+<p>Meta's Transparent Page Placement (TPP), presented at ASPLOS 2023, addressed this by introducing explicit CXL tier classification into the kernel's page migration logic. TPP uses hardware performance counter sampling (Intel PEBS or AMD IBS) to identify hot and cold pages, classifies the CXL node as an explicit "slow tier," and ensures that only pages classified as cold are eligible for migration to CXL. Hot pages are migrated toward local DRAM even if they are currently on the CXL tier. Linux 6.x introduced <code>vm.numa_balancing=2</code>, which activates the CXL-aware tiering mode derived from TPP, as opposed to <code>vm.numa_balancing=1</code> (original AutoNUMA behaviour). Operators deploying CXL-tiered systems must set this flag explicitly; the default <code>vm.numa_balancing=1</code> will misclassify the CXL tier.</p>
+
+<p>The <code>kswapd</code> memory reclaim daemon also requires configuration. Its default behaviour is to scan and reclaim pages from the zone with highest pressure, starting with local zones. With CXL attached, the desired policy is to reclaim (push to CXL or swap) cold pages from local DRAM while preserving hot pages in local DRAM, and to treat CXL as a reclaim destination rather than a swap device. The kernel control <code>vm.zone_reclaim_mode</code> must be configured to express this preference. Setting it to 0 (the default) causes reclaim to occur across NUMA nodes without bias; setting it to 1 biases reclaim toward the local node first, which is the correct behaviour when CXL is present.</p>
+
+<h2 id="section-19.4">19.4 The Unchanged Mechanism, the Changed Cost</h2>
+
+<p>The central insight of this chapter, worth stating plainly before examining its implications: from the perspective of the CPU's translation hardware — the MMU, the TLB, the page table walker — a physical address that points into CXL-attached memory is absolutely indistinguishable from a physical address that points into local DRAM. There is no CXL bit in the PTE. There is no tiered-memory flag in the TLB entry. The page walker does not change its behaviour based on the destination of the physical address it has computed. The TLB entry that results from a successful page walk has exactly the same structure, exactly the same lifetime, and exactly the same priority as any other TLB entry. All of this is by design: CXL's integration into the physical address space is transparent to software and hardware above the memory bus layer.</p>
+
+<p>The cost implications of this transparency are severe unless the system is tuned carefully. Consider the path of a memory access that results in a TLB miss in a correctly configured CXL-tiered system where page tables are pinned in local DRAM:</p>
+
+<ol>
+<li>The CPU issues a virtual address load. The TLB is consulted and misses.</li>
+<li>The hardware page table walker begins. It reads the PML4 entry from DRAM: ~80 ns.</li>
+<li>It reads the PDPT entry from DRAM: ~80 ns.</li>
+<li>It reads the PD entry from DRAM: ~80 ns.</li>
+<li>It reads the PT entry from DRAM: ~80 ns. Total PTW: ~320 ns.</li>
+<li>The physical address is produced. It names a location in CXL-attached memory.</li>
+<li>The CPU's memory controller forwards the request via the PCIe root complex to the CXL host bridge.</li>
+<li>The CXL host bridge forwards the request to the CXL switch, which routes it to the appropriate Type 3 device.</li>
+<li>The device's DDR5 memory controller services the request and returns the data.</li>
+<li>Data traverses the CXL switch, the host bridge, and the PCIe fabric back to the CPU: +70–300 ns depending on pool topology.</li>
+</ol>
+
+<p>The PTW itself (steps 2–5) is unchanged: ~320 ns, identical to Chapter 17's baseline. The difference appears entirely in steps 6–10. A data access that would have cost ~80 ns in local DRAM now costs 150–380 ns, depending on whether the system uses an 8–16 socket pool (Pond's measured +70–90 ns over NUMA-local DRAM) or rack-scale pooling (180+ ns additional latency). The total TLB-miss resolution cost rises from ~400 ns (PTW + data) to ~500–700 ns.</p>
+
+<p>This matters most for workloads with high TLB miss rates. Chapter 11 documented that LLM attention computation over large KV caches can drive DRAM TLB miss rates above 40%. Chapter 12 showed that multi-GPU workloads spend measurable fractions of their time in TLB shootdowns. When such workloads are deployed on CXL-tiered systems, each TLB miss resolution is 25–75% more expensive than it was with local DRAM alone. For a workload spending 20% of execution time on TLB misses (a high but plausible figure for attention-heavy LLM inference), migrating data to CXL adds 5–15% to total execution time even if the data would otherwise have hit in the DRAM page cache — because the miss penalty has grown.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="460" viewBox="0 0 900 460" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.3 — Memory Access Latency Hierarchy with CXL</text>
+
+  <!-- Y axis label -->
+  <text x="15" y="280" text-anchor="middle" font-size="12" fill="#212121" transform="rotate(-90,15,280)">Latency (nanoseconds, log scale)</text>
+
+  <!-- Grid lines and Y labels -->
+  <line x1="80" y1="60" x2="870" y2="60" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="80" y1="110" x2="870" y2="110" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="80" y1="160" x2="870" y2="160" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="80" y1="230" x2="870" y2="230" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="80" y1="310" x2="870" y2="310" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="80" y1="390" x2="870" y2="390" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="75" y="63" text-anchor="end" font-size="11" fill="#616161">500 ns</text>
+  <text x="75" y="113" text-anchor="end" font-size="11" fill="#616161">200 ns</text>
+  <text x="75" y="163" text-anchor="end" font-size="11" fill="#616161">100 ns</text>
+  <text x="75" y="233" text-anchor="end" font-size="11" fill="#616161">50 ns</text>
+  <text x="75" y="313" text-anchor="end" font-size="11" fill="#616161">10 ns</text>
+  <text x="75" y="393" text-anchor="end" font-size="11" fill="#616161">1 ns</text>
+  <!-- Axis -->
+  <line x1="80" y1="400" x2="870" y2="400" stroke="#212121" stroke-width="2"/>
+  <line x1="80" y1="60" x2="80" y2="400" stroke="#212121" stroke-width="2"/>
+
+  <!-- Bars (log scale: 500ns=340px height, 200=280, 100=240, 50=170, 10=90, 1=0) -->
+  <!-- L1 Cache: ~1 ns -->
+  <rect x="95" y="396" width="80" height="4" fill="#5E81AC" rx="2"/>
+  <text x="135" y="420" text-anchor="middle" font-size="10" fill="#212121">L1 Cache</text>
+  <text x="135" y="433" text-anchor="middle" font-size="10" fill="#616161">~1 ns</text>
+
+  <!-- L2 Cache: ~4 ns -->
+  <rect x="200" y="388" width="80" height="12" fill="#5E81AC" rx="2"/>
+  <text x="240" y="420" text-anchor="middle" font-size="10" fill="#212121">L2 Cache</text>
+  <text x="240" y="433" text-anchor="middle" font-size="10" fill="#616161">~4 ns</text>
+
+  <!-- L3 Cache: ~12 ns -->
+  <rect x="305" y="378" width="80" height="22" fill="#5E81AC" rx="2"/>
+  <text x="345" y="420" text-anchor="middle" font-size="10" fill="#212121">L3 Cache</text>
+  <text x="345" y="433" text-anchor="middle" font-size="10" fill="#616161">~12 ns</text>
+
+  <!-- Local DRAM: ~80 ns -->
+  <rect x="410" y="318" width="80" height="82" fill="#4A8A99" rx="2"/>
+  <text x="450" y="420" text-anchor="middle" font-size="10" fill="#212121">Local DRAM</text>
+  <text x="450" y="433" text-anchor="middle" font-size="10" fill="#616161">~80 ns</text>
+
+  <!-- NUMA remote: ~120–200 ns -->
+  <rect x="515" y="278" width="80" height="122" fill="#34495E" rx="2"/>
+  <text x="555" y="420" text-anchor="middle" font-size="10" fill="#212121">NUMA</text>
+  <text x="555" y="433" text-anchor="middle" font-size="10" fill="#616161">120–200 ns</text>
+
+  <!-- CXL 8-sock: ~150–170 ns -->
+  <rect x="620" y="255" width="80" height="145" fill="#BF616A" rx="2"/>
+  <text x="660" y="420" text-anchor="middle" font-size="10" fill="#212121">CXL (8-sock)</text>
+  <text x="660" y="433" text-anchor="middle" font-size="10" fill="#616161">150–170 ns</text>
+
+  <!-- CXL rack-scale: ~260–280 ns -->
+  <rect x="725" y="195" width="80" height="205" fill="#BF616A" fill-opacity="0.7" rx="2"/>
+  <text x="765" y="420" text-anchor="middle" font-size="10" fill="#212121">CXL rack</text>
+  <text x="765" y="433" text-anchor="middle" font-size="10" fill="#616161">260–280 ns</text>
+
+  <!-- Labels on bars -->
+  <text x="450" y="312" text-anchor="middle" font-size="11" font-weight="bold" fill="white">80 ns</text>
+  <text x="555" y="272" text-anchor="middle" font-size="11" font-weight="bold" fill="white">~160 ns</text>
+  <text x="660" y="249" text-anchor="middle" font-size="11" font-weight="bold" fill="white">+70–90 ns</text>
+  <text x="765" y="188" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF616A">+180 ns</text>
+
+  <!-- Annotation box -->
+  <rect x="80" y="48" width="380" height="35" rx="6" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="270" y="64" text-anchor="middle" font-size="11" fill="#5E81AC" font-weight="bold">CXL adds latency post-TLB — translation mechanism is unchanged</text>
+  <text x="270" y="78" text-anchor="middle" font-size="11" fill="#212121">TLB hit: same cost. TLB miss + data access: 2×–4× more expensive</text>
+
+  <rect x="480" y="48" width="380" height="35" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="1"/>
+  <text x="670" y="64" text-anchor="middle" font-size="11" fill="#BF616A" font-weight="bold">Pond (ASPLOS 2023): +70–90 ns for 8–16 socket pool</text>
+  <text x="670" y="78" text-anchor="middle" font-size="11" fill="#212121">43% of Azure workloads within 5% perf at +64 ns</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.3:</strong> Memory Access Latency Hierarchy Extended with CXL Tiers. Local DRAM latency (~80 ns) is the baseline established in Chapter 1. CXL attached memory at pool scale adds 70–90 ns (measured in Azure Pond, ASPLOS 2023), and rack-scale CXL adds over 180 ns. The translation mechanism — TLB lookup and page table walk — is identical for all tiers; the latency difference appears entirely after the physical address is produced.
+  </figcaption>
+</figure>
+
+<p>The implication for TLB architecture decisions is also significant. Chapter 16 analysed huge page usage as the most important TLB optimisation: a 2 MB huge page reduces TLB miss rate by a factor of 512 relative to a 4 KB page, because 512 × 4 KB = 2 MB occupies a single TLB entry. Under local DRAM, each TLB miss costs ~400 ns; a 512× reduction in miss rate means huge pages save roughly 400 ns × 512 = 204,800 ns per huge-page-worth of data for a single pass. Under CXL, each TLB miss costs ~600 ns; the same 512× reduction saves 600 ns × 512 = 307,200 ns per huge page — 50% more value per huge page than with local DRAM. Put differently, TLB miss overhead on CXL memory is a more severe problem than on local DRAM, making huge page allocation on CXL tiers even more important than on local DRAM. Yet CXL memory fragmentation — arising from the pool allocation model — makes huge page assembly harder than it is for local DRAM, creating a tension that production deployments must resolve through careful preallocated huge page pools on CXL nodes.</p>
+
+<p>The TLB miss rate model also applies to the page table walker itself, in a manner that Section 19.5 examines in detail. The key observation here is that the PTW model from Chapter 17 — which assumes DRAM-resident page tables as its baseline — remains accurate as long as page tables are correctly pinned in local DRAM. If that invariant is violated, the PTW latency explodes in a manner with no precedent in prior chapters, and it does so silently: the hardware makes no complaint, the OS receives no error, and the only observable symptom is performance degradation that may be misdiagnosed as network congestion, disk latency, or application logic overhead rather than its true cause — page table pages in CXL-attached memory.</p>
+
+<h2 id="section-19.5">19.5 The Page Table Pinning Constraint</h2>
+
+<p>The most operationally critical constraint introduced by CXL memory tiering is invisible to most documentation, absent from most deployment guides, and devastating when violated: page table pages must never be allowed to migrate to the CXL tier. This section explains why the constraint exists, how Linux's memory tiering infrastructure can violate it silently, and what operators must do to enforce it.</p>
+
+<p>The reason is arithmetic. As Chapter 17 established, a four-level page table walk on x86-64 under normal conditions (page tables DRAM-resident) costs approximately 320 ns: four sequential memory accesses of ~80 ns each. Now suppose the kernel's memory tiering daemon has, during a period of memory pressure, demoted the page table pages for a particular process to the CXL tier. The page table walker has no awareness of this; it simply issues memory requests at the physical addresses it computes at each level. Each of those memory requests now traverses the PCIe fabric to the CXL device and back:</p>
+
+<pre><code>PML4 access: ~500 ns   (CXL-attached DDR5, 8-socket pool)
+PDPT access: ~500 ns
+PD access:   ~500 ns
+PT access:   ~500 ns
+─────────────────────
+Total PTW:  ~2,000 ns  (6.25× worse than 320 ns baseline)
+</code></pre>
+
+<p>For a workload running on a 128-core server with a 40% TLB miss rate — entirely plausible for LLM attention computation, as Chapter 11 documented — having page tables in CXL memory means that 40% of all memory accesses incur a ~2,000 ns PTW instead of a ~320 ns PTW. The throughput penalty is not 6× — the workload has TLB hits for the other 60% of accesses — but the effective TLB miss penalty component of total execution time grows by 6×. A workload that spent 20% of its time on PTW activity will spend 120% of its original PTW time on PTW alone, representing a 20% increase in total execution time solely from misplaced page tables, with no change in workload behaviour.</p>
+
+<p>The danger is that Linux's memory tiering infrastructure does not, by default, distinguish page table pages from application data pages when deciding what to demote to the slow tier. The kernel allocates page table pages through <code>alloc_page(GFP_KERNEL)</code> with the <code>GFP_KERNEL</code> flag, which requests memory from <code>ZONE_NORMAL</code> — the normal zone that spans local DRAM. Under ordinary conditions this is safe. However, when memory tiering is enabled with CXL as a NUMA node, the kernel's demotion path in <code>kswapd</code> and the explicit migration path triggered by <code>migrate_pages()</code> can move any page classified as cold — including pages in <code>ZONE_NORMAL</code> — to the CXL-backed NUMA node. Page table pages are not exempt from this classification unless the kernel is explicitly configured to protect them.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <filter id="sh4"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.4 — Page Table Walk Latency: Local DRAM vs CXL</text>
+
+  <!-- Scenario 1: Normal DRAM PTW -->
+  <rect x="30" y="50" width="260" height="340" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh4)"/>
+  <text x="160" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Baseline: Page Tables in DRAM</text>
+
+  <rect x="50" y="88" width="220" height="36" rx="5" fill="#5E81AC"/>
+  <text x="160" y="106" text-anchor="middle" font-size="12" fill="white">PML4 access (DRAM)</text>
+  <text x="160" y="119" text-anchor="middle" font-size="11" fill="white">~80 ns</text>
+  <rect x="50" y="132" width="220" height="36" rx="5" fill="#5E81AC" fill-opacity="0.8"/>
+  <text x="160" y="150" text-anchor="middle" font-size="12" fill="white">PDPT access (DRAM)</text>
+  <text x="160" y="163" text-anchor="middle" font-size="11" fill="white">~80 ns</text>
+  <rect x="50" y="176" width="220" height="36" rx="5" fill="#5E81AC" fill-opacity="0.6"/>
+  <text x="160" y="194" text-anchor="middle" font-size="12" fill="white">PD access (DRAM)</text>
+  <text x="160" y="207" text-anchor="middle" font-size="11" fill="white">~80 ns</text>
+  <rect x="50" y="220" width="220" height="36" rx="5" fill="#5E81AC" fill-opacity="0.4"/>
+  <text x="160" y="238" text-anchor="middle" font-size="12" fill="#212121">PT access (DRAM)</text>
+  <text x="160" y="251" text-anchor="middle" font-size="11" fill="#212121">~80 ns</text>
+
+  <line x1="85" y1="260" x2="85" y2="298" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="50" y="300" width="220" height="44" rx="5" fill="#4A8A99"/>
+  <text x="160" y="320" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Total PTW: ~320 ns</text>
+  <text x="160" y="337" text-anchor="middle" font-size="11" fill="white">4 × 80 ns — Chapter 17 baseline</text>
+
+  <rect x="50" y="356" width="220" height="24" rx="4" fill="#EAF2F8" stroke="#5E81AC"/>
+  <text x="160" y="373" text-anchor="middle" font-size="11" fill="#5E81AC" font-weight="bold">✅ Correct configuration</text>
+
+  <!-- Scenario 2: Pinned page tables with CXL data -->
+  <rect x="320" y="50" width="260" height="340" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh4)"/>
+  <text x="450" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">Pinned PTables + CXL Data</text>
+  <text x="450" y="85" text-anchor="middle" font-size="11" fill="#4A8A99">(correct CXL deployment)</text>
+
+  <rect x="340" y="98" width="220" height="36" rx="5" fill="#5E81AC"/>
+  <text x="450" y="116" text-anchor="middle" font-size="12" fill="white">PML4 access (DRAM)</text>
+  <text x="450" y="129" text-anchor="middle" font-size="11" fill="white">~80 ns</text>
+  <rect x="340" y="142" width="220" height="36" rx="5" fill="#5E81AC" fill-opacity="0.8"/>
+  <text x="450" y="160" text-anchor="middle" font-size="12" fill="white">PDPT access (DRAM)</text>
+  <text x="450" y="173" text-anchor="middle" font-size="11" fill="white">~80 ns</text>
+  <rect x="340" y="186" width="220" height="36" rx="5" fill="#5E81AC" fill-opacity="0.6"/>
+  <text x="450" y="204" text-anchor="middle" font-size="12" fill="white">PD access (DRAM)</text>
+  <text x="450" y="217" text-anchor="middle" font-size="11" fill="white">~80 ns</text>
+  <rect x="340" y="230" width="220" height="36" rx="5" fill="#5E81AC" fill-opacity="0.4"/>
+  <text x="450" y="248" text-anchor="middle" font-size="12" fill="#212121">PT access (DRAM)</text>
+  <text x="450" y="261" text-anchor="middle" font-size="11" fill="#212121">~80 ns</text>
+
+  <line x1="375" y1="270" x2="375" y2="308" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="340" y="308" width="220" height="44" rx="5" fill="#4A8A99"/>
+  <text x="450" y="328" text-anchor="middle" font-size="13" font-weight="bold" fill="white">PTW: ~320 ns</text>
+  <text x="450" y="345" text-anchor="middle" font-size="11" fill="white">then +80–500 ns for CXL data access</text>
+
+  <rect x="340" y="366" width="220" height="24" rx="4" fill="#F0F8F8" stroke="#4A8A99"/>
+  <text x="450" y="383" text-anchor="middle" font-size="11" fill="#4A8A99" font-weight="bold">✅ Page tables pinned in DRAM</text>
+
+  <!-- Scenario 3: Page tables migrated to CXL (danger) -->
+  <rect x="610" y="50" width="260" height="340" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh4)"/>
+  <text x="740" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">⚠ Page Tables in CXL</text>
+  <text x="740" y="85" text-anchor="middle" font-size="11" fill="#BF616A">(dangerous misconfiguration)</text>
+
+  <rect x="630" y="98" width="220" height="36" rx="5" fill="#BF616A"/>
+  <text x="740" y="116" text-anchor="middle" font-size="12" fill="white">PML4 access (CXL)</text>
+  <text x="740" y="129" text-anchor="middle" font-size="11" fill="white">~500 ns</text>
+  <rect x="630" y="142" width="220" height="36" rx="5" fill="#BF616A" fill-opacity="0.85"/>
+  <text x="740" y="160" text-anchor="middle" font-size="12" fill="white">PDPT access (CXL)</text>
+  <text x="740" y="173" text-anchor="middle" font-size="11" fill="white">~500 ns</text>
+  <rect x="630" y="186" width="220" height="36" rx="5" fill="#BF616A" fill-opacity="0.7"/>
+  <text x="740" y="204" text-anchor="middle" font-size="12" fill="white">PD access (CXL)</text>
+  <text x="740" y="217" text-anchor="middle" font-size="11" fill="white">~500 ns</text>
+  <rect x="630" y="230" width="220" height="36" rx="5" fill="#BF616A" fill-opacity="0.55"/>
+  <text x="740" y="248" text-anchor="middle" font-size="12" fill="white">PT access (CXL)</text>
+  <text x="740" y="261" text-anchor="middle" font-size="11" fill="white">~500 ns</text>
+
+  <line x1="665" y1="270" x2="665" y2="308" stroke="#BF616A" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <rect x="630" y="308" width="220" height="44" rx="5" fill="#BF616A"/>
+  <text x="740" y="328" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Total PTW: ~2,000 ns</text>
+  <text x="740" y="345" text-anchor="middle" font-size="11" fill="white">6.25× worse than baseline</text>
+
+  <rect x="630" y="366" width="220" height="24" rx="4" fill="#FFF0F0" stroke="#BF616A"/>
+  <text x="740" y="383" text-anchor="middle" font-size="11" fill="#BF616A" font-weight="bold">❌ Never allow — pin page tables</text>
+
+  <!-- Comparison bar -->
+  <rect x="30" y="410" width="840" height="80" rx="8" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="450" y="432" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">PTW Cost Comparison</text>
+  <!-- Baseline bar -->
+  <rect x="50" y="445" width="120" height="18" fill="#5E81AC" rx="3"/>
+  <text x="180" y="457" font-size="11" fill="#212121"> Baseline DRAM: 320 ns (1×)</text>
+  <!-- Pinned bar -->
+  <rect x="50" y="467" width="120" height="18" fill="#4A8A99" rx="3"/>
+  <text x="180" y="479" font-size="11" fill="#212121"> Pinned PTables: 320 ns (1×) — data still benefits from CXL capacity</text>
+  <!-- CXL PTW bar -->
+  <rect x="460" y="445" width="380" height="18" fill="#BF616A" rx="3"/>
+  <text x="460" y="441" font-size="11" fill="#BF616A" font-weight="bold">CXL page tables: 2,000 ns (6.25×) — NEVER ALLOW</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.4:</strong> Page Table Walk Latency Under Three Configurations. The baseline (page tables in local DRAM) matches Chapter 17's PTW latency model at ~320 ns. The correct CXL deployment pins page tables in local DRAM while allowing application data in CXL — PTW cost is unchanged. If page table pages migrate to CXL (a danger when memory tiering is misconfigured), every TLB miss costs ~2,000 ns — 6.25× worse than baseline and potentially catastrophic for workloads with high TLB miss rates.
+  </figcaption>
+</figure>
+
+<p>The fix is explicit page table pinning. Linux provides several mechanisms at different levels of the software stack:</p>
+
+<p>At the kernel configuration level, the <code>vm.zone_reclaim_mode</code> sysctl controls whether reclaim is bounded to local zones. Setting <code>vm.zone_reclaim_mode=1</code> prevents reclaim from crossing NUMA node boundaries, which ensures that page table pages allocated on node 0 are not reclaimed to CXL node 2. This is the blunt-instrument approach: it prevents all inter-tier reclaim, not just page table migration, which limits the effectiveness of CXL tiering for data pages as well.</p>
+
+<p>More precise control is available through <code>madvise(MADV_DONTMIGRATE)</code> applied to the virtual address ranges that back page tables — but this requires kernel-internal access to page table pages' virtual addresses, which user space does not have. Kernel module developers can use <code>set_memory_4k()</code> and the <code>vm_flags</code> of <code>struct vm_area_struct</code> to prevent specific pages from migrating, but this is not a standard operator lever.</p>
+
+<p>The production-grade approach, used by Azure and Meta, is to classify the CXL tier explicitly as a slow tier in the HMAT and configure the kernel's tiering daemon to exclude page table pages from demotion eligibility. In Linux 6.6+, the tiering daemon (<code>memory_tier</code> subsystem) can be configured with tier preference policies that pin pages based on allocation flags — and page table pages carry the <code>PG_table</code> flag, which the tiering daemon can use as an exclusion criterion. Operators should verify this configuration explicitly:</p>
+
+<pre><code>$ grep -r PageTable /sys/kernel/debug/memory_tiering/ 2>/dev/null
+# should show page table pages excluded from demotion candidate list
+$ cat /proc/sys/vm/demote_page_tables
+0  # 0 = never demote page table pages to slow tier (correct)
+</code></pre>
+
+<p>The ARM64 situation is architecturally identical. ARM64's TTBR0/TTBR1-rooted page table walk traverses up to four levels (with 4 KB granule), and each level's access cost follows the same arithmetic: if the page tables are in CXL-attached memory, each level costs ~500 ns instead of ~80 ns. The constraint — pin page tables in local DRAM — applies equally on ARM64. NVIDIA's Grace Hopper implementation, which attaches CXL memory to the Grace CPU chiplet, enforces this constraint at the hardware level by reserving a fixed partition of the Grace package's local LPDDR5X memory for kernel structures including page tables, preventing the CXL-attached capacity from being reached by page table walks.</p>
+
+<h2 id="section-19.6">19.6 Memory Tiering: The OS Page Allocator Under CXL</h2>
+
+<p>Operating a CXL-tiered memory system correctly requires the OS page allocator to make informed decisions about which tier each page should occupy. This is not automatic: left to default configuration, the allocator will treat all memory as equivalent and distribute allocations arbitrarily across local DRAM and CXL, resulting in either underutilisation of CXL capacity (everything stays in DRAM) or degraded performance (latency-sensitive data ends up in CXL). The correct policy — hot data in local DRAM, cold data in CXL, page tables always in DRAM — must be enforced through explicit kernel configuration and, in high-performance deployments, hardware performance counter feedback.</p>
+
+<p><strong>Hot/cold classification</strong> is the foundation of the tiering policy. Three mechanisms are used in production systems, each with different accuracy and overhead tradeoffs.</p>
+
+<p>The highest-accuracy mechanism is hardware performance counter sampling. Intel's Processor Event-Based Sampling (PEBS) and AMD's Instruction-Based Sampling (IBS) can record the virtual or physical address of sampled memory loads. By counting how frequently each page is hit in the sample stream, the kernel builds a per-page access frequency estimate. Pages with low frequency are cold candidates for CXL demotion; pages with high frequency are hot candidates for DRAM promotion. Meta's TPP uses PEBS for exactly this purpose. The overhead is approximately 1–2% CPU utilisation for the sampling daemon, which is acceptable for production deployments.</p>
+
+<p>The second mechanism is the PTE accessed bit. The hardware sets the accessed bit in a PTE on every access. The kernel periodically scans page tables, records which bits are set, and clears them. Pages whose accessed bits are not re-set between scans are cold candidates. This is the mechanism used by AutoNUMA (<code>vm.numa_balancing</code>). Its accuracy is lower than PEBS because a single scan interval may be too long for rapidly-changing access patterns, but its overhead is also lower and it requires no special hardware support.</p>
+
+<p>The third mechanism is working-set estimation. The kernel tracks memory access patterns at the granularity of memory zones and NUMA nodes using counters in <code>struct zone_reclaim_stat</code>. When the allocator places a new page, it consults these statistics to determine whether the destination zone is under pressure, and adjusts placement accordingly. This is a coarser instrument than per-page sampling but has essentially zero additional overhead.</p>
+
+<p><strong>Migration between tiers</strong> involves three distinct operations: copying the page's contents from source to destination, updating the PTE in the page table to point to the new physical address, and broadcasting a TLB shootdown to all CPU cores so that stale TLB entries for the old physical address are invalidated. The shootdown is the dominant cost for small-page (4 KB) migrations on systems with many cores. On a 128-core server, the shootdown requires sending an IPI to 127 cores, each of which executes an <code>INVLPG</code> instruction or equivalent, and the source core must wait for all 127 acknowledgements before the migration is complete. The measured cost is 10–50 µs per page, depending on system load and IPI handling latency.</p>
+
+<p>The TLB shootdown cost during migration creates an important threshold effect: migrating a 4 KB page to save ~400 ns of future CXL access latency is only profitable if the page will be accessed at least 25–125 times in the future (50 µs shootdown cost ÷ 400 ns per-access saving). Pages that are accessed once or twice and then become cold are cheaper to leave in CXL than to promote to DRAM. This threshold makes accurate cold/hot classification crucial: aggressive promotion of marginally-warm pages wastes CPU time on migrations whose savings are never realised.</p>
+
+<p><strong>Transparent Huge Page demotion</strong> is a subtle interaction that becomes significant at scale. Linux Transparent Huge Pages (THP) allocate 2 MB contiguous pages in DRAM to reduce TLB miss rates. When memory pressure forces demotion of THP-backed regions to CXL, the kernel must first split the 2 MB huge page into 512 × 4 KB pages, update 512 PTEs, issue a shootdown for all 512 entries, and only then migrate the 4 KB fragments to CXL. The cost is 512× the per-page cost — potentially 26 ms of stall time for one 2 MB demotion. In production deployments with many gigabytes of THP-backed memory under pressure, this can cause observable latency spikes. The mitigation is to pre-emptively split THP pages before CXL memory pressure forces emergency demotion, using <code>madvise(MADV_NOHUGEPAGE)</code> on memory regions identified as CXL-bound before they are mapped.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="arrf" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#212121"/></marker>
+    <marker id="arrg" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+    <marker id="arrr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="sh5"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.5 — Memory Tiering State Machine Under CXL</text>
+
+  <!-- HOT state -->
+  <rect x="60" y="80" width="200" height="130" rx="10" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2.5" filter="url(#sh5)"/>
+  <text x="160" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">HOT</text>
+  <text x="160" y="126" text-anchor="middle" font-size="12" fill="#212121">Local DRAM</text>
+  <text x="160" y="143" text-anchor="middle" font-size="11" fill="#616161">~80 ns access</text>
+  <text x="160" y="160" text-anchor="middle" font-size="11" fill="#616161">Accessed bit set</text>
+  <text x="160" y="177" text-anchor="middle" font-size="11" fill="#5E81AC">Page tables always here</text>
+  <text x="160" y="193" text-anchor="middle" font-size="11" fill="#5E81AC">ZONE_NORMAL</text>
+
+  <!-- WARM state -->
+  <rect x="350" y="80" width="200" height="130" rx="10" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#sh5)"/>
+  <text x="450" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#34495E">WARM</text>
+  <text x="450" y="126" text-anchor="middle" font-size="12" fill="#212121">Demoted — awaiting</text>
+  <text x="450" y="143" text-anchor="middle" font-size="11" fill="#616161">Accessed bit cleared</text>
+  <text x="450" y="160" text-anchor="middle" font-size="11" fill="#616161">kswapd monitoring</text>
+  <text x="450" y="177" text-anchor="middle" font-size="11" fill="#616161">PEBS sampling active</text>
+  <text x="450" y="193" text-anchor="middle" font-size="11" fill="#616161">~10–50 µs to migrate</text>
+
+  <!-- COLD state -->
+  <rect x="640" y="80" width="200" height="130" rx="10" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh5)"/>
+  <text x="740" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#BF616A">COLD</text>
+  <text x="740" y="126" text-anchor="middle" font-size="12" fill="#212121">CXL Memory Tier</text>
+  <text x="740" y="143" text-anchor="middle" font-size="11" fill="#616161">~260–400 ns access</text>
+  <text x="740" y="160" text-anchor="middle" font-size="11" fill="#616161">Not accessed recently</text>
+  <text x="740" y="177" text-anchor="middle" font-size="11" fill="#616161">NUMA node N (cpuless)</text>
+  <text x="740" y="193" text-anchor="middle" font-size="11" fill="#BF616A">Never: page table pages</text>
+
+  <!-- Hot → Warm (demotion) -->
+  <line x1="260" y1="130" x2="348" y2="130" stroke="#34495E" stroke-width="2" marker-end="url(#arrf)"/>
+  <text x="304" y="118" text-anchor="middle" font-size="10" fill="#34495E" font-weight="bold">DEMOTE</text>
+  <text x="304" y="131" text-anchor="middle" font-size="10" fill="#616161">kswapd pressure</text>
+  <text x="304" y="144" text-anchor="middle" font-size="10" fill="#616161">access bit cleared</text>
+
+  <!-- Warm → Cold (migrate to CXL) -->
+  <line x1="550" y1="130" x2="638" y2="130" stroke="#BF616A" stroke-width="2" marker-end="url(#arrr)"/>
+  <text x="594" y="118" text-anchor="middle" font-size="10" fill="#BF616A" font-weight="bold">MIGRATE → CXL</text>
+  <text x="594" y="131" text-anchor="middle" font-size="10" fill="#616161">not re-accessed</text>
+  <text x="594" y="144" text-anchor="middle" font-size="10" fill="#616161">~10–50 µs + shootdown</text>
+
+  <!-- Cold → Hot (promotion) -->
+  <path d="M 640 170 Q 450 270 260 170" fill="none" stroke="#4A8A99" stroke-width="2" marker-end="url(#arrg)"/>
+  <text x="450" y="255" text-anchor="middle" font-size="10" fill="#4A8A99" font-weight="bold">PROMOTE → DRAM</text>
+  <text x="450" y="268" text-anchor="middle" font-size="10" fill="#616161">access detected (PEBS / autonuma)</text>
+  <text x="450" y="281" text-anchor="middle" font-size="10" fill="#616161">copy 4 KB + PTE update + TLB shootdown</text>
+
+  <!-- Warm → Hot (re-promote) -->
+  <path d="M 350 100 Q 305 60 260 100" fill="none" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrf)"/>
+  <text x="305" y="52" text-anchor="middle" font-size="10" fill="#5E81AC">re-accessed before eviction</text>
+
+  <!-- Bottom detail boxes -->
+  <rect x="60" y="290" width="260" height="100" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="190" y="312" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Classification Methods</text>
+  <text x="80" y="330" font-size="11" fill="#212121">1. PEBS sampling (access counters)</text>
+  <text x="80" y="346" font-size="11" fill="#212121">2. AutoNUMA scan (accessed bit)</text>
+  <text x="80" y="362" font-size="11" fill="#212121">3. TPP (Meta): explicit CXL-aware tier</text>
+  <text x="80" y="378" font-size="11" fill="#BF616A">vm.numa_balancing=2 (Linux 6.x)</text>
+
+  <rect x="350" y="290" width="200" height="100" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="450" y="312" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Migration Cost</text>
+  <text x="360" y="330" font-size="11" fill="#212121">Copy 4 KB (or 2 MB THP)</text>
+  <text x="360" y="346" font-size="11" fill="#212121">Update PTE</text>
+  <text x="360" y="362" font-size="11" fill="#212121">TLB shootdown (all CPUs)</text>
+  <text x="360" y="378" font-size="11" fill="#BF616A">~10–50 µs per 4 KB page</text>
+
+  <rect x="570" y="290" width="300" height="100" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="720" y="312" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">THP Demotion</text>
+  <text x="580" y="330" font-size="11" fill="#212121">2 MB THP on DRAM → split → 512 × 4 KB</text>
+  <text x="580" y="346" font-size="11" fill="#212121">512 PTE updates + batch shootdown</text>
+  <text x="580" y="362" font-size="11" fill="#212121">Some 4 KB pages → CXL tier</text>
+  <text x="580" y="378" font-size="11" fill="#BF616A">Significant overhead at scale</text>
+
+  <!-- Page table constraint -->
+  <rect x="60" y="403" width="810" height="55" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="465" y="422" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">INVARIANT: Page table pages MUST remain in ZONE_NORMAL (local DRAM) at all times</text>
+  <text x="465" y="443" text-anchor="middle" font-size="11" fill="#212121">The memory tiering system must never migrate page table pages to the CXL tier — doing so causes PTW latency of ~2,000 ns (6.25× degradation)</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.5:</strong> Memory Tiering State Machine Under CXL. Pages transition between three tiers based on access frequency. Hot pages remain in local DRAM (80 ns). Warm pages awaiting classification sit in a monitoring state. Cold pages migrate to the CXL tier (260–400 ns). The invariant — page table pages must always remain in local DRAM — is shown explicitly. Each migration incurs a TLB shootdown across all CPU cores.
+  </figcaption>
+</figure>
+
+<p>Microsoft's Pond system (ASPLOS 2023) provides the most thorough empirical characterisation of workload sensitivity to CXL tiering. Across 158 production Azure workloads, Pond found that at a CXL latency overhead of +64 ns over NUMA-local DRAM, 43% of workloads ran within 5% of their local-DRAM performance. At +140 ns overhead, 37% remained within 5%. However, more than 21% of workloads suffered a performance loss exceeding 25% even at the smallest latency differential — these workloads have tightly latency-coupled memory access patterns that CXL's added latency disrupts severely. The critical operational insight is that CXL tiering is not universally beneficial: deployment requires workload characterisation ahead of time. Workloads with streaming or batch-oriented memory access patterns (database analytics, model checkpointing, log aggregation) tolerate CXL well. Workloads with pointer-chasing, random access, or latency-sensitive feedback loops (interactive serving, online transaction processing, low-latency inference) often do not.</p>
+
+<p>Pond's system-level response to this variance is a machine learning model trained on hardware counter profiles to classify each VM workload as CXL-tolerant or CXL-sensitive before allocation. CXL-tolerant VMs receive a mixture of local DRAM and CXL pool memory; CXL-sensitive VMs receive only local DRAM. The ML model uses 200 CPU performance counters as features and achieves sufficient precision to hold the fraction of VMs experiencing >5% degradation below a configurable threshold (set to 2% of VM population in Azure's deployment).</p>
+
+<h2 id="section-19.7">19.7 TLB Shootdown Inverted: CXL Back-Invalidation</h2>
+
+<p>Every TLB shootdown described in this book — in Chapter 4 (the fundamental mechanism), Chapter 9 (OS-level page management), Chapter 10 (device DTLB via ATS), and Chapter 12 (multi-GPU scale) — follows the same directional model: the OS modifies a page table entry, and the OS initiates the invalidation of all cached translations for that entry across all CPU cores and any device DTLBs that may have cached it. The initiator is always the OS. The direction is always from software to hardware.</p>
+
+<p>CXL 3.0 introduces a protocol that inverts this direction entirely. In the Back-Invalidation mechanism, the CXL Fabric Manager — a software component running on the CXL switch hardware — initiates a TLB invalidation request that travels from the CXL device toward the host CPU. The host CPU is the recipient of an invalidation request it did not initiate. This is the first device-to-CPU TLB invalidation protocol described in this book, and understanding when and why it is needed requires understanding the CXL 3.0 Shared Memory model.</p>
+
+<p>In CXL 2.0, a Type 3 device is owned exclusively by one host at a time. The host's physical address space maps a region of the device's HDM, and the host can issue load/store operations to that region freely. There is no concurrent access by another host; there is no need for cross-host coherence. The only TLB-related operation is the straightforward ATS INVALIDATE when the host OS unmaps a page in the HDM range.</p>
+
+<p>CXL 3.0 Shared Memory changes this fundamentally. Multiple hosts simultaneously map regions of the same Type 3 device's HDM. Each host has its own host-physical address mapping for whatever portion of the CXL device's memory it currently holds. The CXL Fabric Manager controls which host has access to which portion of device memory, and it can dynamically reassign these regions — for example, to rebalance memory across a pool of servers, to reclaim memory from a host that has released its allocation, or to handle a hardware fault that requires migrating a memory region to a different device.</p>
+
+<p>When the Fabric Manager decides to revoke a host's access to a CXL memory region — to reassign that region to another host — it must ensure that the revoking host has no valid TLB entries, no outstanding memory requests, and no cached data referencing the revoked region. The revoking host's OS has not initiated this operation; it may have active translations for the region cached in its TLBs across all 128 cores. The Fabric Manager cannot simply reassign the memory without first clearing those stale translations, or the revoking host could issue a read to what is now another host's memory — a serious coherence violation.</p>
+
+<p>The Back-Invalidation protocol resolves this. The sequence is:</p>
+
+<ol>
+<li>The CXL Fabric Manager identifies a memory region on the Type 3 device that it wishes to revoke from Host A and reassign to Host B.</li>
+<li>The Fabric Manager issues a <em>Back-Invalidate</em> request to Host A's CXL host bridge, specifying the guest physical address (GPA) range to be invalidated.</li>
+<li>The Host A CXL host bridge raises an interrupt (or writes to a memory-mapped notification register) to alert the Host A OS.</li>
+<li>The Host A OS registers a back-invalidate handler during CXL initialisation; this handler is now invoked. It sends IPIs to all CPU cores, each of which executes the appropriate TLB invalidation instruction (<code>INVLPG addr</code> on x86-64, <code>TLBI</code> on ARM64) for the affected address range.</li>
+<li>Once all CPU cores have acknowledged the invalidation, the Host A OS issues a Back-Invalidate Completion response to the CXL host bridge.</li>
+<li>The CXL host bridge forwards the Completion to the Fabric Manager.</li>
+<li>The Fabric Manager, now certain that Host A holds no valid translations for the revoked region, proceeds with the reassignment to Host B.</li>
+</ol>
+
+<p>The latency of this sequence is substantially larger than a simple OS-initiated shootdown, because it includes the Fabric Manager decision time, the interrupt delivery to the host OS, and the completion handshake traversing the CXL fabric. On a 128-core server, the measured range is 50–200 µs for the complete back-invalidation sequence — compared to ~10–50 µs for a standard OS-initiated shootdown of the same address range. This overhead is acceptable for the use cases that require Back-Invalidation (memory region reallocation across hosts), which occur on timescales of milliseconds to seconds rather than microseconds.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="ard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ardr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="sh6"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.6 — TLB Shootdown: Standard (OS-Initiated) vs CXL Back-Invalidation</text>
+
+  <!-- LEFT: Standard OS-initiated shootdown -->
+  <rect x="20" y="48" width="410" height="30" rx="5" fill="#5E81AC"/>
+  <text x="225" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Standard TLB Shootdown — OS Initiated (Ch04/Ch09 model)</text>
+
+  <!-- Participants left -->
+  <rect x="40" y="92" width="80" height="30" rx="4" fill="#5E81AC"/>
+  <text x="80" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">OS Kernel</text>
+  <rect x="170" y="92" width="80" height="30" rx="4" fill="#5E81AC" fill-opacity="0.7"/>
+  <text x="210" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">CPU Cores</text>
+  <rect x="300" y="92" width="100" height="30" rx="4" fill="#34495E"/>
+  <text x="350" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">IOMMU/Device</text>
+
+  <!-- Vertical timelines -->
+  <line x1="80" y1="122" x2="80" y2="430" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="210" y1="122" x2="210" y2="430" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.7"/>
+  <line x1="350" y1="122" x2="350" y2="430" stroke="#34495E" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Step 1: OS modifies PTE -->
+  <rect x="40" y="135" width="80" height="25" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="80" y="152" text-anchor="middle" font-size="10" fill="#5E81AC">1. Modify PTE</text>
+  <!-- Arrow to CPUs -->
+  <line x1="120" y1="165" x2="168" y2="178" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="145" y="162" text-anchor="middle" font-size="9" fill="#212121">IPI (x86: INVLPG)</text>
+  <!-- CPU flush -->
+  <rect x="170" y="175" width="80" height="25" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="210" y="192" text-anchor="middle" font-size="10" fill="#5E81AC">2. INVLPG flush</text>
+  <!-- Arrow to IOMMU -->
+  <line x1="250" y1="205" x2="298" y2="218" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="275" y="205" text-anchor="middle" font-size="9" fill="#212121">ATS INVALIDATE</text>
+  <!-- IOMMU ACK -->
+  <rect x="300" y="215" width="100" height="25" rx="3" fill="#F0F4F8" stroke="#34495E" stroke-width="1"/>
+  <text x="350" y="232" text-anchor="middle" font-size="10" fill="#34495E">3. DTLB flush</text>
+  <!-- Return ACK -->
+  <line x1="298" y1="250" x2="250" y2="263" stroke="#34495E" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="275" y="250" text-anchor="middle" font-size="9" fill="#212121">ATS Completion</text>
+  <!-- CPU ACK to OS -->
+  <line x1="168" y1="270" x2="120" y2="283" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="145" y="268" text-anchor="middle" font-size="9" fill="#212121">IPI ACK</text>
+  <!-- OS proceeds -->
+  <rect x="40" y="285" width="80" height="25" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="80" y="302" text-anchor="middle" font-size="10" fill="#5E81AC">4. Proceed</text>
+
+  <rect x="30" y="325" width="400" height="50" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+  <text x="230" y="344" text-anchor="middle" font-size="11" font-weight="bold" fill="#212121">Direction: OS → CPU cores → devices</text>
+  <text x="230" y="362" text-anchor="middle" font-size="11" fill="#616161">Latency: ~50 µs (128-core system)</text>
+
+  <!-- RIGHT: CXL Back-Invalidation -->
+  <rect x="460" y="48" width="420" height="30" rx="5" fill="#BF616A"/>
+  <text x="670" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="white">CXL 3.0 Back-Invalidation — Device Initiated (NEW)</text>
+
+  <!-- Participants right -->
+  <rect x="480" y="92" width="100" height="30" rx="4" fill="#BF616A"/>
+  <text x="530" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">CXL Fabric Mgr</text>
+  <rect x="620" y="92" width="80" height="30" rx="4" fill="#5E81AC"/>
+  <text x="660" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Host CPU</text>
+  <rect x="740" y="92" width="120" height="30" rx="4" fill="#34495E"/>
+  <text x="800" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">OS Kernel</text>
+
+  <!-- Vertical timelines right -->
+  <line x1="530" y1="122" x2="530" y2="430" stroke="#BF616A" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="660" y1="122" x2="660" y2="430" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="800" y1="122" x2="800" y2="430" stroke="#34495E" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- CXL Step 1: Fabric Manager issues Back-Invalidate -->
+  <rect x="480" y="135" width="100" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="530" y="152" text-anchor="middle" font-size="10" fill="#BF616A">1. Trigger (realloc)</text>
+  <!-- Arrow to CPU -->
+  <line x1="580" y1="165" x2="618" y2="178" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ardr)"/>
+  <text x="600" y="162" text-anchor="middle" font-size="9" fill="#BF616A">Back-Invalidate Req</text>
+  <!-- CPU raises interrupt -->
+  <rect x="620" y="175" width="80" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="660" y="192" text-anchor="middle" font-size="10" fill="#BF616A">2. Interrupt raised</text>
+  <!-- OS notified -->
+  <line x1="700" y1="205" x2="738" y2="218" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ardr)"/>
+  <text x="720" y="205" text-anchor="middle" font-size="9" fill="#BF616A">notify handler</text>
+  <rect x="740" y="215" width="120" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="800" y="232" text-anchor="middle" font-size="10" fill="#BF616A">3. IPI to all CPUs</text>
+  <!-- TLB flush on all cores -->
+  <rect x="620" y="255" width="80" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="660" y="272" text-anchor="middle" font-size="10" fill="#BF616A">4. INVLPG all</text>
+  <!-- ACK back to Fabric -->
+  <line x1="618" y1="295" x2="580" y2="308" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="600" y="298" text-anchor="middle" font-size="9" fill="#212121">Completion ACK</text>
+  <rect x="480" y="305" width="100" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="530" y="322" text-anchor="middle" font-size="10" fill="#BF616A">5. Realloc proceed</text>
+
+  <rect x="460" y="348" width="420" height="65" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="670" y="367" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF616A">Direction: Device → Host CPU (INVERTED — first in this book)</text>
+  <text x="670" y="383" text-anchor="middle" font-size="11" fill="#212121">Triggered by: CXL memory region reallocation across hosts</text>
+  <text x="670" y="400" text-anchor="middle" font-size="11" fill="#212121">Latency: 50–200 µs (IPI to all cores + completion handshake)</text>
+  <text x="670" y="415" text-anchor="middle" font-size="11" fill="#BF616A">New in CXL 3.0 — not present in CXL 1.x or 2.x</text>
+
+  <!-- divider -->
+  <line x1="445" y1="50" x2="445" y2="450" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="5,4"/>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.6:</strong> TLB Shootdown Directions: Standard OS-Initiated vs CXL 3.0 Back-Invalidation. The left panel shows the standard shootdown protocol described in Chapters 4, 9, and 12: the OS modifies a PTE, sends IPIs to all CPU cores, and issues an ATS INVALIDATE to device DTLBs. The right panel shows CXL 3.0 Back-Invalidation, where the CXL Fabric Manager initiates the sequence — the first device-to-CPU TLB invalidation protocol described in this book.
+  </figcaption>
+</figure>
+
+<p>For x86-64, the hardware implementation of Back-Invalidation support lives in the CPU's CXL host bridge registers. The host bridge exposes a doorbell or memory-mapped I/O register that the Fabric Manager can write to trigger the interrupt. The CPU architecture itself requires no changes; the existing <code>INVLPG</code> instruction handles the TLB flush, and the existing IPI mechanism handles cross-core coordination. The CXL host bridge and its driver are responsible for translating the Fabric Manager's GPA range into the host OS's virtual address ranges and invoking the appropriate kernel handlers.</p>
+
+<p>The ARM64 implementation follows a similar pattern. The CXL host bridge triggers an interrupt, and the ARM64 MMU's <code>TLBI</code> (TLB Invalidate) instruction family handles the actual cache invalidation. ARM64's TLBI instruction set is richer than x86-64's <code>INVLPG</code> — it can invalidate by address, by ASID, by VMID, or globally — which makes the ARM64 back-invalidation handler somewhat simpler to implement correctly for large address ranges.</p>
+
+<p>Device DTLBs on Type 1 and Type 2 devices that use CXL.cache also participate in Back-Invalidation. When the Fabric Manager initiates a back-invalidation on a host that has a Type 1 or Type 2 CXL device attached, the CXL host bridge must not only clear the host CPU's TLBs but also issue ATS INVALIDATE messages to any device DTLBs that may have cached translations for the affected address range, and wait for their acknowledgements before issuing the Back-Invalidate Completion. The complete fan-out — Fabric Manager → Host CPU TLBs → Device DTLBs → Completion — adds further latency but preserves the all-or-nothing semantic that the coherence protocol requires.</p>
+
+<h2 id="section-19.8">19.8 CXL 3.0 Shared Memory: Two-Stage Translation Returns</h2>
+
+<p>Chapter 3 introduced two-stage address translation in the context of CPU virtualisation. When a hypervisor runs guest operating systems, the guest OS manages its own page tables mapping Guest Virtual Addresses (GVA) to Guest Physical Addresses (GPA), but the hypervisor must additionally translate GPA to Host Physical Address (HPA) — the address that actually identifies a physical memory location. Intel's Extended Page Tables (EPT), AMD's Nested Page Tables (NPT), ARM's Stage-2 page tables, and RISC-V's G-stage — all solve the same structural problem: two independent software entities each maintain their own address space, and hardware must efficiently compose their translations. Chapter 8 explored the performance implications of this composition, and the page walk caches that hardware uses to avoid re-traversing both sets of page tables on every TLB miss.</p>
+
+<p>CXL 3.0 Shared Memory introduces a structurally identical two-stage translation problem, but in a domain that has nothing to do with virtualisation. The two stages are not hypervisor and guest; they are two independent physical servers that both map regions of the same physical CXL device. The mechanism is not EPT or NPT, but the mathematical structure is isomorphic.</p>
+
+<p>In CXL 2.0 and earlier, this problem does not arise because a Type 3 device is owned exclusively by one host at a time. Host A's physical address map has a region — say, 0x8000_0000 through 0xBFFF_FFFF — that names the CXL device's first 1 GB. When Host A issues a load to physical address 0x8000_0000, the CXL host bridge translates this to CXL Device Physical Address 0x0000_0000 and forwards the request. This is a trivial linear mapping — effectively a constant offset — and it is managed entirely by the CXL host bridge hardware without software page tables.</p>
+
+<p>CXL 3.0 Shared Memory introduces concurrency. Host A and Host B are both running, and both have live mappings into the same CXL Type 3 device's memory. Host A's physical address 0x8000_0000 and Host B's physical address 0xC000_0000 both correspond to CXL Device Physical Address 0x0000_0000 — the same physical memory cell. Host A and Host B each have their own virtual address spaces, their own page tables, their own TLBs, and their own operating systems. Neither OS has direct knowledge of the other's mapping.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <marker id="ar7" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ar7r" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="sh7"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.7 — CXL 3.0 Shared Memory: Two-Stage Address Translation</text>
+
+  <!-- Host A -->
+  <rect x="20" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh7)"/>
+  <text x="140" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Host A (Server 1)</text>
+  <rect x="35" y="82" width="100" height="40" rx="5" fill="#5E81AC"/>
+  <text x="85" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">CPU / MMU</text>
+  <text x="85" y="114" text-anchor="middle" font-size="10" fill="white">TLB + PTW</text>
+  <rect x="145" y="82" width="100" height="40" rx="5" fill="#4A8A99"/>
+  <text x="195" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">DRAM</text>
+  <text x="195" y="114" text-anchor="middle" font-size="10" fill="white">Page Tables</text>
+
+  <rect x="35" y="132" width="210" height="55" rx="5" fill="#F0F4F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="140" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Host A Virtual Address Space</text>
+  <text x="140" y="166" text-anchor="middle" font-size="11" fill="#212121">VA 0x7F00_0000 → Host-A-PA 0x8000_0000</text>
+  <text x="140" y="180" text-anchor="middle" font-size="10" fill="#616161">(Host A page tables)</text>
+
+  <rect x="35" y="197" width="210" height="50" rx="5" fill="#BF616A" fill-opacity="0.15" stroke="#BF616A" stroke-width="1"/>
+  <text x="140" y="215" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF616A">Host-A-PA → CXL-Device-PA</text>
+  <text x="140" y="230" text-anchor="middle" font-size="11" fill="#212121">0x8000_0000 → CXL 0x0000_0000</text>
+  <text x="140" y="243" text-anchor="middle" font-size="10" fill="#BF616A">(CXL host bridge mapping)</text>
+
+  <!-- Host B -->
+  <rect x="640" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh7)"/>
+  <text x="760" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Host B (Server 2)</text>
+  <rect x="655" y="82" width="100" height="40" rx="5" fill="#5E81AC"/>
+  <text x="705" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">CPU / MMU</text>
+  <text x="705" y="114" text-anchor="middle" font-size="10" fill="white">TLB + PTW</text>
+  <rect x="765" y="82" width="100" height="40" rx="5" fill="#4A8A99"/>
+  <text x="815" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">DRAM</text>
+  <text x="815" y="114" text-anchor="middle" font-size="10" fill="white">Page Tables</text>
+
+  <rect x="655" y="132" width="210" height="55" rx="5" fill="#F0F4F8" stroke="#5E81AC" stroke-width="1"/>
+  <text x="760" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Host B Virtual Address Space</text>
+  <text x="760" y="166" text-anchor="middle" font-size="11" fill="#212121">VA 0xAB00_0000 → Host-B-PA 0xC000_0000</text>
+  <text x="760" y="180" text-anchor="middle" font-size="10" fill="#616161">(Host B page tables)</text>
+
+  <rect x="655" y="197" width="210" height="50" rx="5" fill="#BF616A" fill-opacity="0.15" stroke="#BF616A" stroke-width="1"/>
+  <text x="760" y="215" text-anchor="middle" font-size="11" font-weight="bold" fill="#BF616A">Host-B-PA → CXL-Device-PA</text>
+  <text x="760" y="230" text-anchor="middle" font-size="11" fill="#212121">0xC000_0000 → CXL 0x0000_0000</text>
+  <text x="760" y="243" text-anchor="middle" font-size="10" fill="#BF616A">(same physical CXL location!)</text>
+
+  <!-- CXL Switch + Snoop Filter -->
+  <rect x="310" y="100" width="280" height="170" rx="8" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#sh7)"/>
+  <text x="450" y="124" text-anchor="middle" font-size="13" font-weight="bold" fill="#34495E">CXL Switch</text>
+  <rect x="325" y="134" width="250" height="50" rx="5" fill="#34495E"/>
+  <text x="450" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Snoop Filter</text>
+  <text x="450" y="172" text-anchor="middle" font-size="10" fill="#E0E0E0">Tracks: which hosts cache which CXL-PA</text>
+  <rect x="325" y="194" width="250" height="38" rx="5" fill="#F0F8F8" stroke="#4A8A99" stroke-width="1"/>
+  <text x="450" y="210" text-anchor="middle" font-size="11" fill="#4A8A99">CXL-PA 0x0000_0000:</text>
+  <text x="450" y="225" text-anchor="middle" font-size="11" fill="#212121">cached by: Host A (S), Host B (S)</text>
+  <rect x="325" y="238" width="250" height="25" rx="4" fill="#BF616A" fill-opacity="0.15" stroke="#BF616A" stroke-width="1"/>
+  <text x="450" y="255" text-anchor="middle" font-size="10" fill="#BF616A">MESI: Shared state — read-only both hosts</text>
+
+  <!-- Fabric Manager -->
+  <rect x="310" y="280" width="280" height="45" rx="6" fill="#BF616A"/>
+  <text x="450" y="300" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Fabric Manager</text>
+  <text x="450" y="316" text-anchor="middle" font-size="10" fill="white">Controls access permissions · Initiates Back-Invalidation</text>
+
+  <!-- CXL Type 3 device -->
+  <rect x="330" y="350" width="240" height="90" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh7)"/>
+  <text x="450" y="374" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">CXL Type 3 Device</text>
+  <text x="450" y="392" text-anchor="middle" font-size="12" fill="#212121">Unified Physical Address Space</text>
+  <text x="450" y="408" text-anchor="middle" font-size="11" fill="#616161">CXL-PA 0x0000_0000 → DDR5 row 0</text>
+  <text x="450" y="424" text-anchor="middle" font-size="11" fill="#BF616A">Same location accessible by both hosts</text>
+
+  <!-- Translation annotation -->
+  <rect x="20" y="460" width="860" height="65" rx="8" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="450" y="481" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Two-Stage Translation Chain (analogous to EPT/NPT in Chapter 3, but for disaggregated memory):</text>
+  <text x="450" y="498" text-anchor="middle" font-size="11" fill="#5E81AC">Host A: VA 0x7F00_0000 → Host-A-PA 0x8000_0000 (CPU MMU + TLB)</text>
+  <text x="450" y="514" text-anchor="middle" font-size="11" fill="#BF616A">  → CXL-Device-PA 0x0000_0000 (CXL host bridge mapping)</text>
+
+  <!-- Arrows: Host A to switch -->
+  <line x1="140" y1="270" x2="140" y2="325" stroke="#5E81AC" stroke-width="1.5"/>
+  <line x1="140" y1="325" x2="308" y2="220" stroke="#5E81AC" stroke-width="2" marker-end="url(#ar7)"/>
+  <!-- Host B to switch -->
+  <line x1="760" y1="270" x2="760" y2="325" stroke="#5E81AC" stroke-width="1.5"/>
+  <line x1="760" y1="325" x2="592" y2="220" stroke="#5E81AC" stroke-width="2" marker-end="url(#ar7)"/>
+  <!-- Switch to device -->
+  <line x1="450" y1="325" x2="450" y2="348" stroke="#BF616A" stroke-width="2" marker-end="url(#ar7r)"/>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.7:</strong> CXL 3.0 Shared Memory: Two-Stage Address Translation. Host A and Host B each have independent virtual address spaces and page tables that map to their own host physical address ranges. A second translation stage — implemented by the CXL host bridge and Fabric Manager — maps each host's physical address range to a shared CXL device physical address space. The Snoop Filter at the CXL switch tracks which hosts have cached which CXL physical addresses, enabling MESI coherence across the fabric. This is structurally analogous to EPT/NPT nested page tables described in Chapter 3, but applied to disaggregated memory rather than virtual machine isolation.
+  </figcaption>
+</figure>
+
+<p>The two stages of address translation in this model are:</p>
+
+<p><strong>Stage 1 (host page tables):</strong> Each host's OS manages page tables that map the host's virtual address space to the host's physical address space, exactly as described in Chapter 3. Host A's VA 0x7F00_0000 translates to Host-A-PA 0x8000_0000. Host B's VA 0xAB00_0000 translates to Host-B-PA 0xC000_0000. Each host's TLB caches these stage-1 translations. Each host's page table walker traverses these stage-1 page tables in the event of a TLB miss. The OS manages these page tables using the same mechanisms described in Chapters 3, 7, and 9.</p>
+
+<p><strong>Stage 2 (CXL host bridge mapping):</strong> The CXL host bridge hardware maintains a mapping from each host's physical address range to the CXL device's physical address space. Host-A-PA 0x8000_0000 maps to CXL-Device-PA 0x0000_0000. Host-B-PA 0xC000_0000 maps to CXL-Device-PA 0x0000_0000. These mappings are established during boot when the Fabric Manager assigns memory regions to hosts, and updated when regions are reassigned (requiring Back-Invalidation as described in Section 19.7). Unlike EPT/NPT, this stage-2 mapping is not a full page table hierarchy — it is a hardware register-level address range translation, more similar to a BAR mapping than a walk-able data structure.</p>
+
+<p>The analogy to EPT/NPT is instructive but imperfect. In the virtualisation case, both stages are full multi-level page tables that the hardware walks in sequence on every TLB miss; EPT/NPT caches in the TLB (VPID-tagged entries on x86-64) contain the fully composed GVA-to-HPA translation so that neither stage requires re-walking on TLB hits. In the CXL Shared Memory case, stage 1 is a full page table hierarchy managed by the host OS, while stage 2 is a coarse-grained linear address range mapping managed by the host bridge. The composition is performed in hardware at the host bridge, transparently to the CPU and OS. The TLB contains Host-A-PA after stage 1, not CXL-Device-PA; the stage-2 translation occurs in the host bridge hardware after the CPU has finished its page walk and produced a physical address.</p>
+
+<p><strong>Coherence across the fabric:</strong> CXL 3.0 Shared Memory implements coherence using an extended MESI protocol managed by the CXL switch's Snoop Filter. The Snoop Filter tracks, for each CXL Device Physical Address range, which hosts currently hold cached copies in what coherence state. When Host A reads from CXL-Device-PA 0x0000_0000, the Snoop Filter records that Host A has the address in Shared (S) state. When Host B reads the same address, the Snoop Filter records that both Host A and Host B have it in Shared state. If Host A wishes to modify the data, it must first acquire Exclusive (E) state by requesting that the Snoop Filter invalidate Host B's cached copy — issuing what is, in effect, a back-invalidation to Host B's TLBs for the affected range. Only after Host B has acknowledged the invalidation can the Snoop Filter grant Host A exclusive ownership.</p>
+
+<p>Hardware with full CXL 3.0 Shared Memory support is in early production deployment as of 2025–2026. The Linux kernel's CXL Shared Memory subsystem, under active development in the <code>drivers/cxl/</code> tree, provides the host OS side of the protocol. Full multi-host Shared Memory with coherence across more than two hosts is the frontier of current CXL deployment; the two-host case described here is the currently deployed baseline.</p>
+
+<h2 id="section-19.9">19.9 Production Deployments and Performance Engineering</h2>
+
+<p>The preceding sections have established the mechanisms; this section grounds them in measured production reality. CXL is no longer a research prototype technology — it is shipping in hyperscale datacenters, AI training clusters, and cloud platforms. The measurements below come from peer-reviewed publications and production deployments that have documented their results.</p>
+
+<h3>19.9.1 Azure Pond: CXL Memory Pooling at Cloud Scale</h3>
+
+<p>Microsoft Azure's Pond system, published at ASPLOS 2023 by Li, Berger, et al., represents the most thoroughly characterised production CXL deployment. Pond pools DDR5 DRAM from an External Memory Controller (EMC) across 8–16 dual-socket servers connected via CXL, creating a shared memory pool of 1–4 TB that is presented to each server as a cpuless NUMA node.</p>
+
+<p>Pond's latency measurements establish the key numbers for this chapter. At a pool size of 8–16 sockets, the CXL link adds 70–90 ns of additional latency over same-NUMA-node DRAM access. At rack scale (requiring PCIe retimers to extend the signal path), latency increases to 180 ns or more. These numbers are not theoretical: they are measured on production Intel Skylake servers connected via PCIe 5.0 CXL links.</p>
+
+<p>The workload analysis is equally important. Pond profiled 158 production Azure workloads — virtual machine instances running a variety of cloud applications — under emulated CXL latencies. At +64 ns overhead (representing an 8–16 socket pool), 43% of workloads performed within 5% of their baseline performance on fully local DRAM. At +140 ns (representing a larger pool), 37% remained within 5%. More than 21% of workloads suffered greater than 25% performance degradation at any pool size. These 21% are the latency-sensitive workloads — interactive databases, real-time analytics, low-latency serving — that Pond's ML-based pre-placement model identifies and keeps on local DRAM.</p>
+
+<p>Pond's cost model shows that 7–9% reduction in DRAM cost per server is achievable through pooling-enabled utilisation improvements. At Azure's scale, this represents a significant absolute cost saving — the CXL infrastructure investment is recovered in DRAM savings within a deployment generation.</p>
+
+<h3>19.9.2 DirectCXL: Load/Store vs Page-Based Disaggregation</h3>
+
+<p>The DirectCXL system from KAIST (USENIX ATC 2022, Gouk et al.) was the first published implementation of CXL 2.0 on real hardware, using an FPGA-based CXL controller and custom Type 3 device. DirectCXL's central contribution to this chapter's discussion is its comparison between two models of memory disaggregation: page-based access (which uses the OS virtual memory infrastructure and incurs page fault overhead) and direct load/store access (which exposes the CXL memory as HDM and accesses it through normal CPU load/store instructions).</p>
+
+<p>The page-based model — where kswapd manages disaggregated memory through the conventional page fault and swap mechanism — incurs substantial overhead from page fault handling, I/O amplification (entire 4 KB pages transferred even for small reads), and context switching. DirectCXL's load/store model eliminates all of this: the CPU issues load instructions directly to HDM addresses, the CXL host bridge forwards the requests to the device, and data returns without any software involvement on the critical path.</p>
+
+<p>The measured latency difference is dramatic. A 64-byte read over RDMA (the previous state of the art for memory disaggregation) costs 2,705 CPU cycles total — 2,129 of which are consumed by the InfiniBand protocol stack software. The same read over CXL costs 328 CPU cycles. This 8.2× latency advantage comes almost entirely from protocol software elimination; CXL's hardware-managed load/store path bypasses the entire network software stack.</p>
+
+<p>This comparison is important for understanding why CXL is the correct architecture for memory disaggregation rather than RDMA or software-defined memory. RDMA achieves low latency only by pinning memory and bypassing the OS page allocator — which sacrifices the very flexibility that memory disaggregation is supposed to provide. CXL achieves sub-RDMA latency while allowing the OS to allocate, migrate, and reclaim CXL-backed pages through the standard virtual memory machinery.</p>
+
+<h3>19.9.3 Meta TPP: Transparent Page Placement</h3>
+
+<p>Meta's Transparent Page Placement (TPP) mechanism, published at ASPLOS 2023, addresses the AutoNUMA pitfall described in Section 19.3 for Meta's production server fleet. Meta's servers run a combination of compute-intensive workloads (ML training, data processing) and latency-sensitive workloads (social media serving, real-time analytics), which have very different CXL tolerance profiles even when running on the same physical host.</p>
+
+<p>TPP introduces CXL tier classification into the Linux page migration logic via hardware PEBS sampling. Every page on the system is classified as hot, warm, or cold based on its PEBS access frequency over a measurement window. Hot pages are maintained in local DRAM; warm pages are candidates for either tier depending on DRAM pressure; cold pages are eligible for CXL demotion. Critically, TPP does not use the existing AutoNUMA accessed-bit scan for this classification — the scan period is too long to distinguish workload-relevant access patterns. PEBS sampling provides sub-millisecond resolution at roughly 1% CPU overhead.</p>
+
+<p>In production at Meta, TPP achieves a DRAM cost reduction comparable to Pond's 7–9% while maintaining tail latency (P99 request latency) within 5% of the baseline for the latency-sensitive serving workloads. The key enabling insight is that serving workloads and batch processing workloads have naturally complementary working-set sizes: the serving workload's hot working set fits comfortably in local DRAM, while the batch workload's cold data can occupy the CXL tier without performance impact.</p>
+
+<h3>19.9.4 TLB Thrashing on CXL: The Hash Join Problem</h3>
+
+<p>A 2024 study published at the VLDB ADMS workshop provides the most direct measurement of CXL's interaction with TLB behaviour under analytical database workloads. The study evaluated radix hash join — a standard database operator that is highly sensitive to TLB miss rate because it accesses memory with a stride determined by the hash function, which is effectively random at the TLB granularity.</p>
+
+<p>At high partition fanout values (where the hash table exceeds TLB coverage), radix hash join suffers severe TLB thrashing. The study measured that DRAM:CXL interleaving (alternating allocations between local DRAM and CXL memory) delivers higher bandwidth than CXL-only because the local DRAM's lower latency absorbs the write-amplified stores that are most sensitive to CXL's store penalty. However, NUMA memory (remote DRAM across a cross-socket link) consistently outperformed CXL memory for the write-heavy phases of radix join, because CXL's store latency (~500 ns round trip) is worse than cross-socket DRAM (~160 ns) for the highly random write patterns that TLB thrashing causes.</p>
+
+<p>The practical recommendation from this study — applicable to any database or analytics operator that exceeds TLB coverage — is to place the write-heavy phase (the scatter/build phase of hash join) in local DRAM or NUMA-local memory, reserving CXL for the read-heavy probe phase where the latency differential has smaller impact. For ML workloads, the analogous recommendation is to place attention score matrices (written during forward pass, read during backward pass) in local DRAM, while placing embeddings and frozen model layers (read-only during inference) in CXL.</p>
+
+<h3>19.9.5 AI/ML Workloads: KV Cache and ANNS</h3>
+
+<p>Two AI workload patterns have been specifically studied in the context of CXL: LLM inference KV cache management and approximate nearest neighbour search (ANNS) over billion-scale embeddings.</p>
+
+<p>In LLM inference, the KV cache is the memory structure that grows with context length, storing the key and value tensors for each token in the current context window. For long-context serving (32K–128K context length), the KV cache can dominate GPU and host memory consumption. CXL-attached memory provides a natural overflow tier. The CXL-ANNS work from USENIX ATC 2023 demonstrated that pointer-chasing access patterns — common in graph-based ANNS indices — can be prefetched across CXL links effectively, because the fixed fanout of graph traversal provides sufficient structure for hardware prefetchers to predict the next CXL access before the current one completes. The measured throughput for ANNS over CXL-disaggregated indices is within 20–30% of the DRAM-resident case at much lower cost per query.</p>
+
+<p>For LLM inference specifically, the KV cache exhibits a bimodal access pattern: recently generated tokens are accessed every decode step (hot), while tokens from the beginning of long contexts are rarely re-accessed after their initial contribution to the attention computation (cold). This bimodality makes the KV cache an ideal CXL tiering candidate: keep the hot recent KV cache in local DRAM (or GPU HBM), demote the cold long-context prefix to CXL, and promote only when a long-context lookup requires the old tokens. Systems like MemVerge's memory machine, which XConn Technologies demonstrated at SC25 using CXL switches, deliver KV cache overflow to CXL that reduces total inference memory cost by 30–50% for context lengths above 32K tokens.</p>
+
+<h3>19.9.6 Five Production Tuning Rules</h3>
+
+<p>Based on the measurements and deployments described above, five operational rules summarise correct CXL memory system configuration:</p>
+
+<p><strong>Rule 1: Pin page tables in local DRAM.</strong> Set <code>vm.demote_page_tables=0</code> and verify that the memory tiering daemon's demotion policy excludes pages with the <code>PG_table</code> flag. Violation causes 6× PTW latency degradation.</p>
+
+<p><strong>Rule 2: Use 2 MB huge pages for all CXL-resident data.</strong> Each TLB miss against a CXL-backed 4 KB page costs ~600 ns post-PTW latency. A 2 MB huge page reduces TLB miss rate 512× for the same data. The huge page investment is worth 50% more on CXL than on local DRAM.</p>
+
+<p><strong>Rule 3: Pre-classify workloads before CXL allocation.</strong> Use hardware counter profiles to identify latency-sensitive workloads and constrain their memory allocations to local DRAM (<code>numactl --membind=0,1</code> or equivalent cgroup memory policy). Batch and cold-data workloads can use CXL freely.</p>
+
+<p><strong>Rule 4: Set <code>vm.numa_balancing=2</code> on Linux 6.x.</strong> This activates CXL-aware tiering mode. The default <code>vm.numa_balancing=1</code> treats CXL as an ordinary NUMA node and will incorrectly migrate latency-sensitive pages to the CXL tier.</p>
+
+<p><strong>Rule 5: Monitor TLB miss rate per NUMA node.</strong> Use <code>perf stat -e dTLB-load-misses,dTLB-store-misses</code> broken down by NUMA node. A workload on the CXL node with high TLB miss rate is a strong signal to promote it to local DRAM or to increase the huge page allocation for that workload.</p>
+
+<figure style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+  <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <filter id="sh8"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="ar8" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  </defs>
+  <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Figure 19.8 — Pond Production CXL Pool Topology (Azure, ASPLOS 2023)</text>
+
+  <!-- Servers (8-16 sockets) -->
+  <!-- Server 1 -->
+  <rect x="20" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh8)"/>
+  <text x="85" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Server 1</text>
+  <rect x="30" y="85" width="50" height="25" rx="3" fill="#5E81AC"/><text x="55" y="102" text-anchor="middle" font-size="9" fill="white">Socket 0</text>
+  <rect x="88" y="85" width="50" height="25" rx="3" fill="#5E81AC" fill-opacity="0.7"/><text x="113" y="102" text-anchor="middle" font-size="9" fill="white">Socket 1</text>
+  <rect x="30" y="117" width="110" height="18" rx="3" fill="#4A8A99"/><text x="85" y="130" text-anchor="middle" font-size="9" fill="white">Local DRAM: 512 GB</text>
+
+  <!-- Server 2 -->
+  <rect x="160" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh8)"/>
+  <text x="225" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Server 2</text>
+  <rect x="170" y="85" width="50" height="25" rx="3" fill="#5E81AC"/><text x="195" y="102" text-anchor="middle" font-size="9" fill="white">Socket 0</text>
+  <rect x="228" y="85" width="50" height="25" rx="3" fill="#5E81AC" fill-opacity="0.7"/><text x="253" y="102" text-anchor="middle" font-size="9" fill="white">Socket 1</text>
+  <rect x="170" y="117" width="110" height="18" rx="3" fill="#4A8A99"/><text x="225" y="130" text-anchor="middle" font-size="9" fill="white">Local DRAM: 512 GB</text>
+
+  <!-- ... servers 3 & 4 abbreviated -->
+  <text x="355" y="100" text-anchor="middle" font-size="18" fill="#9E9E9E">···</text>
+
+  <!-- Server 8 -->
+  <rect x="400" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh8)"/>
+  <text x="465" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Server 8 (or 16)</text>
+  <rect x="410" y="85" width="50" height="25" rx="3" fill="#5E81AC"/><text x="435" y="102" text-anchor="middle" font-size="9" fill="white">Socket 0</text>
+  <rect x="468" y="85" width="50" height="25" rx="3" fill="#5E81AC" fill-opacity="0.7"/><text x="493" y="102" text-anchor="middle" font-size="9" fill="white">Socket 1</text>
+  <rect x="410" y="117" width="110" height="18" rx="3" fill="#4A8A99"/><text x="465" y="130" text-anchor="middle" font-size="9" fill="white">Local DRAM: 512 GB</text>
+
+  <!-- Latency annotations for servers -->
+  <rect x="20" y="155" width="520" height="22" rx="4" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+  <text x="280" y="170" text-anchor="middle" font-size="10" fill="#212121">Local DRAM: ~80 ns access latency · 512 GB per 2-socket server · Page tables MUST stay here</text>
+
+  <!-- EMC (External Memory Controller) -->
+  <rect x="580" y="45" width="300" height="80" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2.5" filter="url(#sh8)"/>
+  <text x="730" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">External Memory Controller (EMC)</text>
+  <text x="730" y="88" text-anchor="middle" font-size="11" fill="#212121">Multi-headed · Connects 8–16 CPU sockets</text>
+  <text x="730" y="104" text-anchor="middle" font-size="11" fill="#212121">and DDR5 DRAM channels (12 per 16-socket pool)</text>
+
+  <!-- CXL switch below EMC -->
+  <rect x="620" y="145" width="220" height="55" rx="7" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#sh8)"/>
+  <text x="730" y="167" text-anchor="middle" font-size="12" font-weight="bold" fill="#34495E">CXL Switch Fabric</text>
+  <text x="730" y="183" text-anchor="middle" font-size="11" fill="#616161">PCIe 5.0 · 128 lanes (16-socket)</text>
+
+  <!-- Pool DRAM behind EMC -->
+  <rect x="560" y="220" width="320" height="110" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2" filter="url(#sh8)"/>
+  <text x="720" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">CXL Pool Memory</text>
+  <rect x="575" y="252" width="130" height="40" rx="5" fill="#BF616A"/>
+  <text x="640" y="270" text-anchor="middle" font-size="11" fill="white" font-weight="bold">DDR5 Banks</text>
+  <text x="640" y="284" text-anchor="middle" font-size="9" fill="white">128–256 GB per node</text>
+  <rect x="720" y="252" width="145" height="40" rx="5" fill="#BF616A" fill-opacity="0.7"/>
+  <text x="792" y="270" text-anchor="middle" font-size="11" fill="white" font-weight="bold">DDR5 Banks</text>
+  <text x="792" y="284" text-anchor="middle" font-size="9" fill="white">128–256 GB per node</text>
+  <text x="720" y="318" text-anchor="middle" font-size="11" fill="#616161">Total pool: 1–4 TB shared across 8–16 sockets</text>
+
+  <!-- Latency annotations -->
+  <rect x="560" y="345" width="320" height="80" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
+  <text x="720" y="364" text-anchor="middle" font-size="12" font-weight="bold" fill="#212121">Pond Measured Latency (ASPLOS 2023)</text>
+  <text x="720" y="381" text-anchor="middle" font-size="11" fill="#4A8A99">8–16 socket pool: +70–90 ns vs NUMA-local DRAM</text>
+  <text x="720" y="397" text-anchor="middle" font-size="11" fill="#BF616A">Rack-scale (retimers): +180+ ns vs NUMA-local</text>
+  <text x="720" y="413" text-anchor="middle" font-size="11" fill="#212121">43% of 158 Azure workloads within 5% perf at +64 ns</text>
+
+  <!-- Connection lines -->
+  <line x1="150" y1="100" x2="578" y2="85" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="290" y1="100" x2="578" y2="85" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="465" y1="100" x2="578" y2="85" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="730" y1="125" x2="730" y2="143" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ar8)"/>
+  <line x1="730" y1="200" x2="730" y2="218" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ar8)"/>
+
+  <!-- Cost reduction annotation -->
+  <rect x="20" y="350" width="520" height="120" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
+  <text x="280" y="372" text-anchor="middle" font-size="12" font-weight="bold" fill="#5E81AC">Production Results — Azure Pond</text>
+  <text x="40" y="390" font-size="11" fill="#212121">● Pool size: 8–16 dual-socket servers → 1–4 TB shared pool</text>
+  <text x="40" y="407" font-size="11" fill="#212121">● DRAM cost reduction: 7–9% per server via pooling utilisation</text>
+  <text x="40" y="424" font-size="11" fill="#212121">● Workload tolerance: 43% within 5% perf degradation at +64 ns CXL</text>
+  <text x="40" y="441" font-size="11" fill="#BF616A">● 21%+ of workloads suffer &gt;25% perf loss — must stay in local DRAM</text>
+  <text x="40" y="458" font-size="11" fill="#212121">● OS model: cpuless NUMA node — compatible with existing Linux NUMA APIs</text>
+</svg>
+  </div>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
+    <strong>Figure 19.8:</strong> Azure Pond CXL Pool Topology (ASPLOS 2023, Microsoft Research). Eight to sixteen dual-socket servers connect to an External Memory Controller (EMC) via PCIe 5.0 CXL links. The EMC aggregates DDR5 memory from multiple banks into a shared pool of 1–4 TB, presented to all servers as a cpuless NUMA node. At 8–16 socket pool size, CXL adds only 70–90 ns of latency over same-NUMA-node DRAM — small enough that 43% of production Azure workloads run within 5% of their local-DRAM performance while the pool achieves 7–9% DRAM cost reduction.
+  </figcaption>
+</figure>
+
+<h2 id="section-19.10">19.10 Chapter Summary</h2>
+
+<p>CXL (Compute Express Link) is the first production interconnect technology that extends the CPU's physical address space beyond the local memory controller while preserving the complete virtual-to-physical translation machinery unchanged. This chapter has examined what that means in practice for every layer of the memory management stack, from the hardware protocol to the Linux kernel to production deployment configuration.</p>
+
+<p>The protocol architecture (Section 19.2) established the three sub-protocols — CXL.io for device management, CXL.cache for device-side TLBs and caching, CXL.mem for load/store access to device-attached DRAM — and the three device types they enable. Type 3 memory expanders, which use only CXL.io and CXL.mem, are the practical foundation of memory disaggregation: pure DRAM capacity exposed as Host-managed Device Memory (HDM) in the host's physical address space.</p>
+
+<p>The OS model (Section 19.3) showed that Linux presents CXL memory as a cpuless NUMA node — a new entry in the system's NUMA topology with a measured access latency that ACPI HMAT communicates to the kernel. The critical configuration requirements — setting <code>vm.numa_balancing=2</code> to activate CXL-aware tiering, configuring kswapd reclaim direction correctly — are invisible to default installations and must be applied explicitly.</p>
+
+<p>The central mechanistic insight of the chapter (Section 19.4) is that the translation mechanism — CR3-rooted page walks on x86-64, TTBR-rooted walks on ARM64 — is entirely unchanged by CXL. A PTE that maps to a CXL-backed physical address is byte-for-byte identical to a PTE mapping local DRAM. The TLB entry is identical. The page walker is oblivious. The cost difference — 80 ns for local DRAM versus 150–380 ns for CXL — appears entirely after the physical address is produced, in the fabric traversal from the PCIe root complex to the CXL device and back. Azure's Pond measured +70–90 ns for 8–16 socket pools and +180 ns for rack-scale configurations; 43% of 158 production workloads tolerated +64 ns overhead within 5% performance degradation.</p>
+
+<p>The page table pinning constraint (Section 19.5) is the most operationally dangerous aspect of CXL deployment. If the kernel's memory tiering infrastructure demotes page table pages to the CXL tier — which it will do by default unless explicitly prevented — every TLB miss incurs a page table walk against CXL-resident memory, costing ~2,000 ns instead of ~320 ns. The 6.25× PTW slowdown is silent: no hardware alert, no OS error, only degraded performance that may be misdiagnosed for weeks. The correct configuration is <code>vm.demote_page_tables=0</code> combined with memory tier exclusion of pages with the <code>PG_table</code> flag.</p>
+
+<p>Memory tiering mechanics (Section 19.6) examined the hot/cold classification methods — PEBS sampling (highest accuracy), PTE accessed bit scanning (standard AutoNUMA), and working-set estimation — and the migration cost model. Each 4 KB page migration costs 10–50 µs of TLB shootdown overhead, creating a minimum access frequency threshold below which migration to DRAM is not profitable. THP demotion — which requires splitting a 2 MB huge page into 512 × 4 KB pages before migrating to CXL — is a particular source of latency spikes at scale.</p>
+
+<p>CXL 3.0 Back-Invalidation (Section 19.7) introduced the first device-to-CPU TLB invalidation protocol described in this book. In Shared Memory configurations, the CXL Fabric Manager can initiate a TLB shootdown on a host to revoke access to a memory region being reassigned to another host. The directional inversion — device initiates, CPU responds — requires a registered back-invalidate handler in the host OS and costs 50–200 µs per invocation.</p>
+
+<p>CXL 3.0 Shared Memory (Section 19.8) revealed a two-stage address translation structure structurally analogous to the EPT/NPT nested page tables analysed in Chapter 3. Each host maintains its own stage-1 page tables mapping virtual addresses to host physical addresses. A second stage, implemented in the CXL host bridge hardware, translates host physical addresses to a unified CXL device physical address space. The CXL switch's Snoop Filter enforces MESI coherence across hosts, tracking which hosts have cached which device physical addresses and triggering back-invalidation when exclusive ownership must be transferred.</p>
+
+<p>Production measurements (Section 19.9) grounded all mechanisms in empirical reality: DirectCXL's 8.2× latency advantage over RDMA (328 vs 2,705 cycles for a 64-byte read); Pond's 7–9% DRAM cost reduction at +70–90 ns CXL latency; Meta's TPP achieving within 5% tail latency for serving workloads while reducing DRAM cost; the hash-join TLB thrashing study showing NUMA memory outperforming CXL for write-heavy random-access patterns; and the emerging KV cache offloading use case for LLM inference, where 30–50% memory cost reduction is achievable for contexts above 32K tokens.</p>
+
+<p>Four architectural connections to earlier chapters deserve explicit restatement. First, Chapter 3's two-stage translation theory for virtualisation is not merely analogous to CXL 3.0 Shared Memory — it is the same mathematical structure. The mapping Host-A-VA → Host-A-PA → CXL-Device-PA is isomorphic to Guest-VA → Guest-PA → Host-PA. Chapter 3 describes the theory; Chapter 19 describes a novel production instantiation. Second, Chapter 9's NUMA-aware page table management guidance becomes mandatory rather than advisory under CXL: page table placement is no longer a performance optimisation but a correctness constraint. Third, Chapter 17's PTW latency model receives a new tier — CXL-resident page tables at ~2,000 ns — that represents a category of failure rather than a design point. Fourth, Chapter 12's multi-GPU TLB shootdown scale analysis is complemented here by a new direction of shootdown initiation that no prior chapter described.</p>
+
+<p>The horizon beyond this chapter includes CXL 4.0 (November 2025), which doubles link bandwidth to 128 GT/s and extends memory pooling to multi-rack topologies. At that scale, the latency model changes: rack-to-rack CXL traversal, with multiple retimer stages and switch hops, may reach 500+ ns of additional latency — deep into the territory where only the coldest data tiers can tolerate the access cost. The page table pinning constraint becomes even more critical as pool size grows. And the two-stage translation model of CXL 3.0 Shared Memory will expand to multi-host configurations spanning tens of servers, requiring more sophisticated Snoop Filter designs and potentially software-managed coherence for the largest pools. These directions point naturally toward the next chapter's subject: the hypervisor MMU internals that manage virtual machines across exactly the kind of two-stage address translation hierarchy that CXL 3.0 has now demonstrated is as relevant to disaggregated memory as it is to virtualisation.</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+<li>CXL Consortium. <em>Compute Express Link Specification, Revision 3.0</em>. CXL Consortium, 2022. https://www.computeexpresslink.org/</li>
+<li>CXL Consortium. <em>Compute Express Link Specification, Revision 4.0</em>. CXL Consortium, November 2025. https://www.computeexpresslink.org/</li>
+<li>Glisse, M., Abramson, D., Bhatia, T., and Sharma, D. "An Introduction to the Compute Express Link (CXL) Interconnect." <em>ACM Computing Surveys</em>, 2024. DOI: 10.1145/3669900</li>
+<li>Gouk, D., Lee, S., Kwon, M., and Jung, M. "Direct Access, High-Performance Memory Disaggregation with DirectCXL." In <em>Proceedings of the 2022 USENIX Annual Technical Conference (USENIX ATC '22)</em>, pp. 287–294, 2022. https://www.usenix.org/conference/atc22/presentation/gouk</li>
+<li>Jang, J., Choi, H., Bae, H., Lee, S., Kwon, M., and Jung, M. "CXL-ANNS: Software-Hardware Collaborative Memory Disaggregation and Computation for Billion-Scale Approximate Nearest Neighbor Search." In <em>Proceedings of the 2023 USENIX Annual Technical Conference (USENIX ATC '23)</em>, 2023.</li>
+<li>Kim, J., Nam, H., Kim, J., and Huh, J. "Exploring the Design Space of Page Management for Multi-Tiered Memory Systems." In <em>Proceedings of the 2021 USENIX Annual Technical Conference (USENIX ATC '21)</em>, 2021.</li>
+<li>Li, H., Berger, D.S., Hsu, L., Ernst, D., Zardoshti, P., Novakovic, S., Shah, M., Rajadnya, S., Lee, S., Agarwal, I., Hill, M.D., Fontoura, M., and Bianchini, R. "Pond: CXL-Based Memory Pooling Systems for Cloud Platforms." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23)</em>, Volume 2, pp. 574–587, 2023. DOI: 10.1145/3575693.3578835</li>
+<li>Liang, Y., Huang, T., Chen, K., et al. "Innovation in Computational Architecture: Opportunities and Challenges of CXL Memory Disaggregation Technology in Intelligent Computing Centers." <em>Tsinghua Science and Technology</em>, vol. 31, no. 4, pp. 2020–2039, 2026. DOI: 10.26599/TST.2025.9010010</li>
+<li>Al Maruf, H., Wang, H., Dhanotia, A., Weiner, J., Agarwal, N., Bhattacharya, P., Petersen, C., Chowdhury, M., Kanaujia, S., and Chauhan, P. "TPP: Transparent Page Placement for CXL-Enabled Tiered Memory." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23)</em>, 2023. arXiv:2206.02878</li>
+<li>Pan, Y., Lala, Y., Unal, M., Ren, Y., Lee, S., Bhattacharjee, A., Khandelwal, A., and Kashyap, S. "Scalable Far Memory: Balancing Faults and Evictions." In <em>Proceedings of the ACM Symposium on Operating Systems Principles (SOSP '25)</em>, 2025.</li>
+<li>PCI-SIG. <em>Address Translation Services Revision 1.1</em>. PCI Special Interest Group, 2020.</li>
+<li>Tang, Y., Lee, S., Bhattacharjee, A., and Khandelwal, A. "pulse: Accelerating Distributed Pointer-Traversals on Disaggregated Memory." In <em>Proceedings of the 30th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '25)</em>, 2025.</li>
+<li>Wang, S., et al. "Bandwidth Expansion via CXL: A Pathway to Accelerating In-Memory Analytical Processing." In <em>Fifteenth International Workshop on Accelerating Analytics and Data Management Systems Using Modern Processor and Storage Architectures (ADMS '24), co-located with VLDB 2024</em>, 2024.</li>
+<li>Zhang, R., et al. "Next-Gen Computing Systems with Compute Express Link: A Comprehensive Survey." arXiv preprint arXiv:2412.20249, 2025.</li>
+</ol>
+
+<script>
+
+
+(function() {
+  var CHAPTERS = [
+  {
+    "num": 1,
+    "file": "chapter-01-WITH-FIGURES.html",
+    "short": "Memory Management Basics",
+    "sections": [
+      {
+        "text": "1.1 Introduction: Why Virtual Memory Exists",
+        "id": "introduction-why-virtual-memory-exists"
+      },
+      {
+        "text": "1.2 What is Memory Management?",
+        "id": "what-is-memory-management"
+      },
+      {
+        "text": "1.3 The Evolution of Memory Management",
+        "id": "the-evolution-of-memory-management"
+      },
+      {
+        "text": "1.4 Hierarchical Levels of Memory Management",
+        "id": "hierarchical-levels-of-memory-management"
+      },
+      {
+        "text": "1.5 The Virtual Memory Abstraction",
+        "id": "the-virtual-memory-abstraction"
+      },
+      {
+        "text": "1.6 Key Concepts and Terminology",
+        "id": "key-concepts-and-terminology"
+      },
+      {
+        "text": "1.7 A Concrete Example: Address Translation",
+        "id": "a-concrete-example-address-translation"
+      },
+      {
+        "text": "1.8 The Translation Lookaside Buffer (TLB)",
+        "id": "the-translation-lookaside-buffer-tlb"
+      },
+      {
+        "text": "1.9 Multi-Level Page Tables",
+        "id": "multi-level-page-tables"
+      },
+      {
+        "text": "1.10 Why MMU Matters: Real-World Impact",
+        "id": "why-mmu-matters-real-world-impact"
+      },
+      {
+        "text": "1.11 Chapter Summary",
+        "id": "chapter-summary"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 2,
+    "file": "chapter-02-WITH-FIGURES.html",
+    "short": "Virtual Memory Concepts",
+    "sections": [
+      {
+        "text": "2.1 Introduction: The Illusion of Unlimited Memory",
+        "id": "introduction-the-illusion-of-unlimited-memory"
+      },
+      {
+        "text": "2.2 Demand Paging: Loading Pages on Demand",
+        "id": "demand-paging-loading-pages-on-demand"
+      },
+      {
+        "text": "2.3 Page Replacement Algorithms",
+        "id": "page-replacement-algorithms"
+      },
+      {
+        "text": "2.4 Thrashing and the Working Set Model",
+        "id": "thrashing-and-the-working-set-model"
+      },
+      {
+        "text": "2.5 Copy-on-Write (COW)",
+        "id": "copy-on-write-cow"
+      },
+      {
+        "text": "2.6 Memory-Mapped Files",
+        "id": "memory-mapped-files"
+      },
+      {
+        "text": "2.7 Advanced Topics",
+        "id": "advanced-topics"
+      },
+      {
+        "text": "2.8 Performance Optimization Strategies",
+        "id": "performance-optimization-strategies"
+      },
+      {
+        "text": "2.9 Chapter Summary",
+        "id": "chapter-summary"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 3,
+    "file": "chapter-03-WITH-FIGURES.html",
+    "short": "Page Table Structures and Implementation",
+    "sections": [
+      {
+        "text": "3.1 Introduction",
+        "id": "3.1-introduction"
+      },
+      {
+        "text": "3.2 Single-Level Page Tables: The Simplest Approach",
+        "id": "3.2-single-level-page-tables-the-simplest-approach"
+      },
+      {
+        "text": "3.3 Two-Level Page Tables",
+        "id": "3.3-two-level-page-tables"
+      },
+      {
+        "text": "3.4 Multi-Level Page Tables (3+ Levels)",
+        "id": "3.4-multi-level-page-tables-3-levels"
+      },
+      {
+        "text": "3.5 Virtualization: Two-Stage Address Translation",
+        "id": "3.5-virtualization-two-stage-address-translation"
+      },
+      {
+        "text": "3.6 What Gets Cached: TLB and Page Walk Caches",
+        "id": "3.6-what-gets-cached-tlb-and-page-walk-caches"
+      },
+      {
+        "text": "3.7 Hardware Page Table Walker",
+        "id": "3.7-hardware-page-table-walker"
+      },
+      {
+        "text": "3.8 Page Table Management from the OS Perspective",
+        "id": "3.8-page-table-management-from-the-os-perspective"
+      },
+      {
+        "text": "3.9 Design Trade-offs",
+        "id": "3.9-design-trade-offs"
+      },
+      {
+        "text": "3.10 Chapter Summary",
+        "id": "3.10-chapter-summary"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 4,
+    "file": "chapter-04-WITH-FIGURES.html",
+    "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
+    "sections": [
+      {
+        "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
+        "id": "introduction-the-most-critical-cache-youve-never-heard-of"
+      },
+      {
+        "text": "4.2 TLB Architecture and Organization",
+        "id": "tlb-architecture-and-organization"
+      },
+      {
+        "text": "4.3 TLB Management: Hardware vs Software",
+        "id": "tlb-management-hardware-vs-software"
+      },
+      {
+        "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
+        "id": "address-space-identifiers-asid-pcid-and-vmid"
+      },
+      {
+        "text": "4.5 TLB Operations and Instructions",
+        "id": "tlb-operations-and-instructions"
+      },
+      {
+        "text": "4.6 Large Pages and TLB Coverage",
+        "id": "large-pages-and-tlb-coverage"
+      },
+      {
+        "text": "4.7 Multicore TLB Coherency",
+        "id": "multicore-tlb-coherency"
+      },
+      {
+        "text": "4.8 Platform-Specific TLB Implementations",
+        "id": "platform-specific-tlb-implementations"
+      },
+      {
+        "text": "4.9 Alternative Page Table Structures and TLB Implications",
+        "id": "alternative-page-table-structures-and-tlb-implications"
+      },
+      {
+        "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
+        "id": "self-modifying-code-and-instructiondata-coherency"
+      },
+      {
+        "text": "4.11 Multithreading and TLB Sharing",
+        "id": "multithreading-and-tlb-sharing"
+      },
+      {
+        "text": "4.12 Virtualization with Mismatched Page Sizes",
+        "id": "virtualization-with-mismatched-page-sizes"
+      },
+      {
+        "text": "4.13 GPU and Hardware Accelerator MMUs",
+        "id": "gpu-and-hardware-accelerator-mmus"
+      },
+      {
+        "text": "4.14 Chapter Summary",
+        "id": "chapter-4-summary"
+      },
+      {
+        "text": "References",
+        "id": "chapter-4-references"
+      }
+    ]
+  },
+  {
+    "num": 5,
+    "file": "chapter-05-WITH-FIGURES.html",
+    "short": "IOMMU and DMA Remapping - Deep Dive",
+    "sections": [
+      {
+        "text": "5.1 Introduction: The I/O Device Memory Access Problem",
+        "id": "introduction-the-io-device-memory-access-problem"
+      },
+      {
+        "text": "5.2 IOMMU Architecture Fundamentals",
+        "id": "iommu-architecture-fundamentals"
+      },
+      {
+        "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
+        "id": "intel-vt-d-virtualization-technology-for-directed-io"
+      },
+      {
+        "text": "5.4 AMD IOMMU (AMD-Vi)",
+        "id": "amd-iommu-amd-vi"
+      },
+      {
+        "text": "5.5 ARM SMMU (System Memory Management Unit)",
+        "id": "arm-smmu-system-memory-management-unit"
+      },
+      {
+        "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
+        "id": "iommu-page-tables-cross-platform-analysis"
+      },
+      {
+        "text": "5.7 IOTLB Performance and Optimization",
+        "id": "iotlb-performance-and-optimization"
+      },
+      {
+        "text": "5.8 Device Assignment and SR-IOV",
+        "id": "device-assignment-and-sr-iov"
+      },
+      {
+        "text": "5.11 Chapter Summary",
+        "id": "chapter-summary-and-key-takeaways"
+      },
+      {
+        "text": "5.9 IOMMU in Operating Systems",
+        "id": "iommu-in-operating-systems"
+      },
+      {
+        "text": "5.10 Performance Optimization and Best Practices",
+        "id": "performance-optimization-and-best-practices"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 6,
+    "file": "chapter-06-WITH-FIGURES.html",
+    "short": "Memory Protection and Access Control",
+    "sections": [
+      {
+        "text": "6.1 Introduction: Memory Protection Fundamentals",
+        "id": "6.1-introduction-memory-protection-fundamentals"
+      },
+      {
+        "text": "6.2 Page-Level Protection Bits",
+        "id": "6.2-page-level-protection-bits"
+      },
+      {
+        "text": "6.3 The No-Execute (NX) Bit",
+        "id": "6.3-the-no-execute-nx-bit"
+      },
+      {
+        "text": "6.4 Privilege Levels and Protection Rings",
+        "id": "6.4-privilege-levels-and-protection-rings"
+      },
+      {
+        "text": "6.5 User vs Supervisor Pages",
+        "id": "6.5-user-vs-supervisor-pages"
+      },
+      {
+        "text": "6.6 Advanced Protection Features",
+        "id": "6.6-advanced-protection-features"
+      },
+      {
+        "text": "6.7 Protection Keys and Domains",
+        "id": "6.7-protection-keys-and-domains"
+      },
+      {
+        "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
+        "id": "6.8-trusted-execution-environments-tee-deep-dive"
+      },
+      {
+        "text": "6.9 Copy-On-Write (COW)",
+        "id": "6.9-copy-on-write-cow"
+      },
+      {
+        "text": "6.10 Memory Access Ordering and Protection",
+        "id": "6.10-memory-access-ordering-and-protection"
+      },
+      {
+        "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
+        "id": "6.11-confidential-computing-hardware-based-vm-isolation"
+      },
+      {
+        "text": "6.12 AMD Memory Guard and Memory Encryption",
+        "id": "6.12-amd-memory-guard-and-memory-encryption"
+      },
+      {
+        "text": "6.13 RISC-V Security Extensions",
+        "id": "6.13-risc-v-security-extensions"
+      },
+      {
+        "text": "6.14 GPU and Accelerator Security",
+        "id": "6.14-gpu-and-accelerator-security"
+      },
+      {
+        "text": "6.15 Heterogeneous Computing Security",
+        "id": "6.15-heterogeneous-computing-security"
+      },
+      {
+        "text": "6.16 Performance vs Security Trade-offs",
+        "id": "6.16-performance-vs-security-trade-offs"
+      },
+      {
+        "text": "6.17 Best Practices and Guidelines",
+        "id": "6.17-best-practices-and-guidelines"
+      },
+      {
+        "text": "6.18 Common Pitfalls and How to Avoid Them",
+        "id": "6.18-common-pitfalls-and-how-to-avoid-them"
+      },
+      {
+        "text": "6.19 Chapter Summary",
+        "id": "6.19-summary-and-future-directions"
+      },
+      {
+        "text": "References",
+        "id": "chapter-6-references"
+      }
+    ]
+  },
+  {
+    "num": 7,
+    "file": "chapter-07-WITH-FIGURES.html",
+    "short": "Page Faults and Exception Handling",
+    "sections": [
+      {
+        "text": "7.1 Introduction: When Address Translation Fails",
+        "id": "introduction-when-address-translation-fails"
+      },
+      {
+        "text": "7.2 Page Fault Fundamentals",
+        "id": "page-fault-fundamentals"
+      },
+      {
+        "text": "7.3 x86-64 Page Faults (#PF)",
+        "id": "x86-64-page-faults-pf"
+      },
+      {
+        "text": "7.4 ARM64 Data and Instruction Aborts",
+        "id": "arm64-data-and-instruction-aborts"
+      },
+      {
+        "text": "7.5 RISC-V Page Faults",
+        "id": "risc-v-page-faults"
+      },
+      {
+        "text": "7.6 TLB-Related Exceptions",
+        "id": "tlb-related-exceptions"
+      },
+      {
+        "text": "7.7 Page Table Walk Failures",
+        "id": "page-table-walk-failures"
+      },
+      {
+        "text": "7.8 Page Overlapping and Aliasing Faults",
+        "id": "page-overlapping-and-aliasing-faults"
+      },
+      {
+        "text": "7.9 Permission Violations",
+        "id": "permission-violations"
+      },
+      {
+        "text": "7.10 Page Fault Handling Flow",
+        "id": "page-fault-handling-flow"
+      },
+      {
+        "text": "7.11 Performance Implications",
+        "id": "performance-implications"
+      },
+      {
+        "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
+        "id": "historical-architectures-sparc-mips-powerpc"
+      },
+      {
+        "text": "7.13 Architecture Comparison",
+        "id": "architecture-comparison"
+      },
+      {
+        "text": "7.14 Debugging Page Faults",
+        "id": "debugging-page-faults"
+      },
+      {
+        "text": "7.15 Chapter Summary",
+        "id": "advanced-topics-and-summary"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 8,
+    "file": "chapter-08-WITH-FIGURES.html",
+    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "sections": [
+      {
+        "text": "8.1 Introduction: The Crisis Point",
+        "id": "introduction-the-crisis-point"
+      },
+      {
+        "text": "8.2 Nested Page Tables: Beyond the Basics",
+        "id": "nested-page-tables-beyond-the-basics"
+      },
+      {
+        "text": "8.3 Architecture Differences in Nested Fault Handling",
+        "id": "architecture-differences-nested-fault-handling"
+      },
+      {
+        "text": "8.4 Accessed and Dirty Bits",
+        "id": "accessed-dirty-bits"
+      },
+      {
+        "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
+        "id": "page-replacement-algorithms"
+      },
+      {
+        "text": "8.6 Memory Reclaim: When and How to Free Pages",
+        "id": "memory-reclaim"
+      },
+      {
+        "text": "8.7 Page Table Management: The Meta-Problem",
+        "id": "page-table-management"
+      },
+      {
+        "text": "8.8 Performance Analysis and Tuning",
+        "id": "performance-analysis-and-tuning"
+      },
+      {
+        "text": "8.9 Chapter Summary",
+        "id": "chapter-summary"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 9,
+    "file": "chapter-09-WITH-FIGURES.html",
+    "short": "Advanced Page Table Optimizations",
+    "sections": [
+      {
+        "text": "9.1 Introduction: The Container Crisis",
+        "id": "introduction-the-container-crisis"
+      },
+      {
+        "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
+        "id": "memory-deduplication-kernel-samepage-merging"
+      },
+      {
+        "text": "9.3 Page Table Locking and Concurrency",
+        "id": "page-table-locking-and-concurrency"
+      },
+      {
+        "text": "9.4 NUMA-Aware Page Table Management",
+        "id": "numa-aware-page-table-management"
+      },
+      {
+        "text": "9.5 Advanced Huge Page Strategies",
+        "id": "advanced-huge-page-strategies"
+      },
+      {
+        "text": "9.6 Page Table Compaction and Sharing",
+        "id": "page-table-compaction-and-sharing"
+      },
+      {
+        "text": "9.7 Parallel Page Table Operations",
+        "id": "parallel-page-table-operations"
+      },
+      {
+        "text": "9.8 Memory Compression Integration",
+        "id": "memory-compression-integration"
+      },
+      {
+        "text": "9.9 Production Case Study: Cloud Provider Memory Optimization Stack",
+        "id": "production-case-study-cloud-provider-memory-optimization-stack"
+      },
+      {
+        "text": "9.10 Chapter Summary",
+        "id": "summary-and-best-practices"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 10,
+    "file": "chapter-10-WITH-FIGURES.html",
+    "short": "Hardware Accelerators and External MMU Access",
+    "sections": [
+      {
+        "text": "10.1 Introduction: Beyond the CPU Core",
+        "id": "introduction-beyond-the-cpu-core"
+      },
+      {
+        "text": "10.2 IOMMU Architecture Deep Dive",
+        "id": "iommu-architecture-deep-dive"
+      },
+      {
+        "text": "10.3 PCIe ATS and Address Translation Services",
+        "id": "pcie-ats-and-address-translation-services"
+      },
+      {
+        "text": "10.4 RDMA and Memory Registration",
+        "id": "rdma-and-memory-registration"
+      },
+      {
+        "text": "10.5 Smart NICs and Data Processing Units",
+        "id": "smart-nics-and-data-processing-units"
+      },
+      {
+        "text": "10.6 Video and Media Accelerators",
+        "id": "video-and-media-accelerators"
+      },
+      {
+        "text": "10.7 Multi-Device Coherency and Coordination",
+        "id": "multi-device-coherency-and-coordination"
+      },
+      {
+        "text": "10.8 Chapter Summary",
+        "id": "summary-and-best-practices"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 11,
+    "file": "chapter-11-WITH-FIGURES.html",
+    "short": "Virtual Memory Challenges in AI/ML Accelerators",
+    "sections": [
+      {
+        "text": "11.1 Introduction: Scale Changes Everything",
+        "id": "introduction-scale-changes-everything"
+      },
+      {
+        "text": "11.2 Google TPU: Compiler-Managed Memory",
+        "id": "section-11.2"
+      },
+      {
+        "text": "11.3 NVIDIA GPU Unified Virtual Memory",
+        "id": "section-11.3"
+      },
+      {
+        "text": "11.4 Multi-GPU TLB Synchronization: NVLink and NVSwitch",
+        "id": "section-11.4"
+      },
+      {
+        "text": "11.5 Page Size Strategy for AI Workloads",
+        "id": "section-11.5"
+      },
+      {
+        "text": "11.6 AMD MI300X: Chiplet Architecture and Unified Memory",
+        "id": "section-11.6"
+      },
+      {
+        "text": "11.7 Intel Gaudi 2 and RDMA Integration",
+        "id": "section-11.7"
+      },
+      {
+        "text": "11.8 Apple M-Series Unified Memory Architecture",
+        "id": "section-11.8"
+      },
+      {
+        "text": "11.9 Common Pitfalls and Production Best Practices",
+        "id": "section-11.9"
+      },
+      {
+        "text": "11.10 Chapter Summary",
+        "id": "chapter-11-summary"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 12,
+    "file": "chapter-12-WITH-FIGURES.html",
+    "short": "When MMU Architecture Breaks - AI at Scale",
+    "sections": [
+      {
+        "text": "12.1 The Six Drivers of AI Memory Systems",
+        "id": "section-12.1"
+      },
+      {
+        "text": "12.2 The Architectural Cost of Runtime Address Translation",
+        "id": "section-12.2"
+      },
+      {
+        "text": "12.3 Introduction - When Good Architecture Faces New Constraints",
+        "id": "section-12.3"
+      },
+      {
+        "text": "12.4 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
+        "id": "section-12.4"
+      },
+      {
+        "text": "12.5 Multi-Tenancy - Isolation vs Performance Trade-Offs",
+        "id": "section-12.5"
+      },
+      {
+        "text": "12.6 Virtualization - The Page Fault Challenge",
+        "id": "section-12.6"
+      },
+      {
+        "text": "12.7 Chapter Summary",
+        "id": "section-12.7"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 13,
+    "file": "chapter-13-WITH-FIGURES.html",
+    "short": "Machine Learning for Memory Management - The False Hope",
+    "sections": [
+      {
+        "text": "13.1 Introduction: The ML Seduction",
+        "id": "section-13.1"
+      },
+      {
+        "text": "13.2 Pythia: Why Hardware RL Failed",
+        "id": "section-13.2"
+      },
+      {
+        "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
+        "id": "section-13.3"
+      },
+      {
+        "text": "13.4 LeCaR: The Rare Success (And Why)",
+        "id": "section-13.4"
+      },
+      {
+        "text": "13.5 Chapter Summary",
+        "id": "section-13.5"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 14,
+    "file": "chapter-14-WITH-FIGURES.html",
+    "short": "Software-Managed Memory for AI Workloads",
+    "sections": [
+      {
+        "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
+        "id": "section-14.1"
+      },
+      {
+        "text": "14.2 Memory Management Failure Modes",
+        "id": "section-14.2"
+      },
+      {
+        "text": "14.3 Software-Managed Memory: The vLLM System",
+        "id": "section-14.3"
+      },
+      {
+        "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
+        "id": "section-14.4"
+      },
+      {
+        "text": "14.5 Comparative Analysis and Design Trade-offs",
+        "id": "section-14.5"
+      },
+      {
+        "text": "14.6 Future Research Directions",
+        "id": "section-14.6"
+      },
+      {
+        "text": "14.7 Chapter Summary",
+        "id": "section-14.7"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 15,
+    "file": "chapter-15-WITH-FIGURES.html",
+    "short": "Beyond Traditional MMU - Alternative Translation Architectures",
+    "sections": [
+      {
+        "text": "15.1 Introduction",
+        "id": "section-15.1"
+      },
+      {
+        "text": "15.2 Network-Level Translation",
+        "id": "section-15.2"
+      },
+      {
+        "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
+        "id": "section-15.3"
+      },
+      {
+        "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
+        "id": "section-15.4"
+      },
+      {
+        "text": "15.5 Comparative Analysis",
+        "id": "section-15.5"
+      },
+      {
+        "text": "15.6 Chapter Summary",
+        "id": "section-15.6"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 16,
+    "file": "chapter-16-WITH-FIGURES.html",
+    "short": "Advanced TLB Optimization Techniques",
+    "sections": [
+      {
+        "text": "16.1 Introduction: The TLB Reach Crisis",
+        "id": "section-16.1"
+      },
+      {
+        "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
+        "id": "section-16.2"
+      },
+      {
+        "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
+        "id": "section-16.3"
+      },
+      {
+        "text": "16.4 Speculative Translation: SpecTLB and Avatar",
+        "id": "section-16.4"
+      },
+      {
+        "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
+        "id": "section-16.5"
+      },
+      {
+        "text": "16.6 Hashing-Based Compression: Mosaic Pages",
+        "id": "section-16.6"
+      },
+      {
+        "text": "16.7 Range-Based Translation: FlexPointer",
+        "id": "section-16.7"
+      },
+      {
+        "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
+        "id": "section-16.8"
+      },
+      {
+        "text": "16.9 Comparative Analysis: When to Use Each Technique",
+        "id": "section-16.9"
+      },
+      {
+        "text": "16.10 Chapter Summary",
+        "id": "section-16.10"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 17,
+    "file": "chapter-17-WITH-FIGURES.html",
+    "short": "Page Table Walker Microarchitecture",
+    "sections": [
+      {
+        "text": "17.1 Introduction",
+        "id": "section-17.1"
+      },
+      {
+        "text": "17.2 PTW Pipeline Stages",
+        "id": "section-17.2"
+      },
+      {
+        "text": "17.3 Page Walk Caches",
+        "id": "section-17.3"
+      },
+      {
+        "text": "17.4 MSHR and Concurrent Walks",
+        "id": "section-17.4"
+      },
+      {
+        "text": "17.5 Speculative Page Table Walks",
+        "id": "section-17.5"
+      },
+      {
+        "text": "17.6 PTW Parallelism and Throughput",
+        "id": "section-17.6"
+      },
+      {
+        "text": "17.7 x86-64 PTW Microarchitecture",
+        "id": "section-17.7"
+      },
+      {
+        "text": "17.8 ARM64 Translation Table Walk",
+        "id": "section-17.8"
+      },
+      {
+        "text": "17.9 RISC-V Software-Managed PTW",
+        "id": "section-17.9"
+      },
+      {
+        "text": "17.10 Chapter Summary",
+        "id": "section-17.10"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 18,
+    "file": "chapter-18-WITH-FIGURES.html",
+    "short": "MMU-Level Vulnerabilities",
+    "sections": [
+      {
+        "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",
+        "id": "section-18.1"
+      },
+      {
+        "text": "18.2 The Paging Model's Trust Assumptions",
+        "id": "section-18.2"
+      },
+      {
+        "text": "18.3 Meltdown: Speculative PTE Permission Checks",
+        "id": "section-18.3"
+      },
+      {
+        "text": "18.4 Spectre v1: Bounds Bypass via Virtual Address Speculation",
+        "id": "section-18.4"
+      },
+      {
+        "text": "18.5 Spectre v2: Branch Target Injection and the PTW Control Path",
+        "id": "section-18.5"
+      },
+      {
+        "text": "18.6 L1TF and Foreshadow: P=0 PTEs as Physical Address Leaks",
+        "id": "section-18.6"
+      },
+      {
+        "text": "18.7 Microarchitectural Data Sampling: Buffers the PTW Shares",
+        "id": "section-18.7"
+      },
+      {
+        "text": "18.8 KPTI: Splitting the Page Table as an Architectural Fix",
+        "id": "section-18.8"
+      },
+      {
+        "text": "18.9 Mitigation Costs and Production Deployment Trade-offs",
+        "id": "section-18.9"
+      },
+      {
+        "text": "18.10 Chapter Summary",
+        "id": "section-18.10"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  },
+  {
+    "num": 19,
+    "file": "chapter-19-WITH-FIGURES.html",
+    "short": "CXL and the Disaggregated Address Space",
+    "sections": [
+      {
+        "text": "19.1 Introduction: When Physical Memory Leaves the Socket",
+        "id": "section-19.1"
+      },
+      {
+        "text": "19.2 CXL Protocol Architecture: .io, .cache, .mem",
+        "id": "section-19.2"
+      },
+      {
+        "text": "19.3 CXL as a NUMA Node: How Linux Sees Disaggregated Memory",
+        "id": "section-19.3"
+      },
+      {
+        "text": "19.4 The Unchanged Mechanism, the Changed Cost",
+        "id": "section-19.4"
+      },
+      {
+        "text": "19.5 The Page Table Pinning Constraint",
+        "id": "section-19.5"
+      },
+      {
+        "text": "19.6 Memory Tiering: The OS Page Allocator Under CXL",
+        "id": "section-19.6"
+      },
+      {
+        "text": "19.7 TLB Shootdown Inverted: CXL Back-Invalidation",
+        "id": "section-19.7"
+      },
+      {
+        "text": "19.8 CXL 3.0 Shared Memory: Two-Stage Translation Returns",
+        "id": "section-19.8"
+      },
+      {
+        "text": "19.9 Production Deployments and Performance Engineering",
+        "id": "section-19.9"
+      },
+      {
+        "text": "19.10 Chapter Summary",
+        "id": "section-19.10"
+      },
+      {
+        "text": "References",
+        "id": "references"
+      }
+    ]
+  }
+];
+
+
+  var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
+  var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
+
+  /* Build HTML */
+  var html = '';
+  CHAPTERS.forEach(function(ch) {
+    var isCur = ch.num === curCh.num;
+    var toc = '';
+    ch.sections.forEach(function(s) {
+      var href = isCur ? '#' + s.id : ch.file + '#' + s.id;
+      toc += '<a class="sb-sec" href="' + href + '" title="' + s.text.replace(/"/g,'&quot;') + '">'
+           + s.text + '</a>';
+    });
+    var n = ch.num < 10 ? '0' + ch.num : '' + ch.num;
+    var arrow = ch.sections.length
+      ? '<svg class="sb-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="4,2 8,6 4,10"/></svg>'
+      : '';
+    html += '<div class="sb-ch' + (isCur?' active open':'') + '" data-c="' + ch.num + '">'
+      + '<div class="sb-ch-head" onclick=\"sbChClick(' + ch.num + ',\'' + ch.file + '\')\">'
+      + '<span class="sb-num">' + n + '</span>'
+      + (isCur
+        ? '<span class="sb-ch-link">' + ch.short + '</span>'
+        : '<a class="sb-ch-link" href="' + ch.file + '">' + ch.short + '</a>')
+      + arrow + '</div>'
+      + (toc ? '<div class="sb-toc">' + toc + '</div>' : '')
+      + '</div>';
+  });
+
+  var nav = document.createElement('nav');
+  nav.id = 'sb';
+  nav.innerHTML =
+    '<div id="sb-head">'
+    + '<div id="sb-logo"><div id="sb-icon">M</div>'
+    + '<div id="sb-wordmark">MMU<br>Handbook</div></div>'
+    + '<button id="sb-btn" onclick="sbCollapse()" title="Toggle sidebar [\\]">'
+    + '<svg viewBox="0 0 18 18" fill="currentColor">'
+    + '<rect x="1" y="3" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="8" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="13" width="16" height="2" rx="1"/>'
+    + '</svg></button></div>'
+    + '<div id="sb-scroll">' + html + '</div>';
+  document.body.insertBefore(nav, document.body.firstChild);
+
+
+  /* Inject Home link before scroll area */
+  var homeLink = document.createElement('a');
+  homeLink.id = 'sb-home-link';
+  homeLink.href = '../index.html';
+  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
+  nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
+
+  /* Restore state */
+  if (localStorage.getItem('sb-off') === '1') {
+    nav.classList.add('collapsed');
+    document.body.classList.add('sb-collapsed');
+  }
+
+  /* Scroll current chapter into view */
+  var el = nav.querySelector('.sb-ch.active');
+  if (el) setTimeout(function() { el.scrollIntoView({block:'center',behavior:'smooth'}); }, 100);
+
+  /* Active-section tracking — uses Pandoc IDs directly */
+  var links = Array.from(nav.querySelectorAll('.sb-ch.active .sb-sec'));
+  var map = links.map(function(a) {
+    var id = a.getAttribute('href').replace(/^.*#/, '');
+    return { a: a, el: document.getElementById(id) };
+  }).filter(function(h) { return h.el; });
+
+  function tick() {
+    if (!map.length) return;
+    var y = window.scrollY + 90;
+    var cur = map[0];
+    map.forEach(function(h) { if (h.el.offsetTop <= y) cur = h; });
+    links.forEach(function(a) { a.classList.remove('here'); });
+    cur.a.classList.add('here');
+  }
+  var pending = false;
+  window.addEventListener('scroll', function() {
+    if (!pending) { pending = true; requestAnimationFrame(function() { tick(); pending = false; }); }
+  });
+  tick();
+
+  /* Keyboard shortcut */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === '\\' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') sbCollapse();
+  });
+
+  window.sbCollapse = function() {
+    var s = document.getElementById('sb');
+    s.classList.toggle('collapsed');
+    document.body.classList.toggle('sb-collapsed');
+    localStorage.setItem('sb-off', s.classList.contains('collapsed') ? '1' : '0');
+  };
+  window.sbChClick = function(n, file) {
+    var s = document.getElementById('sb');
+    if (s.classList.contains('collapsed')) {
+      location.href = file;
+      return;
+    }
+    var item = document.querySelector('.sb-ch[data-c="' + n + '"]');
+    if (!item) return;
+    if (item.classList.contains('active')) {
+      /* Current chapter — toggle expand/collapse in place */
+      item.classList.toggle('open');
+    } else {
+      /* Different chapter — toggle its TOC preview, then navigate */
+      item.classList.toggle('open');
+      location.href = file;
+    }
+  };
+  window.sbToggle = window.sbChClick;
+})();
+
+
+
+
+</script>
+</body>
+</html>
