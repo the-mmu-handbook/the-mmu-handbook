@@ -569,6 +569,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 </style>
   <style>
+
       body {
           max-width: 900px;
           margin: 40px auto;
@@ -665,25 +666,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
       #TOC a:hover {
           text-decoration: underline;
       }
-      details {
-          background-color: #fff9e6;
-          border: 1px solid #ffd700;
-          border-radius: 4px;
-          padding: 10px;
-          margin: 10px 0;
-      }
-      summary {
-          cursor: pointer;
-          font-weight: bold;
-          color: #d68910;
-      }
-      .note {
-          background-color: #e8f4f8;
-          border-left: 4px solid #2196F3;
-          padding: 12px;
-          margin: 15px 0;
-          border-radius: 4px;
-      }
+  
   </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -813,7 +796,7 @@ access each physical address it translates to.</p>
 (MMU)</h3>
 <figure id="fig-1-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
-    <svg width="980" height="680" viewBox="0 0 980 680" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+    <svg width="900" height="680" viewBox="0 0 900 680" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
     <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
     <marker id="aspd" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
@@ -2732,7 +2715,7 @@ Physical Address = (Frame Number &lt;&lt; 12) | Offset
 Lookaside Buffer (TLB)</h2>
 <figure id="fig-1-13" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
-    <svg width="920" height="700" viewBox="0 0 920 700" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+    <svg width="900" height="700" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
     <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
     <!-- All markers use userSpaceOnUse — absolute pixel sizes, no stroke-width scaling -->
@@ -4244,48 +4227,48 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Memory Management Basics",
     "sections": [
       {
-        "text": "1.1 Introduction: Why Virtual Memory Exists",
-        "id": "introduction-why-virtual-memory-exists"
+        "text": "1.1 Introduction: Why\nVirtual Memory Exists",
+        "id": "section-1.1"
       },
       {
         "text": "1.2 What is Memory Management?",
-        "id": "what-is-memory-management"
+        "id": "section-1.2"
       },
       {
-        "text": "1.3 The Evolution of Memory Management",
-        "id": "the-evolution-of-memory-management"
+        "text": "1.3 The Evolution of Memory\nManagement",
+        "id": "section-1.3"
       },
       {
-        "text": "1.4 Hierarchical Levels of Memory Management",
-        "id": "hierarchical-levels-of-memory-management"
+        "text": "1.4 Hierarchical\nLevels of Memory Management",
+        "id": "section-1.4"
       },
       {
-        "text": "1.5 The Virtual Memory Abstraction",
-        "id": "the-virtual-memory-abstraction"
+        "text": "1.5 The Virtual Memory\nAbstraction",
+        "id": "section-1.5"
       },
       {
-        "text": "1.6 Key Concepts and Terminology",
-        "id": "key-concepts-and-terminology"
+        "text": "1.6 Key Concepts and\nTerminology",
+        "id": "section-1.6"
       },
       {
-        "text": "1.7 A Concrete Example: Address Translation",
-        "id": "a-concrete-example-address-translation"
+        "text": "1.7 A Concrete Example:\nAddress Translation",
+        "id": "section-1.7"
       },
       {
-        "text": "1.8 The Translation Lookaside Buffer (TLB)",
-        "id": "the-translation-lookaside-buffer-tlb"
+        "text": "1.8 The Translation\nLookaside Buffer (TLB)",
+        "id": "section-1.8"
       },
       {
         "text": "1.9 Multi-Level Page Tables",
-        "id": "multi-level-page-tables"
+        "id": "section-1.9"
       },
       {
-        "text": "1.10 Why MMU Matters: Real-World Impact",
-        "id": "why-mmu-matters-real-world-impact"
+        "text": "1.10 Why MMU Matters:\nReal-World Impact",
+        "id": "section-1.10"
       },
       {
         "text": "1.11 Chapter Summary",
-        "id": "chapter-summary"
+        "id": "section-1.11"
       },
       {
         "text": "References",
@@ -4299,40 +4282,40 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Virtual Memory Concepts",
     "sections": [
       {
-        "text": "2.1 Introduction: The Illusion of Unlimited Memory",
-        "id": "introduction-the-illusion-of-unlimited-memory"
+        "text": "2.1 Introduction:\nThe Illusion of Unlimited Memory",
+        "id": "section-2.1"
       },
       {
-        "text": "2.2 Demand Paging: Loading Pages on Demand",
-        "id": "demand-paging-loading-pages-on-demand"
+        "text": "2.2 Demand Paging:\nLoading Pages on Demand",
+        "id": "section-2.2"
       },
       {
-        "text": "2.3 Page Replacement Algorithms",
-        "id": "page-replacement-algorithms"
+        "text": "2.3 Page Replacement\nAlgorithms",
+        "id": "section-2.3"
       },
       {
-        "text": "2.4 Thrashing and the Working Set Model",
-        "id": "thrashing-and-the-working-set-model"
+        "text": "2.4 Thrashing and the\nWorking Set Model",
+        "id": "section-2.4"
       },
       {
         "text": "2.5 Copy-on-Write (COW)",
-        "id": "copy-on-write-cow"
+        "id": "section-2.5"
       },
       {
         "text": "2.6 Memory-Mapped Files",
-        "id": "memory-mapped-files"
+        "id": "section-2.6"
       },
       {
         "text": "2.7 Advanced Topics",
-        "id": "advanced-topics"
+        "id": "section-2.7"
       },
       {
-        "text": "2.8 Performance Optimization Strategies",
-        "id": "performance-optimization-strategies"
+        "text": "2.8 Performance\nOptimization Strategies",
+        "id": "section-2.8"
       },
       {
         "text": "2.9 Chapter Summary",
-        "id": "chapter-summary"
+        "id": "section-2.9"
       },
       {
         "text": "References",
@@ -4347,43 +4330,43 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "sections": [
       {
         "text": "3.1 Introduction",
-        "id": "3.1-introduction"
+        "id": "section-3.1"
       },
       {
         "text": "3.2 Single-Level Page Tables: The Simplest Approach",
-        "id": "3.2-single-level-page-tables-the-simplest-approach"
+        "id": "section-3.2"
       },
       {
         "text": "3.3 Two-Level Page Tables",
-        "id": "3.3-two-level-page-tables"
+        "id": "section-3.3"
       },
       {
         "text": "3.4 Multi-Level Page Tables (3+ Levels)",
-        "id": "3.4-multi-level-page-tables-3-levels"
+        "id": "section-3.4"
       },
       {
         "text": "3.5 Virtualization: Two-Stage Address Translation",
-        "id": "3.5-virtualization-two-stage-address-translation"
+        "id": "section-3.5"
       },
       {
         "text": "3.6 What Gets Cached: TLB and Page Walk Caches",
-        "id": "3.6-what-gets-cached-tlb-and-page-walk-caches"
+        "id": "section-3.6"
       },
       {
         "text": "3.7 Hardware Page Table Walker",
-        "id": "3.7-hardware-page-table-walker"
+        "id": "section-3.7"
       },
       {
         "text": "3.8 Page Table Management from the OS Perspective",
-        "id": "3.8-page-table-management-from-the-os-perspective"
+        "id": "section-3.8"
       },
       {
         "text": "3.9 Design Trade-offs",
-        "id": "3.9-design-trade-offs"
+        "id": "section-3.9"
       },
       {
         "text": "3.10 Chapter Summary",
-        "id": "3.10-chapter-summary"
+        "id": "section-3.10"
       },
       {
         "text": "References",
@@ -4397,64 +4380,64 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
     "sections": [
       {
-        "text": "4.1 Introduction: The Most Critical Cache You've Never Heard Of",
-        "id": "introduction-the-most-critical-cache-youve-never-heard-of"
+        "text": "4.1\nIntroduction: The Most Critical Cache You've Never Heard Of",
+        "id": "section-4.1"
       },
       {
-        "text": "4.2 TLB Architecture and Organization",
-        "id": "tlb-architecture-and-organization"
+        "text": "4.2 TLB Architecture and\nOrganization",
+        "id": "section-4.2"
       },
       {
-        "text": "4.3 TLB Management: Hardware vs Software",
-        "id": "tlb-management-hardware-vs-software"
+        "text": "4.3 TLB Management:\nHardware vs Software",
+        "id": "section-4.3"
       },
       {
-        "text": "4.4 Address Space Identifiers: ASID, PCID, and VMID",
-        "id": "address-space-identifiers-asid-pcid-and-vmid"
+        "text": "4.4 Address Space\nIdentifiers: ASID, PCID, and VMID",
+        "id": "section-4.4"
       },
       {
-        "text": "4.5 TLB Operations and Instructions",
-        "id": "tlb-operations-and-instructions"
+        "text": "4.5 TLB Operations and\nInstructions",
+        "id": "section-4.5"
       },
       {
-        "text": "4.6 Large Pages and TLB Coverage",
-        "id": "large-pages-and-tlb-coverage"
+        "text": "4.6 Large Pages and TLB\nCoverage",
+        "id": "section-4.6"
       },
       {
         "text": "4.7 Multicore TLB Coherency",
-        "id": "multicore-tlb-coherency"
+        "id": "section-4.7"
       },
       {
-        "text": "4.8 Platform-Specific TLB Implementations",
-        "id": "platform-specific-tlb-implementations"
+        "text": "4.8 Platform-Specific TLB\nImplementations",
+        "id": "section-4.8"
       },
       {
-        "text": "4.9 Alternative Page Table Structures and TLB Implications",
-        "id": "alternative-page-table-structures-and-tlb-implications"
+        "text": "4.9\nAlternative Page Table Structures and TLB Implications",
+        "id": "section-4.9"
       },
       {
-        "text": "4.10 Self-Modifying Code and Instruction/Data Coherency",
-        "id": "self-modifying-code-and-instructiondata-coherency"
+        "text": "4.10\nSelf-Modifying Code and Instruction/Data Coherency",
+        "id": "section-4.10"
       },
       {
-        "text": "4.11 Multithreading and TLB Sharing",
-        "id": "multithreading-and-tlb-sharing"
+        "text": "4.11 Multithreading and TLB\nSharing",
+        "id": "section-4.11"
       },
       {
-        "text": "4.12 Virtualization with Mismatched Page Sizes",
-        "id": "virtualization-with-mismatched-page-sizes"
+        "text": "4.12 Virtualization\nwith Mismatched Page Sizes",
+        "id": "section-4.12"
       },
       {
-        "text": "4.13 GPU and Hardware Accelerator MMUs",
-        "id": "gpu-and-hardware-accelerator-mmus"
+        "text": "4.13 GPU and Hardware\nAccelerator MMUs",
+        "id": "section-4.13"
       },
       {
         "text": "4.14 Chapter Summary",
-        "id": "chapter-4-summary"
+        "id": "section-4.14"
       },
       {
         "text": "References",
-        "id": "chapter-4-references"
+        "id": "references"
       }
     ]
   },
@@ -4464,48 +4447,48 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "IOMMU and DMA Remapping - Deep Dive",
     "sections": [
       {
-        "text": "5.1 Introduction: The I/O Device Memory Access Problem",
-        "id": "introduction-the-io-device-memory-access-problem"
+        "text": "5.1\nIntroduction: The I/O Device Memory Access Problem",
+        "id": "section-5.1"
       },
       {
-        "text": "5.2 IOMMU Architecture Fundamentals",
-        "id": "iommu-architecture-fundamentals"
+        "text": "5.2 IOMMU Architecture\nFundamentals",
+        "id": "section-5.2"
       },
       {
-        "text": "5.3 Intel VT-d (Virtualization Technology for Directed I/O)",
-        "id": "intel-vt-d-virtualization-technology-for-directed-io"
+        "text": "5.3 Intel\nVT-d (Virtualization Technology for Directed I/O)",
+        "id": "section-5.3"
       },
       {
         "text": "5.4 AMD IOMMU (AMD-Vi)",
-        "id": "amd-iommu-amd-vi"
+        "id": "section-5.4"
       },
       {
-        "text": "5.5 ARM SMMU (System Memory Management Unit)",
-        "id": "arm-smmu-system-memory-management-unit"
+        "text": "5.5 ARM SMMU (System\nMemory Management Unit)",
+        "id": "section-5.5"
       },
       {
-        "text": "5.6 IOMMU Page Tables: Cross-Platform Analysis",
-        "id": "iommu-page-tables-cross-platform-analysis"
+        "text": "5.6 IOMMU Page\nTables: Cross-Platform Analysis",
+        "id": "section-5.6"
       },
       {
-        "text": "5.7 IOTLB Performance and Optimization",
-        "id": "iotlb-performance-and-optimization"
+        "text": "5.7 IOTLB Performance and\nOptimization",
+        "id": "section-5.7"
       },
       {
-        "text": "5.8 Device Assignment and SR-IOV",
-        "id": "device-assignment-and-sr-iov"
-      },
-      {
-        "text": "5.11 Chapter Summary",
-        "id": "chapter-summary-and-key-takeaways"
+        "text": "5.8 Device Assignment and\nSR-IOV",
+        "id": "section-5.8"
       },
       {
         "text": "5.9 IOMMU in Operating Systems",
-        "id": "iommu-in-operating-systems"
+        "id": "section-5.9"
       },
       {
-        "text": "5.10 Performance Optimization and Best Practices",
-        "id": "performance-optimization-and-best-practices"
+        "text": "5.10 Performance\nOptimization and Best Practices",
+        "id": "section-5.10"
+      },
+      {
+        "text": "5.11 Chapter Summary",
+        "id": "section-5.11"
       },
       {
         "text": "References",
@@ -4520,83 +4503,83 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "sections": [
       {
         "text": "6.1 Introduction: Memory Protection Fundamentals",
-        "id": "6.1-introduction-memory-protection-fundamentals"
+        "id": "section-6.1"
       },
       {
         "text": "6.2 Page-Level Protection Bits",
-        "id": "6.2-page-level-protection-bits"
+        "id": "section-6.2"
       },
       {
         "text": "6.3 The No-Execute (NX) Bit",
-        "id": "6.3-the-no-execute-nx-bit"
+        "id": "section-6.3"
       },
       {
         "text": "6.4 Privilege Levels and Protection Rings",
-        "id": "6.4-privilege-levels-and-protection-rings"
+        "id": "section-6.4"
       },
       {
         "text": "6.5 User vs Supervisor Pages",
-        "id": "6.5-user-vs-supervisor-pages"
+        "id": "section-6.5"
       },
       {
         "text": "6.6 Advanced Protection Features",
-        "id": "6.6-advanced-protection-features"
+        "id": "section-6.6"
       },
       {
         "text": "6.7 Protection Keys and Domains",
-        "id": "6.7-protection-keys-and-domains"
+        "id": "section-6.7"
       },
       {
         "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
-        "id": "6.8-trusted-execution-environments-tee-deep-dive"
+        "id": "section-6.8"
       },
       {
         "text": "6.9 Copy-On-Write (COW)",
-        "id": "6.9-copy-on-write-cow"
+        "id": "section-6.9"
       },
       {
         "text": "6.10 Memory Access Ordering and Protection",
-        "id": "6.10-memory-access-ordering-and-protection"
+        "id": "section-6.10"
       },
       {
         "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
-        "id": "6.11-confidential-computing-hardware-based-vm-isolation"
+        "id": "section-6.11"
       },
       {
         "text": "6.12 AMD Memory Guard and Memory Encryption",
-        "id": "6.12-amd-memory-guard-and-memory-encryption"
+        "id": "section-6.12"
       },
       {
         "text": "6.13 RISC-V Security Extensions",
-        "id": "6.13-risc-v-security-extensions"
+        "id": "section-6.13"
       },
       {
         "text": "6.14 GPU and Accelerator Security",
-        "id": "6.14-gpu-and-accelerator-security"
+        "id": "section-6.14"
       },
       {
         "text": "6.15 Heterogeneous Computing Security",
-        "id": "6.15-heterogeneous-computing-security"
+        "id": "section-6.15"
       },
       {
         "text": "6.16 Performance vs Security Trade-offs",
-        "id": "6.16-performance-vs-security-trade-offs"
+        "id": "section-6.16"
       },
       {
         "text": "6.17 Best Practices and Guidelines",
-        "id": "6.17-best-practices-and-guidelines"
+        "id": "section-6.17"
       },
       {
         "text": "6.18 Common Pitfalls and How to Avoid Them",
-        "id": "6.18-common-pitfalls-and-how-to-avoid-them"
+        "id": "section-6.18"
       },
       {
         "text": "6.19 Chapter Summary",
-        "id": "6.19-summary-and-future-directions"
+        "id": "section-6.19"
       },
       {
         "text": "References",
-        "id": "chapter-6-references"
+        "id": "references"
       }
     ]
   },
@@ -4606,64 +4589,64 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Page Faults and Exception Handling",
     "sections": [
       {
-        "text": "7.1 Introduction: When Address Translation Fails",
-        "id": "introduction-when-address-translation-fails"
+        "text": "7.1 Introduction:\nWhen Address Translation Fails",
+        "id": "section-7.1"
       },
       {
         "text": "7.2 Page Fault Fundamentals",
-        "id": "page-fault-fundamentals"
+        "id": "section-7.2"
       },
       {
         "text": "7.3 x86-64 Page Faults (#PF)",
-        "id": "x86-64-page-faults-pf"
+        "id": "section-7.3"
       },
       {
-        "text": "7.4 ARM64 Data and Instruction Aborts",
-        "id": "arm64-data-and-instruction-aborts"
+        "text": "7.4 ARM64 Data and\nInstruction Aborts",
+        "id": "section-7.4"
       },
       {
         "text": "7.5 RISC-V Page Faults",
-        "id": "risc-v-page-faults"
+        "id": "section-7.5"
       },
       {
         "text": "7.6 TLB-Related Exceptions",
-        "id": "tlb-related-exceptions"
+        "id": "section-7.6"
       },
       {
         "text": "7.7 Page Table Walk Failures",
-        "id": "page-table-walk-failures"
+        "id": "section-7.7"
       },
       {
-        "text": "7.8 Page Overlapping and Aliasing Faults",
-        "id": "page-overlapping-and-aliasing-faults"
+        "text": "7.8 Page Overlapping and\nAliasing Faults",
+        "id": "section-7.8"
       },
       {
         "text": "7.9 Permission Violations",
-        "id": "permission-violations"
+        "id": "section-7.9"
       },
       {
         "text": "7.10 Page Fault Handling Flow",
-        "id": "page-fault-handling-flow"
+        "id": "section-7.10"
       },
       {
         "text": "7.11 Performance Implications",
-        "id": "performance-implications"
+        "id": "section-7.11"
       },
       {
-        "text": "7.12 Historical Architectures: SPARC, MIPS, PowerPC",
-        "id": "historical-architectures-sparc-mips-powerpc"
+        "text": "7.12 Historical\nArchitectures: SPARC, MIPS, PowerPC",
+        "id": "section-7.12"
       },
       {
         "text": "7.13 Architecture Comparison",
-        "id": "architecture-comparison"
+        "id": "section-7.13"
       },
       {
         "text": "7.14 Debugging Page Faults",
-        "id": "debugging-page-faults"
+        "id": "section-7.14"
       },
       {
         "text": "7.15 Chapter Summary",
-        "id": "advanced-topics-and-summary"
+        "id": "section-7.15"
       },
       {
         "text": "References",
@@ -4678,39 +4661,39 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
-        "id": "introduction-the-crisis-point"
+        "id": "section-8.1"
       },
       {
         "text": "8.2 Nested Page Tables: Beyond the Basics",
-        "id": "nested-page-tables-beyond-the-basics"
+        "id": "section-8.2"
       },
       {
         "text": "8.3 Architecture Differences in Nested Fault Handling",
-        "id": "architecture-differences-nested-fault-handling"
+        "id": "section-8.3"
       },
       {
-        "text": "8.4 Accessed and Dirty Bits",
-        "id": "accessed-dirty-bits"
+        "text": "8.4 Accessed and Dirty Bits: Hardware\u2013Software Cooperation",
+        "id": "section-8.4"
       },
       {
-        "text": "8.5 Page Replacement Algorithms: From Theory to Practice",
-        "id": "page-replacement-algorithms"
+        "text": "8.5 Page\nReplacement Algorithms: From Theory to Practice",
+        "id": "section-8.5"
       },
       {
-        "text": "8.6 Memory Reclaim: When and How to Free Pages",
-        "id": "memory-reclaim"
+        "text": "8.6 Memory Reclaim:\nWhen and How to Free Pages",
+        "id": "section-8.6"
       },
       {
-        "text": "8.7 Page Table Management: The Meta-Problem",
-        "id": "page-table-management"
+        "text": "8.7 Page Table\nManagement: The Meta-Problem",
+        "id": "section-8.7"
       },
       {
-        "text": "8.8 Performance Analysis and Tuning",
-        "id": "performance-analysis-and-tuning"
+        "text": "8.8 Performance Analysis and\nTuning",
+        "id": "section-8.8"
       },
       {
         "text": "8.9 Chapter Summary",
-        "id": "chapter-summary"
+        "id": "section-8.9"
       },
       {
         "text": "References",
@@ -4724,44 +4707,44 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Advanced Page Table Optimizations",
     "sections": [
       {
-        "text": "9.1 Introduction: The Container Crisis",
-        "id": "introduction-the-container-crisis"
+        "text": "9.1 Introduction: The\nContainer Crisis",
+        "id": "section-9.1"
       },
       {
-        "text": "9.2 Memory Deduplication: Kernel Samepage Merging",
-        "id": "memory-deduplication-kernel-samepage-merging"
+        "text": "9.2 Memory\nDeduplication: Kernel Samepage Merging",
+        "id": "section-9.2"
       },
       {
-        "text": "9.3 Page Table Locking and Concurrency",
-        "id": "page-table-locking-and-concurrency"
+        "text": "9.3 Page Table Locking and\nConcurrency",
+        "id": "section-9.3"
       },
       {
-        "text": "9.4 NUMA-Aware Page Table Management",
-        "id": "numa-aware-page-table-management"
+        "text": "9.4 NUMA-Aware Page Table\nManagement",
+        "id": "section-9.4"
       },
       {
-        "text": "9.5 Advanced Huge Page Strategies",
-        "id": "advanced-huge-page-strategies"
+        "text": "9.5 Advanced Huge Page\nStrategies",
+        "id": "section-9.5"
       },
       {
-        "text": "9.6 Page Table Compaction and Sharing",
-        "id": "page-table-compaction-and-sharing"
+        "text": "9.6 Page Table Compaction and\nSharing",
+        "id": "section-9.6"
       },
       {
-        "text": "9.7 Parallel Page Table Operations",
-        "id": "parallel-page-table-operations"
+        "text": "9.7 Parallel Page Table\nOperations",
+        "id": "section-9.7"
       },
       {
-        "text": "9.8 Memory Compression Integration",
-        "id": "memory-compression-integration"
+        "text": "9.8 Memory Compression\nIntegration",
+        "id": "section-9.8"
       },
       {
-        "text": "9.9 Production Case Study: Cloud Provider Memory Optimization Stack",
-        "id": "production-case-study-cloud-provider-memory-optimization-stack"
+        "text": "9.9\nProduction Case Study: Cloud Provider Memory Optimization Stack",
+        "id": "section-9.9"
       },
       {
         "text": "9.10 Chapter Summary",
-        "id": "summary-and-best-practices"
+        "id": "section-9.10"
       },
       {
         "text": "References",
@@ -4775,36 +4758,36 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Hardware Accelerators and External MMU Access",
     "sections": [
       {
-        "text": "10.1 Introduction: Beyond the CPU Core",
-        "id": "introduction-beyond-the-cpu-core"
+        "text": "10.1 Introduction: Beyond the\nCPU Core",
+        "id": "section-10.1"
       },
       {
-        "text": "10.2 IOMMU Architecture Deep Dive",
-        "id": "iommu-architecture-deep-dive"
+        "text": "10.2 IOMMU Architecture Deep\nDive",
+        "id": "section-10.2"
       },
       {
-        "text": "10.3 PCIe ATS and Address Translation Services",
-        "id": "pcie-ats-and-address-translation-services"
+        "text": "10.3 PCIe ATS and\nAddress Translation Services",
+        "id": "section-10.3"
       },
       {
-        "text": "10.4 RDMA and Memory Registration",
-        "id": "rdma-and-memory-registration"
+        "text": "10.4 RDMA and Memory\nRegistration",
+        "id": "section-10.4"
       },
       {
-        "text": "10.5 Smart NICs and Data Processing Units",
-        "id": "smart-nics-and-data-processing-units"
+        "text": "10.5 Smart NICs and Data\nProcessing Units",
+        "id": "section-10.5"
       },
       {
-        "text": "10.6 Video and Media Accelerators",
-        "id": "video-and-media-accelerators"
+        "text": "10.6 Video and Media\nAccelerators",
+        "id": "section-10.6"
       },
       {
-        "text": "10.7 Multi-Device Coherency and Coordination",
-        "id": "multi-device-coherency-and-coordination"
+        "text": "10.7 Multi-Device\nCoherency and Coordination",
+        "id": "section-10.7"
       },
       {
         "text": "10.8 Chapter Summary",
-        "id": "summary-and-best-practices"
+        "id": "section-10.8"
       },
       {
         "text": "References",
@@ -4818,8 +4801,8 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Virtual Memory Challenges in AI/ML Accelerators",
     "sections": [
       {
-        "text": "11.1 Introduction: Scale Changes Everything",
-        "id": "introduction-scale-changes-everything"
+        "text": "11.1 Introduction: Scale\nChanges Everything",
+        "id": "section-11.1"
       },
       {
         "text": "11.2 Google TPU: Compiler-Managed Memory",
@@ -4855,7 +4838,7 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
       },
       {
         "text": "11.10 Chapter Summary",
-        "id": "chapter-11-summary"
+        "id": "section-11.10"
       },
       {
         "text": "References",
@@ -5064,11 +5047,11 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
     "short": "Page Table Walker Microarchitecture",
     "sections": [
       {
-        "text": "17.1 Introduction",
+        "text": "17.1 Introduction: The Hidden Machine Inside the MMU",
         "id": "section-17.1"
       },
       {
-        "text": "17.2 PTW Pipeline Stages",
+        "text": "17.2 PTW Pipeline Stages and Latency",
         "id": "section-17.2"
       },
       {
@@ -5076,7 +5059,7 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
         "id": "section-17.3"
       },
       {
-        "text": "17.4 MSHR and Concurrent Walks",
+        "text": "17.4 Miss-Status Holding Registers and Concurrent Walks",
         "id": "section-17.4"
       },
       {
@@ -5260,7 +5243,7 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
   var homeLink = document.createElement('a');
   homeLink.id = 'sb-home-link';
   homeLink.href = '../index.html';
-  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
+  homeLink.innerHTML = '<svg width="900" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
   nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
 
   /* Restore state */
