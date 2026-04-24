@@ -5196,7 +5196,12 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
   }
 ];
   var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
-  var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
+  /* Match by chapter number from URL (robust to case/extension normalization) */
+  var chNumMatch = file.match(/chapter-(\d+)/i) || location.pathname.match(/chapter-(\d+)/i);
+  var chNum = chNumMatch ? parseInt(chNumMatch[1], 10) : 0;
+  var curCh = (chNum > 0 && CHAPTERS.find(function(c) { return c.num === chNum; }))
+    || CHAPTERS.find(function(c) { return c.file === file; })
+    || CHAPTERS[0];
 
   /* Build HTML */
   var html = '';
@@ -5243,7 +5248,7 @@ https://pages.cs.wisc.edu/~remzi/OSTEP/</p></li>
   var homeLink = document.createElement('a');
   homeLink.id = 'sb-home-link';
   homeLink.href = '../index.html';
-  homeLink.innerHTML = '<svg width="900" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
+  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
   nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
 
   /* Restore state */
