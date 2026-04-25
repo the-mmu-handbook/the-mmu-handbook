@@ -817,12 +817,12 @@ available: Kernel Samepage Merging.</p>
 <h2 id="section-9.2">9.2 Memory
 Deduplication: Kernel Samepage Merging</h2>
 <figure id="fig-9-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
-<defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-<marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-<marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-<marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker></defs>
+<defs><filter id="ch09-svg1-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="ch09-svg1-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="ch09-svg1-ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="ch09-svg1-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker></defs>
 <text x="450" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">KSM Deduplication and NUMA-Aware Page Placement</text>
-<rect x="30" y="40" width="400" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="40" width="400" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch09-svg1-sh)"/>
 <rect x="30" y="40" width="400" height="28" rx="6" fill="#5E81AC"/>
 <text x="230" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="white">KSM: Kernel Samepage Merging</text>
 <text x="230" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Before KSM: 3 VMs, same libc page</text>
@@ -848,15 +848,15 @@ Deduplication: Kernel Samepage Merging</h2>
 <rect x="310" y="198" width="100" height="50" rx="4" fill="#5E81AC"/>
 <text x="360" y="220" text-anchor="middle" font-size="13" fill="white">VM3</text>
 <text x="360" y="236" text-anchor="middle" font-size="11" fill="white">PTE -&gt; 0x1000</text>
-<line x1="100" y1="248" x2="195" y2="268" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
-<line x1="230" y1="248" x2="230" y2="268" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
-<line x1="360" y1="248" x2="265" y2="268" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
+<line x1="100" y1="248" x2="195" y2="268" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg1-ag)"/>
+<line x1="230" y1="248" x2="230" y2="268" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg1-ag)"/>
+<line x1="360" y1="248" x2="265" y2="268" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg1-ag)"/>
 <rect x="170" y="268" width="120" height="34" rx="4" fill="#4A8A99"/>
 <text x="230" y="284" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Shared PA: 0x1000</text>
 <text x="230" y="300" text-anchor="middle" font-size="11" fill="white">read-only, CoW on write</text>
 <text x="230" y="318" text-anchor="middle" font-size="13" fill="#212121">Saves: 2 pages x 4 KB = 8 KB per dedup</text>
 <text x="230" y="334" text-anchor="middle" font-size="12" fill="#616161">Cloud VMs: 20-40% RAM savings typical</text>
-<rect x="460" y="40" width="410" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="460" y="40" width="410" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch09-svg1-sh)"/>
 <rect x="460" y="40" width="410" height="28" rx="6" fill="#5E81AC"/>
 <text x="665" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="white">NUMA: Non-Uniform Memory Access</text>
 <rect x="475" y="76" width="175" height="120" rx="5" fill="#5E81AC" fill-opacity="0.15" stroke="#5E81AC" stroke-width="1.5"/>
@@ -1328,10 +1328,10 @@ simultaneously?</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-width:sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch09-svg2-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch09-svg2-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch09-svg2-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<marker id="ch09-svg2-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="540" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">Linux Page Table Locking Architecture</text>
@@ -1342,35 +1342,35 @@ simultaneously?</p>
 <text x="450" y="86" style="font-size:14px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">Lock Hierarchy (outer → inner)</text>
 
 <!-- mmap_lock -->
-<rect x="300" y="108" width="300" height="56" rx="6" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="300" y="108" width="300" height="56" rx="6" style="fill:#5E81AC;" filter="url(#ch09-svg2-sh)"/>
 <text x="450" y="130" style="font-size:15px;font-weight:bold;fill:#fff;text-anchor:middle;">mmap_lock (mm->mmap_lock)</text>
 <text x="450" y="152" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">rwsem — protects VMA tree</text>
 
-<line x1="450" y1="164" x2="450" y2="188" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="450" y1="164" x2="450" y2="188" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch09-svg2-arr)"/>
 
 <!-- PGD lock -->
-<rect x="160" y="188" width="560" height="50" rx="6" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="160" y="188" width="560" height="50" rx="6" style="fill:#4A8A99;" filter="url(#ch09-svg2-sh)"/>
 <text x="450" y="210" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">PGD — No explicit lock (per-process, CR3 reload suffices)</text>
 <text x="450" y="228" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">process-private; only one writer via mmap_lock</text>
 
-<line x1="300" y1="238" x2="200" y2="262" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
-<line x1="600" y1="238" x2="700" y2="262" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
-<line x1="450" y1="238" x2="450" y2="262" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="300" y1="238" x2="200" y2="262" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch09-svg2-arr-g)"/>
+<line x1="600" y1="238" x2="700" y2="262" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch09-svg2-arr-g)"/>
+<line x1="450" y1="238" x2="450" y2="262" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch09-svg2-arr-g)"/>
 
 <!-- PUD / PMD -->
-<rect x="40" y="262" width="240" height="44" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="40" y="262" width="240" height="44" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg2-sh)"/>
 <text x="160" y="280" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">P4D / PUD</text>
 <text x="160" y="298" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">No lock (stable once set)</text>
-<rect x="330" y="262" width="240" height="44" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="330" y="262" width="240" height="44" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg2-sh)"/>
 <text x="450" y="280" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">PMD</text>
 <text x="450" y="298" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">pmd_lock() for THP operations</text>
-<rect x="620" y="262" width="240" height="44" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="620" y="262" width="240" height="44" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg2-sh)"/>
 <text x="740" y="280" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">PTE table</text>
 <text x="740" y="298" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">ptl = pte_lockptr(mm, pmd)</text>
 
 <!-- PTE lock detail -->
-<line x1="740" y1="306" x2="740" y2="326" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<rect x="580" y="326" width="320" height="56" rx="6" style="fill:#5E81AC;" filter="url(#sh)"/>
+<line x1="740" y1="306" x2="740" y2="326" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch09-svg2-arr)"/>
+<rect x="580" y="326" width="320" height="56" rx="6" style="fill:#5E81AC;" filter="url(#ch09-svg2-sh)"/>
 <text x="740" y="348" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">PTE spinlock (pte_lock)</text>
 <text x="740" y="366" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">1 lock per 512-entry PTE page; per-struct-page</text>
 
@@ -1954,10 +1954,10 @@ fast, while remote memory accesses are slow.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch09-svg3-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch09-svg3-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch09-svg3-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<marker id="ch09-svg3-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="560" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">Linux NUMA Balancing: AutoNUMA Migration</text>
@@ -1968,22 +1968,22 @@ fast, while remote memory accesses are slow.</p>
 <text x="220" y="90" style="font-size:15px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">NUMA Node 0 (Socket 0)</text>
 
 <!-- CPUs node 0 -->
-<rect x="36" y="100" width="80" height="50" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="36" y="100" width="80" height="50" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg3-sh)"/>
 <text x="76" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU 0</text>
 <text x="76" y="140" style="font-size:11px;fill:#DDEAF5;text-anchor:middle;">L1/L2</text>
-<rect x="126" y="100" width="80" height="50" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="126" y="100" width="80" height="50" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg3-sh)"/>
 <text x="166" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU 1</text>
 <text x="166" y="140" style="font-size:11px;fill:#DDEAF5;text-anchor:middle;">L1/L2</text>
 <rect x="36" y="162" width="170" height="28" rx="4" style="fill:#4A8A99;"/>
 <text x="121" y="180" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">L3 Cache (shared)</text>
 
 <!-- Local memory node 0 -->
-<rect x="36" y="200" width="360" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="36" y="200" width="360" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#ch09-svg3-sh)"/>
 <text x="216" y="222" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Local DRAM — Node 0</text>
 <text x="216" y="240" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">~80 ns access latency</text>
 
 <!-- Process A on node 0 -->
-<rect x="220" y="100" width="160" height="88" rx="5" style="fill:#BF616A;opacity:0.9;" filter="url(#sh)"/>
+<rect x="220" y="100" width="160" height="88" rx="5" style="fill:#BF616A;opacity:0.9;" filter="url(#ch09-svg3-sh)"/>
 <text x="300" y="120" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Process A</text>
 <text x="300" y="138" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Running on CPU 0</text>
 <text x="300" y="156" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Accessing pages</text>
@@ -1993,25 +1993,25 @@ fast, while remote memory accesses are slow.</p>
 <rect x="480" y="68" width="400" height="220" rx="8" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;"/>
 <text x="680" y="90" style="font-size:15px;font-weight:bold;fill:#1E4A3A;text-anchor:middle;">NUMA Node 1 (Socket 1)</text>
 
-<rect x="496" y="100" width="80" height="50" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="496" y="100" width="80" height="50" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg3-sh)"/>
 <text x="536" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU 2</text>
 <text x="536" y="140" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">L1/L2</text>
-<rect x="586" y="100" width="80" height="50" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="586" y="100" width="80" height="50" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg3-sh)"/>
 <text x="626" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU 3</text>
 <text x="626" y="140" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">L1/L2</text>
 <rect x="496" y="162" width="170" height="28" rx="4" style="fill:#5E81AC;"/>
 <text x="581" y="180" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">L3 Cache (shared)</text>
-<rect x="496" y="200" width="360" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="496" y="200" width="360" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#ch09-svg3-sh)"/>
 <text x="676" y="222" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Remote DRAM — Node 1</text>
 <text x="676" y="240" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">~160 ns access latency (2× local)</text>
 
 <!-- Remote pages on node 1 -->
-<rect x="686" y="100" width="170" height="50" rx="5" style="fill:#BF616A;opacity:0.6;" filter="url(#sh)"/>
+<rect x="686" y="100" width="170" height="50" rx="5" style="fill:#BF616A;opacity:0.6;" filter="url(#ch09-svg3-sh)"/>
 <text x="771" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Process A pages</text>
 <text x="771" y="140" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">(allocated here!)</text>
 
 <!-- Cross-node access arrow -->
-<line x1="300" y1="156" x2="680" y2="130" style="stroke:#BF616A;stroke-width:2.5;stroke-dasharray:8,4;" marker-end="url(#arr-r)"/>
+<line x1="300" y1="156" x2="680" y2="130" style="stroke:#BF616A;stroke-width:2.5;stroke-dasharray:8,4;" marker-end="url(#ch09-svg3-arr-r)"/>
 <text x="480" y="136" style="font-size:12px;fill:#BF616A;font-weight:bold;text-anchor:middle;">remote access (2× latency)</text>
 
 <!-- QPI/UPI interconnect -->
@@ -2023,37 +2023,37 @@ fast, while remote memory accesses are slow.</p>
 <text x="450" y="324" style="font-size:15px;font-weight:bold;fill:#212121;text-anchor:middle;">AutoNUMA Migration Flow</text>
 
 <!-- Step 1 -->
-<rect x="36" y="336" width="170" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="36" y="336" width="170" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg3-sh)"/>
 <text x="121" y="358" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">① Scan Period</text>
 <text x="121" y="375" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">task_numa_work()</text>
 <text x="121" y="390" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">unmaps pages (PROT_NONE)</text>
 
-<line x1="206" y1="366" x2="226" y2="366" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="206" y1="366" x2="226" y2="366" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch09-svg3-arr)"/>
 
 <!-- Step 2 -->
-<rect x="226" y="336" width="170" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="226" y="336" width="170" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg3-sh)"/>
 <text x="311" y="358" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">② NUMA Fault</text>
 <text x="311" y="375" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Next access → fault</text>
 <text x="311" y="390" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">records CPU + node</text>
 
-<line x1="396" y1="366" x2="416" y2="366" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="396" y1="366" x2="416" y2="366" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch09-svg3-arr)"/>
 
 <!-- Step 3 -->
-<rect x="416" y="336" width="170" height="60" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="416" y="336" width="170" height="60" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg3-sh)"/>
 <text x="501" y="358" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">③ Score Pages</text>
 <text x="501" y="375" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Count faults per node</text>
 <text x="501" y="390" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Prefer local migration</text>
 
-<line x1="586" y1="366" x2="606" y2="366" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="586" y1="366" x2="606" y2="366" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch09-svg3-arr-g)"/>
 
 <!-- Step 4 -->
-<rect x="606" y="336" width="170" height="60" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="606" y="336" width="170" height="60" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg3-sh)"/>
 <text x="691" y="358" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">④ Migrate Pages</text>
 <text x="691" y="375" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">migrate_pages() moves</text>
 <text x="691" y="390" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">pages to local node</text>
 
 <!-- Feedback arrow -->
-<path d="M 780 396 C 820 396 820 316 790 316 C 600 316 250 316 62 316 C 30 316 30 336 36 336" style="fill:none;stroke:#BF616A;stroke-width:1.5;stroke-dasharray:5,3;" marker-end="url(#arr-r)"/>
+<path d="M 780 396 C 820 396 820 316 790 316 C 600 316 250 316 62 316 C 30 316 30 336 36 336" style="fill:none;stroke:#BF616A;stroke-width:1.5;stroke-dasharray:5,3;" marker-end="url(#ch09-svg3-arr-r)"/>
 <text x="450" y="313" style="font-size:12px;fill:#BF616A;text-anchor:middle;">repeat every task_numa_scan_period_min ms</text>
 
 <!-- Policy options -->
@@ -2311,10 +2311,10 @@ memory.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch09-svg4-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch09-svg4-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch09-svg4-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<marker id="ch09-svg4-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="560" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">THP vs HugeTLBfs: Two Approaches to Huge Pages</text>
@@ -2326,17 +2326,17 @@ memory.</p>
 <text x="230" y="108" style="font-size:12px;fill:#3A5070;text-anchor:middle;">2 MB pages, automatic, kernel-managed</text>
 
 <!-- THP flow -->
-<rect x="40" y="118" width="380" height="40" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="40" y="118" width="380" height="40" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg4-sh)"/>
 <text x="230" y="143" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Application uses malloc() / mmap() normally</text>
 
-<line x1="230" y1="158" x2="230" y2="176" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="230" y1="158" x2="230" y2="176" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch09-svg4-arr)"/>
 
-<rect x="40" y="176" width="380" height="40" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="40" y="176" width="380" height="40" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg4-sh)"/>
 <text x="230" y="201" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Kernel detects 2 MB aligned region</text>
 
-<line x1="230" y1="216" x2="230" y2="234" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="230" y1="216" x2="230" y2="234" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch09-svg4-arr)"/>
 
-<rect x="40" y="234" width="380" height="40" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="40" y="234" width="380" height="40" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg4-sh)"/>
 <text x="230" y="259" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">khugepaged collapses 512×4KB → 1×2MB</text>
 
 <!-- THP memory layout -->
@@ -2362,17 +2362,17 @@ memory.</p>
 <text x="670" y="108" style="font-size:12px;fill:#2E6A5A;text-anchor:middle;">2 MB or 1 GB pages, explicit reservation</text>
 
 <!-- HugeTLBfs flow -->
-<rect x="480" y="118" width="380" height="40" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="480" y="118" width="380" height="40" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg4-sh)"/>
 <text x="670" y="143" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">sysctl vm.nr_hugepages=N (at boot)</text>
 
-<line x1="670" y1="158" x2="670" y2="176" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="670" y1="158" x2="670" y2="176" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch09-svg4-arr-g)"/>
 
-<rect x="480" y="176" width="380" height="40" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="480" y="176" width="380" height="40" rx="5" style="fill:#4A8A99;" filter="url(#ch09-svg4-sh)"/>
 <text x="670" y="201" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Kernel pre-reserves huge page pool</text>
 
-<line x1="670" y1="216" x2="670" y2="234" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="670" y1="216" x2="670" y2="234" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch09-svg4-arr-g)"/>
 
-<rect x="480" y="234" width="380" height="40" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="480" y="234" width="380" height="40" rx="5" style="fill:#5E81AC;" filter="url(#ch09-svg4-sh)"/>
 <text x="670" y="254" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">mmap(MAP_HUGETLB) or libhugetlbfs</text>
 <text x="670" y="269" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">explicit opt-in required</text>
 
@@ -2737,9 +2737,9 @@ page table structures themselves? Can we reduce their overhead?</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch09-svg5-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch09-svg5-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch09-svg5-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="540" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">Linux Memory Compaction: Defragmenting Physical Memory</text>
@@ -2789,7 +2789,7 @@ page table structures themselves? Can we reduce their overhead?</p>
 <text x="226" y="295" style="font-size:12px;fill:#8A4040;text-anchor:middle;">Largest free run: 3 pages (~12 KB)</text>
 
 <!-- Arrow -->
-<line x1="450" y1="193" x2="470" y2="193" style="stroke:#4A8A99;stroke-width:2.5;" marker-end="url(#arr-g)"/>
+<line x1="450" y1="193" x2="470" y2="193" style="stroke:#4A8A99;stroke-width:2.5;" marker-end="url(#ch09-svg5-arr-g)"/>
 <text x="460" y="185" style="font-size:13px;font-weight:bold;fill:#4A8A99;text-anchor:middle;">compact</text>
 
 <!-- After compaction -->
@@ -3066,19 +3066,19 @@ operations that traditionally required global synchronization.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg6-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg6-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg6-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg6-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch09-svg6-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -3089,22 +3089,22 @@ operations that traditionally required global synchronization.</p>
   <rect x="20" y="65" width="380" height="26" rx="0" fill="#BF616A"/>
   <text x="210" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">❌ Naive: Single Global Lock</text>
   <text x="210" y="104" text-anchor="middle" font-size="12" fill="#212121">All 4 CPUs blocked on one mmap_lock write</text>
-  <rect x="35" y="118" width="82" height="38" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="35" y="118" width="82" height="38" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="76" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">CPU 0</text>
   <text x="76" y="149" text-anchor="middle" font-size="11" fill="#DDEAF5">active</text>
-  <rect x="123" y="118" width="82" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="123" y="118" width="82" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="164" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">CPU 1</text>
   <text x="164" y="149" text-anchor="middle" font-size="11" fill="#BF616A">stalled</text>
-  <rect x="211" y="118" width="82" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="211" y="118" width="82" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="252" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">CPU 2</text>
   <text x="252" y="149" text-anchor="middle" font-size="11" fill="#BF616A">stalled</text>
-  <rect x="299" y="118" width="82" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="299" y="118" width="82" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="340" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">CPU 3</text>
   <text x="340" y="149" text-anchor="middle" font-size="11" fill="#BF616A">stalled</text>
-  <rect x="120" y="170" width="180" height="38" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="120" y="170" width="180" height="38" rx="6" fill="#BF616A" filter="url(#ch09-svg6-sh)"/>
   <text x="210" y="189" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">mmap_lock (WRITE)</text>
   <text x="210" y="205" text-anchor="middle" font-size="11" fill="#FFFFFF">held by CPU 0 exclusively</text>
-  <rect x="140" y="222" width="140" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="140" y="222" width="140" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="210" y="241" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Page Table</text>
   <text x="210" y="257" text-anchor="middle" font-size="11" fill="#B0BEC5">one VMA at a time</text>
   <rect x="35" y="274" width="350" height="80" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -3115,59 +3115,59 @@ operations that traditionally required global synchronization.</p>
   <rect x="420" y="65" width="460" height="26" rx="0" fill="#4A8A99"/>
   <text x="650" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">✓ Linux Fine-Grained Lock Hierarchy</text>
   <text x="650" y="104" text-anchor="middle" font-size="12" fill="#212121">mmap_lock (read) shared + per-PTE spinlocks</text>
-  <rect x="430" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="430" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="480" y="133" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">CPU 0</text>
   <text x="480" y="149" text-anchor="middle" font-size="11" fill="#DDEAF5">active</text>
-  <rect x="540" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="540" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="590" y="133" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">CPU 1</text>
   <text x="590" y="149" text-anchor="middle" font-size="11" fill="#DDEAF5">active</text>
-  <rect x="650" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="650" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="700" y="133" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">CPU 2</text>
   <text x="700" y="149" text-anchor="middle" font-size="11" fill="#DDEAF5">active</text>
-  <rect x="760" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="760" y="118" width="100" height="38" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="810" y="133" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">CPU 3</text>
   <text x="810" y="149" text-anchor="middle" font-size="11" fill="#DDEAF5">active</text>
-  <rect x="430" y="170" width="440" height="32" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="430" y="170" width="440" height="32" rx="6" fill="#4A8A99" filter="url(#ch09-svg6-sh)"/>
   <text x="650" y="190" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">mmap_lock (READ — shared by all CPUs simultaneously)</text>
-  <rect x="430" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="430" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="480" y="234" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">PTE lock</text>
   <text x="480" y="250" text-anchor="middle" font-size="11" fill="#B0BEC5">VMA A</text>
-  <line x1="480" y1="202" x2="480" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="540" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <line x1="480" y1="202" x2="480" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg6-arr-t)"/>
+  <rect x="540" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="590" y="234" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">PTE lock</text>
   <text x="590" y="250" text-anchor="middle" font-size="11" fill="#B0BEC5">VMA B</text>
-  <line x1="590" y1="202" x2="590" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="650" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <line x1="590" y1="202" x2="590" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg6-arr-t)"/>
+  <rect x="650" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="700" y="234" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">PTE lock</text>
   <text x="700" y="250" text-anchor="middle" font-size="11" fill="#B0BEC5">VMA C</text>
-  <line x1="700" y1="202" x2="700" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="760" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <line x1="700" y1="202" x2="700" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg6-arr-t)"/>
+  <rect x="760" y="218" width="100" height="38" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="810" y="234" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">PTE lock</text>
   <text x="810" y="250" text-anchor="middle" font-size="11" fill="#B0BEC5">VMA D</text>
-  <line x1="810" y1="202" x2="810" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
+  <line x1="810" y1="202" x2="810" y2="218" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch09-svg6-arr-t)"/>
   <rect x="430" y="272" width="440" height="80" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <text x="650" y="294" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">Result: 4× parallel throughput</text>
   <text x="650" y="314" text-anchor="middle" font-size="12" font-weight="normal" fill="#212121">Each CPU modifies independent PTE pages</text>
   <text x="650" y="334" text-anchor="middle" font-size="12" font-weight="normal" fill="#212121">One spinlock per 512-entry PTE page</text>
   <rect x="20" y="378" width="860" height="26" rx="0" fill="#34495E"/>
   <text x="450" y="395" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Linux Lock Hierarchy (must acquire outermost first to prevent deadlock)</text>
-  <rect x="25" y="408" width="162" height="56" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="25" y="408" width="162" height="56" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="106" y="423" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">mmap_lock</text>
   <text x="106" y="441" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">(rwsem,per-mm)</text>
   <text x="189" y="436" text-anchor="middle" font-size="20" font-weight="normal" fill="#9E9E9E">→</text>
-  <rect x="202" y="408" width="162" height="56" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="202" y="408" width="162" height="56" rx="6" fill="#4A8A99" filter="url(#ch09-svg6-sh)"/>
   <text x="283" y="423" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">anon_vma lock</text>
   <text x="283" y="441" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">(rwsem)</text>
   <text x="366" y="436" text-anchor="middle" font-size="20" font-weight="normal" fill="#9E9E9E">→</text>
-  <rect x="379" y="408" width="162" height="56" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="379" y="408" width="162" height="56" rx="6" fill="#34495E" filter="url(#ch09-svg6-sh)"/>
   <text x="460" y="423" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">page_table_lock</text>
   <text x="460" y="441" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">(spinlock/PTE page)</text>
   <text x="543" y="436" text-anchor="middle" font-size="20" font-weight="normal" fill="#9E9E9E">→</text>
-  <rect x="556" y="408" width="162" height="56" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="556" y="408" width="162" height="56" rx="6" fill="#5E81AC" filter="url(#ch09-svg6-sh)"/>
   <text x="637" y="423" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">PTE cmpxchg</text>
   <text x="637" y="441" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">(atomic/per-entry)</text>
   <text x="720" y="436" text-anchor="middle" font-size="20" font-weight="normal" fill="#9E9E9E">→</text>
-  <rect x="733" y="408" width="162" height="56" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="733" y="408" width="162" height="56" rx="6" fill="#BF616A" filter="url(#ch09-svg6-sh)"/>
   <text x="814" y="423" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">TLB flush IPI</text>
   <text x="814" y="441" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">(after PTE clear)</text>
   <text x="450" y="480" text-anchor="middle" font-size="12" font-weight="normal" fill="#616161">Rule: never acquire inner lock in write mode while holding outer lock in read mode — strict ordering prevents deadlock.</text>
@@ -3348,19 +3348,19 @@ swap: Chapter 18 (§18.6) analyses the L1TF/Foreshadow vulnerability class, whic
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg7-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg7-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg7-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch09-svg7-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch09-svg7-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -3370,51 +3370,51 @@ swap: Chapter 18 (§18.6) analyses the L1TF/Foreshadow vulnerability class, whic
   <rect x="20" y="65" width="860" height="195" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="20" y="65" width="860" height="26" rx="0" fill="#5E81AC"/>
   <text x="450" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">zRAM: Compressed RAM Block Device (no disk path)</text>
-  <rect x="35" y="102" width="110" height="52" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="35" y="102" width="110" height="52" rx="6" fill="#34495E" filter="url(#ch09-svg7-sh)"/>
   <text x="90" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Process</text>
   <text x="90" y="138" text-anchor="middle" font-size="12" font-weight="normal" fill="#FFFFFF">page out</text>
-  <rect x="200" y="102" width="110" height="52" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="200" y="102" width="110" height="52" rx="6" fill="#34495E" filter="url(#ch09-svg7-sh)"/>
   <text x="255" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">kswapd</text>
   <text x="255" y="138" text-anchor="middle" font-size="12" font-weight="normal" fill="#FFFFFF">select victim</text>
-  <rect x="365" y="102" width="110" height="52" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="365" y="102" width="110" height="52" rx="6" fill="#4A8A99" filter="url(#ch09-svg7-sh)"/>
   <text x="420" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">LZ4 / Zstd</text>
   <text x="420" y="138" text-anchor="middle" font-size="12" font-weight="normal" fill="#FFFFFF">compress</text>
   <text x="420" y="153" text-anchor="middle" font-size="10" fill="#CCE8EC">4KB→1-2KB / ~5µs</text>
-  <rect x="530" y="102" width="110" height="52" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="530" y="102" width="110" height="52" rx="6" fill="#5E81AC" filter="url(#ch09-svg7-sh)"/>
   <text x="585" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">zRAM Pool</text>
   <text x="585" y="138" text-anchor="middle" font-size="12" font-weight="normal" fill="#FFFFFF">(in RAM)</text>
   <text x="585" y="153" text-anchor="middle" font-size="10" fill="#DDEAF5">50-70% ratio</text>
-  <rect x="695" y="102" width="110" height="52" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="695" y="102" width="110" height="52" rx="6" fill="#34495E" filter="url(#ch09-svg7-sh)"/>
   <text x="750" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Swap PTE</text>
   <text x="750" y="138" text-anchor="middle" font-size="12" font-weight="normal" fill="#FFFFFF">P=0</text>
   <text x="750" y="153" text-anchor="middle" font-size="10" fill="#B0BEC5">swap offset</text>
-  <line x1="145" y1="128" x2="200" y2="128" stroke="#34495E" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="310" y1="128" x2="365" y2="128" stroke="#34495E" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="475" y1="128" x2="530" y2="128" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="640" y1="128" x2="695" y2="128" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr)"/>
-  <path d="M 750 154 Q 750 195 410 195 Q 90 195 90 168" fill="none" stroke="#4A8A99" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-t)"/>
+  <line x1="145" y1="128" x2="200" y2="128" stroke="#34495E" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <line x1="310" y1="128" x2="365" y2="128" stroke="#34495E" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <line x1="475" y1="128" x2="530" y2="128" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <line x1="640" y1="128" x2="695" y2="128" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <path d="M 750 154 Q 750 195 410 195 Q 90 195 90 168" fill="none" stroke="#4A8A99" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ch09-svg7-arr-t)"/>
   <text x="390" y="210" text-anchor="middle" font-size="12" font-weight="normal" fill="#4A8A99">page fault → decompress (~100 µs) → restore PTE</text>
   <rect x="20" y="228" width="860" height="180" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="20" y="228" width="860" height="26" rx="0" fill="#4A8A99"/>
   <text x="450" y="245" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">zswap: Compressed Cache in Front of Block Swap (disk as last resort)</text>
-  <rect x="35" y="265" width="110" height="50" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="35" y="265" width="110" height="50" rx="6" fill="#5E81AC" filter="url(#ch09-svg7-sh)"/>
   <text x="90" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Page out</text>
-  <rect x="200" y="265" width="110" height="50" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="200" y="265" width="110" height="50" rx="6" fill="#4A8A99" filter="url(#ch09-svg7-sh)"/>
   <text x="255" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Compress</text>
   <text x="255" y="300" text-anchor="middle" font-size="11" font-weight="normal" fill="#FFFFFF">LZ4/LZO</text>
-  <rect x="365" y="265" width="110" height="50" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="365" y="265" width="110" height="50" rx="6" fill="#4A8A99" filter="url(#ch09-svg7-sh)"/>
   <text x="420" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">zswap Pool</text>
   <text x="420" y="300" text-anchor="middle" font-size="11" font-weight="normal" fill="#FFFFFF">(RAM limited)</text>
-  <rect x="530" y="265" width="110" height="50" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="530" y="265" width="110" height="50" rx="6" fill="#34495E" filter="url(#ch09-svg7-sh)"/>
   <text x="585" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Decompress</text>
   <text x="585" y="300" text-anchor="middle" font-size="11" font-weight="normal" fill="#FFFFFF">(pool full)</text>
-  <rect x="695" y="265" width="110" height="50" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="695" y="265" width="110" height="50" rx="6" fill="#BF616A" filter="url(#ch09-svg7-sh)"/>
   <text x="750" y="283" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Disk / SSD</text>
   <text x="750" y="300" text-anchor="middle" font-size="11" font-weight="normal" fill="#FFFFFF">~10 ms</text>
-  <line x1="145" y1="290" x2="200" y2="290" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="310" y1="290" x2="365" y2="290" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="475" y1="290" x2="530" y2="290" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="640" y1="290" x2="695" y2="290" stroke="#34495E" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="145" y1="290" x2="200" y2="290" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <line x1="310" y1="290" x2="365" y2="290" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <line x1="475" y1="290" x2="530" y2="290" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
+  <line x1="640" y1="290" x2="695" y2="290" stroke="#34495E" stroke-width="2" marker-end="url(#ch09-svg7-arr)"/>
   <line x1="475" y1="265" x2="475" y2="255" stroke="#BF616A" stroke-width="1.5" stroke-dasharray="3,2"/>
   <text x="475" y="252" text-anchor="middle" font-size="11" font-weight="normal" fill="#BF616A">pool full →</text>
   <rect x="20" y="422" width="860" height="55" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -4439,7 +4439,7 @@ virtual memory at scale.</p><script>
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -4877,7 +4877,7 @@ virtual memory at scale.</p><script>
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

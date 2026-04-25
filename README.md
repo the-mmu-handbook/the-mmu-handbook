@@ -20,33 +20,33 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 
 | # | Title | Figures | Size |
 |---|-------|:-------:|-----:|
-| [01](chapters/chapter-01-WITH-FIGURES.html) | Memory Hierarchy and the Translation Problem | 23 | 296 KB |
-| [02](chapters/chapter-02-WITH-FIGURES.html) | Virtual Memory Concepts | 10 | 232 KB |
-| [03](chapters/chapter-03-WITH-FIGURES.html) | Page Table Structures and Implementation | 15 | 296 KB |
-| [04](chapters/chapter-04-WITH-FIGURES.html) | TLB Architecture and Organization | 9 | 328 KB |
-| [05](chapters/chapter-05-WITH-FIGURES.html) | IOMMU and Device Address Translation | 8 | 362 KB |
-| [06](chapters/chapter-06-WITH-FIGURES.html) | Memory Protection and Access Control | 5 | 335 KB |
-| [07](chapters/chapter-07-WITH-FIGURES.html) | Page Faults and Exception Handling | 8 | 753 KB |
-| [08](chapters/chapter-08-WITH-FIGURES.html) | Advanced MMU Topics: System Integration and Optimization | 7 | 330 KB |
-| [09](chapters/chapter-09-WITH-FIGURES.html) | Advanced Page Table Optimizations | 5 | 339 KB |
-| [10](chapters/chapter-10-WITH-FIGURES.html) | Device Memory and Peripheral Translation | 5 | 358 KB |
-| [11](chapters/chapter-11-WITH-FIGURES.html) | AI/ML Accelerator Memory Systems | 10 | 421 KB |
-| [12](chapters/chapter-12-WITH-FIGURES.html) | Multi-GPU TLB Coordination at Scale | 7 | 251 KB |
-| [13](chapters/chapter-13-WITH-FIGURES.html) | Machine Learning for MMU Optimization | 4 | 131 KB |
-| [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for LLM Serving | 5 | 226 KB |
-| [15](chapters/chapter-15-WITH-FIGURES.html) | Alternative Translation Architectures | 6 | 212 KB |
-| [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 8 | 217 KB |
-| [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 5 | 158 KB |
-| [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 6 | 185 KB |
-| [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 8 | 179 KB |
+| [01](chapters/chapter-01-WITH-FIGURES.html) | Memory Management Basics | 23 | 292 KB |
+| [02](chapters/chapter-02-WITH-FIGURES.html) | Virtual Memory Concepts | 10 | 230 KB |
+| [03](chapters/chapter-03-WITH-FIGURES.html) | Page Table Structures and Implementation | 15 | 288 KB |
+| [04](chapters/chapter-04-WITH-FIGURES.html) | Translation Lookaside Buffer (TLB) - Deep Dive | 11 | 333 KB |
+| [05](chapters/chapter-05-WITH-FIGURES.html) | IOMMU and DMA Remapping - Deep Dive | 8 | 351 KB |
+| [06](chapters/chapter-06-WITH-FIGURES.html) | Memory Protection and Access Control | 10 | 298 KB |
+| [07](chapters/chapter-07-WITH-FIGURES.html) | Page Faults and Exception Handling | 10 | 757 KB |
+| [08](chapters/chapter-08-WITH-FIGURES.html) | Advanced MMU Topics - System Integration and Optimization | 10 | 324 KB |
+| [09](chapters/chapter-09-WITH-FIGURES.html) | Advanced Page Table Optimizations | 10 | 351 KB |
+| [10](chapters/chapter-10-WITH-FIGURES.html) | Hardware Accelerators and External MMU Access | 8 | 351 KB |
+| [11](chapters/chapter-11-WITH-FIGURES.html) | Virtual Memory Challenges in AI/ML Accelerators | 13 | 403 KB |
+| [12](chapters/chapter-12-WITH-FIGURES.html) | When MMU Architecture Breaks - AI at Scale | 9 | 264 KB |
+| [13](chapters/chapter-13-WITH-FIGURES.html) | Machine Learning for Memory Management - The False Hope | 7 | 130 KB |
+| [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for AI Workloads | 8 | 223 KB |
+| [15](chapters/chapter-15-WITH-FIGURES.html) | Beyond Traditional MMU - Alternative Translation Architectures | 9 | 187 KB |
+| [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 11 | 216 KB |
+| [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 8 | 148 KB |
+| [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 9 | 172 KB |
+| [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 11 | 175 KB |
 
-**Total: 143 embedded SVG figures across 19 chapters (~4.2 MB)**
+**Total: 200 embedded SVG figures across 19 chapters (~4.2 MB)**
 
 ---
 
 ## Chapter Summaries
 
-**Chapter 1 — Memory Hierarchy and the Translation Problem**
+**Chapter 1 — Memory Management Basics**
 Why address translation exists, the full memory hierarchy from registers to DRAM, cache coherence basics, and the fundamental role the TLB plays in bridging virtual to physical memory at every level.
 
 **Chapter 2 — Virtual Memory Concepts**
@@ -55,10 +55,10 @@ Demand paging, working set theory, page replacement algorithms (OPT, LRU, Clock)
 **Chapter 3 — Page Table Structures and Implementation**
 Single-level through four-level page tables. x86-64 CR3/PML4E structure, ARM64 TTBR0/TTBR1, RISC-V satp register. Two-stage translation for virtualisation (Intel EPT, AMD NPT, ARM Stage-2, RISC-V G-stage). Inverted and hashed page tables. Size calculations and memory overhead.
 
-**Chapter 4 — TLB Architecture and Organization**
+**Chapter 4 — Translation Lookaside Buffer (TLB) - Deep Dive**
 L1 iTLB/dTLB, L2 unified STLB, page walk caches. TLB entry structure (VPN, PFN, permission bits). ASID, PCID, and VMID context identifiers. TLB shootdown protocol and IPI coordination across cores.
 
-**Chapter 5 — IOMMU and Device Address Translation**
+**Chapter 5 — IOMMU and DMA Remapping - Deep Dive**
 Intel VT-d, AMD-Vi, ARM SMMUv3 architectures. DMA remapping and I/O page tables. SR-IOV, VFIO, PASID-based process isolation. PCIe ATS device-side translation caching.
 
 **Chapter 6 — Memory Protection and Access Control**
@@ -67,28 +67,28 @@ Privilege rings and supervisor/user separation. NX/XD bits, SMEP, SMAP. KPTI and
 **Chapter 7 — Page Faults and Exception Handling**
 x86-64 #PF with CR2, ARM64 Data/Instruction Aborts with FAR_EL1, RISC-V page-fault exceptions with stval. Minor vs major faults. Demand paging, copy-on-write, stack growth, and protection violations.
 
-**Chapter 8 — Advanced MMU Topics: System Integration and Optimization**
+**Chapter 8 — Advanced MMU Topics - System Integration and Optimization**
 The complete memory management story from hardware to OS policy. Sections 8.1–8.4: motivating crisis scenarios (OOM despite "17 GB free"), two-stage nested fault taxonomy (four types, cascading EPT storms, pre-population strategies), ISA comparison of nested fault handling (x86-64 EPT vs ARM64 Stage-2 vs RISC-V H extension), and hardware A/D bit mechanisms with the 5,000× clean-vs-dirty eviction cost differential. Sections 8.5–8.8: Bélády's optimal algorithm, LRU, Clock/Second-Chance, Linux MGLRU. kswapd background reclaim, watermark thresholds, direct reclaim, and OOM killer. Page table memory overhead and huge page optimisations.
 
 **Chapter 9 — Advanced Page Table Optimizations**
 Kernel Samepage Merging (KSM) deduplication. NUMA-aware page placement and Automatic NUMA Balancing. Transparent Huge Pages (THP) vs explicit HugeTLBfs. Page table locking, compaction, and sharing across processes.
 
-**Chapter 10 — Device Memory and Peripheral Translation**
+**Chapter 10 — Hardware Accelerators and External MMU Access**
 PCIe ATS/ATC flow. RDMA memory registration (`ibv_reg_mr`), page pinning, and lkey/rkey handles. SmartNIC/DPU on-NIC ARM cores and zero-copy GPU-direct paths. Video and media accelerator MMU designs.
 
-**Chapter 11 — AI/ML Accelerator Memory Systems**
+**Chapter 11 — Virtual Memory Challenges in AI/ML Accelerators**
 NVIDIA GPU Unified Virtual Memory (UVM). NVLink/NVSwitch topology and peer-to-peer translation. Google TPU HBM memory subsystem. Intel Gaudi2 integrated design. Multi-GPU RDMA integration patterns.
 
-**Chapter 12 — Multi-GPU TLB Coordination at Scale**
+**Chapter 12 — When MMU Architecture Breaks - AI at Scale**
 The O(N) TLB shootdown scaling problem in shared virtual address spaces. Measured overhead at 8, 128, and 1,000+ GPU configurations. Epoch-based reclaim, lazy unmapping, and PASID-scoped mitigation strategies. Multi-tenancy isolation trade-offs.
 
-**Chapter 13 — Machine Learning for MMU Optimization**
+**Chapter 13 — Machine Learning for Memory Management - The False Hope**
 Why Pythia (RL-based TLB prefetcher) failed: 20 ns latency budget, state explosion, sparse rewards. Why LeCaR (learned cache replacement) works: software execution, regret minimization, provable bounds. Decision framework: when ML for memory systems is viable.
 
-**Chapter 14 — Software-Managed Memory for LLM Serving**
+**Chapter 14 — Software-Managed Memory for AI Workloads**
 LLM KV-cache fragmentation and the TLB reach crisis at 70 GB model scale. vLLM PagedAttention: OS-inspired block table design eliminating 60–70% memory waste. Direct Segment Addressing: single hardware register covers entire model, eliminating TLB misses for weights.
 
-**Chapter 15 — Alternative Translation Architectures**
+**Chapter 15 — Beyond Traditional MMU - Alternative Translation Architectures**
 Network-level address translation. Processing-in-Memory TLB (PIM-TLB) co-locating translation with HBM. Utopia hybrid radix-segment architecture. Comparative analysis across designs.
 
 **Chapter 16 — Advanced TLB Optimization Techniques**

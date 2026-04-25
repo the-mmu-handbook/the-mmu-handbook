@@ -908,36 +908,36 @@ flexible, and performant virtual memory.</p>
 <hr />
 <h2 id="section-7.2">7.2 Page Fault Fundamentals</h2>
 <figure id="fig-7-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="580" viewBox="0 0 900 580" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
-<defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-<marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-<marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-<marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker></defs>
+<defs><filter id="ch07-svg1-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="ch07-svg1-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="ch07-svg1-ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="ch07-svg1-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker></defs>
 <text x="450" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Page Fault Handling: From CPU Exception to OS Resolution</text>
-<rect x="340" y="40" width="220" height="46" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+<rect x="340" y="40" width="220" height="46" rx="6" fill="#5E81AC" filter="url(#ch07-svg1-sh)"/>
 <text x="450" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="white">CPU: Memory Access</text>
 <text x="450" y="76" text-anchor="middle" font-size="13" fill="white">Load/Store with virtual address</text>
-<line x1="450" y1="86" x2="450" y2="110" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
-<rect x="320" y="110" width="260" height="40" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+<line x1="450" y1="86" x2="450" y2="110" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch07-svg1-a)"/>
+<rect x="320" y="110" width="260" height="40" rx="6" fill="#4A8A99" filter="url(#ch07-svg1-sh)"/>
 <text x="450" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="white">TLB Lookup</text>
 <text x="450" y="141" text-anchor="middle" font-size="12" fill="white">Check L1 dTLB, L2 STLB</text>
-<line x1="340" y1="130" x2="240" y2="130" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
+<line x1="340" y1="130" x2="240" y2="130" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch07-svg1-ag)"/>
 <text x="220" y="126" text-anchor="end" font-size="13" font-weight="bold" fill="#4A8A99">HIT</text>
 <text x="220" y="142" text-anchor="end" font-size="12" fill="#4A8A99">1-7 cycles</text>
-<line x1="450" y1="150" x2="450" y2="174" stroke="#BF616A" stroke-width="2" marker-end="url(#ao)"/>
+<line x1="450" y1="150" x2="450" y2="174" stroke="#BF616A" stroke-width="2" marker-end="url(#ch07-svg1-ao)"/>
 <text x="460" y="168" font-size="12" fill="#BF616A">TLB miss</text>
-<rect x="300" y="174" width="300" height="40" rx="6" fill="#BF616A" filter="url(#sh)"/>
+<rect x="300" y="174" width="300" height="40" rx="6" fill="#BF616A" filter="url(#ch07-svg1-sh)"/>
 <text x="450" y="189" text-anchor="middle" font-size="14" font-weight="bold" fill="white">HW Page Table Walker</text>
 <text x="450" y="205" text-anchor="middle" font-size="12" fill="white">Read CR3/TTBR/satp, walk 4-5 levels</text>
-<line x1="600" y1="194" x2="700" y2="194" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ao)"/>
+<line x1="600" y1="194" x2="700" y2="194" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch07-svg1-ao)"/>
 <text x="702" y="190" font-size="13" font-weight="bold" fill="#4A8A99">PTE valid</text>
 <text x="702" y="206" font-size="12" fill="#4A8A99">Fill TLB, retry</text>
 <text x="702" y="222" font-size="12" fill="#4A8A99">100-300 ns</text>
-<line x1="450" y1="214" x2="450" y2="238" stroke="#BF616A" stroke-width="2" marker-end="url(#ao)"/>
+<line x1="450" y1="214" x2="450" y2="238" stroke="#BF616A" stroke-width="2" marker-end="url(#ch07-svg1-ao)"/>
 <text x="460" y="232" font-size="12" fill="#BF616A">PTE not present / bad</text>
-<rect x="270" y="238" width="360" height="46" rx="6" fill="#BF616A" filter="url(#sh)"/>
+<rect x="270" y="238" width="360" height="46" rx="6" fill="#BF616A" filter="url(#ch07-svg1-sh)"/>
 <text x="450" y="256" text-anchor="middle" font-size="15" font-weight="bold" fill="white">#PF / Data Abort Exception</text>
 <text x="450" y="274" text-anchor="middle" font-size="13" fill="white">CPU saves state, jumps to OS fault handler</text>
-<line x1="450" y1="284" x2="450" y2="308" stroke="#212121" stroke-width="2" marker-end="url(#a)"/>
+<line x1="450" y1="284" x2="450" y2="308" stroke="#212121" stroke-width="2" marker-end="url(#ch07-svg1-a)"/>
 <rect x="240" y="308" width="160" height="110" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/>
 <text x="320" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Minor Fault</text>
 <text x="320" y="344" text-anchor="middle" font-size="12" fill="#212121">Page in RAM but</text>
@@ -952,9 +952,9 @@ flexible, and performant virtual memory.</p>
 <text x="580" y="376" text-anchor="middle" font-size="12" fill="#212121">Block I/O read,</text>
 <text x="580" y="392" text-anchor="middle" font-size="12" fill="#212121">process sleeps</text>
 <text x="580" y="408" text-anchor="middle" font-size="12" fill="#BF616A">~1-10 ms</text>
-<line x1="320" y1="418" x2="420" y2="455" stroke="#212121" stroke-width="1.5" marker-end="url(#a)"/>
-<line x1="580" y1="418" x2="480" y2="455" stroke="#212121" stroke-width="1.5" marker-end="url(#a)"/>
-<rect x="310" y="455" width="280" height="46" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+<line x1="320" y1="418" x2="420" y2="455" stroke="#212121" stroke-width="1.5" marker-end="url(#ch07-svg1-a)"/>
+<line x1="580" y1="418" x2="480" y2="455" stroke="#212121" stroke-width="1.5" marker-end="url(#ch07-svg1-a)"/>
+<rect x="310" y="455" width="280" height="46" rx="6" fill="#4A8A99" filter="url(#ch07-svg1-sh)"/>
 <text x="450" y="473" text-anchor="middle" font-size="14" font-weight="bold" fill="white">OS: Map Page, Update PTE</text>
 <text x="450" y="491" text-anchor="middle" font-size="13" fill="white">Install PTE, flush TLB entry, return to user</text>
 <rect x="30" y="520" width="840" height="46" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -1275,10 +1275,10 @@ other architectures.</p>
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
 <defs>
   <style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-  <marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-  <marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
-  <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  <marker id="ch07-svg2-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+  <marker id="ch07-svg2-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+  <marker id="ch07-svg2-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+  <filter id="ch07-svg2-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
 </defs>
 <rect width="900" height="560" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">x86-64 Page Fault Error Code Decoder</text>
@@ -1329,62 +1329,62 @@ other architectures.</p>
 
 <!-- Decision tree -->
 <!-- P bit (bit 0) -->
-<rect x="370" y="162" width="160" height="44" rx="6" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="370" y="162" width="160" height="44" rx="6" style="fill:#5E81AC;" filter="url(#ch07-svg2-sh)"/>
 <text x="450" y="180" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Bit 0 — P (Present)</text>
 <text x="450" y="198" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">Is the PTE present?</text>
-<line x1="450" y1="206" x2="450" y2="236" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="450" y1="206" x2="450" y2="236" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg2-arr)"/>
 
 <!-- P=0 branch -->
-<line x1="370" y1="184" x2="200" y2="236" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="370" y1="184" x2="200" y2="236" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg2-arr-r)"/>
 <text x="270" y="222" style="font-size:12px;fill:#BF616A;font-weight:bold;">P=0</text>
-<rect x="100" y="236" width="200" height="44" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="100" y="236" width="200" height="44" rx="6" style="fill:#BF616A;" filter="url(#ch07-svg2-sh)"/>
 <text x="200" y="254" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Not-Present Fault</text>
 <text x="200" y="271" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Page never mapped / swapped</text>
 
 <!-- P=1 branch -->
 <text x="490" y="228" style="font-size:12px;fill:#4A8A99;font-weight:bold;">P=1</text>
-<rect x="370" y="236" width="160" height="44" rx="6" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="370" y="236" width="160" height="44" rx="6" style="fill:#4A8A99;" filter="url(#ch07-svg2-sh)"/>
 <text x="450" y="254" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Bit 1 — W/R</text>
 <text x="450" y="271" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Was it a write?</text>
-<line x1="450" y1="280" x2="450" y2="310" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="450" y1="280" x2="450" y2="310" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch07-svg2-arr-g)"/>
 
 <!-- W/R=1 write fault -->
-<line x1="370" y1="258" x2="200" y2="310" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="370" y1="258" x2="200" y2="310" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg2-arr-r)"/>
 <text x="268" y="296" style="font-size:12px;fill:#BF616A;font-weight:bold;">W=1</text>
-<rect x="100" y="310" width="200" height="44" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="100" y="310" width="200" height="44" rx="6" style="fill:#BF616A;" filter="url(#ch07-svg2-sh)"/>
 <text x="200" y="328" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Write Protection Fault</text>
 <text x="200" y="345" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">COW / R/O page written</text>
 
 <!-- U/S bit -->
 <text x="490" y="302" style="font-size:12px;fill:#5E81AC;font-weight:bold;">W=0</text>
-<rect x="370" y="310" width="160" height="44" rx="6" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="370" y="310" width="160" height="44" rx="6" style="fill:#5E81AC;" filter="url(#ch07-svg2-sh)"/>
 <text x="450" y="328" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Bit 2 — U/S</text>
 <text x="450" y="345" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">User or Supervisor mode?</text>
-<line x1="450" y1="354" x2="450" y2="384" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="450" y1="354" x2="450" y2="384" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg2-arr)"/>
 
 <!-- U=1 user mode -->
-<line x1="370" y1="332" x2="200" y2="384" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="370" y1="332" x2="200" y2="384" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg2-arr-r)"/>
 <text x="268" y="370" style="font-size:12px;fill:#BF616A;font-weight:bold;">U=1</text>
-<rect x="100" y="384" width="200" height="44" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="100" y="384" width="200" height="44" rx="6" style="fill:#BF616A;" filter="url(#ch07-svg2-sh)"/>
 <text x="200" y="402" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">User Privilege Fault</text>
 <text x="200" y="419" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Access to kernel mapping</text>
 
 <!-- I/D + NX -->
 <text x="490" y="376" style="font-size:12px;fill:#4A8A99;font-weight:bold;">S=1</text>
-<rect x="370" y="384" width="160" height="44" rx="6" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="370" y="384" width="160" height="44" rx="6" style="fill:#4A8A99;" filter="url(#ch07-svg2-sh)"/>
 <text x="450" y="402" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Bits 3–4 — I/D, NX</text>
 <text x="450" y="419" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Instruction fetch on NX page?</text>
 
 <!-- NX=1 -->
-<line x1="530" y1="406" x2="630" y2="406" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="530" y1="406" x2="630" y2="406" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg2-arr-r)"/>
 <text x="578" y="398" style="font-size:12px;fill:#BF616A;font-weight:bold;">I/D=1 + NX</text>
-<rect x="630" y="384" width="220" height="44" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="630" y="384" width="220" height="44" rx="6" style="fill:#BF616A;" filter="url(#ch07-svg2-sh)"/>
 <text x="740" y="402" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">NX / XD Violation</text>
 <text x="740" y="419" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Execute-disable bit set on page</text>
 
 <!-- Protection Key -->
-<line x1="450" y1="428" x2="450" y2="458" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
-<rect x="360" y="458" width="180" height="44" rx="6" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<line x1="450" y1="428" x2="450" y2="458" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch07-svg2-arr-g)"/>
+<rect x="360" y="458" width="180" height="44" rx="6" style="fill:#9E9E9E;" filter="url(#ch07-svg2-sh)"/>
 <text x="450" y="476" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">PK / RSVD / SGX</text>
 <text x="450" y="493" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">Protection-key / reserved / SGX faults</text>
 
@@ -3023,71 +3023,71 @@ has interesting implications:</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg3-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg3-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg3-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg3-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch07-svg3-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
   <rect width="900" height="560" fill="#FFFFFF"/>
   <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">TLB-Related Exception Taxonomy</text>
   <text x="450" y="54" text-anchor="middle" font-size="13" fill="#616161">Three distinct categories — each requires different OS response. Failure before TLB lookup.</text>
-  <rect x="325" y="65" width="250" height="40" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="325" y="65" width="250" height="40" rx="6" fill="#34495E" filter="url(#ch07-svg3-sh)"/>
   <text x="450" y="87" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Address Translation Exception</text>
-  <line x1="370" y1="105" x2="155" y2="155" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="450" y1="105" x2="450" y2="155" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="530" y1="105" x2="745" y2="155" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
-  <rect x="35" y="155" width="240" height="40" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <line x1="370" y1="105" x2="155" y2="155" stroke="#212121" stroke-width="2" marker-end="url(#ch07-svg3-arr)"/>
+  <line x1="450" y1="105" x2="450" y2="155" stroke="#212121" stroke-width="2" marker-end="url(#ch07-svg3-arr)"/>
+  <line x1="530" y1="105" x2="745" y2="155" stroke="#212121" stroke-width="2" marker-end="url(#ch07-svg3-arr)"/>
+  <rect x="35" y="155" width="240" height="40" rx="6" fill="#5E81AC" filter="url(#ch07-svg3-sh)"/>
   <text x="155" y="172" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">TLB Miss</text>
   <text x="155" y="189" text-anchor="middle" font-size="11" fill="#DDEAF5">Translation not cached</text>
-  <rect x="330" y="155" width="240" height="40" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="330" y="155" width="240" height="40" rx="6" fill="#4A8A99" filter="url(#ch07-svg3-sh)"/>
   <text x="450" y="172" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Page Fault</text>
   <text x="450" y="189" text-anchor="middle" font-size="11" fill="#CCE8EC">Page absent / wrong perms</text>
-  <rect x="625" y="155" width="240" height="40" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="625" y="155" width="240" height="40" rx="6" fill="#BF616A" filter="url(#ch07-svg3-sh)"/>
   <text x="745" y="172" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Walk Failure</text>
   <text x="745" y="189" text-anchor="middle" font-size="11" fill="#FFFFFF">Page table structure error</text>
-  <line x1="100" y1="195" x2="80" y2="228" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arr-b)"/>
-  <line x1="210" y1="195" x2="225" y2="228" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arr-b)"/>
-  <rect x="20" y="228" width="145" height="52" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <line x1="100" y1="195" x2="80" y2="228" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-b)"/>
+  <line x1="210" y1="195" x2="225" y2="228" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-b)"/>
+  <rect x="20" y="228" width="145" height="52" rx="6" fill="#5E81AC" filter="url(#ch07-svg3-sh)"/>
   <text x="92" y="248" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">HW Walk</text>
   <text x="92" y="262" text-anchor="middle" font-size="11" fill="#DDEAF5">x86-64, ARM64</text>
   <text x="92" y="276" text-anchor="middle" font-size="11" fill="#DDEAF5">Transparent</text>
-  <rect x="175" y="228" width="145" height="52" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="175" y="228" width="145" height="52" rx="6" fill="#34495E" filter="url(#ch07-svg3-sh)"/>
   <text x="247" y="248" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">SW Walk</text>
   <text x="247" y="262" text-anchor="middle" font-size="11" fill="#B0BEC5">RISC-V</text>
   <text x="247" y="276" text-anchor="middle" font-size="11" fill="#B0BEC5">OS fills TLB</text>
-  <line x1="450" y1="195" x2="356" y2="228" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="318" y="228" width="85" height="52" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <line x1="450" y1="195" x2="356" y2="228" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-t)"/>
+  <rect x="318" y="228" width="85" height="52" rx="6" fill="#4A8A99" filter="url(#ch07-svg3-sh)"/>
   <text x="360" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Not Present</text>
   <text x="360" y="262" text-anchor="middle" font-size="10" fill="#CCE8EC">P=0 in PTE</text>
   <text x="360" y="276" text-anchor="middle" font-size="10" fill="#CCE8EC">→ Demand page</text>
-  <line x1="450" y1="195" x2="451" y2="228" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="413" y="228" width="85" height="52" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <line x1="450" y1="195" x2="451" y2="228" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-t)"/>
+  <rect x="413" y="228" width="85" height="52" rx="6" fill="#BF616A" filter="url(#ch07-svg3-sh)"/>
   <text x="455" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Protection</text>
   <text x="455" y="262" text-anchor="middle" font-size="10" fill="#FFFFFF">W=0/NX/SMEP</text>
   <text x="455" y="276" text-anchor="middle" font-size="10" fill="#FFFFFF">→ SIGSEGV</text>
-  <line x1="450" y1="195" x2="546" y2="228" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="508" y="228" width="85" height="52" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <line x1="450" y1="195" x2="546" y2="228" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-t)"/>
+  <rect x="508" y="228" width="85" height="52" rx="6" fill="#5E81AC" filter="url(#ch07-svg3-sh)"/>
   <text x="550" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">COW</text>
   <text x="550" y="262" text-anchor="middle" font-size="10" fill="#DDEAF5">Write to shared</text>
   <text x="550" y="276" text-anchor="middle" font-size="10" fill="#DDEAF5">→ Copy page</text>
-  <line x1="695" y1="195" x2="690" y2="228" stroke="#BF616A" stroke-width="1.5" marker-end="url(#arr-r)"/>
-  <line x1="795" y1="195" x2="800" y2="228" stroke="#BF616A" stroke-width="1.5" marker-end="url(#arr-r)"/>
-  <rect x="630" y="228" width="130" height="52" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <line x1="695" y1="195" x2="690" y2="228" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-r)"/>
+  <line x1="795" y1="195" x2="800" y2="228" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch07-svg3-arr-r)"/>
+  <rect x="630" y="228" width="130" height="52" rx="6" fill="#BF616A" filter="url(#ch07-svg3-sh)"/>
   <text x="695" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Walk Fault</text>
   <text x="695" y="262" text-anchor="middle" font-size="10" fill="#FFFFFF">Bad PGD/PMD</text>
   <text x="695" y="276" text-anchor="middle" font-size="10" fill="#FFFFFF">→ SIGBUS/panic</text>
-  <rect x="770" y="228" width="130" height="52" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="770" y="228" width="130" height="52" rx="6" fill="#34495E" filter="url(#ch07-svg3-sh)"/>
   <text x="835" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">Aliasing</text>
   <text x="835" y="262" text-anchor="middle" font-size="10" fill="#B0BEC5">VIPT alias</text>
   <text x="835" y="276" text-anchor="middle" font-size="10" fill="#B0BEC5">→ Cache flush</text>
@@ -4234,10 +4234,10 @@ from previous sections.</p>
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580">
 <defs>
   <style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-  <marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-  <marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
-  <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+  <marker id="ch07-svg4-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+  <marker id="ch07-svg4-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+  <marker id="ch07-svg4-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+  <filter id="ch07-svg4-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
 </defs>
 <rect width="900" height="580" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">Copy-on-Write (COW) Fork Sequence</text>
@@ -4253,22 +4253,22 @@ from previous sections.</p>
 
 <!-- Phase 1: parent/child page tables -->
 <!-- Parent PTE -->
-<rect x="30" y="106" width="110" height="40" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="30" y="106" width="110" height="40" rx="5" style="fill:#5E81AC;" filter="url(#ch07-svg4-sh)"/>
 <text x="85" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Parent PTE</text>
 <text x="85" y="139" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">R/W → R/O</text>
 <!-- Child PTE -->
-<rect x="160" y="106" width="110" height="40" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="160" y="106" width="110" height="40" rx="5" style="fill:#5E81AC;" filter="url(#ch07-svg4-sh)"/>
 <text x="215" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Child PTE</text>
 <text x="215" y="139" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">copy, R/O</text>
 
 <!-- Physical page -->
-<rect x="80" y="192" width="150" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="80" y="192" width="150" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#ch07-svg4-sh)"/>
 <text x="155" y="212" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Physical Page</text>
 <text x="155" y="228" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">refcount = 2, R/O</text>
 
 <!-- Arrows from PTEs to page -->
-<line x1="85" y1="146" x2="120" y2="190" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="215" y1="146" x2="185" y2="190" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="85" y1="146" x2="120" y2="190" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg4-arr)"/>
+<line x1="215" y1="146" x2="185" y2="190" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg4-arr)"/>
 
 <!-- Phase 1 annotation -->
 <rect x="20" y="258" width="260" height="56" rx="4" style="fill:#F5F5F5;stroke:#DDE4EE;"/>
@@ -4281,7 +4281,7 @@ from previous sections.</p>
 
 <!-- Phase 2: write triggers fault -->
 <!-- Child attempts write -->
-<rect x="310" y="106" width="140" height="40" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="310" y="106" width="140" height="40" rx="5" style="fill:#BF616A;" filter="url(#ch07-svg4-sh)"/>
 <text x="380" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Child Writes to</text>
 <text x="380" y="139" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">VA → R/O PTE → #PF</text>
 
@@ -4290,38 +4290,38 @@ from previous sections.</p>
 <text x="510" y="122" style="font-size:12px;font-weight:bold;fill:#BF616A;text-anchor:middle;">Error Code</text>
 <text x="510" y="139" style="font-size:13px;font-weight:bold;fill:#BF616A;text-anchor:middle;">0x0007</text>
 
-<line x1="400" y1="146" x2="400" y2="176" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="400" y1="146" x2="400" y2="176" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg4-arr-r)"/>
 
 <!-- Kernel COW handler -->
-<rect x="310" y="176" width="250" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="310" y="176" width="250" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch07-svg4-sh)"/>
 <text x="435" y="196" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">do_wp_page() handler</text>
 <text x="435" y="213" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">1. Fault confirmed as COW write</text>
 <text x="435" y="229" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">2. Check refcount of physical page</text>
 
-<line x1="435" y1="236" x2="435" y2="266" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="435" y1="236" x2="435" y2="266" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg4-arr)"/>
 
 <!-- Refcount check -->
-<rect x="310" y="266" width="250" height="54" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="310" y="266" width="250" height="54" rx="5" style="fill:#4A8A99;" filter="url(#ch07-svg4-sh)"/>
 <text x="435" y="284" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">refcount == 1?</text>
 <text x="435" y="301" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Only one mapper — reuse in-place</text>
 <text x="435" y="317" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">refcount &gt; 1 — must copy</text>
 
 <!-- Yes branch - reuse -->
-<line x1="310" y1="293" x2="200" y2="345" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="310" y1="293" x2="200" y2="345" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch07-svg4-arr-g)"/>
 <text x="235" y="325" style="font-size:12px;fill:#4A8A99;font-weight:bold;">ref=1</text>
-<rect x="100" y="345" width="190" height="50" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="100" y="345" width="190" height="50" rx="5" style="fill:#4A8A99;" filter="url(#ch07-svg4-sh)"/>
 <text x="195" y="365" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Reuse in-place</text>
 <text x="195" y="382" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Mark PTE writable, no copy</text>
 
 <!-- No branch - must copy -->
-<line x1="560" y1="293" x2="435" y2="345" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="560" y1="293" x2="435" y2="345" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg4-arr-r)"/>
 <text x="516" y="325" style="font-size:12px;fill:#BF616A;font-weight:bold;">ref&gt;1</text>
-<rect x="310" y="345" width="250" height="50" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="310" y="345" width="250" height="50" rx="5" style="fill:#BF616A;" filter="url(#ch07-svg4-sh)"/>
 <text x="435" y="365" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Allocate new page</text>
 <text x="435" y="382" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">alloc_page() + copy_page()</text>
 
-<line x1="435" y1="395" x2="435" y2="425" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
-<rect x="310" y="425" width="250" height="50" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<line x1="435" y1="395" x2="435" y2="425" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg4-arr-r)"/>
+<rect x="310" y="425" width="250" height="50" rx="5" style="fill:#BF616A;" filter="url(#ch07-svg4-sh)"/>
 <text x="435" y="445" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Copy content</text>
 <text x="435" y="462" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">memcpy(new_page, old_page)</text>
 
@@ -4330,28 +4330,28 @@ from previous sections.</p>
 
 <!-- Phase 3: After COW -->
 <!-- Parent PTE -->
-<rect x="600" y="106" width="120" height="40" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="600" y="106" width="120" height="40" rx="5" style="fill:#5E81AC;" filter="url(#ch07-svg4-sh)"/>
 <text x="660" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Parent PTE</text>
 <text x="660" y="139" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">still R/O → orig page</text>
 
 <!-- Child PTE now writable -->
-<rect x="750" y="106" width="130" height="40" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="750" y="106" width="130" height="40" rx="5" style="fill:#4A8A99;" filter="url(#ch07-svg4-sh)"/>
 <text x="815" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Child PTE</text>
 <text x="815" y="139" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">R/W → new page</text>
 
 <!-- Original physical page -->
-<rect x="590" y="210" width="140" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="590" y="210" width="140" height="50" rx="5" style="fill:#9E9E9E;" filter="url(#ch07-svg4-sh)"/>
 <text x="660" y="230" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Original Page</text>
 <text x="660" y="247" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">refcount = 1</text>
 
 <!-- New private page -->
-<rect x="750" y="210" width="130" height="50" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="750" y="210" width="130" height="50" rx="5" style="fill:#4A8A99;" filter="url(#ch07-svg4-sh)"/>
 <text x="815" y="230" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">New Private Page</text>
 <text x="815" y="247" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">refcount = 1, R/W</text>
 
 <!-- Arrows phase 3 -->
-<line x1="660" y1="146" x2="660" y2="208" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="815" y1="146" x2="815" y2="208" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="660" y1="146" x2="660" y2="208" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg4-arr)"/>
+<line x1="815" y1="146" x2="815" y2="208" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch07-svg4-arr-g)"/>
 
 <!-- TLB flush note -->
 <rect x="590" y="278" width="290" height="80" rx="5" style="fill:#F5F5F5;stroke:#DDE4EE;"/>
@@ -5369,8 +5369,8 @@ performance problems.</p>
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs>
   <style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-  <filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
+  <marker id="ch07-svg5-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+  <filter id="ch07-svg5-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.12"/></filter>
 </defs>
 <rect width="900" height="540" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">Minor vs Major Page Fault Cost Comparison</text>
@@ -5384,11 +5384,11 @@ performance problems.</p>
 
 <!-- Minor fault flow -->
 <!-- Step boxes -->
-<rect x="30" y="106" width="180" height="44" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="30" y="106" width="180" height="44" rx="5" style="fill:#5E81AC;" filter="url(#ch07-svg5-sh)"/>
 <text x="120" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU faults (TLB miss)</text>
 <text x="120" y="141" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">PTE present=0 or perm</text>
-<line x1="210" y1="128" x2="240" y2="128" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<rect x="240" y="106" width="180" height="44" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<line x1="210" y1="128" x2="240" y2="128" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch07-svg5-arr)"/>
+<rect x="240" y="106" width="180" height="44" rx="5" style="fill:#5E81AC;" filter="url(#ch07-svg5-sh)"/>
 <text x="330" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">OS fault handler</text>
 <text x="330" y="141" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">page in memory / COW</text>
 
@@ -5422,12 +5422,12 @@ performance problems.</p>
 <text x="118" y="391" style="font-size:12px;fill:#212121;">COW copy: ~1–2 µs</text>
 
 <!-- Major fault flow -->
-<rect x="475" y="106" width="180" height="44" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="475" y="106" width="180" height="44" rx="5" style="fill:#BF616A;" filter="url(#ch07-svg5-sh)"/>
 <text x="565" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU faults (TLB miss)</text>
 <text x="565" y="141" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">Page evicted to swap</text>
 <line x1="655" y1="128" x2="685" y2="128" style="stroke:#BF616A;stroke-width:2;marker-end:none;"/>
-<rect x="685" y="106" width="190" height="44" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
-<line x1="655" y1="128" x2="683" y2="128" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr)"/>
+<rect x="685" y="106" width="190" height="44" rx="5" style="fill:#BF616A;" filter="url(#ch07-svg5-sh)"/>
+<line x1="655" y1="128" x2="683" y2="128" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch07-svg5-arr)"/>
 <text x="780" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">OS fault handler</text>
 <text x="780" y="141" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">swap_in or file read</text>
 
@@ -5438,22 +5438,22 @@ performance problems.</p>
 <rect x="475" y="194" width="120" height="36" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
 <text x="535" y="210" style="font-size:12px;font-weight:bold;fill:#7A2020;text-anchor:middle;">1. Task blocked</text>
 <text x="535" y="225" style="font-size:12px;fill:#8A4040;text-anchor:middle;">TASK_UNINTERRUPTIBLE</text>
-<line x1="597" y1="212" x2="610" y2="212" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#arr)"/>
+<line x1="597" y1="212" x2="610" y2="212" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#ch07-svg5-arr)"/>
 <rect x="610" y="194" width="120" height="36" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
 <text x="670" y="210" style="font-size:12px;font-weight:bold;fill:#7A2020;text-anchor:middle;">2. I/O submitted</text>
 <text x="670" y="225" style="font-size:12px;fill:#8A4040;text-anchor:middle;">bio / async read</text>
-<line x1="732" y1="212" x2="746" y2="212" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#arr)"/>
+<line x1="732" y1="212" x2="746" y2="212" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#ch07-svg5-arr)"/>
 <rect x="746" y="194" width="122" height="36" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
 <text x="807" y="210" style="font-size:12px;font-weight:bold;fill:#7A2020;text-anchor:middle;">3. Disk read</text>
 <text x="807" y="225" style="font-size:12px;fill:#8A4040;text-anchor:middle;">SSD: 0.1ms / HDD: 5ms</text>
 <rect x="475" y="240" width="120" height="36" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
 <text x="535" y="256" style="font-size:12px;font-weight:bold;fill:#7A2020;text-anchor:middle;">4. PTE updated</text>
 <text x="535" y="271" style="font-size:12px;fill:#8A4040;text-anchor:middle;">new PFN, clear swap</text>
-<line x1="597" y1="258" x2="610" y2="258" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#arr)"/>
+<line x1="597" y1="258" x2="610" y2="258" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#ch07-svg5-arr)"/>
 <rect x="610" y="240" width="120" height="36" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
 <text x="670" y="256" style="font-size:12px;font-weight:bold;fill:#7A2020;text-anchor:middle;">5. Task woken</text>
 <text x="670" y="271" style="font-size:12px;fill:#8A4040;text-anchor:middle;">schedule() resumes</text>
-<line x1="732" y1="258" x2="746" y2="258" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#arr)"/>
+<line x1="732" y1="258" x2="746" y2="258" style="stroke:#BF616A;stroke-width:1.5;" marker-end="url(#ch07-svg5-arr)"/>
 <rect x="746" y="240" width="122" height="36" rx="4" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:1;"/>
 <text x="807" y="256" style="font-size:12px;font-weight:bold;fill:#7A2020;text-anchor:middle;">6. Retry access</text>
 <text x="807" y="271" style="font-size:12px;fill:#8A4040;text-anchor:middle;">TLB loaded, continues</text>
@@ -6309,30 +6309,30 @@ systematically.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="530" viewBox="0 0 900 530" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg6-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg6-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg6-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch07-svg6-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch07-svg6-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
   <rect width="900" height="530" fill="#FFFFFF"/>
   <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Page Fault Handling: x86-64 vs ARM64 vs RISC-V</text>
   <text x="450" y="54" text-anchor="middle" font-size="13" fill="#616161">Architectural differences in how each ISA reports and recovers from address translation failures</text>
-  <rect x="30" y="65" width="240" height="34" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="30" y="65" width="240" height="34" rx="6" fill="#5E81AC" filter="url(#ch07-svg6-sh)"/>
   <text x="150" y="87" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">x86-64</text>
-  <rect x="330" y="65" width="240" height="34" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="330" y="65" width="240" height="34" rx="6" fill="#4A8A99" filter="url(#ch07-svg6-sh)"/>
   <text x="450" y="87" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">ARM64</text>
-  <rect x="630" y="65" width="240" height="34" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="630" y="65" width="240" height="34" rx="6" fill="#34495E" filter="url(#ch07-svg6-sh)"/>
   <text x="750" y="87" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">RISC-V</text>
   <rect x="20" y="108" width="860" height="58" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="0.5"/>
   <text x="20" y="123" text-anchor="start" font-size="12" font-weight="bold" fill="#212121">Exception name</text>
@@ -6462,7 +6462,7 @@ Responsibility</h3>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch07-svg7-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -7469,7 +7469,7 @@ performance issues related to page faults.</p></li>
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -7907,7 +7907,7 @@ performance issues related to page faults.</p></li>
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

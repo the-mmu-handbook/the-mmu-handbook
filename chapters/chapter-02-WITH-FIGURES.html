@@ -743,11 +743,11 @@ hardware with limited physical RAM.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
-    <marker id="arr-o" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
+    <marker id="ch02-svg1-arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
+    <marker id="ch02-svg1-arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch02-svg1-arr-t" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <marker id="ch02-svg1-arr-o" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="ch02-svg1-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
   </defs>
   <rect width="900" height="580" fill="#fff"/>
 
@@ -760,7 +760,7 @@ hardware with limited physical RAM.</p>
   <text x="275" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Virtual Address Spaces (Each Process: up to 128 TB on x86-64)</text>
 
   <!-- Process A -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg1-sh)">
     <rect x="55" y="100" width="130" height="200" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="120" y="120" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Chrome</text>
@@ -778,7 +778,7 @@ hardware with limited physical RAM.</p>
   <text x="120" y="290" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">needed</text>
 
   <!-- Process B -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg1-sh)">
     <rect x="210" y="100" width="130" height="130" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="275" y="120" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">IDE</text>
@@ -791,7 +791,7 @@ hardware with limited physical RAM.</p>
   <text x="275" y="222" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#DDEAF5" text-anchor="middle">3 GB virtual</text>
 
   <!-- Process C -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg1-sh)">
     <rect x="365" y="100" width="130" height="160" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="430" y="120" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">Database</text>
@@ -895,19 +895,19 @@ physical memory only when they’re accessed, not when the program starts
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650">
   <defs>
-    <marker id="arrow-dark" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg2-arrow-dark" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#212121"/>
     </marker>
-    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg2-arrow-blue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg2-arrow-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#BF616A"/>
     </marker>
-    <marker id="arrow-teal" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg2-arrow-teal" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#4A8A99"/>
     </marker>
-    <filter id="shadow">
+    <filter id="ch02-svg2-shadow">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -919,28 +919,28 @@ physical memory only when they’re accessed, not when the program starts
   <text x="30" y="38" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold" fill="#212121">Demand Paging: Page Fault Handling Flow</text>
 
   <!-- Step 1: CPU Memory Access -->
-  <g id="step1" filter="url(#shadow)">
+  <g id="ch02-svg2-step1" filter="url(#ch02-svg2-shadow)">
     <rect x="330" y="65" width="240" height="52" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
     <text x="450" y="87" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle" font-weight="bold">CPU Issues</text>
     <text x="450" y="107" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle">Virtual Memory Access</text>
   </g>
 
   <!-- Arrow down -->
-  <line x1="450" y1="117" x2="450" y2="145" stroke="#212121" stroke-width="2" marker-end="url(#arrow-dark)"/>
+  <line x1="450" y1="117" x2="450" y2="145" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg2-arrow-dark)"/>
 
   <!-- Step 2: TLB Lookup Diamond -->
-  <g id="step2">
+  <g id="ch02-svg2-step2">
     <polygon points="450,148 560,188 450,228 340,188" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2"/>
     <text x="450" y="183" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#212121" text-anchor="middle" font-weight="bold">TLB Lookup</text>
     <text x="450" y="201" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#616161" text-anchor="middle">Translation cached?</text>
   </g>
 
   <!-- TLB Hit branch — right -->
-  <line x1="560" y1="188" x2="650" y2="188" stroke="#4A8A99" stroke-width="2" marker-end="url(#arrow-teal)"/>
+  <line x1="560" y1="188" x2="650" y2="188" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch02-svg2-arrow-teal)"/>
   <text x="600" y="180" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#4A8A99" text-anchor="middle" font-weight="bold">HIT</text>
 
   <!-- TLB Hit result box -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg2-shadow)">
     <rect x="650" y="162" width="200" height="52" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
     <text x="750" y="184" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Physical Address</text>
     <text x="750" y="204" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle">→ Memory Access ✓</text>
@@ -948,30 +948,30 @@ physical memory only when they’re accessed, not when the program starts
   <text x="760" y="230" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#616161" text-anchor="middle">~1–5 cycles</text>
 
   <!-- TLB Miss branch — down -->
-  <line x1="450" y1="228" x2="450" y2="256" stroke="#BF616A" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <line x1="450" y1="228" x2="450" y2="256" stroke="#BF616A" stroke-width="2" marker-end="url(#ch02-svg2-arrow-orange)"/>
   <text x="465" y="248" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#BF616A" font-weight="bold">MISS</text>
 
   <!-- Step 3: Page Table Walk -->
-  <g id="step3" filter="url(#shadow)">
+  <g id="ch02-svg2-step3" filter="url(#ch02-svg2-shadow)">
     <rect x="330" y="258" width="240" height="52" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
     <text x="450" y="280" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Page Table Walk</text>
     <text x="450" y="300" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#BDBDBD" text-anchor="middle">(MMU walks PT levels)</text>
   </g>
 
   <!-- Arrow down -->
-  <line x1="450" y1="310" x2="450" y2="338" stroke="#212121" stroke-width="2" marker-end="url(#arrow-dark)"/>
+  <line x1="450" y1="310" x2="450" y2="338" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg2-arrow-dark)"/>
 
   <!-- Step 4: Page Present Diamond -->
-  <g id="step4">
+  <g id="ch02-svg2-step4">
     <polygon points="450,341 560,381 450,421 340,381" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2"/>
     <text x="450" y="376" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#212121" text-anchor="middle" font-weight="bold">Page Present</text>
     <text x="450" y="394" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#616161" text-anchor="middle">in Physical RAM?</text>
   </g>
 
   <!-- Present YES — right -->
-  <line x1="560" y1="381" x2="650" y2="381" stroke="#4A8A99" stroke-width="2" marker-end="url(#arrow-teal)"/>
+  <line x1="560" y1="381" x2="650" y2="381" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch02-svg2-arrow-teal)"/>
   <text x="602" y="373" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#4A8A99" font-weight="bold">YES</text>
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg2-shadow)">
     <rect x="650" y="355" width="200" height="52" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
     <text x="750" y="377" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Update TLB</text>
     <text x="750" y="397" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle">→ Retry Access ✓</text>
@@ -979,7 +979,7 @@ physical memory only when they’re accessed, not when the program starts
   <text x="755" y="422" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#616161" text-anchor="middle">~100–300 cycles</text>
 
   <!-- Present NO — down (PAGE FAULT) -->
-  <line x1="450" y1="421" x2="450" y2="449" stroke="#BF616A" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <line x1="450" y1="421" x2="450" y2="449" stroke="#BF616A" stroke-width="2" marker-end="url(#ch02-svg2-arrow-orange)"/>
   <text x="468" y="440" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#BF616A" font-weight="bold">NO — PAGE FAULT</text>
 
   <!-- PAGE FAULT REGION background -->
@@ -987,34 +987,34 @@ physical memory only when they’re accessed, not when the program starts
   <text x="70" y="475" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#BF616A" font-weight="bold">OS Page Fault Handler</text>
 
   <!-- Step 5: Save context -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg2-shadow)">
     <rect x="70" y="482" width="160" height="52" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
     <text x="150" y="504" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">① Save CPU</text>
     <text x="150" y="522" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle">Context / Registers</text>
   </g>
 
-  <line x1="230" y1="508" x2="258" y2="508" stroke="#212121" stroke-width="2" marker-end="url(#arrow-dark)"/>
+  <line x1="230" y1="508" x2="258" y2="508" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg2-arrow-dark)"/>
 
   <!-- Step 6: Select victim page -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg2-shadow)">
     <rect x="260" y="482" width="160" height="52" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
     <text x="340" y="504" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">② Select Victim</text>
     <text x="340" y="522" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle">Page (if mem full)</text>
   </g>
 
-  <line x1="420" y1="508" x2="448" y2="508" stroke="#212121" stroke-width="2" marker-end="url(#arrow-dark)"/>
+  <line x1="420" y1="508" x2="448" y2="508" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg2-arrow-dark)"/>
 
   <!-- Step 7: Load page from disk -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg2-shadow)">
     <rect x="450" y="482" width="160" height="52" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
     <text x="530" y="504" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">③ Load Page</text>
     <text x="530" y="522" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle">from Disk/Swap</text>
   </g>
 
-  <line x1="610" y1="508" x2="638" y2="508" stroke="#212121" stroke-width="2" marker-end="url(#arrow-dark)"/>
+  <line x1="610" y1="508" x2="638" y2="508" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg2-arrow-dark)"/>
 
   <!-- Step 8: Update PT and resume -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg2-shadow)">
     <rect x="640" y="482" width="175" height="52" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
     <text x="727" y="504" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">④ Update PT &amp; TLB</text>
     <text x="727" y="522" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle">→ Resume Process</text>
@@ -1175,10 +1175,10 @@ problem</strong> [Belady, 1966].</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650">
   <defs>
-    <marker id="arrow-dark" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg3-arrow-dark" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#212121"/>
     </marker>
-    <filter id="shadow">
+    <filter id="ch02-svg3-shadow">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -1487,7 +1487,7 @@ problem</strong> [Belady, 1966].</p>
 
   <!-- Clock diagram showing circular structure with 3 frames -->
   <!-- Draw the clock circle conceptually with 3 positions -->
-  <g id="clock-diagram" transform="translate(180, 560)">
+  <g id="ch02-svg3-clock-diagram" transform="translate(180, 560)">
     <!-- Clock circle background -->
     <circle cx="0" cy="0" r="55" fill="none" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3"/>
 
@@ -1751,10 +1751,10 @@ Working Set Model</h2>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="arr-o" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
+    <marker id="ch02-svg4-arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
+    <marker id="ch02-svg4-arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch02-svg4-arr-o" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="ch02-svg4-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
   </defs>
   <rect width="900" height="620" fill="#fff"/>
 
@@ -1765,8 +1765,8 @@ Working Set Model</h2>
   <text x="240" y="74" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#5E81AC" text-anchor="middle">CPU Utilization vs. Degree of Multiprogramming</text>
 
   <!-- Axes -->
-  <line x1="70" y1="280" x2="420" y2="280" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="70" y1="280" x2="70" y2="90" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="70" y1="280" x2="420" y2="280" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
+  <line x1="70" y1="280" x2="70" y2="90" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
   <text x="240" y="300" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">Number of Active Processes →</text>
   <text x="30" y="195" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle" transform="rotate(-90,30,195)">CPU Utilization %</text>
 
@@ -1811,48 +1811,48 @@ Working Set Model</h2>
   <!-- Node positions: top=670,100 | top-right=755,130 | right=775,185 | bottom-right=730,250 | bottom=640,265 | left=560,185 | top-left=575,125 -->
 
   <!-- Node 1: Too many processes -->
-  <rect x="595" y="90" width="150" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="595" y="90" width="150" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg4-sh)"/>
   <text x="670" y="111" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">Too many processes</text>
 
   <!-- Arrow 1→2 -->
-  <path d="M 720 116 Q 790 130 780 155" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 720 116 Q 790 130 780 155" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
 
   <!-- Node 2: Too few frames each -->
-  <rect x="738" y="155" width="140" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="738" y="155" width="140" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg4-sh)"/>
   <text x="808" y="176" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">Too few frames each</text>
 
   <!-- Arrow 2→3 -->
-  <path d="M 775 190 Q 790 220 755 235" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 775 190 Q 790 220 755 235" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
 
   <!-- Node 3: Frequent page faults -->
-  <rect x="660" y="233" width="150" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="660" y="233" width="150" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg4-sh)"/>
   <text x="735" y="254" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">Frequent page faults</text>
 
   <!-- Arrow 3→4 -->
-  <path d="M 660 258 Q 625 268 605 255" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 660 258 Q 625 268 605 255" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
 
   <!-- Node 4: Disk I/O saturated -->
-  <rect x="480" y="233" width="128" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="480" y="233" width="128" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg4-sh)"/>
   <text x="544" y="254" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">Disk I/O saturated</text>
 
   <!-- Arrow 4→5 -->
-  <path d="M 484 233 Q 468 205 480 185" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 484 233 Q 468 205 480 185" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
 
   <!-- Node 5: CPU waits for I/O -->
-  <rect x="476" y="155" width="135" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="476" y="155" width="135" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg4-sh)"/>
   <text x="543" y="176" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="bold">CPU idles waiting I/O</text>
 
   <!-- Arrow 5→6 -->
-  <path d="M 540 155 Q 540 130 575 118" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <path d="M 540 155 Q 540 130 575 118" fill="none" stroke="#212121" stroke-width="2" marker-end="url(#ch02-svg4-arr)"/>
 
   <!-- Node 6: OS adds more processes (the bad decision) -->
   <!-- wraps back to node 1 — shown with special label -->
-  <rect x="600" y="155" width="135" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="600" y="155" width="135" height="32" rx="16" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg4-sh)"/>
   <text x="667" y="169" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle" font-weight="bold">OS: low CPU util →</text>
   <text x="667" y="183" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle" font-weight="bold">add MORE processes!</text>
 
   <!-- Arrow 6 back to 1 -->
-  <path d="M 670 155 Q 670 130 665 122" fill="none" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#arr-o)"/>
+  <path d="M 670 155 Q 670 130 665 122" fill="none" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#ch02-svg4-arr-o)"/>
 
   <!-- OOM/solution callout -->
   <rect x="476" y="290" width="395" height="26" rx="5" fill="#F5F5F5" stroke="#BF616A" stroke-width="1"/>
@@ -1934,8 +1934,8 @@ Working Set Model</h2>
   <rect x="610" y="435" width="245" height="80" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
   <text x="732" y="453" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Working Set Size Over Time</text>
   <!-- Mini axes -->
-  <line x1="630" y1="505" x2="843" y2="505" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr)"/>
-  <line x1="630" y1="505" x2="630" y2="460" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="630" y1="505" x2="843" y2="505" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#ch02-svg4-arr)"/>
+  <line x1="630" y1="505" x2="630" y2="460" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#ch02-svg4-arr)"/>
   <!-- Phases: init(large), steady(small), phase-change(spike), new-steady(medium) -->
   <polyline points="630,490 660,480 680,468 690,462 720,470 740,475 755,462 770,468 790,475 830,472" fill="none" stroke="#BF616A" stroke-width="2.5"/>
   <text x="645" y="519" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161">Init</text>
@@ -2110,19 +2110,19 @@ a new program</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
   <defs>
-    <marker id="arrow-dark" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg5-arrow-dark" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#212121"/>
     </marker>
-    <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg5-arrow-orange" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#BF616A"/>
     </marker>
-    <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg5-arrow-blue" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arrow-teal" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+    <marker id="ch02-svg5-arrow-teal" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#4A8A99"/>
     </marker>
-    <filter id="shadow">
+    <filter id="ch02-svg5-shadow">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -2138,7 +2138,7 @@ a new program</p>
   <text x="225" y="79" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">BEFORE fork() — Single Process</text>
 
   <!-- Parent Process -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg5-shadow)">
     <rect x="60" y="105" width="140" height="60" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
     <text x="130" y="131" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Parent Process</text>
     <text x="130" y="151" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#BDBDBD" text-anchor="middle">Virtual Address Space</text>
@@ -2156,9 +2156,9 @@ a new program</p>
   </g>
 
   <!-- Arrows to physical pages -->
-  <line x1="190" y1="206" x2="245" y2="222" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="190" y1="240" x2="245" y2="318" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="190" y1="274" x2="245" y2="414" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <line x1="190" y1="206" x2="245" y2="222" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-blue)"/>
+  <line x1="190" y1="240" x2="245" y2="318" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-blue)"/>
+  <line x1="190" y1="274" x2="245" y2="414" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-blue)"/>
 
   <!-- Physical Memory frames -->
   <text x="248" y="205" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#616161" font-weight="bold">Physical RAM:</text>
@@ -2174,8 +2174,8 @@ a new program</p>
   <text x="225" y="490" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#616161" text-anchor="middle">All pages writable. One copy in RAM.</text>
 
   <!-- ===== DIVIDER / FORK EVENT ===== -->
-  <g id="fork-event" transform="translate(450,285)">
-    <rect x="-30" y="-36" width="60" height="72" rx="30" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#shadow)"/>
+  <g id="ch02-svg5-fork-event" transform="translate(450,285)">
+    <rect x="-30" y="-36" width="60" height="72" rx="30" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg5-shadow)"/>
     <text x="0" y="-12" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">fork()</text>
     <text x="0" y="8" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle">shallow</text>
     <text x="0" y="23" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle">copy →</text>
@@ -2188,14 +2188,14 @@ a new program</p>
   <text x="680" y="79" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">AFTER fork() — Child Writes to Heap</text>
 
   <!-- Parent box -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg5-shadow)">
     <rect x="495" y="100" width="120" height="50" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
     <text x="555" y="122" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Parent</text>
     <text x="555" y="140" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">read-only map</text>
   </g>
 
   <!-- Child box -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch02-svg5-shadow)">
     <rect x="755" y="100" width="110" height="50" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
     <text x="810" y="122" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Child</text>
     <text x="810" y="140" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">write triggers COW</text>
@@ -2229,16 +2229,16 @@ a new program</p>
   <text x="795" y="450" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#BF616A" text-anchor="middle" font-weight="bold">Child R/W</text>
 
   <!-- Arrow: Parent → shared frames -->
-  <line x1="555" y1="150" x2="610" y2="210" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="555" y1="150" x2="610" y2="302" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="555" y1="150" x2="610" y2="394" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <line x1="555" y1="150" x2="610" y2="210" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-blue)"/>
+  <line x1="555" y1="150" x2="610" y2="302" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-blue)"/>
+  <line x1="555" y1="150" x2="610" y2="394" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-blue)"/>
 
   <!-- Arrow: Child → shared frames -->
-  <line x1="810" y1="150" x2="757" y2="210" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arrow-teal)"/>
-  <line x1="810" y1="150" x2="757" y2="302" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arrow-teal)"/>
+  <line x1="810" y1="150" x2="757" y2="210" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-teal)"/>
+  <line x1="810" y1="150" x2="757" y2="302" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch02-svg5-arrow-teal)"/>
 
   <!-- Arrow: Child → COW copy of heap (orange — write fault triggered) -->
-  <line x1="810" y1="150" x2="757" y2="442" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow-orange)"/>
+  <line x1="810" y1="150" x2="757" y2="442" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#ch02-svg5-arrow-orange)"/>
   <text x="845" y="295" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#BF616A" text-anchor="middle" font-weight="bold">Write</text>
   <text x="845" y="310" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#BF616A" text-anchor="middle" font-weight="bold">fault!</text>
   <text x="845" y="325" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#BF616A" text-anchor="middle" font-weight="bold">→ COW</text>
@@ -2370,10 +2370,10 @@ I/O vs. Memory Mapping</h3>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
+    <marker id="ch02-svg6-arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
+    <marker id="ch02-svg6-arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch02-svg6-arr-t" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <filter id="ch02-svg6-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
   </defs>
   <rect width="900" height="560" fill="#fff"/>
 
@@ -2386,38 +2386,38 @@ I/O vs. Memory Mapping</h3>
 
   <!-- Layers: App Buffer → Kernel Buffer → Disk -->
   <!-- Disk -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="135" y="95" width="190" height="50" rx="6" fill="#616161" stroke="#424242" stroke-width="2"/>
   </g>
   <text x="230" y="116" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">💾  Disk / Storage</text>
   <text x="230" y="135" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BDBDBD" text-anchor="middle">file data at rest</text>
 
   <!-- Arrow: disk → kernel -->
-  <line x1="230" y1="145" x2="230" y2="178" stroke="#212121" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="230" y1="145" x2="230" y2="178" stroke="#212121" stroke-width="2.5" marker-end="url(#ch02-svg6-arr)"/>
   <text x="275" y="166" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" font-weight="bold">① read()</text>
   <text x="275" y="180" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161">DMA transfer</text>
 
   <!-- Kernel Page Cache / Buffer -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="95" y="182" width="270" height="55" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="230" y="205" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Kernel Page Cache</text>
   <text x="230" y="225" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BDBDBD" text-anchor="middle">(buffer in kernel address space)</text>
 
   <!-- Arrow: kernel → user -->
-  <line x1="230" y1="237" x2="230" y2="270" stroke="#212121" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="230" y1="237" x2="230" y2="270" stroke="#212121" stroke-width="2.5" marker-end="url(#ch02-svg6-arr)"/>
   <text x="275" y="257" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" font-weight="bold">② copy_to_user()</text>
   <text x="275" y="271" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161">memcpy: kernel→user</text>
 
   <!-- User buffer -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="95" y="274" width="270" height="55" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="230" y="297" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">User Application Buffer</text>
   <text x="230" y="317" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#CCE8EC" text-anchor="middle">char buffer[4096] on stack/heap</text>
 
   <!-- CPU processes data -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="135" y="348" width="190" height="40" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="230" y="369" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">③ CPU processes buffer</text>
@@ -2433,19 +2433,19 @@ I/O vs. Memory Mapping</h3>
   <text x="665" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Memory-Mapped I/O — Zero-Copy Path</text>
 
   <!-- Disk -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="570" y="95" width="190" height="50" rx="6" fill="#616161" stroke="#424242" stroke-width="2"/>
   </g>
   <text x="665" y="116" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">💾  Disk / Storage</text>
   <text x="665" y="135" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BDBDBD" text-anchor="middle">file data at rest</text>
 
   <!-- Arrow: disk → kernel page cache -->
-  <line x1="665" y1="145" x2="665" y2="178" stroke="#212121" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="665" y1="145" x2="665" y2="178" stroke="#212121" stroke-width="2.5" marker-end="url(#ch02-svg6-arr)"/>
   <text x="710" y="166" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" font-weight="bold">① page fault</text>
   <text x="710" y="180" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161">DMA on demand</text>
 
   <!-- Kernel Page Cache = shared directly -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="520" y="182" width="290" height="120" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="665" y="208" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Kernel Page Cache</text>
@@ -2456,11 +2456,11 @@ I/O vs. Memory Mapping</h3>
   <text x="665" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">② OS maps pages into process VA space</text>
 
   <!-- Direct access annotation - no arrow down needed -->
-  <line x1="665" y1="302" x2="665" y2="330" stroke="#4A8A99" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#arr-t)"/>
+  <line x1="665" y1="302" x2="665" y2="330" stroke="#4A8A99" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ch02-svg6-arr-t)"/>
   <text x="720" y="320" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#4A8A99" font-weight="bold">ZERO COPY</text>
 
   <!-- User access -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg6-sh)">
     <rect x="520" y="333" width="290" height="45" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="665" y="352" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">③ ptr[offset] — direct access</text>
@@ -2476,23 +2476,23 @@ I/O vs. Memory Mapping</h3>
   <text x="450" y="476" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#5E81AC" text-anchor="middle">Bonus: Inter-Process Shared Memory via mmap(MAP_SHARED)</text>
 
   <!-- Process A -->
-  <rect x="55" y="486" width="120" height="48" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="55" y="486" width="120" height="48" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch02-svg6-sh)"/>
   <text x="115" y="505" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Process A</text>
   <text x="115" y="522" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">ptr_a[0] = 42</text>
 
   <!-- Arrow A → shared frames -->
-  <line x1="175" y1="510" x2="318" y2="510" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="175" y1="510" x2="318" y2="510" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch02-svg6-arr-b)"/>
 
   <!-- Shared physical frames -->
-  <rect x="320" y="486" width="220" height="48" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <rect x="320" y="486" width="220" height="48" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2" filter="url(#ch02-svg6-sh)"/>
   <text x="430" y="505" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Shared Physical Frames</text>
   <text x="430" y="522" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">(Kernel Page Cache)</text>
 
   <!-- Arrow shared frames → B -->
-  <line x1="540" y1="510" x2="718" y2="510" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="540" y1="510" x2="718" y2="510" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch02-svg6-arr-b)"/>
 
   <!-- Process B -->
-  <rect x="720" y="486" width="130" height="48" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="720" y="486" width="130" height="48" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch02-svg6-sh)"/>
   <text x="785" y="505" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Process B</text>
   <text x="785" y="522" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">ptr_b[0] → 42 ✓</text>
 </svg>
@@ -2576,11 +2576,11 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
-    <marker id="arr-o" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
+    <marker id="ch02-svg7-arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#212121"/></marker>
+    <marker id="ch02-svg7-arr-b" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch02-svg7-arr-t" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <marker id="ch02-svg7-arr-o" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="ch02-svg7-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.18)"/></filter>
   </defs>
   <rect width="900" height="600" fill="#fff"/>
 
@@ -2592,7 +2592,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="232" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">Standard 4 KB Pages — 1 GB Region</text>
 
   <!-- TLB box — small, overflowing -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg7-sh)">
     <rect x="55" y="96" width="160" height="200" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="135" y="116" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">TLB</text>
@@ -2631,7 +2631,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="665" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">2 MB Huge Pages — Same 1 GB Region</text>
 
   <!-- TLB box — comfortable fit -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg7-sh)">
     <rect x="480" y="96" width="160" height="185" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="560" y="116" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">TLB (L2)</text>
@@ -2673,7 +2673,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="230" y="403" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#5E81AC" text-anchor="middle">NUMA Node 0</text>
 
   <!-- CPU 0 cores -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg7-sh)">
     <rect x="70" y="412" width="140" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="140" y="432" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">CPU Socket 0</text>
@@ -2684,7 +2684,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="140" y="484" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">L3 Cache: 32 MB</text>
 
   <!-- Local Memory 0 -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg7-sh)">
     <rect x="230" y="412" width="155" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="307" y="432" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Local Memory 0</text>
@@ -2693,7 +2693,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="307" y="475" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Latency: ~70 ns ✓</text>
 
   <!-- Local access arrow -->
-  <line x1="210" y1="452" x2="228" y2="452" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#arr-t)"/>
+  <line x1="210" y1="452" x2="228" y2="452" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#ch02-svg7-arr-t)"/>
   <text x="218" y="446" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#4A8A99" text-anchor="middle">fast</text>
 
   <!-- Interconnect annotation -->
@@ -2702,13 +2702,13 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="227" y="540" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">numa_alloc_local() → always use node-local RAM</text>
 
   <!-- QPI / UPI Interconnect in center -->
-  <rect x="415" y="430" width="70" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="415" y="430" width="70" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch02-svg7-sh)"/>
   <text x="450" y="450" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">QPI /</text>
   <text x="450" y="466" font-family="Arial,Helvetica,sans-serif" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">UPI</text>
   <text x="450" y="482" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#DDEAF5" text-anchor="middle">Link</text>
   <!-- Arrows through interconnect -->
-  <line x1="405" y1="460" x2="368" y2="460" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#arr-o)"/>
-  <line x1="485" y1="460" x2="495" y2="460" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#arr-o)"/>
+  <line x1="405" y1="460" x2="368" y2="460" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#ch02-svg7-arr-o)"/>
+  <line x1="485" y1="460" x2="495" y2="460" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#ch02-svg7-arr-o)"/>
 
   <!-- Latency label on interconnect -->
   <text x="450" y="510" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" font-weight="bold" text-anchor="middle">~140 ns</text>
@@ -2719,7 +2719,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="670" y="403" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#5E81AC" text-anchor="middle">NUMA Node 1</text>
 
   <!-- CPU 1 cores -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg7-sh)">
     <rect x="510" y="412" width="140" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="580" y="432" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">CPU Socket 1</text>
@@ -2730,7 +2730,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="580" y="484" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#BDBDBD" text-anchor="middle">L3 Cache: 32 MB</text>
 
   <!-- Local Memory 1 -->
-  <g filter="url(#sh)">
+  <g filter="url(#ch02-svg7-sh)">
     <rect x="665" y="412" width="155" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="742" y="432" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Local Memory 1</text>
@@ -2739,7 +2739,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href=
   <text x="742" y="475" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Latency: ~70 ns ✓</text>
 
   <!-- Local access arrow -->
-  <line x1="647" y1="452" x2="663" y2="452" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#arr-t)"/>
+  <line x1="647" y1="452" x2="663" y2="452" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#ch02-svg7-arr-t)"/>
   <text x="655" y="446" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#4A8A99" text-anchor="middle">fast</text>
 
   <!-- Node 1 note -->
@@ -3383,7 +3383,7 @@ Hardware implementation of address translation.</em></p>
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -3821,7 +3821,7 @@ Hardware implementation of address translation.</em></p>
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

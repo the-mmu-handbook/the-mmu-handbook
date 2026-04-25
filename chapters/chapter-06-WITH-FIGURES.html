@@ -1590,59 +1590,59 @@ uint64_t make_execute_only_pte(uint64_t phys_addr) {
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg1-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg1-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg1-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg1-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch06-svg1-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
   <rect width="900" height="600" fill="#FFFFFF"/>
   <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">NX / SMEP / SMAP / PAN Enforcement: Memory Access Decision Flow</text>
   <text x="450" y="54" text-anchor="middle" font-size="13" fill="#616161">CPU checks these mechanisms on every access, before TLB lookup. Any failure → hardware fault.</text>
-  <rect x="335" y="68" width="230" height="40" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="335" y="68" width="230" height="40" rx="6" fill="#5E81AC" filter="url(#ch06-svg1-sh)"/>
   <text x="450" y="91" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Memory Access Request</text>
-  <line x1="450" y1="108" x2="450" y2="133" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr-b)"/>
-  <polygon points="450,135 600,180 450,225 300,180" fill="#5E81AC" filter="url(#sh)"/>
+  <line x1="450" y1="108" x2="450" y2="133" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch06-svg1-arr-b)"/>
+  <polygon points="450,135 600,180 450,225 300,180" fill="#5E81AC" filter="url(#ch06-svg1-sh)"/>
   <text x="450" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">NX bit set?</text>
   <text x="450" y="194" text-anchor="middle" font-size="11" fill="#DDEAF5">Execute to non-exec page?</text>
-  <line x1="600" y1="180" x2="735" y2="180" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-r)"/>
+  <line x1="600" y1="180" x2="735" y2="180" stroke="#BF616A" stroke-width="2" marker-end="url(#ch06-svg1-arr-r)"/>
   <text x="667" y="173" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF616A">YES</text>
-  <rect x="735" y="158" width="148" height="44" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="735" y="158" width="148" height="44" rx="6" fill="#BF616A" filter="url(#ch06-svg1-sh)"/>
   <text x="809" y="176" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">#PF / Inst.Abort</text>
   <text x="809" y="193" text-anchor="middle" font-size="11" fill="#FFFFFF">NX violation</text>
-  <line x1="450" y1="225" x2="450" y2="258" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="450" y1="225" x2="450" y2="258" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch06-svg1-arr-b)"/>
   <text x="462" y="246" text-anchor="start" font-size="12" font-weight="normal" fill="#5E81AC">NO</text>
-  <polygon points="450,270 600,315 450,360 300,315" fill="#4A8A99" filter="url(#sh)"/>
+  <polygon points="450,270 600,315 450,360 300,315" fill="#4A8A99" filter="url(#ch06-svg1-sh)"/>
   <text x="450" y="311" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Kernel exec user page?</text>
   <text x="450" y="329" text-anchor="middle" font-size="11" fill="#CCE8EC">SMEP check</text>
-  <line x1="600" y1="315" x2="735" y2="315" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-r)"/>
+  <line x1="600" y1="315" x2="735" y2="315" stroke="#BF616A" stroke-width="2" marker-end="url(#ch06-svg1-arr-r)"/>
   <text x="667" y="308" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF616A">YES</text>
-  <rect x="735" y="293" width="148" height="44" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="735" y="293" width="148" height="44" rx="6" fill="#BF616A" filter="url(#ch06-svg1-sh)"/>
   <text x="809" y="311" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">#PF (SMEP)</text>
   <text x="809" y="328" text-anchor="middle" font-size="11" fill="#FFFFFF">CR4.SMEP=1</text>
-  <line x1="450" y1="360" x2="450" y2="393" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr-t)"/>
+  <line x1="450" y1="360" x2="450" y2="393" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch06-svg1-arr-t)"/>
   <text x="462" y="382" text-anchor="start" font-size="12" font-weight="normal" fill="#4A8A99">NO</text>
-  <polygon points="450,405 600,450 450,495 300,450" fill="#34495E" filter="url(#sh)"/>
+  <polygon points="450,405 600,450 450,495 300,450" fill="#34495E" filter="url(#ch06-svg1-sh)"/>
   <text x="450" y="446" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Kernel R/W user page?</text>
   <text x="450" y="464" text-anchor="middle" font-size="11" fill="#B0BEC5">SMAP / PAN check</text>
-  <line x1="600" y1="450" x2="735" y2="450" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-r)"/>
+  <line x1="600" y1="450" x2="735" y2="450" stroke="#BF616A" stroke-width="2" marker-end="url(#ch06-svg1-arr-r)"/>
   <text x="667" y="443" text-anchor="middle" font-size="12" font-weight="bold" fill="#BF616A">YES</text>
-  <rect x="735" y="428" width="148" height="44" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <rect x="735" y="428" width="148" height="44" rx="6" fill="#BF616A" filter="url(#ch06-svg1-sh)"/>
   <text x="809" y="446" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">#PF (SMAP)</text>
   <text x="809" y="463" text-anchor="middle" font-size="11" fill="#FFFFFF">unless EFLAGS.AC=1</text>
-  <line x1="450" y1="495" x2="450" y2="520" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr-b)"/>
+  <line x1="450" y1="495" x2="450" y2="520" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch06-svg1-arr-b)"/>
   <text x="462" y="512" text-anchor="start" font-size="12" font-weight="normal" fill="#5E81AC">NO</text>
-  <rect x="335" y="520" width="230" height="44" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="335" y="520" width="230" height="44" rx="6" fill="#4A8A99" filter="url(#ch06-svg1-sh)"/>
   <text x="450" y="538" text-anchor="middle" font-size="15" font-weight="bold" fill="#FFFFFF">✓ Access Permitted</text>
   <text x="450" y="555" text-anchor="middle" font-size="12" fill="#CCE8EC">TLB lookup proceeds</text>
   <rect x="20" y="370" width="210" height="160" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -2031,7 +2031,7 @@ void benchmark_nx_overhead(void) {
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <filter id="ch06-svg2-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Privilege Level Architecture: x86-64 · ARM64 · RISC-V</text>
@@ -2040,7 +2040,7 @@ void benchmark_nx_overhead(void) {
   <text x="150" y="70" text-anchor="middle" font-size="16" font-weight="bold" fill="#5E81AC">x86-64 Protection Rings</text>
 
   <!-- Ring 0 innermost -->
-  <circle cx="150" cy="290" r="95" fill="#5E81AC" filter="url(#sh)"/>
+  <circle cx="150" cy="290" r="95" fill="#5E81AC" filter="url(#ch06-svg2-sh)"/>
   <text x="150" y="268" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Ring 0</text>
   <text x="150" y="286" text-anchor="middle" font-size="12" fill="white">Kernel</text>
   <text x="150" y="303" text-anchor="middle" font-size="11" fill="white">Full access</text>
@@ -2062,19 +2062,19 @@ void benchmark_nx_overhead(void) {
   <text x="450" y="70" text-anchor="middle" font-size="16" font-weight="bold" fill="#5E81AC">ARM64 Exception Levels</text>
 
   <!-- Stacked levels -->
-  <g filter="url(#sh)"><rect x="350" y="90" width="200" height="46" rx="6" fill="#9E9E9E"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="350" y="90" width="200" height="46" rx="6" fill="#9E9E9E"/></g>
   <text x="450" y="111" text-anchor="middle" font-size="14" font-weight="bold" fill="white">EL3 — Secure Monitor</text>
   <text x="450" y="128" text-anchor="middle" font-size="12" fill="white">TrustZone / firmware</text>
 
-  <g filter="url(#sh)"><rect x="350" y="148" width="200" height="46" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="350" y="148" width="200" height="46" rx="6" fill="#BF616A"/></g>
   <text x="450" y="169" text-anchor="middle" font-size="14" font-weight="bold" fill="white">EL2 — Hypervisor</text>
   <text x="450" y="186" text-anchor="middle" font-size="12" fill="white">VM host, stage-2 tables</text>
 
-  <g filter="url(#sh)"><rect x="350" y="206" width="200" height="46" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="350" y="206" width="200" height="46" rx="6" fill="#5E81AC"/></g>
   <text x="450" y="227" text-anchor="middle" font-size="14" font-weight="bold" fill="white">EL1 — OS Kernel</text>
   <text x="450" y="244" text-anchor="middle" font-size="12" fill="white">TTBR0/1, stage-1 tables</text>
 
-  <g filter="url(#sh)"><rect x="350" y="264" width="200" height="46" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="350" y="264" width="200" height="46" rx="6" fill="#4A8A99"/></g>
   <text x="450" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="white">EL0 — User Space</text>
   <text x="450" y="302" text-anchor="middle" font-size="12" fill="white">Apps, restricted access</text>
 
@@ -2090,19 +2090,19 @@ void benchmark_nx_overhead(void) {
   <!-- RISC-V Privilege Modes -->
   <text x="760" y="70" text-anchor="middle" font-size="16" font-weight="bold" fill="#5E81AC">RISC-V Privilege Modes</text>
 
-  <g filter="url(#sh)"><rect x="660" y="90" width="200" height="46" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="660" y="90" width="200" height="46" rx="6" fill="#BF616A"/></g>
   <text x="760" y="111" text-anchor="middle" font-size="14" font-weight="bold" fill="white">M-mode (Machine)</text>
   <text x="760" y="128" text-anchor="middle" font-size="12" fill="white">Firmware / bare metal</text>
 
-  <g filter="url(#sh)"><rect x="660" y="148" width="200" height="46" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="660" y="148" width="200" height="46" rx="6" fill="#5E81AC"/></g>
   <text x="760" y="169" text-anchor="middle" font-size="14" font-weight="bold" fill="white">HS-mode (Hypervisor)</text>
   <text x="760" y="186" text-anchor="middle" font-size="12" fill="white">G-stage tables (H ext.)</text>
 
-  <g filter="url(#sh)"><rect x="660" y="206" width="200" height="46" rx="6" fill="#5E81AC" fill-opacity="0.75"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="660" y="206" width="200" height="46" rx="6" fill="#5E81AC" fill-opacity="0.75"/></g>
   <text x="760" y="227" text-anchor="middle" font-size="14" font-weight="bold" fill="white">S-mode (Supervisor)</text>
   <text x="760" y="244" text-anchor="middle" font-size="12" fill="white">OS kernel, satp register</text>
 
-  <g filter="url(#sh)"><rect x="660" y="264" width="200" height="46" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch06-svg2-sh)"><rect x="660" y="264" width="200" height="46" rx="6" fill="#4A8A99"/></g>
   <text x="760" y="285" text-anchor="middle" font-size="14" font-weight="bold" fill="white">U-mode (User)</text>
   <text x="760" y="302" text-anchor="middle" font-size="12" fill="white">Applications</text>
 
@@ -2752,9 +2752,9 @@ Kernel Space (Upper Half):
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="ch06-svg3-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch06-svg3-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch06-svg3-ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">x86-64 Memory Layout and KPTI (Kernel Page-Table Isolation)</text>
@@ -3123,19 +3123,19 @@ END IF
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg4-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg4-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg4-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch06-svg4-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch06-svg4-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -3146,19 +3146,19 @@ END IF
   <rect x="20" y="68" width="250" height="26" rx="0" fill="#5E81AC"/>
   <text x="145" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Virtual Address Space</text>
   <text x="145" y="103" text-anchor="middle" font-size="12" fill="#212121">PTE bits 62:59 = key (0–15)</text>
-  <rect x="35" y="115" width="220" height="40" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="35" y="115" width="220" height="40" rx="6" fill="#5E81AC" filter="url(#ch06-svg4-sh)"/>
   <text x="145" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">JIT Code</text>
   <text x="145" y="147" text-anchor="middle" font-size="11" fill="#DDEAF5">key=1  (R-X)</text>
-  <rect x="35" y="167" width="220" height="40" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="35" y="167" width="220" height="40" rx="6" fill="#4A8A99" filter="url(#ch06-svg4-sh)"/>
   <text x="145" y="182" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Trusted Data</text>
   <text x="145" y="199" text-anchor="middle" font-size="11" fill="#CCE8EC">key=2  (RW-)</text>
-  <rect x="35" y="219" width="220" height="40" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="35" y="219" width="220" height="40" rx="6" fill="#34495E" filter="url(#ch06-svg4-sh)"/>
   <text x="145" y="234" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Sandbox</text>
   <text x="145" y="251" text-anchor="middle" font-size="11" fill="#CCE8EC">key=3  (R-- locked)</text>
-  <rect x="35" y="271" width="220" height="40" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="35" y="271" width="220" height="40" rx="6" fill="#5E81AC" filter="url(#ch06-svg4-sh)"/>
   <text x="145" y="286" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Heap/Stack</text>
   <text x="145" y="303" text-anchor="middle" font-size="11" fill="#DDEAF5">key=0  (RW- default)</text>
-  <rect x="35" y="323" width="220" height="40" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="35" y="323" width="220" height="40" rx="6" fill="#4A8A99" filter="url(#ch06-svg4-sh)"/>
   <text x="145" y="338" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">Crypto</text>
   <text x="145" y="355" text-anchor="middle" font-size="11" fill="#CCE8EC">key=4  (RW- isolated)</text>
   <rect x="290" y="68" width="300" height="380" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -3190,26 +3190,26 @@ END IF
   <text x="520" y="296" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A8A99">AD=0</text>
   <text x="560" y="296" text-anchor="middle" font-size="12" font-weight="bold" fill="#4A8A99">WD=0</text>
   <text x="580" y="296" text-anchor="start" font-size="11" font-weight="normal" fill="#4A8A99">RW-</text>
-  <rect x="300" y="335" width="280" height="50" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="300" y="335" width="280" height="50" rx="6" fill="#5E81AC" filter="url(#ch06-svg4-sh)"/>
   <text x="440" y="358" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">WRPKRU instruction</text>
   <text x="440" y="376" text-anchor="middle" font-size="11" fill="#DDEAF5">~3 cycles  |  no syscall  |  user-space only</text>
   <rect x="610" y="68" width="270" height="380" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="610" y="68" width="270" height="26" rx="0" fill="#4A8A99"/>
   <text x="745" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">JIT Compiler Use Case</text>
   <text x="745" y="103" text-anchor="middle" font-size="12" fill="#212121">V8 / LuaJIT / WASM pattern</text>
-  <rect x="625" y="115" width="240" height="48" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="625" y="115" width="240" height="48" rx="6" fill="#34495E" filter="url(#ch06-svg4-sh)"/>
   <text x="745" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">1. Compile bytecode</text>
   <text x="745" y="150" text-anchor="middle" font-size="11" fill="#B0BEC5">key=1: WD=0, write code</text>
-  <line x1="745" y1="163" x2="745" y2="177" stroke="#34495E" stroke-width="1.5" marker-end="url(#arr)"/>
-  <rect x="625" y="177" width="240" height="48" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <line x1="745" y1="163" x2="745" y2="177" stroke="#34495E" stroke-width="1.5" marker-end="url(#ch06-svg4-arr)"/>
+  <rect x="625" y="177" width="240" height="48" rx="6" fill="#5E81AC" filter="url(#ch06-svg4-sh)"/>
   <text x="745" y="195" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">2. WRPKRU: lock code</text>
   <text x="745" y="212" text-anchor="middle" font-size="11" fill="#DDEAF5">key=1: WD=1 (exec only)</text>
-  <line x1="745" y1="225" x2="745" y2="239" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arr)"/>
-  <rect x="625" y="239" width="240" height="48" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <line x1="745" y1="225" x2="745" y2="239" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch06-svg4-arr)"/>
+  <rect x="625" y="239" width="240" height="48" rx="6" fill="#4A8A99" filter="url(#ch06-svg4-sh)"/>
   <text x="745" y="257" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">3. Execute JIT code</text>
   <text x="745" y="274" text-anchor="middle" font-size="11" fill="#CCE8EC">JIT region is now X-only</text>
-  <line x1="745" y1="287" x2="745" y2="301" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr)"/>
-  <rect x="625" y="301" width="240" height="48" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <line x1="745" y1="287" x2="745" y2="301" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch06-svg4-arr)"/>
+  <rect x="625" y="301" width="240" height="48" rx="6" fill="#BF616A" filter="url(#ch06-svg4-sh)"/>
   <text x="745" y="319" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">4. Exploit write attempt</text>
   <text x="745" y="336" text-anchor="middle" font-size="11" fill="#B0BEC5">key=1 WD=1 → SEGFAULT</text>
   <rect x="20" y="460" width="860" height="56" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -3248,8 +3248,8 @@ END IF
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <filter id="ch06-svg5-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch06-svg5-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Trusted Execution Environments: ARM TrustZone · Intel SGX · AMD SEV</text>
@@ -3257,7 +3257,7 @@ END IF
   <!-- Panel 1: ARM TrustZone -->
   <text x="150" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#5E81AC">ARM TrustZone</text>
 
-  <rect x="30" y="70" width="240" height="290" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="70" width="240" height="290" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg5-sh)"/>
 
   <!-- Normal World -->
   <rect x="45" y="82" width="100" height="165" rx="4" fill="#4A8A99"/>
@@ -3293,7 +3293,7 @@ END IF
   <!-- Panel 2: Intel SGX -->
   <text x="450" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#5E81AC">Intel SGX</text>
 
-  <rect x="330" y="70" width="240" height="290" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="70" width="240" height="290" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg5-sh)"/>
 
   <!-- Untrusted app -->
   <rect x="345" y="82" width="210" height="40" rx="4" fill="#9E9E9E"/>
@@ -3321,7 +3321,7 @@ END IF
   <!-- Panel 3: AMD SEV-SNP -->
   <text x="760" y="58" text-anchor="middle" font-size="15" font-weight="bold" fill="#5E81AC">AMD SEV-SNP</text>
 
-  <rect x="640" y="70" width="240" height="290" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="640" y="70" width="240" height="290" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg5-sh)"/>
 
   <!-- VMM (untrusted) -->
   <rect x="655" y="82" width="210" height="36" rx="4" fill="#9E9E9E" fill-opacity="0.60"/>
@@ -4390,15 +4390,15 @@ void clear_secret_barrier(char *secret, size_t len) {
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <filter id="ch06-svg6-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch06-svg6-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Confidential Computing: SEV-SNP · TDX · ARM CCA</text>
 
   <!-- SEV-SNP Panel -->
   <text x="150" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">AMD SEV-SNP</text>
-  <rect x="30" y="68" width="240" height="260" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="68" width="240" height="260" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg6-sh)"/>
 
   <rect x="45" y="80" width="210" height="36" rx="4" fill="#9E9E9E" fill-opacity="0.50"/>
   <text x="150" y="103" text-anchor="middle" font-size="13" fill="#212121">Hypervisor (Untrusted)</text>
@@ -4419,7 +4419,7 @@ void clear_secret_barrier(char *secret, size_t len) {
 
   <!-- TDX Panel -->
   <text x="450" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">Intel TDX</text>
-  <rect x="330" y="68" width="240" height="260" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="68" width="240" height="260" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg6-sh)"/>
 
   <rect x="345" y="80" width="210" height="36" rx="4" fill="#9E9E9E" fill-opacity="0.50"/>
   <text x="450" y="103" text-anchor="middle" font-size="13" fill="#212121">VMM (Untrusted)</text>
@@ -4440,7 +4440,7 @@ void clear_secret_barrier(char *secret, size_t len) {
 
   <!-- ARM CCA Panel -->
   <text x="760" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">ARM CCA</text>
-  <rect x="640" y="68" width="240" height="260" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="640" y="68" width="240" height="260" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg6-sh)"/>
 
   <rect x="655" y="80" width="100" height="84" rx="4" fill="#9E9E9E" fill-opacity="0.50"/>
   <text x="705" y="103" text-anchor="middle" font-size="12" fill="#212121">Normal</text>
@@ -5386,16 +5386,16 @@ void process_data_gpu(void *sensitive_data) {
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <filter id="ch06-svg7-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch06-svg7-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch06-svg7-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Heterogeneous Security: GPU Memory Architecture and Unified Memory</text>
 
   <!-- Discrete GPU model -->
   <text x="215" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">Discrete GPU (NVIDIA / AMD)</text>
-  <rect x="30" y="68" width="370" height="270" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="30" y="68" width="370" height="270" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg7-sh)"/>
 
   <!-- CPU side -->
   <rect x="45" y="80" width="150" height="130" rx="5" fill="#5E81AC"/>
@@ -5423,8 +5423,8 @@ void process_data_gpu(void *sensitive_data) {
   <text x="315" y="197" text-anchor="middle" font-size="11" fill="white">Separate VA space</text>
 
   <!-- Arrows PCIe -->
-  <line x1="195" y1="136" x2="247" y2="136" stroke="#BF616A" stroke-width="2" marker-end="url(#a)"/>
-  <line x1="245" y1="148" x2="193" y2="148" stroke="#BF616A" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="195" y1="136" x2="247" y2="136" stroke="#BF616A" stroke-width="2" marker-end="url(#ch06-svg7-a)"/>
+  <line x1="245" y1="148" x2="193" y2="148" stroke="#BF616A" stroke-width="2" marker-end="url(#ch06-svg7-a)"/>
 
   <!-- Notes -->
   <text x="200" y="240" text-anchor="middle" font-size="12" fill="#212121">Separate page tables</text>
@@ -5435,7 +5435,7 @@ void process_data_gpu(void *sensitive_data) {
 
   <!-- Unified Memory model -->
   <text x="670" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">Unified Memory (Apple M-series)</text>
-  <rect x="500" y="68" width="370" height="270" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="500" y="68" width="370" height="270" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch06-svg7-sh)"/>
 
   <!-- SoC box -->
   <rect x="515" y="80" width="340" height="200" rx="5" fill="#5E81AC" fill-opacity="0.12" stroke="#5E81AC" stroke-dasharray="5,3"/>
@@ -5464,8 +5464,8 @@ void process_data_gpu(void *sensitive_data) {
   <text x="733" y="257" text-anchor="middle" font-size="11" fill="white">GPU IOMMU</text>
 
   <!-- Arrows: CPU/GPU → shared mem -->
-  <line x1="595" y1="166" x2="595" y2="184" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="755" y1="166" x2="755" y2="184" stroke="#BF616A" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="595" y1="166" x2="595" y2="184" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch06-svg7-a)"/>
+  <line x1="755" y1="166" x2="755" y2="184" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch06-svg7-a)"/>
 
   <text x="685" y="315" text-anchor="middle" font-size="12" fill="#212121">Zero-copy: both use same PA</text>
   <text x="685" y="333" text-anchor="middle" font-size="12" fill="#4A8A99">✓ No PCIe transfer overhead</text>
@@ -6561,7 +6561,7 @@ if (prove_secure(security_monitor)) {
 <li><p>Kaplan, David, Jeremy Powell, and Tom Woller. "AMD memory encryption." <em>White Paper</em> (2016).</p></li>
 <li><p>Li, Mengyuan, et al. "CIPHERLEAKS: Breaking constant-time cryptography on AMD SEV via the ciphertext side channel." <em>31st USENIX Security Symposium</em>. 2022. Pages 717-732. [SEV vulnerability research]</p></li>
 </ol>
-<h3 id="intel-tdx-trust-domain-extensions">Intel TDX (Trust Domain Extensions)</h3>
+<h3 id="intel-tdx-trust-domain-extensions-references">Intel TDX (Trust Domain Extensions)</h3>
 <ol type="1" start="35">
 <li><p>Intel Corporation. <em>Intel® Trust Domain Extensions (Intel® TDX) Module v1.5 Architecture Specification</em>. Document Number: 344425-004US. March 2023.</p></li>
 <li><p>Intel Corporation. "Intel Trust Domain Extensions." White Paper. 2020.</p></li>
@@ -7064,7 +7064,7 @@ if (prove_secure(security_monitor)) {
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -7502,7 +7502,7 @@ if (prove_secure(security_monitor)) {
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

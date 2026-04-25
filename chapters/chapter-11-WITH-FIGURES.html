@@ -1050,16 +1050,16 @@ radical simplification delivered extraordinary efficiency.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620">
 <defs>
-  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+  <marker id="ch11-svg1-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
     <polygon points="0 0, 8 3, 0 6" style="fill:#5E81AC;"/>
   </marker>
-  <marker id="arr-acc" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+  <marker id="ch11-svg1-arr-acc" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
     <polygon points="0 0, 8 3, 0 6" style="fill:#4A8A99;"/>
   </marker>
-  <marker id="arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+  <marker id="ch11-svg1-arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
     <polygon points="0 0, 8 3, 0 6" style="fill:#BF616A;"/>
   </marker>
-  <filter id="shadow">
+  <filter id="ch11-svg1-shadow">
     <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
   </filter>
 </defs>
@@ -1073,21 +1073,21 @@ radical simplification delivered extraordinary efficiency.</p>
 
 <!-- ── LEFT COLUMN: CPU path (PyTorch/JAX) ── -->
 <!-- Host CPU box -->
-<rect x="30" y="90" width="170" height="70" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="30" y="90" width="170" height="70" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#ch11-svg1-shadow)"/>
 <text x="115" y="121" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">Host CPU</text>
 <text x="115" y="141" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">JAX / PyTorch</text>
 
 <!-- XLA Compiler box -->
-<rect x="30" y="210" width="170" height="70" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="30" y="210" width="170" height="70" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#ch11-svg1-shadow)"/>
 <text x="115" y="241" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">XLA Compiler</text>
 <text x="115" y="261" style="font-size:13px;fill:#CCE8EC;text-anchor:middle;">Static allocation</text>
 
 <!-- Arrow CPU → XLA -->
-<line x1="115" y1="160" x2="115" y2="208" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="115" y1="160" x2="115" y2="208" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch11-svg1-arr)"/>
 <text x="125" y="188" style="font-size:12px;fill:#5E81AC;">HLO graph</text>
 
 <!-- Memory map output arrow XLA → TPU -->
-<line x1="115" y1="280" x2="115" y2="318" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-acc)"/>
+<line x1="115" y1="280" x2="115" y2="318" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch11-svg1-arr-acc)"/>
 <text x="125" y="305" style="font-size:12px;fill:#4A8A99;">fixed offsets</text>
 
 <!-- Static memory map label -->
@@ -1096,7 +1096,7 @@ radical simplification delivered extraordinary efficiency.</p>
 <text x="115" y="357" style="font-size:12px;fill:#5A7A9C;text-anchor:middle;">no page table needed</text>
 
 <!-- Arrow to PCIe -->
-<line x1="200" y1="343" x2="258" y2="343" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red)"/>
+<line x1="200" y1="343" x2="258" y2="343" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch11-svg1-arr-red)"/>
 <text x="220" y="333" style="font-size:12px;fill:#BF616A;">PCIe / HBM</text>
 
 <!-- ── RIGHT: TPU Chip ── -->
@@ -1105,7 +1105,7 @@ radical simplification delivered extraordinary efficiency.</p>
 <text x="563" y="104" style="font-size:16px;font-weight:bold;fill:#212121;text-anchor:middle;">TPU v3/v4 Chip</text>
 
 <!-- HBM memory (bottom of chip) -->
-<rect x="275" y="492" width="576" height="64" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="275" y="492" width="576" height="64" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#ch11-svg1-shadow)"/>
 <text x="563" y="521" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">High Bandwidth Memory (HBM)</text>
 <text x="563" y="542" style="font-size:13px;fill:#CCE8EC;text-anchor:middle;">32 GB (v3) / 32 GB (v4) — 900 GB/s bandwidth</text>
 
@@ -1129,24 +1129,24 @@ radical simplification delivered extraordinary efficiency.</p>
 <text x="654" y="468" style="font-size:12px;fill:#8A4040;text-anchor:middle;">per-layer buffers</text>
 
 <!-- Arrows from regions to HBM -->
-<line x1="350" y1="480" x2="350" y2="490" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="502" y1="480" x2="502" y2="490" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-acc)"/>
-<line x1="654" y1="480" x2="654" y2="490" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red)"/>
+<line x1="350" y1="480" x2="350" y2="490" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch11-svg1-arr)"/>
+<line x1="502" y1="480" x2="502" y2="490" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch11-svg1-arr-acc)"/>
+<line x1="654" y1="480" x2="654" y2="490" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch11-svg1-arr-red)"/>
 
 <!-- MXU (Matrix Unit) -->
-<rect x="275" y="120" width="220" height="100" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="275" y="120" width="220" height="100" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#ch11-svg1-shadow)"/>
 <text x="385" y="155" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">MXU</text>
 <text x="385" y="175" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">Systolic Array</text>
 <text x="385" y="193" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">128×128 bfloat16</text>
 
 <!-- VPU (Vector Unit) -->
-<rect x="510" y="120" width="180" height="100" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="510" y="120" width="180" height="100" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#ch11-svg1-shadow)"/>
 <text x="600" y="155" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">VPU</text>
 <text x="600" y="175" style="font-size:13px;fill:#DDEAF5;text-anchor:middle;">Vector Processing</text>
 <text x="600" y="193" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">activations / norms</text>
 
 <!-- Transpose / Reduce -->
-<rect x="705" y="120" width="148" height="100" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="705" y="120" width="148" height="100" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#ch11-svg1-shadow)"/>
 <text x="779" y="155" style="font-size:15px;font-weight:bold;fill:#FFFFFF;text-anchor:middle;">XBar</text>
 <text x="779" y="175" style="font-size:13px;fill:#CCE8EC;text-anchor:middle;">ICI Interconnect</text>
 <text x="779" y="193" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">chip-to-chip</text>
@@ -1162,11 +1162,11 @@ radical simplification delivered extraordinary efficiency.</p>
 <text x="563" y="373" style="font-size:13px;fill:#BF616A;text-anchor:middle;">Physical addresses used directly — isolation enforced by compiler + process boundary</text>
 
 <!-- Arrows: MXU/VPU to SRAM -->
-<line x1="385" y1="220" x2="385" y2="248" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="600" y1="220" x2="600" y2="248" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="385" y1="220" x2="385" y2="248" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch11-svg1-arr)"/>
+<line x1="600" y1="220" x2="600" y2="248" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch11-svg1-arr)"/>
 
 <!-- Arrow: SRAM to HBM regions -->
-<line x1="563" y1="310" x2="563" y2="328" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-acc)"/>
+<line x1="563" y1="310" x2="563" y2="328" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch11-svg1-arr-acc)"/>
 
 <!-- Arrows: HBM regions down to HBM strip -->
 <!-- already drawn above -->
@@ -1654,16 +1654,16 @@ virtual memory provides.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640">
 <defs>
-  <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+  <marker id="ch11-svg2-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
     <polygon points="0 0, 8 3, 0 6" style="fill:#5E81AC;"/>
   </marker>
-  <marker id="arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+  <marker id="ch11-svg2-arr-red" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
     <polygon points="0 0, 8 3, 0 6" style="fill:#BF616A;"/>
   </marker>
-  <marker id="arr-grn" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+  <marker id="ch11-svg2-arr-grn" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
     <polygon points="0 0, 8 3, 0 6" style="fill:#4A8A99;"/>
   </marker>
-  <filter id="shadow">
+  <filter id="ch11-svg2-shadow">
     <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.15"/>
   </filter>
 </defs>
@@ -1734,43 +1734,43 @@ virtual memory provides.</p>
 
 <!-- Flow boxes -->
 <!-- GPU kernel stalls -->
-<rect x="30" y="296" width="130" height="54" rx="6" style="fill:#BF616A;stroke:#8A2020;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="30" y="296" width="130" height="54" rx="6" style="fill:#BF616A;stroke:#8A2020;stroke-width:2;" filter="url(#ch11-svg2-shadow)"/>
 <text x="95" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">GPU Kernel</text>
 <text x="95" y="334" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">Stalls on unmapped</text>
 <text x="95" y="349" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">virtual address</text>
 
-<line x1="160" y1="323" x2="196" y2="323" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-red)"/>
+<line x1="160" y1="323" x2="196" y2="323" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch11-svg2-arr-red)"/>
 <text x="178" y="315" style="font-size:11px;fill:#BF616A;text-anchor:middle;">fault</text>
 
 <!-- UVM fault handler -->
-<rect x="196" y="296" width="130" height="54" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="196" y="296" width="130" height="54" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#ch11-svg2-shadow)"/>
 <text x="261" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">UVM Driver</text>
 <text x="261" y="334" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Fault handler</text>
 <text x="261" y="349" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">invoked (~2 µs)</text>
 
-<line x1="326" y1="323" x2="362" y2="323" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="326" y1="323" x2="362" y2="323" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch11-svg2-arr)"/>
 <text x="344" y="315" style="font-size:11px;fill:#5E81AC;text-anchor:middle;">pin req</text>
 
 <!-- CPU memory -->
-<rect x="362" y="296" width="130" height="54" rx="6" style="fill:#9E9E9E;stroke:#616161;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="362" y="296" width="130" height="54" rx="6" style="fill:#9E9E9E;stroke:#616161;stroke-width:2;" filter="url(#ch11-svg2-shadow)"/>
 <text x="427" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU DRAM</text>
 <text x="427" y="334" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">Source page</text>
 <text x="427" y="349" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">located + pinned</text>
 
-<line x1="492" y1="323" x2="528" y2="323" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-grn)"/>
+<line x1="492" y1="323" x2="528" y2="323" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch11-svg2-arr-grn)"/>
 <text x="510" y="315" style="font-size:11px;fill:#4A8A99;text-anchor:middle;">DMA</text>
 
 <!-- PCIe copy -->
-<rect x="528" y="296" width="130" height="54" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="528" y="296" width="130" height="54" rx="6" style="fill:#4A8A99;stroke:#2E6A7A;stroke-width:2;" filter="url(#ch11-svg2-shadow)"/>
 <text x="593" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">PCIe DMA</text>
 <text x="593" y="334" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">4KB page copy</text>
 <text x="593" y="349" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">~8 µs latency</text>
 
-<line x1="658" y1="323" x2="694" y2="323" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-grn)"/>
+<line x1="658" y1="323" x2="694" y2="323" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch11-svg2-arr-grn)"/>
 <text x="676" y="315" style="font-size:11px;fill:#4A8A99;text-anchor:middle;">mapped</text>
 
 <!-- GPU resumes -->
-<rect x="694" y="296" width="130" height="54" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#shadow)"/>
+<rect x="694" y="296" width="130" height="54" rx="6" style="fill:#5E81AC;stroke:#3A6090;stroke-width:2;" filter="url(#ch11-svg2-shadow)"/>
 <text x="759" y="318" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">GPU Resumes</text>
 <text x="759" y="334" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">TLB updated,</text>
 <text x="759" y="349" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">SM unblocked</text>
@@ -2303,13 +2303,13 @@ production systems.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg3-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <marker id="arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg3-arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#5E81AC"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg3-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -2317,37 +2317,37 @@ production systems.</p>
   <text x="450" y="30" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">NVSwitch: Hardware-Accelerated TLB Broadcast (DGX H100)</text>
 
   <!-- NVSwitch central hub -->
-  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch11-svg3-sh)"/>
   <text x="450" y="87" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">NVSwitch (×4 per DGX)</text>
   <text x="450" y="107" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F5F5F5" text-anchor="middle">Non-blocking crossbar • 13.6 TB/s bisection BW</text>
   <text x="450" y="124" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F5F5F5" text-anchor="middle">Hardware TLB invalidation broadcast</text>
 
   <!-- GPU 0 -->
-  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg3-sh)"/>
   <text x="82" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 0</text>
   <text x="82" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
   <text x="82" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 1 -->
-  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg3-sh)"/>
   <text x="227" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 1</text>
   <text x="227" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
   <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 2-5 (middle) -->
-  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5" filter="url(#ch11-svg3-sh)"/>
   <text x="450" y="274" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU 2 … GPU 5</text>
   <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">Same configuration</text>
   <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
 
   <!-- GPU 6 -->
-  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg3-sh)"/>
   <text x="652" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 6</text>
   <text x="652" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
   <text x="652" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 7 -->
-  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg3-sh)"/>
   <text x="797" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 7</text>
   <text x="797" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">H100 SXM5</text>
   <text x="797" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">80 GB HBM3</text>
@@ -2491,13 +2491,13 @@ invalidation broadcast.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg4-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <marker id="arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg4-arrb" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#5E81AC"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg4-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -2505,37 +2505,37 @@ invalidation broadcast.</p>
   <text x="450" y="30" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">NVSwitch: Hardware-Accelerated TLB Broadcast (DGX H100)</text>
 
   <!-- NVSwitch central hub -->
-  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="330" y="55" width="240" height="80" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2" filter="url(#ch11-svg4-sh)"/>
   <text x="450" y="87" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">NVSwitch (×4 per DGX)</text>
   <text x="450" y="107" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F5F5F5" text-anchor="middle">Non-blocking crossbar • 13.6 TB/s bisection BW</text>
   <text x="450" y="124" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F5F5F5" text-anchor="middle">Hardware TLB invalidation broadcast</text>
 
   <!-- GPU 0 -->
-  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="20" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg4-sh)"/>
   <text x="82" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 0</text>
   <text x="82" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">H100 SXM5</text>
   <text x="82" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 1 -->
-  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="165" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg4-sh)"/>
   <text x="227" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 1</text>
   <text x="227" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">H100 SXM5</text>
   <text x="227" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 2-5 (middle) -->
-  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="330" y="240" width="240" height="80" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="1.5" filter="url(#ch11-svg4-sh)"/>
   <text x="450" y="274" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#fff" text-anchor="middle">GPU 2 … GPU 5</text>
   <text x="450" y="295" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">Same configuration</text>
   <text x="450" y="312" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">×4 NVLink 4.0 per GPU</text>
 
   <!-- GPU 6 -->
-  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="590" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg4-sh)"/>
   <text x="652" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 6</text>
   <text x="652" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">H100 SXM5</text>
   <text x="652" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">80 GB HBM3</text>
 
   <!-- GPU 7 -->
-  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#sh)"/>
+  <rect x="735" y="240" width="125" height="80" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch11-svg4-sh)"/>
   <text x="797" y="274" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#fff" text-anchor="middle">GPU 7</text>
   <text x="797" y="293" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">H100 SXM5</text>
   <text x="797" y="310" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">80 GB HBM3</text>
@@ -3280,10 +3280,10 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg5-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg5-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#BF616A"/>
     </marker>
   </defs>
@@ -3291,7 +3291,7 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">AMD MI300X Chiplet Package Cross-Section</text>
 
   <!-- Package outline -->
-  <rect x="20" y="45" width="560" height="370" rx="8" fill="#F5F5F5" stroke="#34495E" stroke-width="2.5" filter="url(#sh)"/>
+  <rect x="20" y="45" width="560" height="370" rx="8" fill="#F5F5F5" stroke="#34495E" stroke-width="2.5" filter="url(#ch11-svg5-sh)"/>
   <text x="300" y="68" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#34495E" text-anchor="middle">AMD MI300X Package (2.5D Interposer + HBM3)</text>
 
   <!-- Row 1 compute chiplets -->
@@ -3330,14 +3330,14 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <text x="290" y="367" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#CCE8EC" text-anchor="middle">Unified virtual address space spans all 6 compute chiplets via Infinity Fabric</text>
 
   <!-- Infinity Fabric arrows between chiplets -->
-  <line x1="200" y1="125" x2="210" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="370" y1="125" x2="380" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="200" y1="230" x2="210" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="370" y1="230" x2="380" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="200" y1="125" x2="210" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
+  <line x1="370" y1="125" x2="380" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
+  <line x1="200" y1="230" x2="210" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
+  <line x1="370" y1="230" x2="380" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
   <!-- Vertical connections -->
-  <line x1="120" y1="170" x2="120" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="290" y1="170" x2="290" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="460" y1="170" x2="460" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="120" y1="170" x2="120" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
+  <line x1="290" y1="170" x2="290" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
+  <line x1="460" y1="170" x2="460" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg5-arr)"/>
 
   <!-- Infinity Fabric label -->
   <text x="548" y="155" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Infinity</text>
@@ -3346,7 +3346,7 @@ address space requires huge pages to achieve adequate TLB coverage.</p>
   <text x="548" y="204" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">interconnect</text>
 
   <!-- Right panel: TLB challenge -->
-  <rect x="600" y="45" width="285" height="370" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="600" y="45" width="285" height="370" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#ch11-svg5-sh)"/>
   <text x="742" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Chiplet TLB Challenge</text>
 
   <text x="610" y="95" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Per-Chiplet TLB Hierarchy:</text>
@@ -3382,10 +3382,10 @@ Challenge</h3>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg6-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg6-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#BF616A"/>
     </marker>
   </defs>
@@ -3393,7 +3393,7 @@ Challenge</h3>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">AMD MI300X Chiplet Package Cross-Section</text>
 
   <!-- Package outline -->
-  <rect x="20" y="45" width="560" height="370" rx="8" fill="#F5F5F5" stroke="#34495E" stroke-width="2.5" filter="url(#sh)"/>
+  <rect x="20" y="45" width="560" height="370" rx="8" fill="#F5F5F5" stroke="#34495E" stroke-width="2.5" filter="url(#ch11-svg6-sh)"/>
   <text x="300" y="68" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#34495E" text-anchor="middle">AMD MI300X Package (2.5D Interposer + HBM3)</text>
 
   <!-- Row 1 compute chiplets -->
@@ -3432,14 +3432,14 @@ Challenge</h3>
   <text x="290" y="367" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#DDEAF5" text-anchor="middle">Unified virtual address space spans all 6 compute chiplets via Infinity Fabric</text>
 
   <!-- Infinity Fabric arrows between chiplets -->
-  <line x1="200" y1="125" x2="210" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="370" y1="125" x2="380" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="200" y1="230" x2="210" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="370" y1="230" x2="380" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="200" y1="125" x2="210" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
+  <line x1="370" y1="125" x2="380" y2="125" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
+  <line x1="200" y1="230" x2="210" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
+  <line x1="370" y1="230" x2="380" y2="230" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
   <!-- Vertical connections -->
-  <line x1="120" y1="170" x2="120" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="290" y1="170" x2="290" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="460" y1="170" x2="460" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="120" y1="170" x2="120" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
+  <line x1="290" y1="170" x2="290" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
+  <line x1="460" y1="170" x2="460" y2="185" stroke="#BF616A" stroke-width="2" marker-end="url(#ch11-svg6-arr)"/>
 
   <!-- Infinity Fabric label -->
   <text x="548" y="155" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Infinity</text>
@@ -3448,7 +3448,7 @@ Challenge</h3>
   <text x="548" y="204" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">interconnect</text>
 
   <!-- Right panel: TLB challenge -->
-  <rect x="600" y="45" width="285" height="370" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="600" y="45" width="285" height="370" rx="6" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5" filter="url(#ch11-svg6-sh)"/>
   <text x="742" y="70" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">Chiplet TLB Challenge</text>
 
   <text x="610" y="95" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#212121">Per-Chiplet TLB Hierarchy:</text>
@@ -3775,16 +3775,16 @@ for distributed training.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg7-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <marker id="arrc" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+    <marker id="ch11-svg7-arrc" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
       <path d="M0,0 L0,10 L10,5 z" fill="#5E81AC"/>
     </marker>
-    <marker id="arro" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg7-arro" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#BF616A"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg7-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -3792,7 +3792,7 @@ for distributed training.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">GPU + RDMA NIC Integration: Heterogeneous Address Space Challenge</text>
 
   <!-- Left: Integrated (desired) -->
-  <rect x="20" y="50" width="400" height="340" rx="8" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <rect x="20" y="50" width="400" height="340" rx="8" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#ch11-svg7-sh)"/>
   <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#4A8A99" text-anchor="middle">✓ Integrated: Unified Address Space</text>
   <text x="220" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(AMD MI300A / Apple M-series approach)</text>
 
@@ -3812,8 +3812,8 @@ for distributed training.</p>
   <text x="215" y="267" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">Single virtual address space — zero-copy transfers</text>
 
   <!-- Arrows integrated -->
-  <line x1="120" y1="195" x2="120" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="310" y1="195" x2="310" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="120" y1="195" x2="120" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch11-svg7-arr)"/>
+  <line x1="310" y1="195" x2="310" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch11-svg7-arr)"/>
 
   <rect x="40" y="300" width="350" height="75" rx="5" fill="#F5F5F5"/>
   <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Benefits:</text>
@@ -3821,7 +3821,7 @@ for distributed training.</p>
   <text x="215" y="360" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Single TLB invalidation covers all devices</text>
 
   <!-- Right: Discrete (challenge) -->
-  <rect x="440" y="50" width="440" height="340" rx="8" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="440" y="50" width="440" height="340" rx="8" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#ch11-svg7-sh)"/>
   <text x="660" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#BF616A" text-anchor="middle">⚠ Discrete: Separate Address Spaces</text>
   <text x="660" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(PCIe-attached GPU + separate NIC)</text>
 
@@ -3831,7 +3831,7 @@ for distributed training.</p>
   <text x="540" y="168" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">GPU page tables</text>
 
   <!-- PCIe bus -->
-  <line x1="620" y1="150" x2="680" y2="150" stroke="#9E9E9E" stroke-width="3" marker-end="url(#arrc)"/>
+  <line x1="620" y1="150" x2="680" y2="150" stroke="#9E9E9E" stroke-width="3" marker-end="url(#ch11-svg7-arrc)"/>
   <text x="650" y="143" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">PCIe</text>
   <text x="650" y="167" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">32 GB/s</text>
 
@@ -3849,8 +3849,8 @@ for distributed training.</p>
   <text x="770" y="244" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Host DRAM</text>
   <text x="770" y="260" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">CPU/NIC VA space</text>
 
-  <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#ch11-svg7-arr)"/>
+  <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#ch11-svg7-arr)"/>
 
   <rect x="460" y="295" width="390" height="80" rx="5" fill="#F5F5F5"/>
   <text x="655" y="316" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Problems:</text>
@@ -3869,16 +3869,16 @@ for distributed training.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg8-arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <marker id="bi" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+    <marker id="ch11-svg8-bi" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
       <path d="M9,0 L9,6 L0,3 z" fill="#4A8A99"/>
     </marker>
-    <marker id="bi2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg8-bi2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#4A8A99"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg8-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -3886,7 +3886,7 @@ for distributed training.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">Intel Gaudi 2: Integrated Compute + RDMA on a Single Die</text>
 
   <!-- Gaudi 2 Die outer package -->
-  <rect x="60" y="50" width="540" height="320" rx="10" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2.5" filter="url(#sh)"/>
+  <rect x="60" y="50" width="540" height="320" rx="10" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2.5" filter="url(#ch11-svg8-sh)"/>
   <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#4A8A99" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
 
   <!-- Compute Cores block -->
@@ -3903,7 +3903,7 @@ for distributed training.</p>
   <text x="190" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#DDEAF5" text-anchor="middle">2.45 TB/s BW</text>
 
   <!-- Bidirectional arrow between compute and RDMA -->
-  <line x1="300" y1="195" x2="360" y2="195" stroke="#4A8A99" stroke-width="2.5" marker-start="url(#bi)" marker-end="url(#bi2)"/>
+  <line x1="300" y1="195" x2="360" y2="195" stroke="#4A8A99" stroke-width="2.5" marker-start="url(#ch11-svg8-bi)" marker-end="url(#ch11-svg8-bi2)"/>
   <text x="330" y="185" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">on-die</text>
   <text x="330" y="215" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">fabric</text>
 
@@ -3925,7 +3925,7 @@ for distributed training.</p>
   <text x="330" y="352" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">HBM2E Stack — shared by compute cores and RDMA engines</text>
 
   <!-- Right side: benefits panel -->
-  <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch11-svg8-sh)"/>
   <text x="752" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Integration Benefits</text>
 
   <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99">✓ Zero-copy tensor transfer:</text>
@@ -3958,16 +3958,16 @@ for distributed training.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="440" viewBox="0 0 900 440" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg9-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <marker id="arrc" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+    <marker id="ch11-svg9-arrc" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
       <path d="M0,0 L0,10 L10,5 z" fill="#5E81AC"/>
     </marker>
-    <marker id="arro" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg9-arro" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#BF616A"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg9-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -3975,7 +3975,7 @@ for distributed training.</p>
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">GPU + RDMA NIC Integration: Heterogeneous Address Space Challenge</text>
 
   <!-- Left: Integrated (desired) -->
-  <rect x="20" y="50" width="400" height="340" rx="8" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#sh)"/>
+  <rect x="20" y="50" width="400" height="340" rx="8" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2" filter="url(#ch11-svg9-sh)"/>
   <text x="220" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#4A8A99" text-anchor="middle">✓ Integrated: Unified Address Space</text>
   <text x="220" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(AMD MI300A / Apple M-series approach)</text>
 
@@ -3995,8 +3995,8 @@ for distributed training.</p>
   <text x="215" y="267" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#DDEAF5" text-anchor="middle">Single virtual address space — zero-copy transfers</text>
 
   <!-- Arrows integrated -->
-  <line x1="120" y1="195" x2="120" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="310" y1="195" x2="310" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="120" y1="195" x2="120" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch11-svg9-arr)"/>
+  <line x1="310" y1="195" x2="310" y2="218" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch11-svg9-arr)"/>
 
   <rect x="40" y="300" width="350" height="75" rx="5" fill="#F5F5F5"/>
   <text x="215" y="322" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Benefits:</text>
@@ -4004,7 +4004,7 @@ for distributed training.</p>
   <text x="215" y="360" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#212121" text-anchor="middle">• Single TLB invalidation covers all devices</text>
 
   <!-- Right: Discrete (challenge) -->
-  <rect x="440" y="50" width="440" height="340" rx="8" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#sh)"/>
+  <rect x="440" y="50" width="440" height="340" rx="8" fill="#F5F5F5" stroke="#BF616A" stroke-width="2" filter="url(#ch11-svg9-sh)"/>
   <text x="660" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#BF616A" text-anchor="middle">⚠ Discrete: Separate Address Spaces</text>
   <text x="660" y="93" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#616161" text-anchor="middle">(PCIe-attached GPU + separate NIC)</text>
 
@@ -4014,7 +4014,7 @@ for distributed training.</p>
   <text x="540" y="168" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">GPU page tables</text>
 
   <!-- PCIe bus -->
-  <line x1="620" y1="150" x2="680" y2="150" stroke="#9E9E9E" stroke-width="3" marker-end="url(#arrc)"/>
+  <line x1="620" y1="150" x2="680" y2="150" stroke="#9E9E9E" stroke-width="3" marker-end="url(#ch11-svg9-arrc)"/>
   <text x="650" y="143" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">PCIe</text>
   <text x="650" y="167" font-family="Arial,Helvetica,sans-serif" font-size="11" fill="#616161" text-anchor="middle">32 GB/s</text>
 
@@ -4032,8 +4032,8 @@ for distributed training.</p>
   <text x="770" y="244" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">Host DRAM</text>
   <text x="770" y="260" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#F5F5F5" text-anchor="middle">CPU/NIC VA space</text>
 
-  <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="540" y1="195" x2="540" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#ch11-svg9-arr)"/>
+  <line x1="770" y1="195" x2="770" y2="218" stroke="#9E9E9E" stroke-width="2" marker-end="url(#ch11-svg9-arr)"/>
 
   <rect x="460" y="295" width="390" height="80" rx="5" fill="#F5F5F5"/>
   <text x="655" y="316" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Problems:</text>
@@ -4057,16 +4057,16 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="420" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg10-arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <marker id="bi" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+    <marker id="ch11-svg10-bi" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
       <path d="M9,0 L9,6 L0,3 z" fill="#4A8A99"/>
     </marker>
-    <marker id="bi2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch11-svg10-bi2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#4A8A99"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch11-svg10-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -4074,7 +4074,7 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <text x="450" y="28" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">Intel Gaudi 2: Integrated Compute + RDMA on a Single Die</text>
 
   <!-- Gaudi 2 Die outer package -->
-  <rect x="60" y="50" width="540" height="320" rx="10" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2.5" filter="url(#sh)"/>
+  <rect x="60" y="50" width="540" height="320" rx="10" fill="#F5F5F5" stroke="#4A8A99" stroke-width="2.5" filter="url(#ch11-svg10-sh)"/>
   <text x="330" y="76" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#4A8A99" text-anchor="middle">Gaudi 2 Die — Single Monolithic Integration</text>
 
   <!-- Compute Cores block -->
@@ -4091,7 +4091,7 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <text x="190" y="296" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F5F5F5" text-anchor="middle">2.45 TB/s BW</text>
 
   <!-- Bidirectional arrow between compute and RDMA -->
-  <line x1="300" y1="195" x2="360" y2="195" stroke="#4A8A99" stroke-width="2.5" marker-start="url(#bi)" marker-end="url(#bi2)"/>
+  <line x1="300" y1="195" x2="360" y2="195" stroke="#4A8A99" stroke-width="2.5" marker-start="url(#ch11-svg10-bi)" marker-end="url(#ch11-svg10-bi2)"/>
   <text x="330" y="185" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">on-die</text>
   <text x="330" y="215" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#4A8A99" text-anchor="middle">fabric</text>
 
@@ -4113,7 +4113,7 @@ so there's no cache coherency to maintain. But PCIe limits bandwidth
   <text x="330" y="352" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">HBM2E Stack — shared by compute cores and RDMA engines</text>
 
   <!-- Right side: benefits panel -->
-  <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="625" y="50" width="255" height="320" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch11-svg10-sh)"/>
   <text x="752" y="75" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Integration Benefits</text>
 
   <text x="635" y="100" font-family="Arial,Helvetica,sans-serif" font-size="13" font-weight="bold" fill="#4A8A99">✓ Zero-copy tensor transfer:</text>
@@ -5782,7 +5782,7 @@ considered trade-offs.</p>
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -6220,7 +6220,7 @@ considered trade-offs.</p>
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

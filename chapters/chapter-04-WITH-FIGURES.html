@@ -805,10 +805,10 @@ sizes</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch04-svg1-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch04-svg1-shadow" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -817,44 +817,44 @@ sizes</p>
   <text x="450" y="32" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">TLB Hierarchy: Typical Modern Processor Structure</text>
 
   <!-- CPU Pipeline -->
-  <rect x="350" y="55" width="200" height="70" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="350" y="55" width="200" height="70" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch04-svg1-shadow)"/>
   <text x="450" y="84" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">CPU Pipeline</text>
   <text x="450" y="104" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#DDEAF5" text-anchor="middle">Instruction + Data fetch</text>
 
   <!-- Arrow down from CPU to L1 TLBs -->
-  <line x1="390" y1="125" x2="260" y2="165" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="510" y1="125" x2="640" y2="165" stroke="#212121" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="390" y1="125" x2="260" y2="165" stroke="#212121" stroke-width="2" marker-end="url(#ch04-svg1-arr)"/>
+  <line x1="510" y1="125" x2="640" y2="165" stroke="#212121" stroke-width="2" marker-end="url(#ch04-svg1-arr)"/>
 
   <!-- L1 ITLB -->
-  <rect x="130" y="165" width="250" height="90" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="130" y="165" width="250" height="90" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch04-svg1-shadow)"/>
   <text x="255" y="193" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">L1 ITLB</text>
   <text x="255" y="213" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#DDEAF5" text-anchor="middle">64–128 entries</text>
   <text x="255" y="232" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#EAF2F8" text-anchor="middle">Latency: 1 cycle</text>
 
   <!-- L1 DTLB -->
-  <rect x="520" y="165" width="250" height="90" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="520" y="165" width="250" height="90" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2" filter="url(#ch04-svg1-shadow)"/>
   <text x="645" y="193" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">L1 DTLB</text>
   <text x="645" y="213" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#DDEAF5" text-anchor="middle">64–128 entries</text>
   <text x="645" y="232" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#EAF2F8" text-anchor="middle">Latency: 1 cycle</text>
 
   <!-- Miss arrows from L1 to L2 -->
-  <line x1="255" y1="255" x2="390" y2="315" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
-  <line x1="645" y1="255" x2="510" y2="315" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+  <line x1="255" y1="255" x2="390" y2="315" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#ch04-svg1-arr)"/>
+  <line x1="645" y1="255" x2="510" y2="315" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#ch04-svg1-arr)"/>
   <text x="290" y="295" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" text-anchor="middle">miss</text>
   <text x="610" y="295" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A" text-anchor="middle">miss</text>
 
   <!-- L2 Unified TLB -->
-  <rect x="280" y="315" width="340" height="90" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="280" y="315" width="340" height="90" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="2" filter="url(#ch04-svg1-shadow)"/>
   <text x="450" y="345" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">L2 Unified TLB (STLB)</text>
   <text x="450" y="365" font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#CCE8EC" text-anchor="middle">512–2048 entries, 4-way set-assoc.</text>
   <text x="450" y="383" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#F5F5F5" text-anchor="middle">Latency: 8–12 cycles on miss</text>
 
   <!-- Miss arrow from L2 to Page Walk -->
-  <line x1="450" y1="405" x2="450" y2="450" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+  <line x1="450" y1="405" x2="450" y2="450" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#ch04-svg1-arr)"/>
   <text x="480" y="435" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#BF616A">miss</text>
 
   <!-- Hardware Page Table Walker -->
-  <rect x="250" y="450" width="400" height="80" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="250" y="450" width="400" height="80" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#ch04-svg1-shadow)"/>
   <text x="450" y="476" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#212121" text-anchor="middle">Hardware Page Table Walker</text>
   <text x="450" y="496" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161" text-anchor="middle">Walks up to 4 levels of page tables in memory</text>
   <text x="450" y="512" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161" text-anchor="middle">Latency: 20–200+ cycles (DRAM accesses)</text>
@@ -1251,19 +1251,19 @@ rationales.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg2-arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" style="fill:#5E81AC"/>
     </marker>
-    <marker id="arr-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg2-arr-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" style="fill:#BF616A"/>
     </marker>
-    <marker id="arr-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg2-arr-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" style="fill:#4A8A99"/>
     </marker>
-    <marker id="arr-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg2-arr-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" style="fill:#9E9E9E"/>
     </marker>
-    <filter id="shadow">
+    <filter id="ch04-svg2-shadow">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -1282,20 +1282,20 @@ rationales.</p>
   <text x="225" y="74" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;fill:#FFFFFF">Hardware-Managed TLB (x86-64 / ARM64)</text>
 
   <!-- Step 1: CPU TLB Miss -->
-  <rect x="140" y="100" width="170" height="44" rx="6" style="fill:#5E81AC;filter:url(#shadow)"/>
+  <rect x="140" y="100" width="170" height="44" rx="6" style="fill:#5E81AC;filter:url(#ch04-svg2-shadow)"/>
   <text x="225" y="118" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">CPU: TLB Miss</text>
   <text x="225" y="136" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#DDEAF5">Virtual address not cached</text>
 
   <!-- Arrow down -->
-  <line x1="225" y1="144" x2="225" y2="165" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#arr-blue)"/>
+  <line x1="225" y1="144" x2="225" y2="165" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#ch04-svg2-arr-blue)"/>
 
   <!-- Step 2: Hardware Page Walker -->
-  <rect x="90" y="166" width="270" height="44" rx="6" style="fill:#5E81AC;filter:url(#shadow)"/>
+  <rect x="90" y="166" width="270" height="44" rx="6" style="fill:#5E81AC;filter:url(#ch04-svg2-shadow)"/>
   <text x="225" y="184" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Hardware Page Walker</text>
   <text x="225" y="202" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#DDEAF5">Automatically traverses page tables</text>
 
   <!-- Arrow down -->
-  <line x1="225" y1="210" x2="225" y2="231" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#arr-blue)"/>
+  <line x1="225" y1="210" x2="225" y2="231" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#ch04-svg2-arr-blue)"/>
 
   <!-- Page table walk levels -->
   <rect x="30" y="232" width="390" height="110" rx="6" style="fill:#F5F5F5;stroke:#9E9E9E;stroke-width:1"/>
@@ -1303,15 +1303,15 @@ rationales.</p>
 
   <rect x="45" y="260" width="72" height="32" rx="4" style="fill:#5E81AC"/>
   <text x="81" y="281" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#FFFFFF">PML4</text>
-  <line x1="117" y1="276" x2="135" y2="276" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#arr-blue)"/>
+  <line x1="117" y1="276" x2="135" y2="276" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#ch04-svg2-arr-blue)"/>
 
   <rect x="136" y="260" width="72" height="32" rx="4" style="fill:#5E81AC"/>
   <text x="172" y="281" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#FFFFFF">PDPT</text>
-  <line x1="208" y1="276" x2="226" y2="276" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#arr-blue)"/>
+  <line x1="208" y1="276" x2="226" y2="276" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#ch04-svg2-arr-blue)"/>
 
   <rect x="227" y="260" width="72" height="32" rx="4" style="fill:#5E81AC"/>
   <text x="263" y="281" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#FFFFFF">PD</text>
-  <line x1="299" y1="276" x2="317" y2="276" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#arr-blue)"/>
+  <line x1="299" y1="276" x2="317" y2="276" style="stroke:#5E81AC;stroke-width:2" marker-end="url(#ch04-svg2-arr-blue)"/>
 
   <rect x="318" y="260" width="72" height="32" rx="4" style="fill:#4A8A99"/>
   <text x="354" y="281" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;fill:#FFFFFF">PT → PFN</text>
@@ -1319,18 +1319,18 @@ rationales.</p>
   <text x="225" y="322" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#616161">4 memory accesses, each potentially a cache miss</text>
 
   <!-- Arrow down -->
-  <line x1="225" y1="342" x2="225" y2="363" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-teal)"/>
+  <line x1="225" y1="342" x2="225" y2="363" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg2-arr-teal)"/>
 
   <!-- Step 4: TLB Filled -->
-  <rect x="110" y="364" width="230" height="44" rx="6" style="fill:#4A8A99;filter:url(#shadow)"/>
+  <rect x="110" y="364" width="230" height="44" rx="6" style="fill:#4A8A99;filter:url(#ch04-svg2-shadow)"/>
   <text x="225" y="382" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">TLB Entry Loaded</text>
   <text x="225" y="400" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#CCE8EC">VPN → PFN stored in TLB</text>
 
   <!-- Arrow down -->
-  <line x1="225" y1="408" x2="225" y2="429" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-teal)"/>
+  <line x1="225" y1="408" x2="225" y2="429" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg2-arr-teal)"/>
 
   <!-- Step 5: Resume -->
-  <rect x="130" y="430" width="190" height="36" rx="6" style="fill:#BF616A;filter:url(#shadow)"/>
+  <rect x="130" y="430" width="190" height="36" rx="6" style="fill:#BF616A;filter:url(#ch04-svg2-shadow)"/>
   <text x="225" y="453" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Resume Instruction</text>
 
   <!-- Latency annotation -->
@@ -1342,20 +1342,20 @@ rationales.</p>
   <text x="670" y="74" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;fill:#FFFFFF">Software-Managed TLB (RISC-V / MIPS)</text>
 
   <!-- Step 1: CPU TLB Miss -->
-  <rect x="580" y="100" width="180" height="44" rx="6" style="fill:#BF616A;filter:url(#shadow)"/>
+  <rect x="580" y="100" width="180" height="44" rx="6" style="fill:#BF616A;filter:url(#ch04-svg2-shadow)"/>
   <text x="670" y="118" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">CPU: TLB Miss</text>
   <text x="670" y="136" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#F0D9D9">Virtual address not cached</text>
 
   <!-- Arrow down -->
-  <line x1="670" y1="144" x2="670" y2="165" style="stroke:#BF616A;stroke-width:2" marker-end="url(#arr-orange)"/>
+  <line x1="670" y1="144" x2="670" y2="165" style="stroke:#BF616A;stroke-width:2" marker-end="url(#ch04-svg2-arr-orange)"/>
 
   <!-- Step 2: Exception Raised -->
-  <rect x="540" y="166" width="260" height="44" rx="6" style="fill:#BF616A;filter:url(#shadow)"/>
+  <rect x="540" y="166" width="260" height="44" rx="6" style="fill:#BF616A;filter:url(#ch04-svg2-shadow)"/>
   <text x="670" y="184" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">TLB-Miss Exception Raised</text>
   <text x="670" y="202" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#F0D9D9">CPU traps to OS exception handler</text>
 
   <!-- Arrow down -->
-  <line x1="670" y1="210" x2="670" y2="231" style="stroke:#BF616A;stroke-width:2" marker-end="url(#arr-orange)"/>
+  <line x1="670" y1="210" x2="670" y2="231" style="stroke:#BF616A;stroke-width:2" marker-end="url(#ch04-svg2-arr-orange)"/>
 
   <!-- OS Handler box -->
   <rect x="470" y="232" width="400" height="110" rx="6" style="fill:#FFF3E0;stroke:#BF616A;stroke-width:1.5"/>
@@ -1364,7 +1364,7 @@ rationales.</p>
   <rect x="485" y="260" width="150" height="32" rx="4" style="fill:#BF616A"/>
   <text x="560" y="273" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Read page table</text>
   <text x="560" y="286" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">in software</text>
-  <line x1="635" y1="276" x2="655" y2="276" style="stroke:#BF616A;stroke-width:2" marker-end="url(#arr-orange)"/>
+  <line x1="635" y1="276" x2="655" y2="276" style="stroke:#BF616A;stroke-width:2" marker-end="url(#ch04-svg2-arr-orange)"/>
 
   <rect x="656" y="260" width="200" height="32" rx="4" style="fill:#BF616A"/>
   <text x="756" y="273" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Write TLB via privileged</text>
@@ -1373,18 +1373,18 @@ rationales.</p>
   <text x="670" y="322" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#616161">OS controls TLB format — any page table structure possible</text>
 
   <!-- Arrow down -->
-  <line x1="670" y1="342" x2="670" y2="363" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-teal)"/>
+  <line x1="670" y1="342" x2="670" y2="363" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg2-arr-teal)"/>
 
   <!-- Step 4: TLB Filled -->
-  <rect x="560" y="364" width="220" height="44" rx="6" style="fill:#4A8A99;filter:url(#shadow)"/>
+  <rect x="560" y="364" width="220" height="44" rx="6" style="fill:#4A8A99;filter:url(#ch04-svg2-shadow)"/>
   <text x="670" y="382" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">TLB Entry Loaded</text>
   <text x="670" y="400" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#CCE8EC">VPN → PFN stored in TLB</text>
 
   <!-- Arrow down -->
-  <line x1="670" y1="408" x2="670" y2="429" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-teal)"/>
+  <line x1="670" y1="408" x2="670" y2="429" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg2-arr-teal)"/>
 
   <!-- Step 5: Resume -->
-  <rect x="575" y="430" width="190" height="36" rx="6" style="fill:#5E81AC;filter:url(#shadow)"/>
+  <rect x="575" y="430" width="190" height="36" rx="6" style="fill:#5E81AC;filter:url(#ch04-svg2-shadow)"/>
   <text x="670" y="453" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Resume Instruction</text>
 
   <!-- Latency annotation -->
@@ -1641,10 +1641,10 @@ explores three mechanisms: ASID (ARM), PCID (x86), and VMID
 <h3 id="the-context-switch-problem">4.4.1 The Context Switch
 Problem</h3>
 <figure id="fig-4-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
-<defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-<marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker></defs>
+<defs><filter id="ch04-svg3-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="ch04-svg3-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker></defs>
 <text x="450" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">TLB Entry Structure and ASID/PCID Context Tagging</text>
-<rect x="30" y="40" width="400" height="255" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="40" width="400" height="255" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch04-svg3-sh)"/>
 <rect x="30" y="40" width="400" height="28" rx="6" fill="#5E81AC"/>
 <text x="230" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="white">TLB Entry Fields (~128 bits per entry)</text>
 <rect x="45" y="80" width="370" height="28" rx="4" fill="#5E81AC"/>
@@ -1666,7 +1666,7 @@ Problem</h3>
 <rect x="45" y="222" width="370" height="26" rx="3" fill="#F5F5F5" stroke="#9E9E9E"/>
 <text x="230" y="240" text-anchor="middle" font-size="13" fill="#212121">Page size (4 KB / 2 MB / 1 GB) + memory type</text>
 <text x="230" y="280" text-anchor="middle" font-size="12" fill="#616161">L1 dTLB: 64 entries. L2 STLB: 1,024-2,048 entries.</text>
-<rect x="460" y="40" width="410" height="255" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="460" y="40" width="410" height="255" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch04-svg3-sh)"/>
 <rect x="460" y="40" width="410" height="28" rx="6" fill="#5E81AC"/>
 <text x="665" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ASID/PCID: Survive Context Switch Without Flush</text>
 <text x="556" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">Without ASID</text>
@@ -1879,16 +1879,16 @@ exhausted</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg4-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg4-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#4A8A99"/>
     </marker>
-    <marker id="arr-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg4-arr-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch04-svg4-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -1914,12 +1914,12 @@ exhausted</p>
   <text x="153" y="158" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#616161">8-bit (256) or 16-bit (65536) ASID</text>
 
   <!-- Process A -->
-  <rect x="30" y="170" width="110" height="52" rx="5" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="30" y="170" width="110" height="52" rx="5" style="fill:#5E81AC;filter:url(#ch04-svg4-sh)"/>
   <text x="85" y="192" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;fill:#FFFFFF">Process A</text>
   <text x="85" y="210" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#DDEAF5">ASID = 0x01</text>
 
   <!-- Process B -->
-  <rect x="150" y="170" width="110" height="52" rx="5" style="fill:#4A8A99;filter:url(#sh)"/>
+  <rect x="150" y="170" width="110" height="52" rx="5" style="fill:#4A8A99;filter:url(#ch04-svg4-sh)"/>
   <text x="205" y="192" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;fill:#FFFFFF">Process B</text>
   <text x="205" y="210" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#CCE8EC">ASID = 0x02</text>
 
@@ -1995,20 +1995,20 @@ exhausted</p>
   <text x="747" y="105" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;fill:#212121">Two-Level Context Tagging</text>
 
   <!-- Two-level hierarchy -->
-  <rect x="624" y="112" width="246" height="34" rx="5" style="fill:#4A8A99;filter:url(#sh)"/>
+  <rect x="624" y="112" width="246" height="34" rx="5" style="fill:#4A8A99;filter:url(#ch04-svg4-sh)"/>
   <text x="747" y="134" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">VMID [8/16-bit] → Hypervisor</text>
 
-  <line x1="700" y1="146" x2="700" y2="162" style="stroke:#4A8A99;stroke-width:1.5" marker-end="url(#arr-t)"/>
-  <line x1="794" y1="146" x2="794" y2="162" style="stroke:#4A8A99;stroke-width:1.5" marker-end="url(#arr-t)"/>
+  <line x1="700" y1="146" x2="700" y2="162" style="stroke:#4A8A99;stroke-width:1.5" marker-end="url(#ch04-svg4-arr-t)"/>
+  <line x1="794" y1="146" x2="794" y2="162" style="stroke:#4A8A99;stroke-width:1.5" marker-end="url(#ch04-svg4-arr-t)"/>
 
-  <rect x="624" y="163" width="113" height="34" rx="5" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="624" y="163" width="113" height="34" rx="5" style="fill:#5E81AC;filter:url(#ch04-svg4-sh)"/>
   <text x="680" y="185" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">VM 1 (VMID=1)</text>
 
-  <rect x="747" y="163" width="123" height="34" rx="5" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="747" y="163" width="123" height="34" rx="5" style="fill:#5E81AC;filter:url(#ch04-svg4-sh)"/>
   <text x="808" y="185" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">VM 2 (VMID=2)</text>
 
-  <line x1="660" y1="197" x2="660" y2="213" style="stroke:#5E81AC;stroke-width:1.5" marker-end="url(#arr-b)"/>
-  <line x1="700" y1="197" x2="700" y2="213" style="stroke:#5E81AC;stroke-width:1.5" marker-end="url(#arr-b)"/>
+  <line x1="660" y1="197" x2="660" y2="213" style="stroke:#5E81AC;stroke-width:1.5" marker-end="url(#ch04-svg4-arr-b)"/>
+  <line x1="700" y1="197" x2="700" y2="213" style="stroke:#5E81AC;stroke-width:1.5" marker-end="url(#ch04-svg4-arr-b)"/>
 
   <rect x="624" y="214" width="60" height="28" rx="4" style="fill:#BF616A"/>
   <text x="654" y="232" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#FFFFFF">P1(A1)</text>
@@ -2026,7 +2026,7 @@ exhausted</p>
   <text x="747" y="336" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;fill:#212121">Stage-2 Page Tables</text>
   <rect x="636" y="344" width="100" height="28" rx="4" style="fill:#4A8A99"/>
   <text x="686" y="363" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#FFFFFF">GPA→IPA (guest)</text>
-  <line x1="738" y1="358" x2="752" y2="358" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-t)"/>
+  <line x1="738" y1="358" x2="752" y2="358" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg4-arr-t)"/>
   <rect x="754" y="344" width="100" height="28" rx="4" style="fill:#5E81AC"/>
   <text x="804" y="363" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#FFFFFF">IPA→PA (hyp)</text>
 
@@ -2205,19 +2205,19 @@ issues.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg5-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#5E81AC"/>
     </marker>
-    <marker id="arr-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg5-arr-o" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#BF616A"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg5-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#4A8A99"/>
     </marker>
-    <marker id="arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg5-arr-g" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" style="fill:#9E9E9E"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch04-svg5-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -2227,16 +2227,16 @@ issues.</p>
 
   <!-- Timeline header -->
   <!-- CPU labels -->
-  <rect x="16" y="52" width="90" height="28" rx="4" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="16" y="52" width="90" height="28" rx="4" style="fill:#5E81AC;filter:url(#ch04-svg5-sh)"/>
   <text x="61" y="71" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Core 0</text>
 
-  <rect x="16" y="140" width="90" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <rect x="16" y="140" width="90" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="61" y="159" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Core 1</text>
 
-  <rect x="16" y="230" width="90" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <rect x="16" y="230" width="90" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="61" y="249" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Core 2</text>
 
-  <rect x="16" y="320" width="90" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <rect x="16" y="320" width="90" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="61" y="339" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;fill:#FFFFFF">Core 3</text>
 
   <!-- Horizontal swimlane lines -->
@@ -2260,19 +2260,19 @@ issues.</p>
   <line x1="770" y1="50" x2="770" y2="400" style="stroke:#E0E0E0;stroke-width:1"/>
 
   <!-- Core 0: Unmap page -->
-  <rect x="120" y="52" width="116" height="28" rx="4" style="fill:#BF616A;filter:url(#sh)"/>
+  <rect x="120" y="52" width="116" height="28" rx="4" style="fill:#BF616A;filter:url(#ch04-svg5-sh)"/>
   <text x="178" y="71" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">munmap(VA, size)</text>
 
   <!-- Core 0: IPI broadcast arrows to cores 1,2,3 -->
   <!-- Arrow to Core 1 -->
-  <line x1="305" y1="66" x2="305" y2="148" style="stroke:#BF616A;stroke-width:2" marker-end="url(#arr-o)"/>
+  <line x1="305" y1="66" x2="305" y2="148" style="stroke:#BF616A;stroke-width:2" marker-end="url(#ch04-svg5-arr-o)"/>
   <!-- Arrow to Core 2 -->
-  <line x1="340" y1="66" x2="340" y2="238" style="stroke:#BF616A;stroke-width:2" marker-end="url(#arr-o)"/>
+  <line x1="340" y1="66" x2="340" y2="238" style="stroke:#BF616A;stroke-width:2" marker-end="url(#ch04-svg5-arr-o)"/>
   <!-- Arrow to Core 3 -->
-  <line x1="375" y1="66" x2="375" y2="328" style="stroke:#BF616A;stroke-width:2" marker-end="url(#arr-o)"/>
+  <line x1="375" y1="66" x2="375" y2="328" style="stroke:#BF616A;stroke-width:2" marker-end="url(#ch04-svg5-arr-o)"/>
 
   <!-- Core 0: Wait for ACKs box -->
-  <rect x="253" y="52" width="165" height="28" rx="4" style="fill:#BF616A;filter:url(#sh)"/>
+  <rect x="253" y="52" width="165" height="28" rx="4" style="fill:#BF616A;filter:url(#ch04-svg5-sh)"/>
   <text x="335" y="67" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Send IPI to Cores 1,2,3</text>
   <text x="335" y="80" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#FFCCBC">(Inter-Processor Interrupt)</text>
 
@@ -2285,24 +2285,24 @@ issues.</p>
   <text x="682" y="71" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Waiting for ACKs...</text>
 
   <!-- Core 0: Complete -->
-  <rect x="775" y="52" width="105" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <rect x="775" y="52" width="105" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="827" y="71" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Page freed ✓</text>
 
   <!-- Core 1: IPI received, invalidate -->
   <rect x="120" y="140" width="170" height="28" rx="4" style="fill:#4A8A99"/>
   <text x="205" y="159" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Normal execution</text>
 
-  <rect x="296" y="140" width="125" height="28" rx="4" style="fill:#BF616A;filter:url(#sh)"/>
+  <rect x="296" y="140" width="125" height="28" rx="4" style="fill:#BF616A;filter:url(#ch04-svg5-sh)"/>
   <text x="358" y="155" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">IPI received</text>
   <text x="358" y="168" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#FFCCBC">interrupt fires</text>
 
-  <rect x="430" y="140" width="165" height="28" rx="4" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="430" y="140" width="165" height="28" rx="4" style="fill:#5E81AC;filter:url(#ch04-svg5-sh)"/>
   <text x="512" y="155" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">INVLPG [VA]</text>
   <text x="512" y="168" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#DDEAF5">TLB entry flushed</text>
 
   <!-- ACK arrow back from Core 1 to Core 0 -->
-  <line x1="610" y1="154" x2="610" y2="72" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-t)"/>
-  <rect x="615" y="140" width="145" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <line x1="610" y1="154" x2="610" y2="72" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg5-arr-t)"/>
+  <rect x="615" y="140" width="145" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="687" y="159" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">ACK → Core 0</text>
 
   <rect x="775" y="140" width="105" height="28" rx="4" style="fill:#4A8A99"/>
@@ -2312,15 +2312,15 @@ issues.</p>
   <rect x="120" y="230" width="215" height="28" rx="4" style="fill:#4A8A99"/>
   <text x="227" y="249" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Normal execution</text>
 
-  <rect x="340" y="230" width="80" height="28" rx="4" style="fill:#BF616A;filter:url(#sh)"/>
+  <rect x="340" y="230" width="80" height="28" rx="4" style="fill:#BF616A;filter:url(#ch04-svg5-sh)"/>
   <text x="380" y="249" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">IPI recv</text>
 
-  <rect x="430" y="230" width="165" height="28" rx="4" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="430" y="230" width="165" height="28" rx="4" style="fill:#5E81AC;filter:url(#ch04-svg5-sh)"/>
   <text x="512" y="245" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">INVLPG [VA]</text>
   <text x="512" y="258" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#DDEAF5">TLB entry flushed</text>
 
-  <line x1="620" y1="244" x2="620" y2="72" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-t)"/>
-  <rect x="628" y="230" width="132" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <line x1="620" y1="244" x2="620" y2="72" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg5-arr-t)"/>
+  <rect x="628" y="230" width="132" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="694" y="249" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">ACK → Core 0</text>
 
   <rect x="775" y="230" width="105" height="28" rx="4" style="fill:#4A8A99"/>
@@ -2330,15 +2330,15 @@ issues.</p>
   <rect x="120" y="320" width="250" height="28" rx="4" style="fill:#4A8A99"/>
   <text x="245" y="339" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">Normal execution</text>
 
-  <rect x="374" y="320" width="50" height="28" rx="4" style="fill:#BF616A;filter:url(#sh)"/>
+  <rect x="374" y="320" width="50" height="28" rx="4" style="fill:#BF616A;filter:url(#ch04-svg5-sh)"/>
   <text x="399" y="339" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">IPI</text>
 
-  <rect x="430" y="320" width="165" height="28" rx="4" style="fill:#5E81AC;filter:url(#sh)"/>
+  <rect x="430" y="320" width="165" height="28" rx="4" style="fill:#5E81AC;filter:url(#ch04-svg5-sh)"/>
   <text x="512" y="335" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">INVLPG [VA]</text>
   <text x="512" y="348" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;fill:#DDEAF5">TLB entry flushed</text>
 
-  <line x1="630" y1="334" x2="630" y2="72" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#arr-t)"/>
-  <rect x="638" y="320" width="122" height="28" rx="4" style="fill:#4A8A99;filter:url(#sh)"/>
+  <line x1="630" y1="334" x2="630" y2="72" style="stroke:#4A8A99;stroke-width:2" marker-end="url(#ch04-svg5-arr-t)"/>
+  <rect x="638" y="320" width="122" height="28" rx="4" style="fill:#4A8A99;filter:url(#ch04-svg5-sh)"/>
   <text x="699" y="339" text-anchor="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#FFFFFF">ACK → Core 0</text>
 
   <rect x="775" y="320" width="105" height="28" rx="4" style="fill:#4A8A99"/>
@@ -2542,19 +2542,19 @@ be addressed by all TLB entries:</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg6-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg6-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg6-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg6-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch04-svg6-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -2567,21 +2567,21 @@ be addressed by all TLB entries:</p>
   <text x="450" y="94" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">2 MB Pages</text>
   <rect x="630" y="70" width="240" height="36" rx="6" fill="#34495E"/>
   <text x="750" y="94" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">1 GB Pages</text>
-  <rect x="30" y="118" width="240" height="130" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="30" y="118" width="240" height="130" rx="6" fill="#5E81AC" filter="url(#ch04-svg6-sh)"/>
   <text x="150" y="142" text-anchor="middle" font-size="12" font-weight="normal" fill="#DDEAF5">512 entries × 4 KB</text>
   <text x="150" y="165" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">Coverage: 2 MB</text>
   <text x="150" y="188" text-anchor="middle" font-size="12" font-weight="normal" fill="#DDEAF5">GPT-3 needs 262M entries</text>
   <rect x="70" y="198" width="160" height="38" rx="4" fill="#F5F5F5"/>
   <text x="150" y="213" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Miss rate: 25–50%</text>
   <text x="150" y="230" text-anchor="middle" font-size="12" font-weight="normal" fill="#BF616A">❌ AI/ML unusable</text>
-  <rect x="330" y="118" width="240" height="130" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <rect x="330" y="118" width="240" height="130" rx="6" fill="#4A8A99" filter="url(#ch04-svg6-sh)"/>
   <text x="450" y="142" text-anchor="middle" font-size="12" font-weight="normal" fill="#CCE8EC">512 entries × 2 MB</text>
   <text x="450" y="165" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">Coverage: 1 GB</text>
   <text x="450" y="188" text-anchor="middle" font-size="12" font-weight="normal" fill="#CCE8EC">GPT-3 needs 1,800 entries</text>
   <rect x="370" y="198" width="160" height="38" rx="4" fill="#F5F5F5"/>
   <text x="450" y="213" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">Miss rate: 2–5%</text>
   <text x="450" y="230" text-anchor="middle" font-size="12" font-weight="normal" fill="#5E81AC">✓ Recommended</text>
-  <rect x="630" y="118" width="240" height="130" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="630" y="118" width="240" height="130" rx="6" fill="#34495E" filter="url(#ch04-svg6-sh)"/>
   <text x="750" y="142" text-anchor="middle" font-size="12" font-weight="normal" fill="#B0BEC5">512 entries × 1 GB</text>
   <text x="750" y="165" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">Coverage: 512 GB</text>
   <text x="750" y="188" text-anchor="middle" font-size="12" font-weight="normal" fill="#B0BEC5">GPT-3: 2 entries needed!</text>
@@ -3631,10 +3631,10 @@ are guaranteed to see the same copy of memory:</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+    <marker id="ch04-svg7-arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
       <path d="M0,0 L0,6 L9,3 z" fill="#212121"/>
     </marker>
-    <filter id="sh" x="-5%" y="-5%" width="115%" height="115%">
+    <filter id="ch04-svg7-sh" x="-5%" y="-5%" width="115%" height="115%">
       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.18)"/>
     </filter>
   </defs>
@@ -3642,7 +3642,7 @@ are guaranteed to see the same copy of memory:</p>
   <text x="450" y="32" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="bold" fill="#212121" text-anchor="middle">Cache &amp; TLB Coherence Points (ARM PoU / PoC)</text>
 
   <!-- CPU Core box -->
-  <rect x="30" y="55" width="250" height="300" rx="6" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="55" width="250" height="300" rx="6" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#ch04-svg7-sh)"/>
   <text x="155" y="78" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#5E81AC" text-anchor="middle">CPU Core</text>
 
   <!-- L1 I-cache -->
@@ -3675,31 +3675,31 @@ are guaranteed to see the same copy of memory:</p>
   <text x="155" y="326" font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#CCE8EC" text-anchor="middle">512 KB / 1024–2048 entries</text>
 
   <!-- Arrow L1 → L2 -->
-  <line x1="155" y1="220" x2="155" y2="283" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="155" y1="220" x2="155" y2="283" stroke="#212121" stroke-width="1.5" marker-end="url(#ch04-svg7-arr)"/>
 
   <!-- Shared L3 / LLC -->
-  <rect x="330" y="140" width="240" height="70" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="2" filter="url(#sh)"/>
+  <rect x="330" y="140" width="240" height="70" rx="6" fill="#4A8A99" stroke="#004D40" stroke-width="2" filter="url(#ch04-svg7-sh)"/>
   <text x="450" y="168" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">Shared L3 Cache (LLC)</text>
   <text x="450" y="188" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#CCE8EC" text-anchor="middle">8–64 MB — Point of Coherence (PoC)</text>
 
   <!-- Arrow Core → L3 -->
-  <line x1="280" y1="310" x2="328" y2="180" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="280" y1="310" x2="328" y2="180" stroke="#212121" stroke-width="1.5" marker-end="url(#ch04-svg7-arr)"/>
 
   <!-- DRAM -->
-  <rect x="330" y="280" width="240" height="65" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#sh)"/>
+  <rect x="330" y="280" width="240" height="65" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#ch04-svg7-sh)"/>
   <text x="450" y="307" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="bold" fill="#212121" text-anchor="middle">DRAM (Main Memory)</text>
   <text x="450" y="327" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161" text-anchor="middle">Page tables reside here</text>
 
   <!-- Arrow L3 → DRAM -->
-  <line x1="450" y1="210" x2="450" y2="278" stroke="#212121" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="450" y1="210" x2="450" y2="278" stroke="#212121" stroke-width="1.5" marker-end="url(#ch04-svg7-arr)"/>
 
   <!-- HW Page Walker -->
-  <rect x="620" y="140" width="245" height="70" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#sh)"/>
+  <rect x="620" y="140" width="245" height="70" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#ch04-svg7-sh)"/>
   <text x="742" y="168" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">HW Page Table Walker</text>
   <text x="742" y="187" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#616161" text-anchor="middle">Walks DRAM on TLB miss</text>
 
   <!-- Arrow Walker → DRAM -->
-  <line x1="742" y1="210" x2="570" y2="278" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+  <line x1="742" y1="210" x2="570" y2="278" stroke="#BF616A" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#ch04-svg7-arr)"/>
 
   <!-- PoU / PoC annotations -->
   <text x="330" y="390" font-family="Arial,Helvetica,sans-serif" font-size="14" font-weight="bold" fill="#5E81AC">PoU (Point of Unification):</text>
@@ -4201,19 +4201,19 @@ uses physical addresses directly - Simple but inflexible</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="580" viewBox="0 0 900 580" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg8-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#212121"/>
     </marker>
-    <marker id="arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg8-arr-b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg8-arr-t" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch04-svg8-arr-r" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#BF616A"/>
     </marker>
-    <filter id="sh">
+    <filter id="ch04-svg8-sh">
       <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/>
     </filter>
   </defs>
@@ -4223,26 +4223,26 @@ uses physical addresses directly - Simple but inflexible</p>
   <rect x="20" y="65" width="415" height="450" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="20" y="65" width="415" height="28" rx="0" fill="#5E81AC"/>
   <text x="227" y="83" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">CPU TLB — x86-64 / ARM64 (per-core, isolated)</text>
-  <rect x="90" y="105" width="255" height="44" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="90" y="105" width="255" height="44" rx="6" fill="#5E81AC" filter="url(#ch04-svg8-sh)"/>
   <text x="217" y="123" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">CPU Core</text>
   <text x="217" y="140" text-anchor="middle" font-size="12" fill="#DDEAF5">x86-64 / ARM64 / RISC-V</text>
-  <rect x="80" y="165" width="115" height="44" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="80" y="165" width="115" height="44" rx="6" fill="#5E81AC" filter="url(#ch04-svg8-sh)"/>
   <text x="137" y="183" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">L1 ITLB</text>
   <text x="137" y="200" text-anchor="middle" font-size="11" fill="#DDEAF5">64 entries / 1 cycle</text>
-  <rect x="240" y="165" width="115" height="44" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="240" y="165" width="115" height="44" rx="6" fill="#5E81AC" filter="url(#ch04-svg8-sh)"/>
   <text x="297" y="183" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">L1 DTLB</text>
   <text x="297" y="200" text-anchor="middle" font-size="11" fill="#DDEAF5">64 entries / 1 cycle</text>
-  <line x1="217" y1="149" x2="142" y2="165" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arr-b)"/>
-  <line x1="217" y1="149" x2="292" y2="165" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arr-b)"/>
-  <rect x="80" y="225" width="275" height="44" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <line x1="217" y1="149" x2="142" y2="165" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch04-svg8-arr-b)"/>
+  <line x1="217" y1="149" x2="292" y2="165" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch04-svg8-arr-b)"/>
+  <rect x="80" y="225" width="275" height="44" rx="6" fill="#4A8A99" filter="url(#ch04-svg8-sh)"/>
   <text x="217" y="243" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">L2 Unified TLB (STLB)</text>
   <text x="217" y="260" text-anchor="middle" font-size="11" fill="#CCE8EC">1,536 entries / 6–8 cycles</text>
-  <line x1="137" y1="209" x2="137" y2="225" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <line x1="297" y1="209" x2="297" y2="225" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="80" y="285" width="275" height="44" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <line x1="137" y1="209" x2="137" y2="225" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch04-svg8-arr-t)"/>
+  <line x1="297" y1="209" x2="297" y2="225" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch04-svg8-arr-t)"/>
+  <rect x="80" y="285" width="275" height="44" rx="6" fill="#34495E" filter="url(#ch04-svg8-sh)"/>
   <text x="217" y="303" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Hardware Page Table Walker</text>
   <text x="217" y="320" text-anchor="middle" font-size="11" fill="#B0BEC5">Walks CR3/TTBR1 on miss  ~100 ns</text>
-  <line x1="217" y1="269" x2="217" y2="285" stroke="#34495E" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="217" y1="269" x2="217" y2="285" stroke="#34495E" stroke-width="1.5" marker-end="url(#ch04-svg8-arr)"/>
   <rect x="30" y="345" width="395" height="155" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="30" y="345" width="395" height="22" rx="0" fill="#34495E"/>
   <text x="227" y="360" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">CPU TLB Properties</text>
@@ -4254,21 +4254,21 @@ uses physical addresses directly - Simple but inflexible</p>
   <rect x="465" y="65" width="415" height="450" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="465" y="65" width="415" height="28" rx="0" fill="#4A8A99"/>
   <text x="672" y="83" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">GPU MMU — NVIDIA H100 / AMD MI300X (shared)</text>
-  <rect x="475" y="105" width="395" height="44" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <rect x="475" y="105" width="395" height="44" rx="6" fill="#34495E" filter="url(#ch04-svg8-sh)"/>
   <text x="672" y="124" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFFFFF">128 Streaming Multiprocessors (SMs)</text>
   <text x="672" y="141" text-anchor="middle" font-size="11" fill="#B0BEC5">Each SM = thread block scheduler + CUDA cores</text>
-  <rect x="475" y="165" width="395" height="44" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <rect x="475" y="165" width="395" height="44" rx="6" fill="#5E81AC" filter="url(#ch04-svg8-sh)"/>
   <text x="672" y="183" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Per-SM L1 TLB (private per SM)</text>
   <text x="672" y="200" text-anchor="middle" font-size="11" fill="#DDEAF5">32–64 entries / 1–4 cycles</text>
-  <line x1="672" y1="149" x2="672" y2="165" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#arr-b)"/>
-  <rect x="475" y="225" width="395" height="44" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <line x1="672" y1="149" x2="672" y2="165" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch04-svg8-arr-b)"/>
+  <rect x="475" y="225" width="395" height="44" rx="6" fill="#4A8A99" filter="url(#ch04-svg8-sh)"/>
   <text x="672" y="243" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">Shared L2 TLB (GPC-level)</text>
   <text x="672" y="260" text-anchor="middle" font-size="11" fill="#CCE8EC">~4K entries shared across SMs in GPC</text>
-  <line x1="672" y1="209" x2="672" y2="225" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#arr-t)"/>
-  <rect x="475" y="285" width="395" height="44" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <line x1="672" y1="209" x2="672" y2="225" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch04-svg8-arr-t)"/>
+  <rect x="475" y="285" width="395" height="44" rx="6" fill="#34495E" filter="url(#ch04-svg8-sh)"/>
   <text x="672" y="303" text-anchor="middle" font-size="14" font-weight="bold" fill="#FFFFFF">GPU MMU + IOMMU</text>
   <text x="672" y="320" text-anchor="middle" font-size="11" fill="#B0BEC5">PCIe ATS / NVLink 2-stage walk  1–10 µs on miss</text>
-  <line x1="672" y1="269" x2="672" y2="285" stroke="#34495E" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="672" y1="269" x2="672" y2="285" stroke="#34495E" stroke-width="1.5" marker-end="url(#ch04-svg8-arr)"/>
   <rect x="475" y="345" width="395" height="155" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
   <rect x="475" y="345" width="395" height="22" rx="0" fill="#34495E"/>
   <text x="672" y="360" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">GPU MMU Properties</text>
@@ -4681,7 +4681,7 @@ with application-transparent support for multiple page sizes."
 Microarchitecture (MICRO 2017)</em>. ACM, 2017. DOI:
 10.1145/3123939.3123975 [GPU TLB with mixed page sizes]</p></li>
 </ol>
-<h3 id="iommu-and-dma-remapping">IOMMU and DMA Remapping</h3>
+<h3 id="iommu-and-dma-remapping-references">IOMMU and DMA Remapping</h3>
 <ol type="1" start="35">
 <li><p>Intel Corporation. <em>Intel® Virtualization Technology for
 Directed I/O (VT-d): Architecture Specification</em>. Revision 3.3.
@@ -5194,7 +5194,7 @@ optimizations]</p></li>
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -5632,7 +5632,7 @@ optimizations]</p></li>
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

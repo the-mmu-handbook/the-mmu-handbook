@@ -1240,17 +1240,17 @@ diving into platform-specific details.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="shadow"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <filter id="ch05-svg1-shadow"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch05-svg1-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#5E81AC"/>
     </marker>
-    <marker id="arr-org" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch05-svg1-arr-org" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#BF616A"/>
     </marker>
-    <marker id="arr-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="ch05-svg1-arr-teal" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#4A8A99"/>
     </marker>
-    <marker id="arr-rev" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
+    <marker id="ch05-svg1-arr-rev" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto">
       <polygon points="10 0, 0 3.5, 10 7" fill="#5E81AC"/>
     </marker>
   </defs>
@@ -1259,7 +1259,7 @@ diving into platform-specific details.</p>
   <text x="450" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">IOMMU System Architecture Overview</text>
 
   <!-- CPU + MMU box -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch05-svg1-shadow)">
     <rect x="30" y="60" width="180" height="180" rx="6" fill="#5E81AC" stroke="#0D47A1" stroke-width="2"/>
   </g>
   <text x="120" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="white">CPU Complex</text>
@@ -1272,24 +1272,24 @@ diving into platform-specific details.</p>
   <text x="120" y="217" text-anchor="middle" font-size="13" fill="white">(CPU addresses)</text>
 
   <!-- IOMMU box -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch05-svg1-shadow)">
     <rect x="340" y="60" width="220" height="300" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2"/>
   </g>
   <text x="450" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#212121">IOMMU</text>
   <!-- Device Table -->
-  <rect x="360" y="96" width="180" height="44" rx="4" fill="#5E81AC" filter="url(#shadow)"/>
+  <rect x="360" y="96" width="180" height="44" rx="4" fill="#5E81AC" filter="url(#ch05-svg1-shadow)"/>
   <text x="450" y="115" text-anchor="middle" font-size="14" fill="white">Device Table</text>
   <text x="450" y="132" text-anchor="middle" font-size="12" fill="white">(per-device page table ptr)</text>
   <!-- IOTLB -->
-  <rect x="360" y="152" width="180" height="44" rx="4" fill="#4A8A99" filter="url(#shadow)"/>
+  <rect x="360" y="152" width="180" height="44" rx="4" fill="#4A8A99" filter="url(#ch05-svg1-shadow)"/>
   <text x="450" y="171" text-anchor="middle" font-size="14" fill="white">IOTLB</text>
   <text x="450" y="188" text-anchor="middle" font-size="12" fill="white">(DVA → PA cache)</text>
   <!-- Page Table Walker -->
-  <rect x="360" y="208" width="180" height="44" rx="4" fill="#5E81AC" fill-opacity="0.75" filter="url(#shadow)"/>
+  <rect x="360" y="208" width="180" height="44" rx="4" fill="#5E81AC" fill-opacity="0.75" filter="url(#ch05-svg1-shadow)"/>
   <text x="450" y="227" text-anchor="middle" font-size="14" fill="white">Page Table Walker</text>
   <text x="450" y="244" text-anchor="middle" font-size="12" fill="white">(on IOTLB miss)</text>
   <!-- Command/Event Buffer -->
-  <rect x="360" y="264" width="180" height="44" rx="4" fill="#BF616A" fill-opacity="0.80" filter="url(#shadow)"/>
+  <rect x="360" y="264" width="180" height="44" rx="4" fill="#BF616A" fill-opacity="0.80" filter="url(#ch05-svg1-shadow)"/>
   <text x="450" y="283" text-anchor="middle" font-size="14" fill="white">Cmd / Event Queue</text>
   <text x="450" y="300" text-anchor="middle" font-size="12" fill="white">(invalidations, faults)</text>
   <!-- Interrupt Remapping -->
@@ -1297,7 +1297,7 @@ diving into platform-specific details.</p>
   <text x="450" y="340" text-anchor="middle" font-size="13" fill="#212121">Interrupt Remapping</text>
 
   <!-- Physical Memory -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch05-svg1-shadow)">
     <rect x="700" y="60" width="170" height="180" rx="6" fill="#4A8A99" stroke="#4A8A99" stroke-width="2"/>
   </g>
   <text x="785" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Physical Memory</text>
@@ -1312,19 +1312,19 @@ diving into platform-specific details.</p>
   <text x="785" y="207" text-anchor="middle" font-size="13" fill="white">Kernel / App Data</text>
 
   <!-- Devices (bottom) -->
-  <g filter="url(#shadow)">
+  <g filter="url(#ch05-svg1-shadow)">
     <rect x="30" y="310" width="160" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="110" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="white">NIC / Network</text>
   <text x="110" y="357" text-anchor="middle" font-size="13" fill="white">Device DMA</text>
 
-  <g filter="url(#shadow)">
+  <g filter="url(#ch05-svg1-shadow)">
     <rect x="210" y="310" width="110" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="265" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="white">GPU</text>
   <text x="265" y="357" text-anchor="middle" font-size="13" fill="white">Device DMA</text>
 
-  <g filter="url(#shadow)">
+  <g filter="url(#ch05-svg1-shadow)">
     <rect x="700" y="310" width="170" height="60" rx="6" fill="#BF616A" stroke="#BF616A" stroke-width="2"/>
   </g>
   <text x="785" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="white">NVMe / Storage</text>
@@ -1335,24 +1335,24 @@ diving into platform-specific details.</p>
   <text x="450" y="419" text-anchor="middle" font-size="14" fill="#212121">PCIe System Bus</text>
 
   <!-- Arrows: CPU → IOMMU (address request) -->
-  <line x1="210" y1="150" x2="338" y2="200" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="210" y1="150" x2="338" y2="200" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg1-arr)"/>
   <text x="270" y="168" text-anchor="middle" font-size="12" fill="#5E81AC" transform="rotate(-22,270,168)">Virtual Addr</text>
 
   <!-- Arrows: IOMMU → Physical Memory (page table walk) -->
-  <line x1="562" y1="210" x2="698" y2="160" stroke="#5E81AC" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="562" y1="210" x2="698" y2="160" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg1-arr)"/>
   <text x="635" y="178" text-anchor="middle" font-size="12" fill="#5E81AC" transform="rotate(-20,635,178)">Walk I/O PT</text>
 
   <!-- Arrow: devices → IOMMU (DMA requests) -->
-  <line x1="110" y1="310" x2="380" y2="358" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-org)"/>
-  <line x1="265" y1="310" x2="390" y2="358" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-org)"/>
+  <line x1="110" y1="310" x2="380" y2="358" stroke="#BF616A" stroke-width="2" marker-end="url(#ch05-svg1-arr-org)"/>
+  <line x1="265" y1="310" x2="390" y2="358" stroke="#BF616A" stroke-width="2" marker-end="url(#ch05-svg1-arr-org)"/>
   <text x="220" y="350" text-anchor="middle" font-size="12" fill="#BF616A">DMA Req (DVA)</text>
 
   <!-- Arrow: IOMMU → Memory (translated DMA) -->
-  <line x1="562" y1="290" x2="785" y2="310" stroke="#4A8A99" stroke-width="2" marker-end="url(#arr-teal)"/>
+  <line x1="562" y1="290" x2="785" y2="310" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch05-svg1-arr-teal)"/>
   <text x="670" y="302" text-anchor="middle" font-size="12" fill="#4A8A99">DMA → PA</text>
 
   <!-- Arrow: right device → IOMMU -->
-  <line x1="785" y1="310" x2="560" y2="340" stroke="#BF616A" stroke-width="2" marker-end="url(#arr-org)"/>
+  <line x1="785" y1="310" x2="560" y2="340" stroke="#BF616A" stroke-width="2" marker-end="url(#ch05-svg1-arr-org)"/>
 
   <!-- Legend -->
   <rect x="30" y="450" width="840" height="80" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -1603,28 +1603,28 @@ devices</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
-    <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="ch05-svg2-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch05-svg2-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch05-svg2-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <marker id="ch05-svg2-ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <marker id="ch05-svg2-ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">IOMMU DMA Translation Flow (Step-by-Step)</text>
 
   <!-- Step boxes: vertical flow left column -->
   <!-- Step 1: Device DMA request -->
-  <g filter="url(#sh)"><rect x="30" y="55" width="200" height="55" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="30" y="55" width="200" height="55" rx="6" fill="#BF616A"/></g>
   <text x="130" y="77" text-anchor="middle" font-size="13" font-weight="bold" fill="white">① Device Issues DMA</text>
   <text x="130" y="95" text-anchor="middle" font-size="12" fill="white">DMA(DVA = 0x7fff_1234)</text>
 
   <!-- Step 2: Device Table Lookup -->
-  <g filter="url(#sh)"><rect x="30" y="135" width="200" height="55" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="30" y="135" width="200" height="55" rx="6" fill="#5E81AC"/></g>
   <text x="130" y="157" text-anchor="middle" font-size="13" font-weight="bold" fill="white">② Device Table Lookup</text>
   <text x="130" y="175" text-anchor="middle" font-size="12" fill="white">Device ID → Context Entry</text>
 
   <!-- Step 3: IOTLB Lookup -->
-  <g filter="url(#sh)"><rect x="30" y="215" width="200" height="55" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="30" y="215" width="200" height="55" rx="6" fill="#4A8A99"/></g>
   <text x="130" y="237" text-anchor="middle" font-size="13" font-weight="bold" fill="white">③ IOTLB Lookup</text>
   <text x="130" y="255" text-anchor="middle" font-size="12" fill="white">Check (DVA, DevID) tag</text>
 
@@ -1634,26 +1634,26 @@ devices</p>
   <text x="130" y="348" text-anchor="middle" font-size="12" fill="#616161">cached PA?</text>
 
   <!-- YES path → Step 4A -->
-  <g filter="url(#sh)"><rect x="30" y="390" width="200" height="55" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="30" y="390" width="200" height="55" rx="6" fill="#4A8A99"/></g>
   <text x="130" y="412" text-anchor="middle" font-size="13" font-weight="bold" fill="white">④A DMA Proceeds</text>
   <text x="130" y="430" text-anchor="middle" font-size="12" fill="white">PA returned (~10–50 ns)</text>
 
   <!-- Arrows left column -->
-  <line x1="130" y1="110" x2="130" y2="133" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
-  <line x1="130" y1="190" x2="130" y2="213" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
-  <line x1="130" y1="270" x2="130" y2="303" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="130" y1="110" x2="130" y2="133" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg2-a)"/>
+  <line x1="130" y1="190" x2="130" y2="213" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg2-a)"/>
+  <line x1="130" y1="270" x2="130" y2="303" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg2-a)"/>
   <!-- Yes path -->
-  <line x1="130" y1="365" x2="130" y2="388" stroke="#4A8A99" stroke-width="2" marker-end="url(#ag)"/>
+  <line x1="130" y1="365" x2="130" y2="388" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch05-svg2-ag)"/>
   <text x="145" y="380" font-size="12" fill="#4A8A99">YES</text>
 
   <!-- MISS path (right side) -->
   <!-- Step 4B: Page Table Walk -->
-  <g filter="url(#sh)"><rect x="300" y="215" width="200" height="55" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="300" y="215" width="200" height="55" rx="6" fill="#5E81AC"/></g>
   <text x="400" y="237" text-anchor="middle" font-size="13" font-weight="bold" fill="white">④B Page Table Walk</text>
   <text x="400" y="255" text-anchor="middle" font-size="12" fill="white">4 DRAM reads (~400 ns)</text>
 
   <!-- Step 5: Permission check -->
-  <g filter="url(#sh)"><rect x="300" y="295" width="200" height="55" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="300" y="295" width="200" height="55" rx="6" fill="#5E81AC"/></g>
   <text x="400" y="317" text-anchor="middle" font-size="13" font-weight="bold" fill="white">⑤ Permission Check</text>
   <text x="400" y="335" text-anchor="middle" font-size="12" fill="white">Read/Write/Domain valid?</text>
 
@@ -1663,27 +1663,27 @@ devices</p>
   <text x="400" y="418" text-anchor="middle" font-size="12" fill="#616161">permitted?</text>
 
   <!-- Valid YES → DMA proceeds -->
-  <g filter="url(#sh)"><rect x="300" y="460" width="200" height="55" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="300" y="460" width="200" height="55" rx="6" fill="#4A8A99"/></g>
   <text x="400" y="482" text-anchor="middle" font-size="13" font-weight="bold" fill="white">⑥A DMA Proceeds</text>
   <text x="400" y="500" text-anchor="middle" font-size="12" fill="white">Fill IOTLB + allow DMA</text>
 
   <!-- Fault path -->
-  <g filter="url(#sh)"><rect x="560" y="375" width="200" height="55" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch05-svg2-sh)"><rect x="560" y="375" width="200" height="55" rx="6" fill="#BF616A"/></g>
   <text x="660" y="397" text-anchor="middle" font-size="13" font-weight="bold" fill="white">⑥B IOMMU Fault</text>
   <text x="660" y="415" text-anchor="middle" font-size="12" fill="white">Log event, notify OS</text>
 
   <!-- NO path from hit diamond to miss path -->
-  <line x1="200" y1="335" x2="300" y2="243" stroke="#BF616A" stroke-width="2" marker-end="url(#ao)"/>
+  <line x1="200" y1="335" x2="300" y2="243" stroke="#BF616A" stroke-width="2" marker-end="url(#ch05-svg2-ao)"/>
   <text x="260" y="272" font-size="12" fill="#BF616A" transform="rotate(-50,260,272)">NO (miss)</text>
 
   <!-- Arrows right column -->
-  <line x1="400" y1="270" x2="400" y2="293" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
-  <line x1="400" y1="350" x2="400" y2="373" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="400" y1="270" x2="400" y2="293" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg2-a)"/>
+  <line x1="400" y1="350" x2="400" y2="373" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg2-a)"/>
   <!-- Valid YES -->
-  <line x1="400" y1="435" x2="400" y2="458" stroke="#4A8A99" stroke-width="2" marker-end="url(#ag)"/>
+  <line x1="400" y1="435" x2="400" y2="458" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch05-svg2-ag)"/>
   <text x="415" y="450" font-size="12" fill="#4A8A99">YES</text>
   <!-- Valid NO -->
-  <line x1="470" y1="405" x2="558" y2="400" stroke="#BF616A" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="470" y1="405" x2="558" y2="400" stroke="#BF616A" stroke-width="2" marker-end="url(#ch05-svg2-ar)"/>
   <text x="515" y="395" font-size="12" fill="#BF616A">NO</text>
 
   <!-- Right panel: latency box -->
@@ -1773,9 +1773,9 @@ Evolution</h3>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <filter id="ch05-svg3-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch05-svg3-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch05-svg3-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Intel VT-d Table Hierarchy</text>
@@ -1785,28 +1785,28 @@ Evolution</h3>
   <text x="225" y="68" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Legacy Mode</text>
 
   <!-- CR3 / Root Table -->
-  <g filter="url(#sh)"><rect x="80" y="90" width="290" height="48" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="80" y="90" width="290" height="48" rx="6" fill="#5E81AC"/></g>
   <text x="225" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Root Table (4 KB)</text>
   <text x="225" y="128" text-anchor="middle" font-size="13" fill="white">256 entries, 1 per PCI bus (0–255)</text>
 
-  <line x1="225" y1="138" x2="225" y2="158" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="225" y1="138" x2="225" y2="158" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg3-a)"/>
 
   <!-- Context Table -->
-  <g filter="url(#sh)"><rect x="80" y="158" width="290" height="48" rx="6" fill="#5E81AC" fill-opacity="0.80"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="80" y="158" width="290" height="48" rx="6" fill="#5E81AC" fill-opacity="0.80"/></g>
   <text x="225" y="178" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Context Table (4 KB)</text>
   <text x="225" y="196" text-anchor="middle" font-size="13" fill="white">256 entries, 1 per device/function</text>
 
-  <line x1="225" y1="206" x2="225" y2="226" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="225" y1="206" x2="225" y2="226" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg3-a)"/>
 
   <!-- I/O Page Tables -->
-  <g filter="url(#sh)"><rect x="80" y="226" width="290" height="48" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="80" y="226" width="290" height="48" rx="6" fill="#4A8A99"/></g>
   <text x="225" y="246" text-anchor="middle" font-size="15" font-weight="bold" fill="white">I/O Page Tables (4-level)</text>
   <text x="225" y="264" text-anchor="middle" font-size="13" fill="white">DVA[47:39]→[38:30]→[29:21]→[20:12]</text>
 
-  <line x1="225" y1="274" x2="225" y2="294" stroke="#4A8A99" stroke-width="2" marker-end="url(#ag)"/>
+  <line x1="225" y1="274" x2="225" y2="294" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch05-svg3-ag)"/>
 
   <!-- Physical page -->
-  <g filter="url(#sh)"><rect x="80" y="294" width="290" height="40" rx="6" fill="#4A8A99" fill-opacity="0.70"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="80" y="294" width="290" height="40" rx="6" fill="#4A8A99" fill-opacity="0.70"/></g>
   <text x="225" y="319" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Physical Memory Page</text>
 
   <!-- Right column: Scalable Mode -->
@@ -1814,34 +1814,34 @@ Evolution</h3>
   <text x="675" y="68" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Scalable Mode (VT-d 3.0+) with PASID</text>
 
   <!-- Root + Context (same) -->
-  <g filter="url(#sh)"><rect x="530" y="90" width="290" height="48" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="530" y="90" width="290" height="48" rx="6" fill="#5E81AC"/></g>
   <text x="675" y="110" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Root Table → Context Table</text>
   <text x="675" y="128" text-anchor="middle" font-size="13" fill="white">Same lookup (bus → device/function)</text>
 
-  <line x1="675" y1="138" x2="675" y2="158" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="675" y1="138" x2="675" y2="158" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg3-a)"/>
 
   <!-- PASID Table -->
-  <g filter="url(#sh)"><rect x="530" y="158" width="290" height="48" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="530" y="158" width="290" height="48" rx="6" fill="#BF616A"/></g>
   <text x="675" y="178" text-anchor="middle" font-size="15" font-weight="bold" fill="white">PASID Table</text>
   <text x="675" y="196" text-anchor="middle" font-size="13" fill="white">Per-device; indexed by PASID (20-bit)</text>
 
   <!-- Fan-out: 3 processes -->
   <line x1="675" y1="206" x2="675" y2="240" stroke="#BF616A" stroke-width="1.5"/>
   <line x1="580" y1="240" x2="770" y2="240" stroke="#BF616A" stroke-width="1.5"/>
-  <line x1="580" y1="240" x2="580" y2="258" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ag)"/>
-  <line x1="675" y1="240" x2="675" y2="258" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ag)"/>
-  <line x1="770" y1="240" x2="770" y2="258" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ag)"/>
+  <line x1="580" y1="240" x2="580" y2="258" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch05-svg3-ag)"/>
+  <line x1="675" y1="240" x2="675" y2="258" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch05-svg3-ag)"/>
+  <line x1="770" y1="240" x2="770" y2="258" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch05-svg3-ag)"/>
 
   <!-- 3 per-process page tables -->
-  <g filter="url(#sh)"><rect x="530" y="258" width="84" height="50" rx="5" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="530" y="258" width="84" height="50" rx="5" fill="#4A8A99"/></g>
   <text x="572" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Process A</text>
   <text x="572" y="294" text-anchor="middle" font-size="11" fill="white">PASID 0</text>
 
-  <g filter="url(#sh)"><rect x="633" y="258" width="84" height="50" rx="5" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="633" y="258" width="84" height="50" rx="5" fill="#4A8A99"/></g>
   <text x="675" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Process B</text>
   <text x="675" y="294" text-anchor="middle" font-size="11" fill="white">PASID 1</text>
 
-  <g filter="url(#sh)"><rect x="728" y="258" width="84" height="50" rx="5" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg3-sh)"><rect x="728" y="258" width="84" height="50" rx="5" fill="#4A8A99"/></g>
   <text x="770" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Process C</text>
   <text x="770" y="294" text-anchor="middle" font-size="11" fill="white">PASID 2</text>
 
@@ -3899,16 +3899,16 @@ I/O Virtualization)</h3>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
+    <filter id="ch05-svg4-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch05-svg4-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch05-svg4-ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+    <marker id="ch05-svg4-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">SR-IOV and VFIO Device Assignment with IOMMU</text>
 
   <!-- Physical NIC (PF) -->
-  <g filter="url(#sh)"><rect x="30" y="55" width="200" height="80" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="30" y="55" width="200" height="80" rx="6" fill="#BF616A"/></g>
   <text x="130" y="82" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Physical NIC</text>
   <text x="130" y="100" text-anchor="middle" font-size="13" fill="white">PF (Physical Function)</text>
   <text x="130" y="118" text-anchor="middle" font-size="12" fill="white">10 GbE, BDF 00:1f.0</text>
@@ -3916,25 +3916,25 @@ I/O Virtualization)</h3>
   <!-- VF fan-out -->
   <line x1="230" y1="95" x2="270" y2="95" stroke="#BF616A" stroke-width="2"/>
   <line x1="270" y1="95" x2="270" y2="180" stroke="#BF616A" stroke-width="1.5"/>
-  <line x1="270" y1="130" x2="310" y2="130" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ao)"/>
-  <line x1="270" y1="180" x2="310" y2="180" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ao)"/>
-  <line x1="270" y1="230" x2="310" y2="230" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ao)"/>
+  <line x1="270" y1="130" x2="310" y2="130" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch05-svg4-ao)"/>
+  <line x1="270" y1="180" x2="310" y2="180" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch05-svg4-ao)"/>
+  <line x1="270" y1="230" x2="310" y2="230" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ch05-svg4-ao)"/>
   <line x1="270" y1="230" x2="270" y2="230" stroke="#BF616A" stroke-width="1.5"/>
   <!-- adjust last line -->
   <line x1="270" y1="130" x2="270" y2="230" stroke="#BF616A" stroke-width="1.5"/>
 
   <!-- VF 0 -->
-  <g filter="url(#sh)"><rect x="310" y="110" width="140" height="44" rx="5" fill="#BF616A" fill-opacity="0.70"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="310" y="110" width="140" height="44" rx="5" fill="#BF616A" fill-opacity="0.70"/></g>
   <text x="380" y="128" text-anchor="middle" font-size="13" font-weight="bold" fill="white">VF 0  (BDF 00:1f.1)</text>
   <text x="380" y="146" text-anchor="middle" font-size="12" fill="white">2.5 GbE slice</text>
 
   <!-- VF 1 -->
-  <g filter="url(#sh)"><rect x="310" y="162" width="140" height="44" rx="5" fill="#BF616A" fill-opacity="0.70"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="310" y="162" width="140" height="44" rx="5" fill="#BF616A" fill-opacity="0.70"/></g>
   <text x="380" y="180" text-anchor="middle" font-size="13" font-weight="bold" fill="white">VF 1  (BDF 00:1f.2)</text>
   <text x="380" y="198" text-anchor="middle" font-size="12" fill="white">2.5 GbE slice</text>
 
   <!-- VF 2 -->
-  <g filter="url(#sh)"><rect x="310" y="214" width="140" height="44" rx="5" fill="#BF616A" fill-opacity="0.70"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="310" y="214" width="140" height="44" rx="5" fill="#BF616A" fill-opacity="0.70"/></g>
   <text x="380" y="232" text-anchor="middle" font-size="13" font-weight="bold" fill="white">VF 2  (BDF 00:1f.3)</text>
   <text x="380" y="250" text-anchor="middle" font-size="12" fill="white">2.5 GbE slice</text>
 
@@ -3944,57 +3944,57 @@ I/O Virtualization)</h3>
   <text x="560" y="134" text-anchor="middle" font-size="12" fill="#616161">(isolation boundary)</text>
 
   <!-- Per-VF IOMMU context entries -->
-  <g filter="url(#sh)"><rect x="475" y="145" width="170" height="36" rx="4" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="475" y="145" width="170" height="36" rx="4" fill="#5E81AC"/></g>
   <text x="560" y="163" text-anchor="middle" font-size="13" fill="white">Context[VF0]: domain A</text>
   <text x="560" y="178" text-anchor="middle" font-size="12" fill="white">(I/O PT for VM1)</text>
 
-  <g filter="url(#sh)"><rect x="475" y="192" width="170" height="36" rx="4" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="475" y="192" width="170" height="36" rx="4" fill="#5E81AC"/></g>
   <text x="560" y="210" text-anchor="middle" font-size="13" fill="white">Context[VF1]: domain B</text>
   <text x="560" y="225" text-anchor="middle" font-size="12" fill="white">(I/O PT for VM2)</text>
 
-  <g filter="url(#sh)"><rect x="475" y="239" width="170" height="36" rx="4" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="475" y="239" width="170" height="36" rx="4" fill="#5E81AC"/></g>
   <text x="560" y="257" text-anchor="middle" font-size="13" fill="white">Context[VF2]: domain C</text>
   <text x="560" y="272" text-anchor="middle" font-size="12" fill="white">(I/O PT for VM3)</text>
 
   <!-- Arrows VF→IOMMU -->
-  <line x1="450" y1="132" x2="473" y2="158" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="450" y1="184" x2="473" y2="208" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="450" y1="236" x2="473" y2="255" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="450" y1="132" x2="473" y2="158" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg4-a)"/>
+  <line x1="450" y1="184" x2="473" y2="208" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg4-a)"/>
+  <line x1="450" y1="236" x2="473" y2="255" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg4-a)"/>
 
   <!-- VMs (right) -->
-  <g filter="url(#sh)"><rect x="710" y="110" width="160" height="52" rx="5" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="710" y="110" width="160" height="52" rx="5" fill="#4A8A99"/></g>
   <text x="790" y="132" text-anchor="middle" font-size="14" font-weight="bold" fill="white">VM 1</text>
   <text x="790" y="150" text-anchor="middle" font-size="12" fill="white">DVA→PA via domain A</text>
 
-  <g filter="url(#sh)"><rect x="710" y="172" width="160" height="52" rx="5" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="710" y="172" width="160" height="52" rx="5" fill="#4A8A99"/></g>
   <text x="790" y="194" text-anchor="middle" font-size="14" font-weight="bold" fill="white">VM 2</text>
   <text x="790" y="212" text-anchor="middle" font-size="12" fill="white">DVA→PA via domain B</text>
 
-  <g filter="url(#sh)"><rect x="710" y="234" width="160" height="52" rx="5" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="710" y="234" width="160" height="52" rx="5" fill="#4A8A99"/></g>
   <text x="790" y="256" text-anchor="middle" font-size="14" font-weight="bold" fill="white">VM 3</text>
   <text x="790" y="274" text-anchor="middle" font-size="12" fill="white">DVA→PA via domain C</text>
 
   <!-- Arrows IOMMU→VMs -->
-  <line x1="660" y1="160" x2="708" y2="140" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
-  <line x1="660" y1="210" x2="708" y2="198" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
-  <line x1="660" y1="255" x2="708" y2="258" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ag)"/>
+  <line x1="660" y1="160" x2="708" y2="140" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch05-svg4-ag)"/>
+  <line x1="660" y1="210" x2="708" y2="198" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch05-svg4-ag)"/>
+  <line x1="660" y1="255" x2="708" y2="258" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ch05-svg4-ag)"/>
 
   <!-- VFIO stack box -->
-  <g filter="url(#sh)"><rect x="30" y="320" width="840" height="200" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="30" y="320" width="840" height="200" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5"/></g>
   <text x="450" y="342" text-anchor="middle" font-size="15" font-weight="bold" fill="#212121">VFIO Userspace Driver Stack</text>
   <line x1="40" y1="350" x2="860" y2="350" stroke="#9E9E9E" stroke-width="1"/>
 
   <!-- VFIO layers -->
-  <g filter="url(#sh)"><rect x="50" y="358" width="760" height="34" rx="4" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="50" y="358" width="760" height="34" rx="4" fill="#4A8A99"/></g>
   <text x="430" y="381" text-anchor="middle" font-size="13" font-weight="bold" fill="white">VM / Userspace Application (QEMU, DPDK, SPDK, custom driver)</text>
 
-  <g filter="url(#sh)"><rect x="50" y="400" width="760" height="34" rx="4" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="50" y="400" width="760" height="34" rx="4" fill="#5E81AC"/></g>
   <text x="430" y="423" text-anchor="middle" font-size="13" font-weight="bold" fill="white">VFIO Framework (vfio.ko) — DMA mapping, interrupt, device isolation APIs</text>
 
-  <g filter="url(#sh)"><rect x="50" y="442" width="360" height="34" rx="4" fill="#5E81AC" fill-opacity="0.70"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="50" y="442" width="360" height="34" rx="4" fill="#5E81AC" fill-opacity="0.70"/></g>
   <text x="230" y="464" text-anchor="middle" font-size="13" fill="white">VFIO PCI Driver (vfio-pci.ko)</text>
 
-  <g filter="url(#sh)"><rect x="450" y="442" width="360" height="34" rx="4" fill="#BF616A" fill-opacity="0.70"/></g>
+  <g filter="url(#ch05-svg4-sh)"><rect x="450" y="442" width="360" height="34" rx="4" fill="#BF616A" fill-opacity="0.70"/></g>
   <text x="630" y="464" text-anchor="middle" font-size="13" fill="white">IOMMU Driver (VT-d / AMD-Vi / SMMU)</text>
 
   <text x="430" y="505" text-anchor="middle" font-size="13" fill="#616161">VFIO guarantees: only same-IOMMU-group devices assigned together · device cannot DMA outside its domain</text>
@@ -4183,67 +4183,67 @@ implementation.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
   <defs>
-    <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ar" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto"><polygon points="10 0,0 3.5,10 7" fill="#5E81AC"/></marker>
+    <filter id="ch05-svg5-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+    <marker id="ch05-svg5-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="ch05-svg5-ar" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto"><polygon points="10 0,0 3.5,10 7" fill="#5E81AC"/></marker>
   </defs>
 
   <text x="450" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">Linux IOMMU Software Stack</text>
 
   <!-- Layer 1: User / VM -->
-  <g filter="url(#sh)"><rect x="30" y="50" width="840" height="48" rx="6" fill="#BF616A"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="30" y="50" width="840" height="48" rx="6" fill="#BF616A"/></g>
   <text x="450" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="white">User Space / Virtual Machines</text>
   <text x="450" y="90" text-anchor="middle" font-size="13" fill="white">QEMU · DPDK · SPDK · Application DMA</text>
 
   <!-- Layer 2: VFIO -->
-  <g filter="url(#sh)"><rect x="30" y="112" width="840" height="48" rx="6" fill="#5E81AC"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="30" y="112" width="840" height="48" rx="6" fill="#5E81AC"/></g>
   <text x="450" y="134" text-anchor="middle" font-size="15" font-weight="bold" fill="white">VFIO Framework  (vfio.ko)</text>
   <text x="450" y="152" text-anchor="middle" font-size="13" fill="white">Device assignment · DMA mapping · Interrupt isolation · IOMMU group management</text>
 
   <!-- Layer 3: DMA-API + IOMMU Core -->
-  <g filter="url(#sh)"><rect x="30" y="174" width="410" height="48" rx="6" fill="#5E81AC" fill-opacity="0.80"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="30" y="174" width="410" height="48" rx="6" fill="#5E81AC" fill-opacity="0.80"/></g>
   <text x="235" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="white">IOMMU Core  (iommu.c)</text>
   <text x="235" y="213" text-anchor="middle" font-size="12" fill="white">Generic domain / group / page-table API</text>
 
-  <g filter="url(#sh)"><rect x="460" y="174" width="410" height="48" rx="6" fill="#4A8A99"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="460" y="174" width="410" height="48" rx="6" fill="#4A8A99"/></g>
   <text x="665" y="196" text-anchor="middle" font-size="14" font-weight="bold" fill="white">DMA-Mapping Layer  (dma-iommu.c)</text>
   <text x="665" y="213" text-anchor="middle" font-size="12" fill="white">dma_map_single/page/sg; streaming DMA</text>
 
   <!-- Layer 4: Drivers -->
-  <g filter="url(#sh)"><rect x="30" y="236" width="260" height="52" rx="6" fill="#5E81AC" fill-opacity="0.65"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="30" y="236" width="260" height="52" rx="6" fill="#5E81AC" fill-opacity="0.65"/></g>
   <text x="160" y="258" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Intel VT-d Driver</text>
   <text x="160" y="276" text-anchor="middle" font-size="12" fill="white">intel-iommu.c</text>
 
-  <g filter="url(#sh)"><rect x="320" y="236" width="260" height="52" rx="6" fill="#5E81AC" fill-opacity="0.65"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="320" y="236" width="260" height="52" rx="6" fill="#5E81AC" fill-opacity="0.65"/></g>
   <text x="450" y="258" text-anchor="middle" font-size="14" font-weight="bold" fill="white">AMD-Vi Driver</text>
   <text x="450" y="276" text-anchor="middle" font-size="12" fill="white">amd_iommu.c</text>
 
-  <g filter="url(#sh)"><rect x="610" y="236" width="260" height="52" rx="6" fill="#5E81AC" fill-opacity="0.65"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="610" y="236" width="260" height="52" rx="6" fill="#5E81AC" fill-opacity="0.65"/></g>
   <text x="740" y="258" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ARM SMMU Driver</text>
   <text x="740" y="276" text-anchor="middle" font-size="12" fill="white">arm-smmu.c / arm-smmu-v3.c</text>
 
   <!-- Layer 5: Hardware -->
-  <g filter="url(#sh)"><rect x="30" y="302" width="260" height="44" rx="6" fill="#212121"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="30" y="302" width="260" height="44" rx="6" fill="#212121"/></g>
   <text x="160" y="320" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Intel IOMMU HW</text>
   <text x="160" y="338" text-anchor="middle" font-size="12" fill="#9E9E9E">Root/Context/EPT tables</text>
 
-  <g filter="url(#sh)"><rect x="320" y="302" width="260" height="44" rx="6" fill="#212121"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="320" y="302" width="260" height="44" rx="6" fill="#212121"/></g>
   <text x="450" y="320" text-anchor="middle" font-size="14" font-weight="bold" fill="white">AMD IOMMU HW</text>
   <text x="450" y="338" text-anchor="middle" font-size="12" fill="#9E9E9E">Device table + NPT</text>
 
-  <g filter="url(#sh)"><rect x="610" y="302" width="260" height="44" rx="6" fill="#212121"/></g>
+  <g filter="url(#ch05-svg5-sh)"><rect x="610" y="302" width="260" height="44" rx="6" fill="#212121"/></g>
   <text x="740" y="320" text-anchor="middle" font-size="14" font-weight="bold" fill="white">ARM SMMU HW</text>
   <text x="740" y="338" text-anchor="middle" font-size="12" fill="#9E9E9E">Stream table + stage 1/2</text>
 
   <!-- Vertical arrows -->
-  <line x1="450" y1="98" x2="450" y2="110" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
-  <line x1="450" y1="160" x2="450" y2="172" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
-  <line x1="235" y1="222" x2="160" y2="234" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="450" y1="222" x2="450" y2="234" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="665" y1="222" x2="740" y2="234" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="160" y1="288" x2="160" y2="300" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="450" y1="288" x2="450" y2="300" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="740" y1="288" x2="740" y2="300" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="450" y1="98" x2="450" y2="110" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="450" y1="160" x2="450" y2="172" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="235" y1="222" x2="160" y2="234" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="450" y1="222" x2="450" y2="234" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="665" y1="222" x2="740" y2="234" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="160" y1="288" x2="160" y2="300" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="450" y1="288" x2="450" y2="300" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg5-a)"/>
+  <line x1="740" y1="288" x2="740" y2="300" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ch05-svg5-a)"/>
 
   <!-- Key files -->
   <rect x="30" y="368" width="840" height="90" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
@@ -5300,7 +5300,7 @@ https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/deploy/d
 <li><p>Linux Kernel Documentation. "IOMMU and DMA APIs." 2023.
 https://www.kernel.org/doc/html/latest/core-api/dma-api.html</p></li>
 </ol>
-<h3 id="interrupt-remapping">Interrupt Remapping</h3>
+<h3 id="interrupt-remapping-references">Interrupt Remapping</h3>
 <ol type="1" start="40">
 <li><p>Abramson, D., et al. "Intel Virtualization Technology for
 Directed I/O." <em>Intel Technology Journal</em>, 2006.
@@ -5781,7 +5781,7 @@ Centers Using IOMMU." <em>ACM EuroSys</em>, 2020. DOI:
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -6219,7 +6219,7 @@ Centers Using IOMMU." <em>ACM EuroSys</em>, 2020. DOI:
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",

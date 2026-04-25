@@ -1001,17 +1001,17 @@ fundamental difference shapes its architecture.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.14"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch10-svg1-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.14"/></filter>
+<marker id="ch10-svg1-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch10-svg1-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<marker id="ch10-svg1-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="580" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">IOMMU VT-d DMA Remapping Architecture</text>
 <text x="450" y="55" style="font-size:13px;fill:#616161;text-anchor:middle;">IOMMU translates device-issued bus addresses to physical addresses, enforcing DMA isolation and enabling IOVA</text>
 
 <!-- CPU complex -->
-<rect x="20" y="68" width="200" height="160" rx="8" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="20" y="68" width="200" height="160" rx="8" style="fill:#5E81AC;" filter="url(#ch10-svg1-sh)"/>
 <text x="120" y="90" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">CPU Complex</text>
 <rect x="36" y="100" width="78" height="50" rx="5" style="fill:#DDEAF5;"/>
 <text x="75" y="121" style="font-size:12px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">CPU Core</text>
@@ -1024,35 +1024,35 @@ fundamental difference shapes its architecture.</p>
 <text x="120" y="197" style="font-size:11px;fill:#DDEAF5;text-anchor:middle;">DRAM access</text>
 
 <!-- IOMMU (VT-d) -->
-<rect x="300" y="68" width="300" height="280" rx="8" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:2;" filter="url(#sh)"/>
+<rect x="300" y="68" width="300" height="280" rx="8" style="fill:#EAF2F8;stroke:#4A7BAC;stroke-width:2;" filter="url(#ch10-svg1-sh)"/>
 <text x="450" y="90" style="font-size:15px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">IOMMU (Intel VT-d)</text>
 <text x="450" y="108" style="font-size:12px;fill:#3A5070;text-anchor:middle;">Hardware DMA remapping engine</text>
 
 <!-- IOTLB -->
-<rect x="320" y="118" width="260" height="52" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="320" y="118" width="260" height="52" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg1-sh)"/>
 <text x="450" y="138" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">IOTLB</text>
 <text x="450" y="156" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">IO virtual addr → physical addr cache</text>
 
 <!-- Root/Context table -->
-<rect x="320" y="180" width="260" height="52" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="320" y="180" width="260" height="52" rx="5" style="fill:#4A8A99;" filter="url(#ch10-svg1-sh)"/>
 <text x="450" y="200" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Root/Context Table</text>
 <text x="450" y="218" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Bus:Device:Fn → domain mapping</text>
 
 <!-- IO Page Table Walker -->
-<rect x="320" y="242" width="260" height="52" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="320" y="242" width="260" height="52" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg1-sh)"/>
 <text x="450" y="262" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">IO Page Table Walker</text>
 <text x="450" y="280" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">4-level IOVA→PA table walk</text>
 
 <!-- DMA remapping unit -->
-<rect x="320" y="304" width="260" height="36" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="320" y="304" width="260" height="36" rx="5" style="fill:#BF616A;" filter="url(#ch10-svg1-sh)"/>
 <text x="450" y="326" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">DMA Remapping Unit — enforces isolation</text>
 
 <!-- PCIe bus -->
-<rect x="20" y="260" width="260" height="40" rx="5" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="20" y="260" width="260" height="40" rx="5" style="fill:#9E9E9E;" filter="url(#ch10-svg1-sh)"/>
 <text x="150" y="284" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">PCIe Root Complex</text>
 
 <!-- Physical Memory -->
-<rect x="680" y="68" width="200" height="160" rx="8" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="680" y="68" width="200" height="160" rx="8" style="fill:#9E9E9E;" filter="url(#ch10-svg1-sh)"/>
 <text x="780" y="90" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">Physical Memory</text>
 <rect x="696" y="104" width="168" height="40" rx="4" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:1;"/>
 <text x="780" y="120" style="font-size:12px;fill:#1E3A5A;text-anchor:middle;">IO Page Table</text>
@@ -1062,27 +1062,27 @@ fundamental difference shapes its architecture.</p>
 <text x="780" y="186" style="font-size:11px;fill:#616161;text-anchor:middle;">isolated per device domain</text>
 
 <!-- PCIe devices -->
-<rect x="680" y="260" width="90" height="60" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="680" y="260" width="90" height="60" rx="6" style="fill:#BF616A;" filter="url(#ch10-svg1-sh)"/>
 <text x="725" y="284" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">NIC</text>
 <text x="725" y="300" style="font-size:11px;fill:#F0D9D9;text-anchor:middle;">IOVA space A</text>
-<rect x="790" y="260" width="90" height="60" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="790" y="260" width="90" height="60" rx="6" style="fill:#BF616A;" filter="url(#ch10-svg1-sh)"/>
 <text x="835" y="284" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">GPU</text>
 <text x="835" y="300" style="font-size:11px;fill:#F0D9D9;text-anchor:middle;">IOVA space B</text>
 
 <!-- Arrows -->
-<line x1="220" y1="178" x2="298" y2="280" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="220" y1="178" x2="298" y2="280" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg1-arr)"/>
 <text x="242" y="220" style="font-size:11px;fill:#5E81AC;">CPU programs</text>
 <text x="242" y="234" style="font-size:11px;fill:#5E81AC;">IOMMU via MMIO</text>
 
-<line x1="220" y1="280" x2="298" y2="280" style="stroke:#9E9E9E;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="725" y1="260" x2="620" y2="320" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="220" y1="280" x2="298" y2="280" style="stroke:#9E9E9E;stroke-width:2;" marker-end="url(#ch10-svg1-arr)"/>
+<line x1="725" y1="260" x2="620" y2="320" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch10-svg1-arr-r)"/>
 <text x="680" y="296" style="font-size:11px;fill:#BF616A;">DMA request</text>
 <text x="680" y="310" style="font-size:11px;fill:#BF616A;">(IOVA)</text>
 
-<line x1="600" y1="174" x2="678" y2="140" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="600" y1="174" x2="678" y2="140" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch10-svg1-arr-g)"/>
 <text x="638" y="148" style="font-size:11px;fill:#4A8A99;">PA lookup</text>
 
-<line x1="600" y1="280" x2="678" y2="100" style="stroke:#4A8A99;stroke-width:2;stroke-dasharray:5,3;" marker-end="url(#arr-g)"/>
+<line x1="600" y1="280" x2="678" y2="100" style="stroke:#4A8A99;stroke-width:2;stroke-dasharray:5,3;" marker-end="url(#ch10-svg1-arr-g)"/>
 <text x="652" y="220" style="font-size:11px;fill:#4A8A99;">translated</text>
 <text x="652" y="234" style="font-size:11px;fill:#4A8A99;">PA → mem</text>
 
@@ -1583,25 +1583,25 @@ Virtualized mode:
 <h2 id="section-10.3">10.3 PCIe ATS and
 Address Translation Services</h2>
 <figure id="fig-10-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;"><div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;"><svg width="900" height="560" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
-<defs><filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-<marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
-<marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
-<marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker></defs>
+<defs><filter id="ch10-svg2-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="ch10-svg2-a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="ch10-svg2-ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="ch10-svg2-ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#4A8A99"/></marker></defs>
 <text x="450" y="26" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">PCIe ATS Architecture and RDMA Memory Registration</text>
-<rect x="30" y="40" width="400" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="40" width="400" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch10-svg2-sh)"/>
 <rect x="30" y="40" width="400" height="28" rx="6" fill="#5E81AC"/>
 <text x="230" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="white">PCIe Address Translation Services (ATS)</text>
-<rect x="48" y="76" width="150" height="50" rx="5" fill="#5E81AC" filter="url(#sh)"/>
+<rect x="48" y="76" width="150" height="50" rx="5" fill="#5E81AC" filter="url(#ch10-svg2-sh)"/>
 <text x="123" y="97" text-anchor="middle" font-size="13" font-weight="bold" fill="white">NIC / GPU</text>
 <text x="123" y="114" text-anchor="middle" font-size="12" fill="white">ATS-capable device</text>
 <rect x="48" y="76" width="150" height="28" rx="3" fill="#BF616A" fill-opacity="0.7"/>
 <text x="123" y="94" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Device ATCache (ATC)</text>
-<rect x="283" y="76" width="130" height="50" rx="5" fill="#4A8A99" filter="url(#sh)"/>
+<rect x="283" y="76" width="130" height="50" rx="5" fill="#4A8A99" filter="url(#ch10-svg2-sh)"/>
 <text x="348" y="97" text-anchor="middle" font-size="13" font-weight="bold" fill="white">IOMMU</text>
 <text x="348" y="114" text-anchor="middle" font-size="12" fill="white">Translation agent</text>
-<line x1="198" y1="100" x2="283" y2="100" stroke="#5E81AC" stroke-width="2" marker-end="url(#a)"/>
+<line x1="198" y1="100" x2="283" y2="100" stroke="#5E81AC" stroke-width="2" marker-end="url(#ch10-svg2-a)"/>
 <text x="240" y="94" text-anchor="middle" font-size="11" fill="#5E81AC">ATS Req (VA)</text>
-<line x1="283" y1="116" x2="198" y2="116" stroke="#4A8A99" stroke-width="2" marker-end="url(#ag)"/>
+<line x1="283" y1="116" x2="198" y2="116" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch10-svg2-ag)"/>
 <text x="240" y="132" text-anchor="middle" font-size="11" fill="#4A8A99">ATS Resp (PA)</text>
 <text x="230" y="158" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">ATS Flow: Device caches own translations</text>
 <rect x="48" y="166" width="365" height="22" rx="3" fill="#5E81AC"/>
@@ -1614,21 +1614,21 @@ Address Translation Services</h2>
 <text x="230" y="260" text-anchor="middle" font-size="12" fill="white">4. Subsequent DMAs use cached PA (bypass IOMMU)</text>
 <text x="230" y="286" text-anchor="middle" font-size="13" fill="#212121">Benefit: Eliminates per-DMA IOMMU lookup latency</text>
 <text x="230" y="305" text-anchor="middle" font-size="12" fill="#616161">ATC invalidated by IOMMU via PCIe INVAL_REQ message</text>
-<rect x="460" y="40" width="410" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="460" y="40" width="410" height="295" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1.5" filter="url(#ch10-svg2-sh)"/>
 <rect x="460" y="40" width="410" height="28" rx="6" fill="#5E81AC"/>
 <text x="665" y="59" text-anchor="middle" font-size="14" font-weight="bold" fill="white">RDMA Memory Registration</text>
 <text x="665" y="88" text-anchor="middle" font-size="13" font-weight="bold" fill="#212121">ibv_reg_mr(): Pin and translate a VA region</text>
 <rect x="475" y="96" width="380" height="50" rx="4" fill="#5E81AC"/>
 <text x="665" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Application Buffer (Virtual Address space)</text>
 <text x="665" y="136" text-anchor="middle" font-size="12" fill="white">VA: 0x7f8000000000, len: 64 MB</text>
-<line x1="665" y1="146" x2="665" y2="166" stroke="#BF616A" stroke-width="2" marker-end="url(#ao)"/>
+<line x1="665" y1="146" x2="665" y2="166" stroke="#BF616A" stroke-width="2" marker-end="url(#ch10-svg2-ao)"/>
 <text x="775" y="160" font-size="12" fill="#BF616A">ibv_reg_mr()</text>
 <rect x="475" y="166" width="380" height="70" rx="4" fill="#BF616A" fill-opacity="0.2" stroke="#BF616A" stroke-width="1.5"/>
 <text x="665" y="186" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">Kernel: Pin Pages + Build MR</text>
 <text x="665" y="204" text-anchor="middle" font-size="12" fill="#212121">1. Walk page tables: translate all VAs to PAs</text>
 <text x="665" y="220" text-anchor="middle" font-size="12" fill="#212121">2. Pin pages (prevent eviction)</text>
 <text x="665" y="236" text-anchor="middle" font-size="12" fill="#212121">3. Program IOMMU with VA-&gt;PA mapping</text>
-<line x1="665" y1="236" x2="665" y2="256" stroke="#4A8A99" stroke-width="2" marker-end="url(#ag)"/>
+<line x1="665" y1="236" x2="665" y2="256" stroke="#4A8A99" stroke-width="2" marker-end="url(#ch10-svg2-ag)"/>
 <rect x="475" y="256" width="380" height="50" rx="4" fill="#4A8A99"/>
 <text x="665" y="278" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Memory Region (MR): lkey + rkey handles</text>
 <text x="665" y="296" text-anchor="middle" font-size="12" fill="white">NIC can DMA directly using rkey token</text>
@@ -1661,58 +1661,58 @@ from the IOMMU into the device itself.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<filter id="ch10-svg3-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch10-svg3-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch10-svg3-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
 </defs>
 <rect width="900" height="540" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">SR-IOV: Single Root I/O Virtualization</text>
 <text x="450" y="55" style="font-size:13px;fill:#616161;text-anchor:middle;">A physical PCIe device presents multiple virtual functions (VFs), each with isolated MMIO, DMA, and interrupt resources</text>
 
 <!-- Physical Function -->
-<rect x="280" y="68" width="340" height="100" rx="8" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="280" y="68" width="340" height="100" rx="8" style="fill:#5E81AC;" filter="url(#ch10-svg3-sh)"/>
 <text x="450" y="92" style="font-size:15px;font-weight:bold;fill:#fff;text-anchor:middle;">Physical Function (PF)</text>
 <text x="450" y="112" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Full PCIe function — host driver manages VFs</text>
 <text x="290" y="136" style="font-size:12px;fill:#DDEAF5;">• Configures SR-IOV capability registers</text>
 <text x="290" y="152" style="font-size:12px;fill:#DDEAF5;">• Creates / destroys VFs via sysfs</text>
 
 <!-- VF instances -->
-<line x1="340" y1="168" x2="180" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="400" y1="168" x2="340" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="450" y1="168" x2="450" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="520" y1="168" x2="560" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="570" y1="168" x2="720" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="340" y1="168" x2="180" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="400" y1="168" x2="340" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="450" y1="168" x2="450" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="520" y1="168" x2="560" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="570" y1="168" x2="720" y2="218" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
 
 <!-- VFs -->
-<rect x="100" y="218" width="130" height="64" rx="6" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="100" y="218" width="130" height="64" rx="6" style="fill:#4A8A99;" filter="url(#ch10-svg3-sh)"/>
 <text x="165" y="242" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">VF 0</text>
 <text x="165" y="258" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">MMIO BAR 0</text>
 <text x="165" y="272" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">MSI-X vec 0–7</text>
 
-<rect x="250" y="218" width="130" height="64" rx="6" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="250" y="218" width="130" height="64" rx="6" style="fill:#4A8A99;" filter="url(#ch10-svg3-sh)"/>
 <text x="315" y="242" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">VF 1</text>
 <text x="315" y="258" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">MMIO BAR 1</text>
 <text x="315" y="272" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">MSI-X vec 8–15</text>
 
-<rect x="395" y="218" width="110" height="64" rx="6" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="395" y="218" width="110" height="64" rx="6" style="fill:#9E9E9E;" filter="url(#ch10-svg3-sh)"/>
 <text x="450" y="250" style="font-size:15px;font-weight:bold;fill:#fff;text-anchor:middle;">…</text>
 <text x="450" y="272" style="font-size:11px;fill:#F5F5F5;text-anchor:middle;">up to 256 VFs</text>
 
-<rect x="521" y="218" width="130" height="64" rx="6" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="521" y="218" width="130" height="64" rx="6" style="fill:#4A8A99;" filter="url(#ch10-svg3-sh)"/>
 <text x="586" y="242" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">VF N-1</text>
 <text x="586" y="258" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">MMIO BAR N</text>
 <text x="586" y="272" style="font-size:11px;fill:#CCE8EC;text-anchor:middle;">MSI-X vec …</text>
 
-<rect x="668" y="218" width="130" height="64" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="668" y="218" width="130" height="64" rx="6" style="fill:#BF616A;" filter="url(#ch10-svg3-sh)"/>
 <text x="733" y="242" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">VF N</text>
 <text x="733" y="258" style="font-size:11px;fill:#F0D9D9;text-anchor:middle;">MMIO BAR last</text>
 <text x="733" y="272" style="font-size:11px;fill:#F0D9D9;text-anchor:middle;">Isolated DMA</text>
 
 <!-- VM assignments -->
-<line x1="165" y1="282" x2="165" y2="312" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="315" y1="282" x2="315" y2="312" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="586" y1="282" x2="586" y2="312" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr)"/>
-<line x1="733" y1="282" x2="733" y2="312" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="165" y1="282" x2="165" y2="312" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="315" y1="282" x2="315" y2="312" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="586" y1="282" x2="586" y2="312" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch10-svg3-arr)"/>
+<line x1="733" y1="282" x2="733" y2="312" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch10-svg3-arr-r)"/>
 
 <!-- VMs -->
 <rect x="80" y="312" width="170" height="50" rx="5" style="fill:#EAF2F8;stroke:#5E81AC;stroke-width:1.5;"/>
@@ -2088,10 +2088,10 @@ resolve this conflict.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch10-svg4-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch10-svg4-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch10-svg4-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<marker id="ch10-svg4-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="540" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">RDMA On-Demand Paging (ODP)</text>
@@ -2101,7 +2101,7 @@ resolve this conflict.</p>
 <rect x="20" y="68" width="400" height="296" rx="8" style="fill:#F0D9D9;stroke:#BF616A;stroke-width:2;"/>
 <text x="220" y="90" style="font-size:15px;font-weight:bold;fill:#7A2020;text-anchor:middle;">Without ODP — ibv_reg_mr (Pin)</text>
 
-<rect x="36" y="100" width="368" height="40" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="36" y="100" width="368" height="40" rx="5" style="fill:#BF616A;" filter="url(#ch10-svg4-sh)"/>
 <text x="220" y="125" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">ibv_reg_mr(pd, buf, len, access)</text>
 
 <rect x="36" y="152" width="368" height="44" rx="4" style="fill:#F5F5F5;stroke:#DDE4EE;"/>
@@ -2122,7 +2122,7 @@ resolve this conflict.</p>
 <rect x="480" y="68" width="400" height="296" rx="8" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;"/>
 <text x="680" y="90" style="font-size:15px;font-weight:bold;fill:#1E4A3A;text-anchor:middle;">With ODP — Lazy Translation</text>
 
-<rect x="496" y="100" width="368" height="40" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="496" y="100" width="368" height="40" rx="5" style="fill:#4A8A99;" filter="url(#ch10-svg4-sh)"/>
 <text x="680" y="125" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">ibv_reg_mr(pd, buf, len, ODP_flag)</text>
 
 <rect x="496" y="152" width="368" height="44" rx="4" style="fill:#F5F5F5;stroke:#DDE4EE;"/>
@@ -2144,29 +2144,29 @@ resolve this conflict.</p>
 <text x="450" y="396" style="font-size:15px;font-weight:bold;fill:#212121;text-anchor:middle;">ODP Architecture</text>
 
 <!-- Components -->
-<rect x="36" y="408" width="150" height="56" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="36" y="408" width="150" height="56" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg4-sh)"/>
 <text x="111" y="430" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">RDMA App</text>
 <text x="111" y="448" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">GVA addressing</text>
 <text x="111" y="463" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">no pinning</text>
 
-<line x1="186" y1="436" x2="210" y2="436" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#arr)"/>
+<line x1="186" y1="436" x2="210" y2="436" style="stroke:#5E81AC;stroke-width:2;" marker-end="url(#ch10-svg4-arr)"/>
 
-<rect x="210" y="408" width="160" height="56" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="210" y="408" width="160" height="56" rx="5" style="fill:#4A8A99;" filter="url(#ch10-svg4-sh)"/>
 <text x="290" y="430" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">RDMA HCA</text>
 <text x="290" y="448" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">NIC MMU (IOMMU)</text>
 <text x="290" y="463" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">per-MR page table</text>
 
-<line x1="370" y1="436" x2="394" y2="436" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="370" y1="436" x2="394" y2="436" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch10-svg4-arr-r)"/>
 <text x="382" y="428" style="font-size:11px;fill:#BF616A;">fault</text>
 
-<rect x="394" y="408" width="180" height="56" rx="5" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="394" y="408" width="180" height="56" rx="5" style="fill:#BF616A;" filter="url(#ch10-svg4-sh)"/>
 <text x="484" y="430" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">ODP Fault Handler</text>
 <text x="484" y="448" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">kernel: pagefault_user</text>
 <text x="484" y="463" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">resolve + push GVA→PA</text>
 
-<line x1="574" y1="436" x2="598" y2="436" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#arr-g)"/>
+<line x1="574" y1="436" x2="598" y2="436" style="stroke:#4A8A99;stroke-width:2;" marker-end="url(#ch10-svg4-arr-g)"/>
 
-<rect x="598" y="408" width="150" height="56" rx="5" style="fill:#9E9E9E;" filter="url(#sh)"/>
+<rect x="598" y="408" width="150" height="56" rx="5" style="fill:#9E9E9E;" filter="url(#ch10-svg4-sh)"/>
 <text x="673" y="430" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">DRAM</text>
 <text x="673" y="448" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">physical pages</text>
 <text x="673" y="463" style="font-size:12px;fill:#F5F5F5;text-anchor:middle;">(swappable)</text>
@@ -2576,10 +2576,10 @@ infrastructure accelerators.</p>
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
 <defs><style>text{font-family:Arial,Helvetica,sans-serif;}</style>
-<filter id="sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
-<marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
-<marker id="arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
-<marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
+<filter id="ch10-svg5-sh"><feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.13"/></filter>
+<marker id="ch10-svg5-arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#5E81AC;"/></marker>
+<marker id="ch10-svg5-arr-r" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#BF616A;"/></marker>
+<marker id="ch10-svg5-arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" style="fill:#4A8A99;"/></marker>
 </defs>
 <rect width="900" height="540" style="fill:#fff;"/>
 <text x="450" y="34" style="font-size:20px;font-weight:bold;fill:#212121;text-anchor:middle;">SmartNIC / DPU Memory Architecture</text>
@@ -2589,11 +2589,11 @@ infrastructure accelerators.</p>
 <rect x="20" y="68" width="360" height="290" rx="8" style="fill:#DDEAF5;stroke:#5E81AC;stroke-width:2;"/>
 <text x="200" y="90" style="font-size:15px;font-weight:bold;fill:#1E3A5A;text-anchor:middle;">Host CPU System</text>
 
-<rect x="36" y="100" width="160" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="36" y="100" width="160" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg5-sh)"/>
 <text x="116" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">x86 CPU Cores</text>
 <text x="116" y="142" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">host OS / hypervisor</text>
 
-<rect x="210" y="100" width="150" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="210" y="100" width="150" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg5-sh)"/>
 <text x="285" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Host IOMMU</text>
 <text x="285" y="142" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">VT-d / AMD-Vi</text>
 
@@ -2614,17 +2614,17 @@ infrastructure accelerators.</p>
 <text x="198" y="308" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">PCIe Gen5 ×16</text>
 
 <!-- DPU (SmartNIC) -->
-<rect x="420" y="68" width="460" height="380" rx="8" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;" filter="url(#sh)"/>
+<rect x="420" y="68" width="460" height="380" rx="8" style="fill:#CCE8EC;stroke:#4A8A99;stroke-width:2;" filter="url(#ch10-svg5-sh)"/>
 <text x="650" y="90" style="font-size:15px;font-weight:bold;fill:#1E4A3A;text-anchor:middle;">DPU / SmartNIC (e.g., NVIDIA BlueField-3)</text>
 
 <!-- DPU ARM cores -->
-<rect x="436" y="100" width="180" height="70" rx="5" style="fill:#4A8A99;" filter="url(#sh)"/>
+<rect x="436" y="100" width="180" height="70" rx="5" style="fill:#4A8A99;" filter="url(#ch10-svg5-sh)"/>
 <text x="526" y="122" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">ARM Cortex A78 Cores</text>
 <text x="526" y="140" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">Linux on DPU</text>
 <text x="526" y="157" style="font-size:12px;fill:#CCE8EC;text-anchor:middle;">DPDK / OVS-DOCA</text>
 
 <!-- DPU IOMMU -->
-<rect x="626" y="100" width="144" height="70" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="626" y="100" width="144" height="70" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg5-sh)"/>
 <text x="698" y="124" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">DPU IOMMU</text>
 <text x="698" y="142" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Isolates DPU</text>
 <text x="698" y="157" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">DMA from host</text>
@@ -2634,13 +2634,13 @@ infrastructure accelerators.</p>
 <text x="603" y="207" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">DPU Local DRAM — 32 GB LPDDR5</text>
 
 <!-- Packet engines -->
-<rect x="436" y="234" width="160" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="436" y="234" width="160" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg5-sh)"/>
 <text x="516" y="254" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Packet Engine</text>
 <text x="516" y="270" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">100 GbE line rate</text>
 <text x="516" y="285" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">parsing / matching</text>
 
 <!-- Crypto/compress -->
-<rect x="610" y="234" width="160" height="60" rx="5" style="fill:#5E81AC;" filter="url(#sh)"/>
+<rect x="610" y="234" width="160" height="60" rx="5" style="fill:#5E81AC;" filter="url(#ch10-svg5-sh)"/>
 <text x="690" y="254" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">Offload Engines</text>
 <text x="690" y="270" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Crypto / TLS</text>
 <text x="690" y="285" style="font-size:12px;fill:#DDEAF5;text-anchor:middle;">Compress / RegEx</text>
@@ -2654,15 +2654,15 @@ infrastructure accelerators.</p>
 <text x="603" y="384" style="font-size:13px;font-weight:bold;fill:#fff;text-anchor:middle;">PCIe Endpoint Interface → Host</text>
 
 <!-- Connection arrow -->
-<line x1="360" y1="304" x2="418" y2="375" style="stroke:#5E81AC;stroke-width:3;" marker-end="url(#arr)"/>
+<line x1="360" y1="304" x2="418" y2="375" style="stroke:#5E81AC;stroke-width:3;" marker-end="url(#ch10-svg5-arr)"/>
 
 <!-- External network -->
-<rect x="420" y="460" width="460" height="60" rx="6" style="fill:#BF616A;" filter="url(#sh)"/>
+<rect x="420" y="460" width="460" height="60" rx="6" style="fill:#BF616A;" filter="url(#ch10-svg5-sh)"/>
 <text x="650" y="484" style="font-size:14px;font-weight:bold;fill:#fff;text-anchor:middle;">External Network (Datacenter Fabric)</text>
 <text x="650" y="505" style="font-size:12px;fill:#F0D9D9;text-anchor:middle;">RoCEv2 / Ethernet / InfiniBand</text>
 
-<line x1="603" y1="450" x2="603" y2="458" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
-<line x1="603" y1="350" x2="603" y2="360" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#arr-r)"/>
+<line x1="603" y1="450" x2="603" y2="458" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch10-svg5-arr-r)"/>
+<line x1="603" y1="350" x2="603" y2="360" style="stroke:#BF616A;stroke-width:2;" marker-end="url(#ch10-svg5-arr-r)"/>
 
 <!-- Memory offload benefit -->
 <rect x="20" y="370" width="380" height="166" rx="5" style="fill:#F5F5F5;stroke:#DDE4EE;"/>
@@ -4805,7 +4805,7 @@ everywhere, with explicit copies only when demonstrably necessary.</p><script>
   {
     "num": 8,
     "file": "chapter-08-WITH-FIGURES.html",
-    "short": "Advanced MMU Topics: System Integration and Optimization",
+    "short": "Advanced MMU Topics - System Integration and Optimization",
     "sections": [
       {
         "text": "8.1 Introduction: The Crisis Point",
@@ -5243,7 +5243,7 @@ everywhere, with explicit copies only when demonstrably necessary.</p><script>
   {
     "num": 18,
     "file": "chapter-18-WITH-FIGURES.html",
-    "short": "MMU-Level Vulnerabilities",
+    "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
     "sections": [
       {
         "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",
