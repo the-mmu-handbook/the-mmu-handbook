@@ -750,7 +750,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p> Section 18.2 analyses the trust assumptions in the x86-64 paging model and where they break under speculative execution. Section 18.3 dissects Meltdown through the U/S permission check timing. Section 18.4 examines Spectre v1 and the TLB speculation window. Section 18.5 covers Spectre v2 and branch target injection in the PTW microcode path. Section 18.6 returns to L1TF — the direct consequence of the speculative PTW behaviour from Chapter 17 — covering all three CVE variants. Section 18.7 covers MDS and the shared buffers between the PTW and user code. Section 18.8 analyses KPTI as the architectural mitigation. Section 18.9 provides a quantified cost model for production deployment. The chapter concludes with a unified model of the vulnerability class.</p>
 
-<p>The six figures in this chapter provide quantitative and structural anchors for the analysis. Figure 18.1 maps each PTE bit to its vulnerability class and the CVE(s) that exploit it. Figure 18.2 shows the Meltdown pipeline timing diagram and the Flush+Reload measurement chain that converts the speculative cache fill into a recoverable kernel byte. Figure 18.3 contrasts Spectre v1 and v2 attack flows side by side, showing how different prediction structures create different attack surfaces. Figure 18.4 shows the L1TF exploit path with the P=0 PTE physical address speculation mechanism and the three CVE attack surfaces. Figure 18.5 shows the KPTI dual-CR3 design, the PCID-based amortisation of the switch cost, and the per-workload performance characteristics. Figure 18.6 provides the quantified mitigation overhead matrix for production deployment planning across five workload categories. Together they constitute a reference that can be consulted independently of the prose analysis for deployment decisions and security reviews.</p>
+<p>The six figures in this chapter provide quantitative and structural anchors for the analysis. Figure 18.1 maps each PTE bit to its vulnerability class and the CVE(s) that exploit it. Figure 18.9 shows the Meltdown pipeline timing diagram and the Flush+Reload measurement chain that converts the speculative cache fill into a recoverable kernel byte. Figure 18.9 contrasts Spectre v1 and v2 attack flows side by side, showing how different prediction structures create different attack surfaces. Figure 18.9 shows the L1TF exploit path with the P=0 PTE physical address speculation mechanism and the three CVE attack surfaces. Figure 18.8 shows the KPTI dual-CR3 design, the PCID-based amortisation of the switch cost, and the per-workload performance characteristics. Figure 18.9 provides the quantified mitigation overhead matrix for production deployment planning across five workload categories. Together they constitute a reference that can be consulted independently of the prose analysis for deployment decisions and security reviews.</p>
 
 <p>A note on scope: this chapter focuses on vulnerabilities that originate in or are directly mediated by the MMU and paging hardware — the PTW, the TLB, the page table permission bits, and the microarchitectural buffers shared with the PTW. The transient execution literature is substantially broader than this, encompassing vulnerabilities in the floating-point unit, in the branch prediction structures without any paging involvement, and in the memory controller. The Spectre and Meltdown vulnerability classes chosen here represent the core intersection of speculative execution with the memory isolation model, and their analysis provides the conceptual framework necessary to reason about the broader class. Readers interested in the full scope of transient execution attacks are referred to the systematic survey by Canella et al. (2019, Reference 6), which catalogues 28 distinct variants across the transient execution space and provides a unified classification framework.</p>
 
@@ -758,7 +758,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The x86-64 protection model, as established in Chapter 6, is built on five PTE-level controls. The Present bit (P, bit 0) determines whether the virtual address is backed by a physical page; a P=0 entry causes a page fault before any memory access proceeds. The User/Supervisor bit (U/S, bit 2) determines whether a page is accessible from ring 3; a supervisor page (U/S=0) accessed from user mode causes a privilege violation fault, as documented in Chapter 7 (§7.9). The Read/Write bit (R/W, bit 1) restricts write access. The No-Execute bit (NX, bit 63) prevents code execution from data pages, documented in Chapter 6 (§6.3). The CR3 register selects the page table root and, with PCID enabled, identifies the address space. Chapter 3 documented the full PTE format; Chapter 6 (§6.2, §6.5) defined each bit's semantics.</p>
 
-<figure id="fig-18-7" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs>
@@ -907,7 +907,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <text x="758" y="534" font-size="11" fill="#34495E" text-anchor="middle">content from leaking</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">x86-64 paging model trust assumptions. Five PTE-level controls (P, U/S, R/W, NX, CR3/PCID) are enforced at instruction retirement in the sequential execution model. In the OOO model, the speculation window between issue and retire allows transient execution of faulting loads, encoding protected data into cache state before the architectural fault squashes the instruction. Mitigations (KPTI, Retpoline, LFENCE, VERW) target different points in this window.</figcaption>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 18.2:</strong> x86-64 paging model trust assumptions. Five PTE-level controls (P, U/S, R/W, NX, CR3/PCID) are enforced at instruction retirement in the sequential execution model. In the OOO model, the speculation window between issue and retire allows transient execution of faulting loads, encoding protected data into cache state before the architectural fault squashes the instruction. Mitigations (KPTI, Retpoline, LFENCE, VERW) target different points in this window.</figcaption>
 </figure>
 
 
@@ -934,7 +934,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The three conditions required were all present in standard x86-64 systems before 2018. The target kernel virtual address was mapped in the user-mode page table — present, valid translation, U/S=0. The processor speculated past the U/S fault by design; this is the speculative execution model. The kernel data was TLB-hot or cache-hot from recent syscalls, satisfying the latency requirement for the speculative access to complete within the speculation window.</p>
 
-<figure id="fig-18-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="390" viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg">
   <defs><marker id="a2" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#34495E"/></marker></defs>
@@ -970,7 +970,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="30" y="376" font-family="Arial,sans-serif" font-size="11" fill="#616161">AMD largely unaffected: privilege fault delivered earlier in pipeline, preventing speculative L1D fill in practice.</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.2:</strong> Meltdown exploit timeline. The U/S check fires at retirement but the speculative load has already transmitted the kernel byte via the probe array cache fill. The L1D line persists after pipeline rollback.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.3:</strong> Meltdown exploit timeline. The U/S check fires at retirement but the speculative load has already transmitted the kernel byte via the probe array cache fill. The L1D line persists after pipeline rollback.</figcaption>
 </figure>
 
 <p>The Meltdown gadget is simple: <code>mov rax, [kernel_address]</code> speculatively loads a kernel byte; <code>and rax, 0xff</code> isolates the byte; <code>mov rbx, [probe_array + rax * 4096]</code> brings one of 256 probe array cache lines into L1D. All three execute transiently before the U/S fault squashes the pipeline. The probe array line is now in L1D. The attacker times access to all 256 probe pages: the one with sub-100-cycle access time reveals the kernel byte. This repeats across offsets to provide arbitrary kernel read access, at 500 KB/s to 2 MB/s on unpatched systems — sufficient to exfiltrate a 4 KB page in under 10 milliseconds.</p>
@@ -996,7 +996,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The canonical vulnerable pattern is: <code>if (index &lt; array_size) { return array2[array1[index] * 4096]; }</code>. When index is always in-bounds, the branch predictor learns to predict the branch taken. The attacker primes the predictor with in-bounds values, then sends an out-of-bounds index pointing to a secret. The processor predicts the branch taken and speculatively executes the body: <code>array1[index]</code> reads a secret byte out of bounds; <code>array2[secret * 4096]</code> brings one of 256 cache lines into L1D. The branch retires as mispredicted and the pipeline is squashed, but the cache line is hot. Flush+Reload recovers the secret byte.</p>
 
-<figure id="fig-18-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="354" viewBox="0 0 900 354" xmlns="http://www.w3.org/2000/svg">
   <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Spectre v1 (Bounds Bypass) vs Spectre v2 (Branch Target Injection)</text>
@@ -1040,7 +1040,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="672" y="318" font-family="Arial,sans-serif" font-size="11" fill="#616161" text-anchor="middle">RISC-V in-order base: structurally immune (no BTB speculation)</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.3:</strong> Spectre v1 (bounds-check bypass, left) and Spectre v2 (branch target injection, right). Both exploit the speculation window to leak data via cache timing but differ in how speculation is triggered.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.4:</strong> Spectre v1 (bounds-check bypass, left) and Spectre v2 (branch target injection, right). Both exploit the speculation window to leak data via cache timing but differ in how speculation is triggered.</figcaption>
 </figure>
 
 <p>The TLB and paging connection in Spectre v1 is less direct than in Meltdown but architecturally important. The speculative access to <code>array2[secret * 4096]</code> requires a valid virtual-to-physical mapping in the TLB for that address. The TLB enforces no bounds between array elements within the same mapped region — from the TLB's perspective, this is a normal user-mode read of a legitimately mapped page. The page table hardware has no mechanism to detect that this access is speculative and out-of-intended-bounds; the vulnerability is in the software bounds check, not in the hardware permission model. The mapping requirement provides limited containment: the speculative access cannot reach a page absent from the current address space, regardless of branch predictor state.</p>
@@ -1061,7 +1061,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>Spectre variant 2 (CVE-2017-5715) targets the Branch Target Buffer (BTB) — the microarchitectural structure that predicts the destination address of indirect branches (calls through function pointers, jumps through registers). An attacker who runs on the same physical core as a victim can train the BTB to misdirect the victim's indirect branch predictions to attacker-chosen addresses. When the victim subsequently executes an indirect branch, the processor speculatively executes code at the attacker-chosen target in the victim's address space and privilege context. If code at that target is a gadget that transmits data via cache timing, the attacker reads memory accessible to the victim.</p>
 
-<figure id="fig-18-8" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs>
@@ -1195,7 +1195,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <text x="440" y="553" font-size="10" fill="#BF616A" text-anchor="middle">← speculation window →</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">Spectre v2 attack through the PTW microcode control path. An attacker trains the Branch Target Buffer (BTB) with an indirect branch at the same virtual address as a PTW microcode branch site. When the victim subsequently incurs a TLB miss that exercises the complex-case PTW path, the poisoned BTB entry misdirects speculative execution to an attacker-chosen gadget in kernel context. The PTW amplification path means workloads that are TLB-miss-heavy (as characterised in §17.6) are maximally Spectre v2 exposed.</figcaption>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 18.5:</strong> Spectre v2 attack through the PTW microcode control path. An attacker trains the Branch Target Buffer (BTB) with an indirect branch at the same virtual address as a PTW microcode branch site. When the victim subsequently incurs a TLB miss that exercises the complex-case PTW path, the poisoned BTB entry misdirects speculative execution to an attacker-chosen gadget in kernel context. The PTW amplification path means workloads that are TLB-miss-heavy (as characterised in §17.6) are maximally Spectre v2 exposed.</figcaption>
 </figure>
 
 
@@ -1218,7 +1218,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>Chapter 17 (§17.5) established the foundation for this section: pre-2018 Intel processors, when encountering a PTE with the Present bit cleared during a speculative page table walk, read the physical address field (bits [51:12]) of the not-present entry and issued a speculative L1D cache fill for that physical address before raising the fault. The fill is not rolled back. This converts a software-controlled field in a not-present PTE into the capability to read arbitrary physical memory from L1D, bypassing all page-level permission checks.</p>
 
-<figure id="fig-18-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="350" viewBox="0 0 900 350" xmlns="http://www.w3.org/2000/svg">
   <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">L1 Terminal Fault (L1TF/Foreshadow) &#x2014; P=0 PTE Physical Address Speculation</text>
@@ -1259,7 +1259,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="30" y="338" font-family="Arial,sans-serif" font-size="11" fill="#616161">ARM64 not publicly confirmed vulnerable. RISC-V SW PTW handler checks P bit explicitly before acting &#x2014; structurally immune.</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.4:</strong> L1 Terminal Fault (L1TF/Foreshadow). Pre-2018 Intel hardware reads the PA field of a P=0 PTE speculatively before faulting. Three CVE variants exploit this across SGX, OS/SMM, and VMM isolation boundaries.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.6:</strong> L1 Terminal Fault (L1TF/Foreshadow). Pre-2018 Intel hardware reads the PA field of a P=0 PTE speculatively before faulting. Three CVE variants exploit this across SGX, OS/SMM, and VMM isolation boundaries.</figcaption>
 </figure>
 
 <p>L1 Terminal Fault — disclosed simultaneously as Foreshadow (Van Bulck et al., 2018) and Foreshadow-NG (Weisse et al., 2018) — exposed three attack surfaces distinguished by who controls the P=0 PTE and who is the victim. In each case the attacker exploits the fact that operating system software legitimately uses not-present PTE bits for purposes other than translation: swap entries recording where a page was written to disk, migration entries recording a page in flight to a new NUMA node (documented in Chapter 9), and SGX enclave page cache entries indicating a page swapped out of the EPC. Each of these uses places a non-translation value in bits [51:12] of a P=0 PTE — and on pre-L1TF silicon, the PTW treats that value as a physical address.</p>
@@ -1283,7 +1283,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The MDS vulnerability family, disclosed in May 2019, extends the transient execution attack surface beyond the page table's permission bits to the microarchitectural buffers shared between the page table walker and user-mode execution. The PTW uses the same L1D cache, fill buffer, store buffer, and load buffer infrastructure as ordinary loads, as detailed in Chapter 17. When the PTW fetches a page table entry, the resulting fill passes through the line fill buffer. When the kernel page fault handler writes a new PTE, that write passes through the store buffer. These buffers are shared between hardware threads on the same physical core — the same sharing that makes SMT effective also makes buffer contents potentially observable across thread boundaries under speculative forwarding conditions.</p>
 
-<figure id="fig-18-9" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-7" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs>
@@ -1410,7 +1410,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <text x="680" y="572" font-size="11" fill="#BF616A" text-anchor="middle">Mitigation: VERW / MD_CLEAR at privilege transition flushes all three buffers</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">MDS vulnerability — microarchitectural buffers shared between PTW and user execution on an SMT core. The fill buffer (LFB), load buffer, and store buffer are shared across hardware threads. PTW fetches of page table entries transit the fill buffer; kernel PTE writes transit the store buffer. A co-resident attacker thread can sample these buffers via speculative forwarding (RIDL, Fallout, MSBDS). Mitigation: VERW / MD_CLEAR at privilege transitions flushes all three buffers.</figcaption>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 18.7:</strong> MDS vulnerability — microarchitectural buffers shared between PTW and user execution on an SMT core. The fill buffer (LFB), load buffer, and store buffer are shared across hardware threads. PTW fetches of page table entries transit the fill buffer; kernel PTE writes transit the store buffer. A co-resident attacker thread can sample these buffers via speculative forwarding (RIDL, Fallout, MSBDS). Mitigation: VERW / MD_CLEAR at privilege transitions flushes all three buffers.</figcaption>
 </figure>
 
 
@@ -1434,7 +1434,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The architectural response to Meltdown was Kernel Page-Table Isolation (KPTI). First proposed as KAISER by Gruss et al. (2017), merged into the Linux kernel in December 2017 under the name KPTI, and deployed within weeks of the January 2018 public disclosure, KPTI removes kernel mappings from the user-mode page table entirely. This severs the speculative access path that Meltdown requires and eliminates the L1TF vector for kernel physical frame leakage via user-mode P=0 PTEs.</p>
 
-<figure id="fig-18-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-8" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="390" viewBox="0 0 900 390" xmlns="http://www.w3.org/2000/svg">
   <defs><marker id="a5" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#34495E"/></marker></defs>
@@ -1479,7 +1479,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="30" y="372" font-family="Arial,sans-serif" font-size="11" fill="#616161">nopti kernel parameter disables KPTI for single-tenant trusted hardware. Never disable on shared/cloud systems.</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.5:</strong> KPTI design. Each process has two CR3 values; the user CR3 contains only the minimal syscall trampoline. PCID amortises the MOV-CR3 cost by retaining TLB and PWC entries for both address spaces.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.8:</strong> KPTI design. Each process has two CR3 values; the user CR3 contains only the minimal syscall trampoline. PCID amortises the MOV-CR3 cost by retaining TLB and PWC entries for both address spaces.</figcaption>
 </figure>
 
 <p>The KPTI design gives each process two page table roots. The user CR3 — active during ring-3 execution — contains the full user virtual address space plus a minimal kernel stub: the interrupt/exception entry trampoline, the syscall entry point, and the minimal IDT entries needed for user-mode exceptions. No kernel code or data beyond these entry points is mapped in the user CR3. When user code executes, a speculative access to a kernel virtual address fails at the TLB lookup stage: the kernel VA has no translation in the user page table, and the PTW traversal of the user CR3's tree finds no PML4E for the kernel VA range. Both the Meltdown speculative load and the L1TF speculative PTW are severed because kernel physical frames are unreachable from the user address space. The kernel CR3 — active during ring-0 execution — maps both the full user space (for <code>copy_to_user</code> and related functions) and the complete kernel.</p>
@@ -1499,9 +1499,9 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <h2 id="section-18.9">18.9 Mitigation Costs and Production Deployment Trade-offs</h2>
 
-<p>The four primary mitigations — KPTI for Meltdown/L1TF, retpoline for Spectre v2, MDS buffer overwrite for RIDL/Fallout/ZombieLoad, and optional SMT disable for highest-security environments — interact with workload characteristics in ways that require careful analysis. Figure 18.6 provides the quantitative overview; this section analyses the mechanisms behind each row and the conditions under which deployment choices change.</p>
+<p>The four primary mitigations — KPTI for Meltdown/L1TF, retpoline for Spectre v2, MDS buffer overwrite for RIDL/Fallout/ZombieLoad, and optional SMT disable for highest-security environments — interact with workload characteristics in ways that require careful analysis. Figure 18.9 provides the quantitative overview; this section analyses the mechanisms behind each row and the conditions under which deployment choices change.</p>
 
-<figure id="fig-18-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-18-9" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="326" viewBox="0 0 900 326" xmlns="http://www.w3.org/2000/svg">
   <text x="450" y="22" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="#212121" text-anchor="middle">Mitigation Overhead Matrix &#x2014; Production Deployment Reference</text>
@@ -1536,7 +1536,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <rect x="15" y="34" width="870" height="220" fill="none" stroke="#9E9E9E" stroke-width="1.5"/>
 </svg>
 </div>
-<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.6:</strong> Mitigation overhead matrix by workload class. Database and network workloads are hardest hit by KPTI. Compute-bound workloads are largely unaffected. Cloud hypervisors require all mitigations including SMT disable.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 18.9:</strong> Mitigation overhead matrix by workload class. Database and network workloads are hardest hit by KPTI. Compute-bound workloads are largely unaffected. Cloud hypervisors require all mitigations including SMT disable.</figcaption>
 </figure>
 
 <p>KPTI overhead is dominated by the syscall and interrupt rate. For workloads calling <code>read()</code>, <code>write()</code>, <code>send()</code>, or <code>recv()</code> at high frequency — databases executing frequent queries, web servers, key-value stores — every system call pays two MOV-to-CR3 instructions at entry and exit. On Broadwell and later with PCID, each MOV-to-CR3 costs approximately 10 cycles plus serialisation. Without PCID, the cost includes a full non-global TLB flush: 200–500 cycles per syscall. nginx on pre-PCID Linux measured 25–30% throughput regression at KPTI launch in early 2018; on PCID systems the regression dropped to 5–10%. A compute workload performing no syscalls — a deep learning training job running entirely within a CUDA stream with pre-allocated arenas — sees essentially zero KPTI overhead because it never crosses the user/kernel boundary.</p>

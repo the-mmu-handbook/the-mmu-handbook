@@ -1001,7 +1001,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The throughput of the page table walker — measured in walks completed per unit time — is determined by the interaction of three factors: the number of concurrent walker slots (MSHR capacity), the latency of each walk (determined by cache hierarchy state), and the degree to which walks can be pipelined. Understanding these interactions is essential for diagnosing performance degradation in large-memory workloads.</p>
 
-<figure id="fig-17-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-17-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
 <defs>
@@ -1169,7 +1169,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <text x="35" y="558" font-size="12" fill="#34495E">Practical implication: for AI/ML workloads with huge working sets (terabytes), walks are nearly always DRAM-cold — walker count matters far less than page size (2 MB hugepages).</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">PTW throughput ceiling model and walker occupancy timelines. W/L ceiling in walks per cycle ×1000. Demand line at 30 represents a workload with TLB miss rate 0.01/instruction at IPC=3. AMD Zen 4's four-walker design meets LLC-hot demand; neither design meets demand under DRAM-cold conditions.</figcaption>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 17.5:</strong> PTW throughput ceiling model and walker occupancy timelines. W/L ceiling in walks per cycle ×1000. Demand line at 30 represents a workload with TLB miss rate 0.01/instruction at IPC=3. AMD Zen 4's four-walker design meets LLC-hot demand; neither design meets demand under DRAM-cold conditions.</figcaption>
 </figure>
 
 
@@ -1199,7 +1199,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The x86-64 page table walker is implemented as a combination of a hardware finite-state machine and microcode routines stored in the processor's on-die microcode ROM. This dual implementation reflects the ISA's history: the x86 page table format was designed in the 1980s with complex exception semantics (reserved bit faults, A/D bit maintenance, NX enforcement) that are difficult to implement efficiently in pure hardware without significant silicon area. The microcode-assisted approach allows the common case (present pages, no permission violations, A bit already set) to be handled by the fast hardware FSM, while delegating exception cases to microcode sequences that can construct and deliver precise exceptions without adding hardware complexity.</p>
 
-<figure id="fig-17-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<figure id="fig-17-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
     <svg width="900" height="360" viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg">
   <!-- Headers -->
@@ -1275,7 +1275,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <rect x="15" y="15" width="870" height="318" fill="none" stroke="#9E9E9E" stroke-width="1.5"/>
 </svg>
   </div>
-  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 17.5:</strong> PTW design comparison across x86-64, ARM64, and RISC-V across six properties. RISC-V base is structurally immune to speculative-walk attacks; Intel's microcode patch path allows L1TF mitigations without silicon re-spin.</figcaption>
+  <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 17.6:</strong> PTW design comparison across x86-64, ARM64, and RISC-V across six properties. RISC-V base is structurally immune to speculative-walk attacks; Intel's microcode patch path allows L1TF mitigations without silicon re-spin.</figcaption>
 </figure>
 
 <h3>FSM structure and microcode handoff</h3>
@@ -1464,7 +1464,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <text x="35" y="606" font-size="12" fill="#34495E">• Walk cache: PWC (Page Walk Cache) is optional per-level; Apple caches all intermediate levels; cortex-A710 caches L1/L2 descriptors</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">ARM64 Translation Table Walk. TTBR0_EL1 maps user-space (VA[63]=0); TTBR1_EL1 maps kernel space (VA[63]=1), eliminating full page-table swap at context switch. Walk depth depends on granule and VA width: 3 levels (64 KB granule), 4 levels (4 KB, 48-bit VA), or 5 levels (4 KB, 52-bit LPA2). Walker behaviour — count, pipeline depth, and speculative pre-fetch — is licensee-defined.</figcaption>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 17.7:</strong> ARM64 Translation Table Walk. TTBR0_EL1 maps user-space (VA[63]=0); TTBR1_EL1 maps kernel space (VA[63]=1), eliminating full page-table swap at context switch. Walk depth depends on granule and VA width: 3 levels (64 KB granule), 4 levels (4 KB, 48-bit VA), or 5 levels (4 KB, 52-bit LPA2). Walker behaviour — count, pipeline depth, and speculative pre-fetch — is licensee-defined.</figcaption>
 </figure>
 
 
@@ -1630,7 +1630,7 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <text x="800" y="592" font-size="12" fill="#212121" text-anchor="middle">9 / 9 / 9 / 9 / 9 bits</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">RISC-V software-managed page table walk. TLB miss raises a page-fault exception; the supervisor handler at stvec walks the page table in software using ordinary load instructions, installs the translation, issues SFENCE.VMA, and returns via sret. Walk depth scales with satp.MODE: 3 levels (Sv39), 4 levels (Sv48), 5 levels (Sv57). Handler must pin its own code pages to avoid recursive faults.</figcaption>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 17.8:</strong> RISC-V software-managed page table walk. TLB miss raises a page-fault exception; the supervisor handler at stvec walks the page table in software using ordinary load instructions, installs the translation, issues SFENCE.VMA, and returns via sret. Walk depth scales with satp.MODE: 3 levels (Sv39), 4 levels (Sv48), 5 levels (Sv57). Handler must pin its own code pages to avoid recursive faults.</figcaption>
 </figure>
 
 
