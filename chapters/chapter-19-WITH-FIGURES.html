@@ -909,6 +909,128 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>When a Linux system boots with CXL Type 3 memory attached, the firmware enumerates the device's HDM ranges in the ACPI SRAT (System Resource Affinity Table) and HMAT (Heterogeneous Memory Attribute Table). The SRAT declares which physical address ranges belong to which memory domain; the HMAT quantifies the access latency and bandwidth of each range relative to each CPU. From this information, the Linux kernel constructs its NUMA topology model, and CXL memory appears as a new NUMA node — one with no CPU cores, only memory. The kernel community calls this a "cpuless" or "memory-only" NUMA node.</p>
 
+<figure id="fig-19-9" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 610" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+  <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34495E"/></marker>
+</defs>
+
+<rect width="900" height="610" fill="#FAFAFA"/>
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">CXL Type 3 Memory as a Linux NUMA Node — Discovery and Topology</text>
+<text x="22" y="52" font-size="13" fill="#616161">Firmware enumerates CXL HDM ranges in ACPI SRAT/HMAT → Linux builds NUMA topology → CXL appears as cpuless memory-only node</text>
+
+<!-- ═══ PHASE 1: FIRMWARE / ACPI ═══ -->
+<rect x="22" y="64" width="856" height="20" rx="4" fill="#34495E"/>
+<text x="450" y="78" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 1 — Firmware: ACPI SRAT and HMAT enumeration</text>
+
+<!-- SRAT box -->
+<rect x="22" y="90" width="260" height="104" rx="6" fill="#34495E" filter="url(#sh)"/>
+<text x="152" y="112" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">ACPI SRAT</text>
+<text x="152" y="128" font-size="11" fill="#AABBCC" text-anchor="middle">System Resource Affinity Table</text>
+<rect x="34" y="136" width="236" height="14" rx="2" fill="#5E81AC" opacity="0.5"/>
+<text x="152" y="148" font-size="11" fill="#FFF" text-anchor="middle">MemAff[0]: PA 0x0–0x1FFFFFFFFFFF → Node 0</text>
+<rect x="34" y="152" width="236" height="14" rx="2" fill="#5E81AC" opacity="0.4"/>
+<text x="152" y="164" font-size="11" fill="#FFF" text-anchor="middle">MemAff[1]: PA 0x200…FFFF → Node 1</text>
+<rect x="34" y="168" width="236" height="14" rx="2" fill="#BF616A" opacity="0.6"/>
+<text x="152" y="180" font-size="11" fill="#FFF" text-anchor="middle">MemAff[2]: CXL HDM range → Node 2</text>
+
+<!-- HMAT box -->
+<rect x="302" y="90" width="260" height="104" rx="6" fill="#34495E" opacity="0.85" filter="url(#sh)"/>
+<text x="432" y="112" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">ACPI HMAT</text>
+<text x="432" y="128" font-size="11" fill="#AABBCC" text-anchor="middle">Heterogeneous Memory Attribute Table</text>
+<text x="432" y="148" font-size="12" fill="#AABBCC" text-anchor="middle">Node 0 → Node 0:  10 ns  (local)</text>
+<text x="432" y="164" font-size="12" fill="#AABBCC" text-anchor="middle">Node 0 → Node 1:  20 ns  (xsocket)</text>
+<text x="432" y="180" font-size="12" fill="#BF616A" text-anchor="middle">Node 0 → Node 2:  40+ ns (CXL)</text>
+
+<!-- CXL device -->
+<rect x="582" y="90" width="296" height="104" rx="6" fill="#BF616A" opacity="0.7" filter="url(#sh)"/>
+<text x="730" y="112" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">CXL Type 3 Device</text>
+<text x="730" y="130" font-size="12" fill="#FFD0D0" text-anchor="middle">HDM (Host-managed Device Memory)</text>
+<text x="730" y="148" font-size="12" fill="#FFD0D0" text-anchor="middle">128 GB DDR5 on CXL 2.0 link</text>
+<text x="730" y="166" font-size="12" fill="#FFD0D0" text-anchor="middle">Link: PCIe 5.0 × 16 (64 GB/s)</text>
+<text x="730" y="184" font-size="12" fill="#FFD0D0" text-anchor="middle">Additional latency: 70–90 ns (Pond)</text>
+
+<!-- Arrows firmware → kernel -->
+<line x1="152" y1="194" x2="152" y2="226" stroke="#34495E" stroke-width="2.5" marker-end="url(#ag)"/>
+<line x1="432" y1="194" x2="432" y2="226" stroke="#34495E" stroke-width="2.5" marker-end="url(#ag)"/>
+<line x1="730" y1="194" x2="600" y2="226" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+
+<!-- ═══ PHASE 2: LINUX KERNEL NUMA ═══ -->
+<rect x="22" y="220" width="856" height="20" rx="4" fill="#5E81AC"/>
+<text x="450" y="234" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 2 — Linux kernel: NUMA topology construction</text>
+
+<!-- Three NUMA nodes -->
+<!-- Node 0 -->
+<rect x="22" y="246" width="240" height="130" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+<text x="142" y="268" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 0</text>
+<text x="142" y="286" font-size="12" fill="#CCE0F8" text-anchor="middle">CPUs: 0–55 (socket 0)</text>
+<text x="142" y="302" font-size="12" fill="#CCE0F8" text-anchor="middle">DRAM: 512 GB DDR5</text>
+<text x="142" y="318" font-size="12" fill="#CCE0F8" text-anchor="middle">Local latency: 10 ns</text>
+<rect x="34" y="328" width="216" height="36" rx="4" fill="#FFF" opacity="0.15"/>
+<text x="142" y="344" font-size="11" fill="#FFF" text-anchor="middle">Local alloc: ZONE_NORMAL</text>
+<text x="142" y="358" font-size="11" fill="#FFF" text-anchor="middle">Preferred: local pages first</text>
+<text x="142" y="372" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 0→0=10, 0→1=20, 0→2=40</text>
+
+<!-- Node 1 -->
+<rect x="278" y="246" width="240" height="130" rx="6" fill="#5E81AC" opacity="0.8" filter="url(#sh)"/>
+<text x="398" y="268" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 1</text>
+<text x="398" y="286" font-size="12" fill="#CCE0F8" text-anchor="middle">CPUs: 56–111 (socket 1)</text>
+<text x="398" y="302" font-size="12" fill="#CCE0F8" text-anchor="middle">DRAM: 512 GB DDR5</text>
+<text x="398" y="318" font-size="12" fill="#CCE0F8" text-anchor="middle">Local latency: 10 ns</text>
+<rect x="290" y="328" width="216" height="36" rx="4" fill="#FFF" opacity="0.15"/>
+<text x="398" y="344" font-size="11" fill="#FFF" text-anchor="middle">Local alloc: ZONE_NORMAL</text>
+<text x="398" y="358" font-size="11" fill="#FFF" text-anchor="middle">Preferred: local pages first</text>
+<text x="398" y="372" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 1→0=20, 1→1=10, 1→2=40</text>
+
+<!-- Node 2: CXL cpuless -->
+<rect x="534" y="246" width="344" height="130" rx="6" fill="#BF616A" filter="url(#sh)"/>
+<text x="706" y="268" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 2 — CXL (cpuless)</text>
+<text x="706" y="287" font-size="12" fill="#FFD0D0" text-anchor="middle">CPUs: (none) — memory-only node</text>
+<text x="706" y="303" font-size="12" fill="#FFD0D0" text-anchor="middle">CXL DRAM: 128 GB</text>
+<text x="706" y="319" font-size="12" fill="#FFD0D0" text-anchor="middle">CXL link latency: +70–90 ns (Pond)</text>
+<rect x="546" y="328" width="320" height="36" rx="4" fill="#FFF" opacity="0.12"/>
+<text x="706" y="344" font-size="11" fill="#FFF" text-anchor="middle">Accessed via: numactl --membind=2 / MPOL_BIND</text>
+<text x="706" y="358" font-size="11" fill="#FFF" text-anchor="middle">TLB walks: identical — physical address is physical address</text>
+<text x="706" y="372" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 2→0=40, 2→1=40, 2→2=10</text>
+
+<!-- ═══ PHASE 3: SCHEDULER / ALLOCATOR VIEW ═══ -->
+<rect x="22" y="386" width="856" height="20" rx="4" fill="#4A8A99"/>
+<text x="450" y="400" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 3 — Scheduler and allocator awareness</text>
+
+<!-- Allocator -->
+<rect x="22" y="412" width="398" height="90" rx="6" fill="#4A8A99" opacity="0.15" stroke="#4A8A99" stroke-width="1.5"/>
+<text x="221" y="430" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Page Allocator (NUMA-aware)</text>
+<text x="221" y="448" font-size="12" fill="#34495E" text-anchor="middle">Default: allocate from the NUMA node of the</text>
+<text x="221" y="464" font-size="12" fill="#34495E" text-anchor="middle">requesting CPU. Falls back to Node 2 (CXL)</text>
+<text x="221" y="480" font-size="12" fill="#34495E" text-anchor="middle">only on local DRAM exhaustion (numa_node_distance</text>
+<text x="221" y="495" font-size="12" fill="#34495E" text-anchor="middle">policy or explicit MPOL_INTERLEAVE for tiering)</text>
+
+<!-- Scheduler -->
+<rect x="436" y="412" width="442" height="90" rx="6" fill="#5E81AC" opacity="0.12" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="657" y="430" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">Scheduler (NUMA balancing)</text>
+<text x="657" y="448" font-size="12" fill="#34495E" text-anchor="middle">CXL node has no CPUs — scheduler never places</text>
+<text x="657" y="464" font-size="12" fill="#34495E" text-anchor="middle">tasks on Node 2. Tasks on Node 0/1 may have</text>
+<text x="657" y="480" font-size="12" fill="#34495E" text-anchor="middle">working set in Node 2 → remote access cost is</text>
+<text x="657" y="495" font-size="12" fill="#34495E" text-anchor="middle">paid on every LLC miss (70–90 ns extra per fault)</text>
+
+<!-- ═══ NUMACTL OUTPUT ═══ -->
+<rect x="22" y="512" width="856" height="88" rx="6" fill="#212121" filter="url(#sh)"/>
+<text x="36" y="530" font-size="13" font-weight="bold" fill="#4A8A99">$ numactl --hardware</text>
+<text x="36" y="546" font-size="12" fill="#9E9E9E">available: 3 nodes (0-2)</text>
+<text x="36" y="560" font-size="12" fill="#AABBCC">node 0 cpus: 0-55    size: 512000 MB    node 1 cpus: 56-111    size: 512000 MB</text>
+<text x="36" y="574" font-size="12" fill="#BF616A">node 2 cpus: (none)  size: 131072 MB   ← CXL memory-only node</text>
+<text x="36" y="590" font-size="12" fill="#9E9E9E">node distances:  0→0: 10   0→1: 20   0→2: <tspan fill="#BF616A">40</tspan>   1→2: <tspan fill="#BF616A">40</tspan>   2→2: 10</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">CXL Type 3 memory as a Linux cpuless NUMA node. Firmware describes CXL HDM ranges in ACPI SRAT (physical address range to NUMA domain) and HMAT (per-pair latency and bandwidth). Linux constructs a NUMA topology with a memory-only node (node 2 in this example) with no CPUs. The CXL NUMA distance is typically 40 (vs. 10 local / 20 cross-socket), reflecting the additional 70–90 ns link latency measured in Azure Pond at 8–16 socket pool scale.</figcaption>
+</figure>
+
+
 <p>The practical consequence is visible immediately:</p>
 
 <pre><code>$ numactl --hardware
@@ -1711,6 +1833,167 @@ $ cat /proc/sys/vm/demote_page_tables
     <strong>Figure 19.8:</strong> Azure Pond CXL Pool Topology (ASPLOS 2023, Microsoft Research). Eight to sixteen dual-socket servers connect to an External Memory Controller (EMC) via PCIe 5.0 CXL links. The EMC aggregates DDR5 memory from multiple banks into a shared pool of 1–4 TB, presented to all servers as a cpuless NUMA node. At 8–16 socket pool size, CXL adds only 70–90 ns of latency over same-NUMA-node DRAM — small enough that 43% of production Azure workloads run within 5% of their local-DRAM performance while the pool achieves 7–9% DRAM cost reduction.
   </figcaption>
 </figure>
+
+<figure id="fig-19-10" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 590" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+</defs>
+
+<rect width="900" height="590" fill="#FAFAFA"/>
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">CXL Production Deployments — Performance Engineering Comparison</text>
+<text x="22" y="52" font-size="13" fill="#616161">Three major production systems: latency overhead, workload fit, and cost/bandwidth tradeoffs (measured data from peer-reviewed publications)</text>
+
+<!-- Column headers -->
+<rect x="22" y="64" width="856" height="22" rx="4" fill="#34495E"/>
+<text x="176" y="79" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Azure Pond (ASPLOS 2023)</text>
+<text x="470" y="79" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">DirectCXL (USENIX ATC 2022)</text>
+<text x="748" y="79" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Meta TPP (OSDI 2023)</text>
+
+<!-- Vertical separators -->
+<line x1="330" y1="64" x2="330" y2="440" stroke="#9E9E9E" stroke-width="1"/>
+<line x1="616" y1="64" x2="616" y2="440" stroke="#9E9E9E" stroke-width="1"/>
+
+<!-- ─── Row 1: System type ─── -->
+<rect x="22" y="86" width="856" height="18" rx="0" fill="#5E81AC" opacity="0.15"/>
+<text x="35" y="99" font-size="11" font-weight="bold" fill="#34495E">SYSTEM TYPE</text>
+
+<text x="176" y="99" font-size="12" fill="#212121" text-anchor="middle">CXL memory pooling</text>
+<text x="470" y="99" font-size="12" fill="#212121" text-anchor="middle">CXL load/store disaggregation</text>
+<text x="748" y="99" font-size="12" fill="#212121" text-anchor="middle">OS-level memory tiering</text>
+
+<!-- ─── Row 2: Hardware ─── -->
+<rect x="22" y="104" width="856" height="36" rx="0" fill="#FAFAFA"/>
+<text x="35" y="116" font-size="11" font-weight="bold" fill="#34495E">HARDWARE</text>
+<text x="176" y="116" font-size="11" fill="#212121" text-anchor="middle">8–16 dual-socket servers</text>
+<text x="176" y="128" font-size="11" fill="#212121" text-anchor="middle">PCIe 5.0 CXL, DDR5 EMC pool</text>
+<text x="470" y="116" font-size="11" fill="#212121" text-anchor="middle">FPGA CXL 2.0 controller</text>
+<text x="470" y="128" font-size="11" fill="#212121" text-anchor="middle">Custom Type 3 device, PCIe 4.0</text>
+<text x="748" y="116" font-size="11" fill="#212121" text-anchor="middle">Meta production servers</text>
+<text x="748" y="128" font-size="11" fill="#212121" text-anchor="middle">CXL Type 3 + local DRAM tiering</text>
+
+<!-- ─── Row 3: Latency ─── -->
+<rect x="22" y="140" width="856" height="52" rx="0" fill="#5E81AC" opacity="0.08"/>
+<text x="35" y="152" font-size="11" font-weight="bold" fill="#34495E">LATENCY OVERHEAD</text>
+
+<!-- Pond latency bar -->
+<rect x="36" y="157" width="140" height="22" rx="3" fill="#5E81AC" opacity="0.6"/>
+<text x="106" y="173" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+70–90 ns (8–16 sockets)</text>
+<text x="176" y="186" font-size="11" fill="#BF616A" text-anchor="middle">+180 ns at rack scale (retimers)</text>
+
+<!-- DirectCXL latency bar -->
+<rect x="344" y="157" width="140" height="22" rx="3" fill="#4A8A99" opacity="0.6"/>
+<text x="414" y="173" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+100–120 ns (FPGA)</text>
+<text x="470" y="186" font-size="11" fill="#616161" text-anchor="middle">Load/store: lower overhead vs page</text>
+
+<!-- Meta TPP latency bar -->
+<rect x="630" y="157" width="140" height="22" rx="3" fill="#BF616A" opacity="0.5"/>
+<text x="700" y="173" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+60–150 ns (tiered)</text>
+<text x="748" y="186" font-size="11" fill="#616161" text-anchor="middle">Hot pages promoted to local DRAM</text>
+
+<!-- ─── Row 4: Workload fit ─── -->
+<rect x="22" y="192" width="856" height="62" rx="0" fill="#FAFAFA"/>
+<text x="35" y="204" font-size="11" font-weight="bold" fill="#34495E">WORKLOAD FIT</text>
+
+<text x="176" y="218" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">43% of 158 workloads within 5%</text>
+<text x="176" y="232" font-size="11" fill="#212121" text-anchor="middle">at +64 ns overhead</text>
+<text x="176" y="246" font-size="11" fill="#BF616A" text-anchor="middle">21% suffer &gt;25% degradation</text>
+
+<text x="470" y="218" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">Pointer-chase: near-native BW</text>
+<text x="470" y="232" font-size="11" fill="#212121" text-anchor="middle">Sequential: line-rate saturation</text>
+<text x="470" y="246" font-size="11" fill="#BF616A" text-anchor="middle">Latency-sensitive: noticeable cost</text>
+
+<text x="748" y="218" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">Memory-capacity workloads ideal</text>
+<text x="748" y="232" font-size="11" fill="#212121" text-anchor="middle">Inference serving, key-value stores</text>
+<text x="748" y="246" font-size="11" fill="#BF616A" text-anchor="middle">Real-time OLTP: local DRAM needed</text>
+
+<!-- ─── Row 5: TLB / MMU impact ─── -->
+<rect x="22" y="254" width="856" height="52" rx="0" fill="#5E81AC" opacity="0.08"/>
+<text x="35" y="266" font-size="11" font-weight="bold" fill="#34495E">TLB / MMU IMPACT</text>
+
+<text x="176" y="284" font-size="12" fill="#212121" text-anchor="middle">TLB walk identical; physical</text>
+<text x="176" y="298" font-size="11" fill="#212121" text-anchor="middle">address cost: +70–90 ns on LLC miss</text>
+
+<text x="470" y="284" font-size="12" fill="#212121" text-anchor="middle">No TLB involvement (load/store</text>
+<text x="470" y="298" font-size="11" fill="#212121" text-anchor="middle">bypasses page table for mapped ranges)</text>
+
+<text x="748" y="284" font-size="12" fill="#212121" text-anchor="middle">Promotion/demotion involves TLB</text>
+<text x="748" y="298" font-size="11" fill="#212121" text-anchor="middle">shootdown on page migration</text>
+
+<!-- ─── Row 6: Cost model ─── -->
+<rect x="22" y="306" width="856" height="50" rx="0" fill="#FAFAFA"/>
+<text x="35" y="318" font-size="11" font-weight="bold" fill="#34495E">COST MODEL</text>
+
+<text x="176" y="334" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">7–9% DRAM cost reduction</text>
+<text x="176" y="348" font-size="11" fill="#212121" text-anchor="middle">via pooling utilisation gains</text>
+
+<text x="470" y="334" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">Eliminates stranded DRAM</text>
+<text x="470" y="348" font-size="11" fill="#212121" text-anchor="middle">disaggregation enables hot-swap</text>
+
+<text x="748" y="334" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">30–50% DRAM on CXL tier</text>
+<text x="748" y="348" font-size="11" fill="#212121" text-anchor="middle">large-capacity, lower-cost footprint</text>
+
+<!-- ─── Row 7: Production status ─── -->
+<rect x="22" y="356" width="856" height="34" rx="0" fill="#5E81AC" opacity="0.08"/>
+<text x="35" y="368" font-size="11" font-weight="bold" fill="#34495E">STATUS</text>
+
+<rect x="56" y="360" width="240" height="20" rx="10" fill="#4A8A99" opacity="0.7"/>
+<text x="176" y="374" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Production — Azure hyperscale fleet</text>
+
+<rect x="344" y="360" width="252" height="20" rx="10" fill="#5E81AC" opacity="0.7"/>
+<text x="470" y="374" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Research prototype — FPGA CXL 2.0</text>
+
+<rect x="630" y="360" width="248" height="20" rx="10" fill="#4A8A99" opacity="0.7"/>
+<text x="754" y="374" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Production — Meta datacenters</text>
+
+<!-- ═══ WORKLOAD FIT HEAT CHART ═══ -->
+<rect x="22" y="400" width="856" height="28" rx="4" fill="#34495E"/>
+<text x="450" y="418" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Workload × Deployment Fit Matrix</text>
+
+<rect x="22" y="428" width="856" height="154" rx="0" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+
+<!-- Column headers -->
+<text x="250" y="446" font-size="11" font-weight="bold" fill="#5E81AC" text-anchor="middle">Azure Pond</text>
+<text x="470" y="446" font-size="11" font-weight="bold" fill="#4A8A99" text-anchor="middle">DirectCXL</text>
+<text x="690" y="446" font-size="11" font-weight="bold" fill="#BF616A" text-anchor="middle">Meta TPP</text>
+<line x1="22" y1="450" x2="878" y2="450" stroke="#E0E0E0" stroke-width="1"/>
+
+<!-- Workload rows -->
+<text x="100" y="466" font-size="11" fill="#212121">LLM inference serving</text>
+<rect x="210" y="455" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="250" y="467" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="428" y="455" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.5"/><text x="470" y="467" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="648" y="455" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.9"/><text x="690" y="467" font-size="10" fill="#FFF" text-anchor="middle">✓✓ Ideal</text>
+
+<text x="100" y="486" font-size="11" fill="#212121">Key-value store (Redis)</text>
+<rect x="210" y="475" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.5"/><text x="250" y="487" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="428" y="475" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="470" y="487" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<rect x="648" y="475" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="690" y="487" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+
+<text x="100" y="506" font-size="11" fill="#212121">OLTP / interactive DB</text>
+<rect x="210" y="495" width="80" height="16" rx="8" fill="#BF616A" opacity="0.6"/><text x="250" y="507" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<rect x="428" y="495" width="84" height="16" rx="8" fill="#BF616A" opacity="0.5"/><text x="470" y="507" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<rect x="648" y="495" width="84" height="16" rx="8" fill="#BF616A" opacity="0.4"/><text x="690" y="507" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+
+<text x="100" y="526" font-size="11" fill="#212121">Batch analytics / ETL</text>
+<rect x="210" y="515" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.9"/><text x="250" y="527" font-size="10" fill="#FFF" text-anchor="middle">✓✓ Ideal</text>
+<rect x="428" y="515" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="470" y="527" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="648" y="515" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.6"/><text x="690" y="527" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+
+<text x="100" y="546" font-size="11" fill="#212121">GPU/NPU model weights</text>
+<rect x="210" y="535" width="80" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="250" y="547" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<rect x="428" y="535" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="470" y="547" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="648" y="535" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="690" y="547" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+
+<text x="100" y="572" font-size="11" fill="#212121">Real-time ML serving</text>
+<rect x="210" y="560" width="80" height="16" rx="8" fill="#BF616A" opacity="0.5"/><text x="250" y="572" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<rect x="428" y="560" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="470" y="572" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<rect x="648" y="560" width="84" height="16" rx="8" fill="#BF616A" opacity="0.4"/><text x="690" y="572" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">Production CXL deployment comparison: Azure Pond (memory pooling at cloud scale), DirectCXL (load/store disaggregation, KAIST), and Meta TPP (OS-level memory tiering). Latency overhead, workload fit, TLB/MMU impact, and cost model differ substantially across approaches. Workload × deployment fit matrix shows that latency-sensitive OLTP performs poorly on all three, while batch analytics and LLM inference serving are well-suited candidates for CXL memory expansion.</figcaption>
+</figure>
+
 
 <h2 id="section-19.10">19.10 Chapter Summary</h2>
 

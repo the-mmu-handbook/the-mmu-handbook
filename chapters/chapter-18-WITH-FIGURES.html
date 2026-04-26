@@ -758,6 +758,159 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The x86-64 protection model, as established in Chapter 6, is built on five PTE-level controls. The Present bit (P, bit 0) determines whether the virtual address is backed by a physical page; a P=0 entry causes a page fault before any memory access proceeds. The User/Supervisor bit (U/S, bit 2) determines whether a page is accessible from ring 3; a supervisor page (U/S=0) accessed from user mode causes a privilege violation fault, as documented in Chapter 7 (§7.9). The Read/Write bit (R/W, bit 1) restricts write access. The No-Execute bit (NX, bit 63) prevents code execution from data pages, documented in Chapter 6 (§6.3). The CR3 register selects the page table root and, with PCID enabled, identifies the address space. Chapter 3 documented the full PTE format; Chapter 6 (§6.2, §6.5) defined each bit's semantics.</p>
 
+<figure id="fig-18-7" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+  <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34495E"/></marker>
+</defs>
+
+<rect width="900" height="580" fill="#FAFAFA"/>
+
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">x86-64 Paging Model: Trust Assumptions — Architectural vs Microarchitectural Enforcement</text>
+<text x="22" y="52" font-size="13" fill="#616161">Five PTE-level controls govern access. All are enforced at retirement — but OOO execution creates a speculation window where violations are transiently executed.</text>
+
+<!-- ═══ LEFT: THE 5 CONTROLS ═══ -->
+<rect x="22" y="68" width="310" height="22" rx="4" fill="#34495E"/>
+<text x="177" y="83" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">PTE Protection Controls (x86-64)</text>
+
+<!-- Control 1: P bit -->
+<rect x="22" y="96" width="310" height="56" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+<text x="82" y="116" font-size="22" font-weight="bold" fill="#FFF">P</text>
+<text x="108" y="114" font-size="13" font-weight="bold" fill="#FFF">Present (bit 0)</text>
+<text x="108" y="130" font-size="12" fill="#CCE0F8">P=0 → page fault before any access</text>
+<text x="108" y="144" font-size="11" fill="#CCE0F8">Architecture: immediate fault on TLB miss</text>
+
+<!-- Control 2: U/S bit -->
+<rect x="22" y="160" width="310" height="56" rx="6" fill="#5E81AC" opacity="0.85" filter="url(#sh)"/>
+<text x="82" y="180" font-size="17" font-weight="bold" fill="#FFF">U/S</text>
+<text x="118" y="178" font-size="13" font-weight="bold" fill="#FFF">User/Supervisor (bit 2)</text>
+<text x="118" y="194" font-size="12" fill="#CCE0F8">U/S=0: ring-3 access → fault</text>
+<text x="118" y="208" font-size="11" fill="#CCE0F8">Meltdown: bypassed speculatively</text>
+
+<!-- Control 3: R/W bit -->
+<rect x="22" y="224" width="310" height="56" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+<text x="82" y="244" font-size="17" font-weight="bold" fill="#FFF">R/W</text>
+<text x="120" y="242" font-size="13" font-weight="bold" fill="#FFF">Read/Write (bit 1)</text>
+<text x="120" y="258" font-size="12" fill="#CCE8EC">R/W=0 + write → protection fault</text>
+<text x="120" y="272" font-size="11" fill="#CCE8EC">Enforced: retire-time check</text>
+
+<!-- Control 4: NX bit -->
+<rect x="22" y="288" width="310" height="56" rx="6" fill="#4A8A99" opacity="0.8" filter="url(#sh)"/>
+<text x="82" y="308" font-size="17" font-weight="bold" fill="#FFF">NX</text>
+<text x="115" y="306" font-size="13" font-weight="bold" fill="#FFF">No-Execute (bit 63)</text>
+<text x="115" y="322" font-size="12" fill="#CCE8EC">NX=1 on data page → #PF on fetch</text>
+<text x="115" y="336" font-size="11" fill="#CCE8EC">Prevents code exec from data pages</text>
+
+<!-- Control 5: CR3/PCID -->
+<rect x="22" y="352" width="310" height="56" rx="6" fill="#34495E" filter="url(#sh)"/>
+<text x="82" y="372" font-size="13" font-weight="bold" fill="#FFF">CR3</text>
+<text x="115" y="370" font-size="13" font-weight="bold" fill="#FFF">Page Table Root + PCID</text>
+<text x="115" y="386" font-size="12" fill="#AABBCC">Selects address space; PCID tags TLB</text>
+<text x="115" y="400" font-size="11" fill="#AABBCC">KPTI switches CR3 at kernel entry</text>
+
+<!-- ═══ CENTRE: RETIREMENT vs SPECULATION SPLIT ═══ -->
+<line x1="450" y1="68" x2="450" y2="430" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="450" y="62" font-size="12" fill="#9E9E9E" text-anchor="middle">enforcement boundary</text>
+
+<!-- Retirement side header -->
+<rect x="344" y="68" width="200" height="22" rx="4" fill="#4A8A99"/>
+<text x="444" y="83" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">✓ RETIREMENT (architectural)</text>
+
+<!-- Retirement body -->
+<rect x="344" y="96" width="200" height="312" rx="6" fill="#E8F5F2" stroke="#4A8A99" stroke-width="1.5"/>
+<text x="444" y="122" font-size="12" fill="#2C5F54" text-anchor="middle" font-weight="bold">Sequential execution model</text>
+<text x="444" y="143" font-size="12" fill="#2C5F54" text-anchor="middle">All five controls checked</text>
+<text x="444" y="163" font-size="12" fill="#2C5F54" text-anchor="middle">before instruction retires</text>
+<text x="444" y="188" font-size="12" fill="#2C5F54" text-anchor="middle">Fault raised → exception</text>
+<text x="444" y="208" font-size="12" fill="#2C5F54" text-anchor="middle">handler invoked</text>
+<text x="444" y="228" font-size="12" fill="#2C5F54" text-anchor="middle">Architecturally invisible:</text>
+<text x="444" y="248" font-size="12" fill="#2C5F54" text-anchor="middle">no register state written</text>
+<text x="444" y="275" font-size="12" fill="#2C5F54" text-anchor="middle">Guarantee: if fault fires</text>
+<text x="444" y="295" font-size="12" fill="#2C5F54" text-anchor="middle">at retirement, attacker</text>
+<text x="444" y="315" font-size="12" fill="#2C5F54" text-anchor="middle">cannot read protected data</text>
+<text x="444" y="345" font-size="26" text-anchor="middle">✓</text>
+<text x="444" y="370" font-size="12" fill="#2C5F54" text-anchor="middle">IS enforced</text>
+<text x="444" y="390" font-size="12" fill="#2C5F54" text-anchor="middle">for architectural state</text>
+
+<!-- Speculation side header -->
+<rect x="556" y="68" width="322" height="22" rx="4" fill="#BF616A"/>
+<text x="717" y="83" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">✗ SPECULATION WINDOW (microarchitectural)</text>
+
+<!-- Speculation body -->
+<rect x="556" y="96" width="322" height="312" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+<text x="717" y="122" font-size="12" fill="#8B2020" text-anchor="middle" font-weight="bold">OOO execution model</text>
+<text x="717" y="143" font-size="12" fill="#8B2020" text-anchor="middle">Instructions issued before</text>
+<text x="717" y="163" font-size="12" fill="#8B2020" text-anchor="middle">preceding fault resolves</text>
+
+<!-- Timeline / pipeline strip -->
+<rect x="568" y="178" width="298" height="22" rx="3" fill="#34495E"/>
+<text x="717" y="193" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">OOO pipeline — cycle view</text>
+<rect x="568" y="200" width="55" height="30" rx="2" fill="#5E81AC"/>
+<text x="595" y="220" font-size="10" fill="#FFF" text-anchor="middle">Issue</text>
+<rect x="626" y="200" width="55" height="30" rx="2" fill="#5E81AC" opacity="0.8"/>
+<text x="653" y="220" font-size="10" fill="#FFF" text-anchor="middle">Execute</text>
+<rect x="684" y="200" width="55" height="30" rx="2" fill="#BF616A" opacity="0.7"/>
+<text x="711" y="215" font-size="10" fill="#FFF" text-anchor="middle">Fault</text>
+<text x="711" y="226" font-size="10" fill="#FFF" text-anchor="middle">detected</text>
+<rect x="742" y="200" width="55" height="30" rx="2" fill="#BF616A"/>
+<text x="769" y="215" font-size="10" fill="#FFF" text-anchor="middle">Retire</text>
+<text x="769" y="226" font-size="10" fill="#FFF" text-anchor="middle">squash</text>
+<rect x="800" y="200" width="66" height="30" rx="2" fill="#616161"/>
+<text x="833" y="215" font-size="10" fill="#FFF" text-anchor="middle">µarch</text>
+<text x="833" y="226" font-size="10" fill="#FFF" text-anchor="middle">side effect</text>
+
+<text x="595" y="252" font-size="11" fill="#8B2020" text-anchor="middle">↕</text>
+<text x="717" y="252" font-size="12" fill="#8B2020" text-anchor="middle" font-weight="bold">Speculation window</text>
+<text x="717" y="270" font-size="12" fill="#8B2020" text-anchor="middle">Faulting load executes</text>
+<text x="717" y="288" font-size="12" fill="#8B2020" text-anchor="middle">transiently — data lands</text>
+<text x="717" y="306" font-size="12" fill="#8B2020" text-anchor="middle">in cache before squash</text>
+
+<text x="717" y="340" font-size="12" fill="#8B2020" text-anchor="middle" font-weight="bold">Affected controls:</text>
+<text x="717" y="358" font-size="12" fill="#BF616A" text-anchor="middle">U/S (Meltdown)  •  P=0 (L1TF)</text>
+<text x="717" y="376" font-size="12" fill="#BF616A" text-anchor="middle">BTB/PHT (Spectre v1/v2)</text>
+<text x="717" y="394" font-size="12" fill="#8B2020" text-anchor="middle">Cache timing = covert channel</text>
+
+<!-- ═══ BOTTOM: MITIGATION BAR ═══ -->
+<rect x="22" y="430" width="856" height="130" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="448" font-size="13" font-weight="bold" fill="#212121">Mitigations — closing the speculation window</text>
+
+<rect x="35" y="456" width="190" height="92" rx="5" fill="#5E81AC" opacity="0.15" stroke="#5E81AC" stroke-width="1"/>
+<text x="130" y="472" font-size="12" font-weight="bold" fill="#5E81AC" text-anchor="middle">KPTI (Meltdown)</text>
+<text x="130" y="490" font-size="11" fill="#34495E" text-anchor="middle">Separate page tables for</text>
+<text x="130" y="504" font-size="11" fill="#34495E" text-anchor="middle">kernel and user mode.</text>
+<text x="130" y="518" font-size="11" fill="#34495E" text-anchor="middle">Switch CR3 on entry/exit.</text>
+<text x="130" y="534" font-size="11" fill="#34495E" text-anchor="middle">Removes kernel from U VA</text>
+
+<rect x="240" y="456" width="190" height="92" rx="5" fill="#4A8A99" opacity="0.15" stroke="#4A8A99" stroke-width="1"/>
+<text x="335" y="472" font-size="12" font-weight="bold" fill="#4A8A99" text-anchor="middle">Retpoline (Spectre v2)</text>
+<text x="335" y="490" font-size="11" fill="#34495E" text-anchor="middle">Replace indirect branch</text>
+<text x="335" y="504" font-size="11" fill="#34495E" text-anchor="middle">with speculation-trap</text>
+<text x="335" y="518" font-size="11" fill="#34495E" text-anchor="middle">return sequence.</text>
+<text x="335" y="534" font-size="11" fill="#34495E" text-anchor="middle">BTB poisoning neutralised</text>
+
+<rect x="445" y="456" width="190" height="92" rx="5" fill="#BF616A" opacity="0.12" stroke="#BF616A" stroke-width="1"/>
+<text x="540" y="472" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">LFENCE (Spectre v1)</text>
+<text x="540" y="490" font-size="11" fill="#34495E" text-anchor="middle">Serialising fence after</text>
+<text x="540" y="504" font-size="11" fill="#34495E" text-anchor="middle">bounds check prevents</text>
+<text x="540" y="518" font-size="11" fill="#34495E" text-anchor="middle">speculative load.</text>
+<text x="540" y="534" font-size="11" fill="#34495E" text-anchor="middle">PHT bypass closed</text>
+
+<rect x="650" y="456" width="216" height="92" rx="5" fill="#34495E" opacity="0.12" stroke="#34495E" stroke-width="1"/>
+<text x="758" y="472" font-size="12" font-weight="bold" fill="#34495E" text-anchor="middle">MDS: VERW / MD_CLEAR</text>
+<text x="758" y="490" font-size="11" fill="#34495E" text-anchor="middle">Flush fill buffer / store buf</text>
+<text x="758" y="504" font-size="11" fill="#34495E" text-anchor="middle">at privilege transition.</text>
+<text x="758" y="518" font-size="11" fill="#34495E" text-anchor="middle">Prevents PTW buffer</text>
+<text x="758" y="534" font-size="11" fill="#34495E" text-anchor="middle">content from leaking</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">x86-64 paging model trust assumptions. Five PTE-level controls (P, U/S, R/W, NX, CR3/PCID) are enforced at instruction retirement in the sequential execution model. In the OOO model, the speculation window between issue and retire allows transient execution of faulting loads, encoding protected data into cache state before the architectural fault squashes the instruction. Mitigations (KPTI, Retpoline, LFENCE, VERW) target different points in this window.</figcaption>
+</figure>
+
+
 <p>These controls share a critical property: they are enforced at instruction retirement. In the sequential execution model that the architecture specification describes, a load instruction addressing a supervisor page immediately causes a fault — the load never executes. In the out-of-order execution model implemented by every modern high-performance processor, the situation is more complex. An OOO processor issues instructions before they retire, executing them in an order determined by data availability rather than program order. A speculative load may be issued dozens to hundreds of cycles before it reaches the retirement queue. During those cycles, dependent instructions — including instructions that access memory and bring cache lines into L1D or populate microarchitectural buffers — may have executed.</p>
 
 <p>The architectural guarantee is preserved: the load will be squashed and a fault delivered when the instruction retires. But the microarchitectural side-effects — which cache lines were brought in, which fill buffer entries were populated, which store buffer entries were touched — are not rolled back. They persist, and they are observable via timing differences in subsequent memory accesses. The Flush+Reload technique (Yarom and Falkner, 2014) provides the measurement primitive: flush a set of locations from cache, allow the victim to execute, then measure access time to each location. Sub-threshold time indicates the victim brought in that line — revealing which one was accessed and therefore what address was computed speculatively.</p>
@@ -908,6 +1061,144 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>Spectre variant 2 (CVE-2017-5715) targets the Branch Target Buffer (BTB) — the microarchitectural structure that predicts the destination address of indirect branches (calls through function pointers, jumps through registers). An attacker who runs on the same physical core as a victim can train the BTB to misdirect the victim's indirect branch predictions to attacker-chosen addresses. When the victim subsequently executes an indirect branch, the processor speculatively executes code at the attacker-chosen target in the victim's address space and privilege context. If code at that target is a gadget that transmits data via cache timing, the attacker reads memory accessible to the victim.</p>
 
+<figure id="fig-18-8" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+  <marker id="at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+  <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+</defs>
+
+<rect width="900" height="580" fill="#FAFAFA"/>
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">Spectre v2 — BTB Poisoning via the PTW Microcode Control Path</text>
+<text x="22" y="52" font-size="13" fill="#616161">Attacker trains BTB with indirect branch at same VA → victim's TLB miss triggers PTW microcode indirect branch → speculative gadget executes in kernel context → cache leak</text>
+
+<!-- ═══ TWO PHASE LAYOUT ═══ -->
+
+<!-- PHASE 1: Attack setup -->
+<rect x="22" y="64" width="856" height="20" rx="4" fill="#BF616A"/>
+<text x="450" y="78" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 1 — Attacker: BTB poisoning (same physical core, user privilege)</text>
+
+<!-- Attacker steps -->
+<rect x="22" y="90" width="200" height="72" rx="6" fill="#BF616A" opacity="0.75" filter="url(#sh)"/>
+<text x="122" y="112" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Attacker Code</text>
+<text x="122" y="130" font-size="12" fill="#FFD0D0" text-anchor="middle">Executes indirect branch</text>
+<text x="122" y="146" font-size="12" fill="#FFD0D0" text-anchor="middle">at VA matching PTW</text>
+<text x="122" y="160" font-size="12" fill="#FFD0D0" text-anchor="middle">microcode branch site</text>
+
+<line x1="222" y1="126" x2="258" y2="126" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+
+<rect x="258" y="90" width="220" height="72" rx="6" fill="#BF616A" opacity="0.6" filter="url(#sh)"/>
+<text x="368" y="112" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">BTB Entry Created</text>
+<text x="368" y="130" font-size="11" fill="#FFD0D0" text-anchor="middle">BTB[VA_branch] ← attacker_gadget_VA</text>
+<text x="368" y="146" font-size="11" fill="#FFD0D0" text-anchor="middle">Branch target buffer poisoned</text>
+<text x="368" y="160" font-size="11" fill="#FFD0D0" text-anchor="middle">with attacker-chosen address</text>
+
+<line x1="478" y1="126" x2="514" y2="126" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+
+<rect x="514" y="90" width="364" height="72" rx="6" fill="#34495E" filter="url(#sh)"/>
+<text x="696" y="110" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">BTB Entry (shared µarch state)</text>
+<text x="696" y="128" font-size="11" fill="#AABBCC" text-anchor="middle">Tag: VA[branch_site]    Target: attacker_gadget_addr</text>
+<text x="696" y="144" font-size="11" fill="#AABBCC" text-anchor="middle">Present and valid — shared with victim on same core</text>
+<text x="696" y="160" font-size="11" fill="#AABBCC" text-anchor="middle">Survives context switch (pre-IBRS / pre-eIBRS)</text>
+
+<!-- PHASE 2: Victim TLB miss triggers exposure -->
+<rect x="22" y="176" width="856" height="20" rx="4" fill="#5E81AC"/>
+<text x="450" y="190" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 2 — Victim: TLB miss triggers PTW microcode, which hits poisoned BTB</text>
+
+<rect x="22" y="202" width="182" height="70" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+<text x="113" y="224" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Victim Load</text>
+<text x="113" y="242" font-size="12" fill="#CCE0F8" text-anchor="middle">VPN not in TLB</text>
+<text x="113" y="258" font-size="12" fill="#CCE0F8" text-anchor="middle">PTW microcode invoked</text>
+<text x="113" y="265" font-size="11" fill="#CCE0F8" text-anchor="middle">(complex-case path)</text>
+
+<line x1="204" y1="237" x2="240" y2="237" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
+
+<rect x="240" y="202" width="230" height="70" rx="6" fill="#5E81AC" opacity="0.8" filter="url(#sh)"/>
+<text x="355" y="222" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">PTW Microcode</text>
+<text x="355" y="240" font-size="12" fill="#CCE0F8" text-anchor="middle">Executes indirect branch</text>
+<text x="355" y="256" font-size="12" fill="#CCE0F8" text-anchor="middle">at branch_site VA</text>
+<text x="355" y="268" font-size="11" fill="#CCE0F8" text-anchor="middle">BTB lookup: hits poison entry →</text>
+
+<line x1="470" y1="237" x2="506" y2="237" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="488" y="230" font-size="10" fill="#BF616A">mispred</text>
+
+<rect x="506" y="202" width="222" height="70" rx="6" fill="#BF616A" filter="url(#sh)"/>
+<text x="617" y="222" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Speculative Gadget</text>
+<text x="617" y="240" font-size="12" fill="#FFD0D0" text-anchor="middle">Runs at attacker_gadget_VA</text>
+<text x="617" y="256" font-size="12" fill="#FFD0D0" text-anchor="middle">in victim (kernel) context</text>
+<text x="617" y="270" font-size="11" fill="#FFD0D0" text-anchor="middle">Reads kernel memory speculatively</text>
+
+<line x1="728" y1="237" x2="762" y2="237" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+
+<rect x="762" y="202" width="116" height="70" rx="6" fill="#BF616A" opacity="0.7" filter="url(#sh)"/>
+<text x="820" y="222" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Cache</text>
+<text x="820" y="238" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Timing</text>
+<text x="820" y="254" font-size="11" fill="#FFD0D0" text-anchor="middle">Data encoded</text>
+<text x="820" y="268" font-size="11" fill="#FFD0D0" text-anchor="middle">in cache state</text>
+
+<!-- Squash path -->
+<line x1="617" y1="272" x2="617" y2="296" stroke="#4A8A99" stroke-width="2" marker-end="url(#at)"/>
+<rect x="506" y="296" width="222" height="36" rx="4" fill="#4A8A99" opacity="0.7"/>
+<text x="617" y="312" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Branch Misprediction Squash</text>
+<text x="617" y="325" font-size="11" fill="#CCE8EC" text-anchor="middle">Architectural state rolled back — but cache not flushed</text>
+
+<!-- ═══ PTW AMPLIFICATION BOX ═══ -->
+<rect x="22" y="344" width="470" height="88" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+<text x="35" y="362" font-size="13" font-weight="bold" fill="#BF616A">PTW Amplification Path</text>
+<text x="35" y="380" font-size="12" fill="#34495E">High TLB miss rate (AI/ML large-working-set workloads, Ch11) =</text>
+<text x="35" y="396" font-size="12" fill="#34495E">high rate of PTW microcode invocations = frequent hits on poisoned BTB.</text>
+<text x="35" y="412" font-size="12" fill="#34495E">Every TLB miss on a complex-case path becomes a Spectre v2 gadget window.</text>
+<text x="35" y="424" font-size="12" fill="#BF616A">Workloads that are PTW-throughput-bound (§17.6) are maximally Spectre v2 exposed.</text>
+
+<!-- ═══ MITIGATION BOX ═══ -->
+<rect x="506" y="344" width="372" height="88" rx="6" fill="#E8F5F2" stroke="#4A8A99" stroke-width="1.5"/>
+<text x="519" y="362" font-size="13" font-weight="bold" fill="#4A8A99">Mitigations</text>
+<text x="519" y="380" font-size="12" fill="#34495E">Retpoline: replace indirect branch with call/ret sequence; RSB</text>
+<text x="519" y="396" font-size="12" fill="#34495E">prediction overrides BTB → attacker control neutralised.</text>
+<text x="519" y="412" font-size="12" fill="#34495E">eIBRS (Enhanced IBRS): hardware flag — BTB entries tagged with</text>
+<text x="519" y="424" font-size="12" fill="#34495E">privilege level; lower-priv entries not used in kernel mode.</text>
+
+<!-- ═══ TIMELINE STRIP ═══ -->
+<rect x="22" y="444" width="856" height="126" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="462" font-size="13" font-weight="bold" fill="#212121">Attack Timeline — Single TLB Miss Event</text>
+
+<rect x="22" y="466" width="856" height="18" rx="0" fill="#34495E"/>
+<text x="100" y="479" font-size="11" fill="#FFF" text-anchor="middle">Cycle 0</text>
+<text x="260" y="479" font-size="11" fill="#FFF" text-anchor="middle">Cycle 1–5</text>
+<text x="440" y="479" font-size="11" fill="#FFF" text-anchor="middle">Cycle 6–10</text>
+<text x="620" y="479" font-size="11" fill="#FFF" text-anchor="middle">Cycle 11–800</text>
+<text x="800" y="479" font-size="11" fill="#FFF" text-anchor="middle">Cycle 801+</text>
+
+<text x="100" y="502" font-size="11" fill="#212121" text-anchor="middle">Victim load</text>
+<text x="100" y="516" font-size="11" fill="#212121" text-anchor="middle">misses TLB</text>
+<text x="260" y="502" font-size="11" fill="#212121" text-anchor="middle">PTW microcode</text>
+<text x="260" y="516" font-size="11" fill="#212121" text-anchor="middle">starts, BTB lookup</text>
+<text x="440" y="502" font-size="11" fill="#BF616A" text-anchor="middle">Speculative gadget</text>
+<text x="440" y="516" font-size="11" fill="#BF616A" text-anchor="middle">executes (kernel ctx)</text>
+<text x="440" y="530" font-size="11" fill="#BF616A" text-anchor="middle">Cache lines primed</text>
+<text x="620" y="502" font-size="11" fill="#212121" text-anchor="middle">PTW completes</text>
+<text x="620" y="516" font-size="11" fill="#212121" text-anchor="middle">walks (DRAM-cold)</text>
+<text x="620" y="530" font-size="11" fill="#212121" text-anchor="middle">mispred squashed</text>
+<text x="800" y="502" font-size="11" fill="#BF616A" text-anchor="middle">Attacker reads</text>
+<text x="800" y="516" font-size="11" fill="#BF616A" text-anchor="middle">cache timing</text>
+<text x="800" y="530" font-size="11" fill="#BF616A" text-anchor="middle">→ extracts bits</text>
+
+<line x1="180" y1="484" x2="180" y2="556" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,2"/>
+<line x1="350" y1="484" x2="350" y2="556" stroke="#BF616A" stroke-width="1.5" stroke-dasharray="3,2"/>
+<line x1="530" y1="484" x2="530" y2="556" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,2"/>
+<line x1="710" y1="484" x2="710" y2="556" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,2"/>
+<rect x="350" y="484" width="180" height="72" fill="#BF616A" opacity="0.06"/>
+<text x="440" y="553" font-size="10" fill="#BF616A" text-anchor="middle">← speculation window →</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">Spectre v2 attack through the PTW microcode control path. An attacker trains the Branch Target Buffer (BTB) with an indirect branch at the same virtual address as a PTW microcode branch site. When the victim subsequently incurs a TLB miss that exercises the complex-case PTW path, the poisoned BTB entry misdirects speculative execution to an attacker-chosen gadget in kernel context. The PTW amplification path means workloads that are TLB-miss-heavy (as characterised in §17.6) are maximally Spectre v2 exposed.</figcaption>
+</figure>
+
+
 <p>The connection to the page table walker is architecturally significant. The x86-64 PTW uses microcode for complex cases — reserved bit violations, NX faults, A/D bit maintenance, PCID interactions, as detailed in Chapter 17 (§17.7). This microcode contains indirect branches. An attacker who poisons the BTB to redirect a PTW microcode indirect branch causes speculative execution within kernel context every time the victim incurs a TLB miss that exercises the complex-case PTW path. The frequency of TLB misses under large-working-set workloads — the regime Chapter 17 (§17.6) identified as PTW-throughput-bound — also maximises Spectre v2 exposure through the PTW amplification path. High TLB miss rates, analysed in detail for AI/ML workloads in Chapter 11, create the same amplified Spectre v2 surface on the CPU.</p>
 
 <p>Retpoline replaces indirect branches with a call-return sequence designed so the Return Stack Buffer (RSB) predicts a spin loop rather than any attacker-controlled address. An attacker's BTB training does not affect RSB predictions, making the speculative window harmless. The cost ranges from near-zero for compute-bound code to 5–15% for syscall-heavy workloads where kernel execution time concentrates in paths replaced with retpoline sequences. IBRS (Indirect Branch Restricted Speculation) provides hardware enforcement by ignoring BTB entries created at lower privilege levels; pre-Enhanced IBRS implementations require a serialising MSR write per kernel entry, adding 200–500 cycles to the syscall path. Enhanced IBRS (EIBRS, Ice Lake 2019+) eliminates this per-entry cost, recovering the Spectre v2 overhead on new silicon. IBPB flushes BTB state entirely on privilege transitions for cross-tenant boundary protection.</p>
@@ -991,6 +1282,137 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <h2 id="section-18.7">18.7 Microarchitectural Data Sampling: Buffers the PTW Shares</h2>
 
 <p>The MDS vulnerability family, disclosed in May 2019, extends the transient execution attack surface beyond the page table's permission bits to the microarchitectural buffers shared between the page table walker and user-mode execution. The PTW uses the same L1D cache, fill buffer, store buffer, and load buffer infrastructure as ordinary loads, as detailed in Chapter 17. When the PTW fetches a page table entry, the resulting fill passes through the line fill buffer. When the kernel page fault handler writes a new PTE, that write passes through the store buffer. These buffers are shared between hardware threads on the same physical core — the same sharing that makes SMT effective also makes buffer contents potentially observable across thread boundaries under speculative forwarding conditions.</p>
+
+<figure id="fig-18-9" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+</defs>
+
+<rect width="900" height="580" fill="#FAFAFA"/>
+
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">MDS — Microarchitectural Buffers Shared Between PTW and User Execution</text>
+<text x="22" y="52" font-size="13" fill="#616161">SMT threads share fill buffer, load buffer, and store buffer on the same physical core — PTW traffic transiting these buffers is observable via speculative forwarding.</text>
+
+<!-- Physical core outline -->
+<rect x="22" y="64" width="856" height="380" rx="8" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="2" filter="url(#sh)"/>
+<text x="450" y="82" font-size="15" font-weight="bold" fill="#34495E" text-anchor="middle">Physical Core (SMT — 2 hardware threads share microarchitectural buffers)</text>
+
+<!-- ─── Thread 0: Attacker / User ─── -->
+<rect x="36" y="92" width="268" height="320" rx="6" fill="#DDEAF5" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="170" y="112" font-size="14" font-weight="bold" fill="#5E81AC" text-anchor="middle">HW Thread 0</text>
+<text x="170" y="128" font-size="12" fill="#5E81AC" text-anchor="middle">(Attacker / User execution)</text>
+
+<rect x="50" y="138" width="240" height="50" rx="5" fill="#5E81AC" filter="url(#sh)"/>
+<text x="170" y="158" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Out-of-Order Engine</text>
+<text x="170" y="173" font-size="11" fill="#CCE0F8" text-anchor="middle">Speculative faulting loads (MDS gadget)</text>
+
+<rect x="50" y="200" width="240" height="46" rx="5" fill="#5E81AC" opacity="0.7" filter="url(#sh)"/>
+<text x="170" y="220" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">ROB (Reorder Buffer)</text>
+<text x="170" y="237" font-size="11" fill="#CCE0F8" text-anchor="middle">Transient instructions in-flight</text>
+
+<rect x="50" y="258" width="240" height="46" rx="5" fill="#34495E" filter="url(#sh)"/>
+<text x="170" y="278" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Cache Timing Measurement</text>
+<text x="170" y="295" font-size="11" fill="#AABBCC" text-anchor="middle">FLUSH+RELOAD covert channel</text>
+
+<rect x="50" y="318" width="240" height="60" rx="5" fill="#BF616A" opacity="0.15" stroke="#BF616A" stroke-width="1"/>
+<text x="170" y="337" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">RIDL / MLPDS Attack</text>
+<text x="170" y="353" font-size="11" fill="#8B2020" text-anchor="middle">Reads value forwarded from</text>
+<text x="170" y="368" font-size="11" fill="#8B2020" text-anchor="middle">fill buffer via faulting load</text>
+
+<!-- ─── Thread 1: Victim / PTW ─── -->
+<rect x="588" y="92" width="276" height="320" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
+<text x="726" y="112" font-size="14" font-weight="bold" fill="#BF616A" text-anchor="middle">HW Thread 1</text>
+<text x="726" y="128" font-size="12" fill="#BF616A" text-anchor="middle">(Victim — kernel / PTW)</text>
+
+<rect x="600" y="138" width="252" height="50" rx="5" fill="#BF616A" opacity="0.7" filter="url(#sh)"/>
+<text x="726" y="158" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Page Table Walker</text>
+<text x="726" y="173" font-size="11" fill="#FFD0D0" text-anchor="middle">Fetches PTE via L1D → fill buffer</text>
+
+<rect x="600" y="200" width="252" height="46" rx="5" fill="#BF616A" opacity="0.5" filter="url(#sh)"/>
+<text x="726" y="220" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Kernel Store Path</text>
+<text x="726" y="237" font-size="11" fill="#FFD0D0" text-anchor="middle">PTE writes transit store buffer</text>
+
+<rect x="600" y="258" width="252" height="46" rx="5" fill="#34495E" opacity="0.8" filter="url(#sh)"/>
+<text x="726" y="278" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Kernel Page Fault Handler</text>
+<text x="726" y="295" font-size="11" fill="#AABBCC" text-anchor="middle">Updates PTEs (load + store traffic)</text>
+
+<rect x="600" y="316" width="252" height="62" rx="5" fill="#BF616A" opacity="0.12" stroke="#BF616A" stroke-width="1"/>
+<text x="726" y="335" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">Leaked Data</text>
+<text x="726" y="351" font-size="11" fill="#8B2020" text-anchor="middle">PFN bits, permission bits,</text>
+<text x="726" y="367" font-size="11" fill="#8B2020" text-anchor="middle">physical address layout</text>
+
+<!-- ─── SHARED BUFFERS — CENTRE ─── -->
+<rect x="310" y="118" width="272" height="272" rx="8" fill="#FFF" stroke="#BF616A" stroke-width="2" stroke-dasharray="8,4" filter="url(#sh)"/>
+<text x="446" y="138" font-size="13" font-weight="bold" fill="#BF616A" text-anchor="middle">Shared µarch Buffers</text>
+<text x="446" y="152" font-size="11" fill="#8B2020" text-anchor="middle">(both threads, same core)</text>
+
+<!-- Fill Buffer -->
+<rect x="322" y="160" width="248" height="52" rx="5" fill="#BF616A" opacity="0.8" filter="url(#sh)"/>
+<text x="446" y="181" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Fill Buffer (LFB)</text>
+<text x="446" y="197" font-size="11" fill="#FFD0D0" text-anchor="middle">Holds in-flight cache line fetches</text>
+<text x="446" y="209" font-size="11" fill="#FFD0D0" text-anchor="middle">PTW PTE fetch transits here → RIDL</text>
+
+<!-- Load Buffer -->
+<rect x="322" y="222" width="248" height="52" rx="5" fill="#4A8A99" opacity="0.8" filter="url(#sh)"/>
+<text x="446" y="243" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Load Buffer</text>
+<text x="446" y="259" font-size="11" fill="#CCE8EC" text-anchor="middle">Tracks outstanding loads</text>
+<text x="446" y="271" font-size="11" fill="#CCE8EC" text-anchor="middle">MLPDS: stale load port data</text>
+
+<!-- Store Buffer -->
+<rect x="322" y="284" width="248" height="52" rx="5" fill="#5E81AC" opacity="0.8" filter="url(#sh)"/>
+<text x="446" y="305" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Store Buffer</text>
+<text x="446" y="321" font-size="11" fill="#CCE0F8" text-anchor="middle">Holds committed-not-yet-written stores</text>
+<text x="446" y="333" font-size="11" fill="#CCE0F8" text-anchor="middle">Fallout: kernel PTE writes leaked</text>
+
+<!-- Arrows from Thread 1 PTW → shared buffers -->
+<line x1="600" y1="162" x2="570" y2="186" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="584" y="175" font-size="10" fill="#BF616A">PTE fetch</text>
+
+<line x1="600" y1="220" x2="570" y2="248" stroke="#4A8A99" stroke-width="2" marker-end="url(#at)"/>
+<line x1="600" y1="273" x2="570" y2="308" stroke="#5E81AC" stroke-width="2" marker-end="url(#ab)"/>
+
+<!-- Arrows from shared buffers → Thread 0 speculative read -->
+<line x1="322" y1="186" x2="290" y2="162" stroke="#BF616A" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#ar)"/>
+<text x="296" y="150" font-size="10" fill="#BF616A">speculative</text>
+<text x="296" y="161" font-size="10" fill="#BF616A">forward</text>
+
+<!-- ═══ MDS CVE TABLE ═══ -->
+<rect x="22" y="455" width="856" height="114" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="472" font-size="13" font-weight="bold" fill="#212121">MDS Vulnerability Family — Buffer and PTW Connection</text>
+<rect x="22" y="476" width="856" height="20" rx="0" fill="#34495E"/>
+<text x="150" y="491" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">CVE</text>
+<text x="300" y="491" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Name</text>
+<text x="490" y="491" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Buffer Targeted</text>
+<text x="720" y="491" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PTW Traffic Exposed</text>
+
+<text x="150" y="512" font-size="11" fill="#212121" text-anchor="middle">CVE-2018-12127</text>
+<text x="300" y="512" font-size="11" fill="#212121" text-anchor="middle">RIDL / MLPDS</text>
+<text x="490" y="512" font-size="11" fill="#BF616A" text-anchor="middle">Fill buffer (LFB)</text>
+<text x="720" y="512" font-size="11" fill="#212121" text-anchor="middle">PTE fetches, physical addresses</text>
+<line x1="22" y1="518" x2="878" y2="518" stroke="#DDD" stroke-width="1"/>
+
+<text x="150" y="534" font-size="11" fill="#212121" text-anchor="middle">CVE-2018-12130</text>
+<text x="300" y="534" font-size="11" fill="#212121" text-anchor="middle">Fallout / ZombieLoad</text>
+<text x="490" y="534" font-size="11" fill="#4A8A99" text-anchor="middle">Store buffer</text>
+<text x="720" y="534" font-size="11" fill="#212121" text-anchor="middle">Kernel PTE writes, PFN bits</text>
+<line x1="22" y1="540" x2="878" y2="540" stroke="#DDD" stroke-width="1"/>
+
+<text x="150" y="556" font-size="11" fill="#212121" text-anchor="middle">CVE-2018-12126</text>
+<text x="300" y="556" font-size="11" fill="#212121" text-anchor="middle">MSBDS</text>
+<text x="490" y="556" font-size="11" fill="#5E81AC" text-anchor="middle">Store buffer (forwarded)</text>
+<text x="720" y="556" font-size="11" fill="#212121" text-anchor="middle">PTE permission bits, PCID values</text>
+
+<text x="680" y="572" font-size="11" fill="#BF616A" text-anchor="middle">Mitigation: VERW / MD_CLEAR at privilege transition flushes all three buffers</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">MDS vulnerability — microarchitectural buffers shared between PTW and user execution on an SMT core. The fill buffer (LFB), load buffer, and store buffer are shared across hardware threads. PTW fetches of page table entries transit the fill buffer; kernel PTE writes transit the store buffer. A co-resident attacker thread can sample these buffers via speculative forwarding (RIDL, Fallout, MSBDS). Mitigation: VERW / MD_CLEAR at privilege transitions flushes all three buffers.</figcaption>
+</figure>
+
 
 <p>RIDL (Rogue In-Flight Data Load, CVE-2018-12127, Van Schaik et al., 2019) demonstrated that data transiting the fill buffer — including from PTW stage fetches — can be sampled by a co-resident thread. The attacker constructs a speculative load that faults (ensuring transient execution) and measures what value is forwarded from the fill buffer. If the sibling thread's PTW recently fetched a PTE through the fill buffer, that entry may be sampled — potentially revealing physical address mappings, protection bit state, or referenced page contents. Fallout (CVE-2018-12126, Canella et al., 2019) targets the store buffer: stale store buffer entries from a prior context may remain after a privilege change, forwarding to a new context's speculative loads. If the prior context included the page fault handler writing PTE values, those values may be forwarded. ZombieLoad (CVE-2018-12130, Schwarz et al., 2019) exploits load buffer forwarding during load replay events — when a load retried due to cache miss or port conflict receives a value from a fill buffer entry populated by a different load, including from a different address space on the sibling thread.</p>
 

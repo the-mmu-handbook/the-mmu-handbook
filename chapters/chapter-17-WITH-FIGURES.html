@@ -1001,6 +1001,178 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>The throughput of the page table walker — measured in walks completed per unit time — is determined by the interaction of three factors: the number of concurrent walker slots (MSHR capacity), the latency of each walk (determined by cache hierarchy state), and the degree to which walks can be pipelined. Understanding these interactions is essential for diagnosing performance degradation in large-memory workloads.</p>
 
+<figure id="fig-17-6" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 580" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+</defs>
+
+<rect width="900" height="580" fill="#FAFAFA"/>
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">PTW Parallelism and Throughput — Ceiling Model and Walker Occupancy</text>
+<text x="22" y="52" font-size="13" fill="#616161">Throughput ceiling = W / L  (walkers / latency). Workload demand = TLB miss rate × IPC. Walker starvation occurs when demand exceeds ceiling.</text>
+
+<!-- ═══ FORMULA BOX ═══ -->
+<rect x="22" y="64" width="856" height="62" rx="6" fill="#34495E" filter="url(#sh)"/>
+<text x="450" y="86" font-size="16" font-weight="bold" fill="#FFF" text-anchor="middle">PTW Throughput Ceiling  =  W / L   walks per cycle</text>
+<text x="450" y="106" font-size="13" fill="#AABBCC" text-anchor="middle">W = concurrent walker slots (MSHR capacity)    |    L = average walk latency (cycles)    |    Demand = miss_rate × IPC</text>
+<text x="450" y="122" font-size="12" fill="#9E9E9E" text-anchor="middle">Ceiling must exceed demand; when demand &gt; ceiling, the PTW becomes a throughput bottleneck, extending effective TLB miss penalty</text>
+
+<!-- ═══ BAR CHART: THROUGHPUT CEILINGS ═══ -->
+<!-- Chart area -->
+<rect x="22" y="138" width="530" height="260" rx="6" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+<text x="287" y="158" font-size="14" font-weight="bold" fill="#212121" text-anchor="middle">Throughput Ceiling (walks / cycle × 1000)</text>
+
+<!-- Y axis -->
+<line x1="80" y1="170" x2="80" y2="376" stroke="#9E9E9E" stroke-width="1"/>
+<!-- Y gridlines and labels -->
+<line x1="80" y1="376" x2="530" y2="376" stroke="#9E9E9E" stroke-width="1"/>
+<line x1="80" y1="326" x2="530" y2="326" stroke="#E0E0E0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="72" y="330" font-size="11" fill="#616161" text-anchor="end">13</text>
+<line x1="80" y1="284" x2="530" y2="284" stroke="#E0E0E0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="72" y="288" font-size="11" fill="#616161" text-anchor="end">20</text>
+<line x1="80" y1="232" x2="530" y2="232" stroke="#E0E0E0" stroke-width="1" stroke-dasharray="4,3"/>
+<text x="72" y="236" font-size="11" fill="#616161" text-anchor="end">27</text>
+<line x1="80" y1="186" x2="530" y2="186" stroke="#BF616A" stroke-width="1.5" stroke-dasharray="6,3"/>
+<text x="72" y="190" font-size="11" fill="#BF616A" text-anchor="end">30</text>
+<text x="535" y="190" font-size="10" fill="#BF616A">← workload demand</text>
+<text x="25" y="275" font-size="11" fill="#616161" transform="rotate(-90 25 275)" text-anchor="middle">walks/cycle ×1000</text>
+
+<!-- Bar groups — 4 scenarios -->
+<!-- Group X positions: 100, 200, 310, 420 -->
+
+<!-- Bar 1: Intel DRAM-cold 2 walkers / 800 cycles = 2.5 -->
+<rect x="100" y="371" width="50" height="5" rx="2" fill="#5E81AC" filter="url(#sh)"/>
+<text x="125" y="368" font-size="11" fill="#5E81AC" text-anchor="middle">2.5</text>
+<text x="125" y="392" font-size="10" fill="#212121" text-anchor="middle">Intel</text>
+<text x="125" y="404" font-size="10" fill="#212121" text-anchor="middle">DRAM-cold</text>
+<text x="125" y="416" font-size="10" fill="#9E9E9E" text-anchor="middle">W=2, L=800</text>
+
+<!-- Bar 2: AMD DRAM-cold 4 walkers / 800 cycles = 5 -->
+<rect x="168" y="366" width="50" height="10" rx="2" fill="#4A8A99" filter="url(#sh)"/>
+<text x="193" y="363" font-size="11" fill="#4A8A99" text-anchor="middle">5.0</text>
+<text x="193" y="392" font-size="10" fill="#212121" text-anchor="middle">AMD Zen4</text>
+<text x="193" y="404" font-size="10" fill="#212121" text-anchor="middle">DRAM-cold</text>
+<text x="193" y="416" font-size="10" fill="#9E9E9E" text-anchor="middle">W=4, L=800</text>
+
+<!-- Bar 3: Intel LLC-hot 2 walkers / 150 cycles = 13.3 -->
+<rect x="280" y="326" width="50" height="50" rx="2" fill="#5E81AC" filter="url(#sh)"/>
+<text x="305" y="320" font-size="11" fill="#5E81AC" text-anchor="middle">13.3</text>
+<text x="305" y="392" font-size="10" fill="#212121" text-anchor="middle">Intel</text>
+<text x="305" y="404" font-size="10" fill="#212121" text-anchor="middle">LLC-hot</text>
+<text x="305" y="416" font-size="10" fill="#9E9E9E" text-anchor="middle">W=2, L=150</text>
+
+<!-- Bar 4: AMD LLC-hot 4 walkers / 150 cycles = 26.7 -->
+<rect x="380" y="232" width="50" height="144" rx="2" fill="#4A8A99" filter="url(#sh)"/>
+<text x="405" y="226" font-size="11" fill="#4A8A99" text-anchor="middle">26.7</text>
+<text x="405" y="392" font-size="10" fill="#212121" text-anchor="middle">AMD Zen4</text>
+<text x="405" y="404" font-size="10" fill="#212121" text-anchor="middle">LLC-hot</text>
+<text x="405" y="416" font-size="10" fill="#9E9E9E" text-anchor="middle">W=4, L=150</text>
+
+<!-- Demand line annotation -->
+<text x="420" y="182" font-size="11" fill="#BF616A" font-weight="bold">Workload demand: 30</text>
+<text x="420" y="194" font-size="10" fill="#BF616A">(miss=0.01/insn, IPC=3)</text>
+
+<!-- Legend -->
+<rect x="84" y="420" width="14" height="12" fill="#5E81AC"/>
+<text x="104" y="431" font-size="11" fill="#212121">Intel (2 walkers)</text>
+<rect x="200" y="420" width="14" height="12" fill="#4A8A99"/>
+<text x="220" y="431" font-size="11" fill="#212121">AMD Zen 4 (4 walkers)</text>
+
+<!-- ═══ RIGHT: WALKER OCCUPANCY TIMELINE ═══ -->
+<rect x="564" y="138" width="314" height="260" rx="6" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+<text x="721" y="158" font-size="13" font-weight="bold" fill="#212121" text-anchor="middle">Walker Occupancy Timeline (cycles)</text>
+
+<!-- Intel 2-walker section -->
+<rect x="574" y="168" width="294" height="18" rx="3" fill="#5E81AC"/>
+<text x="721" y="181" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Intel — 2 walker slots</text>
+
+<!-- Walker slot rows -->
+<text x="592" y="200" font-size="11" fill="#5E81AC">W0:</text>
+<rect x="610" y="189" width="90" height="16" rx="2" fill="#5E81AC" opacity="0.7"/>
+<text x="655" y="201" font-size="10" fill="#FFF" text-anchor="middle">Walk A (800c)</text>
+<rect x="702" y="189" width="90" height="16" rx="2" fill="#5E81AC" opacity="0.5"/>
+<text x="747" y="201" font-size="10" fill="#FFF" text-anchor="middle">Walk B (800c)</text>
+<text x="794" y="201" font-size="10" fill="#9E9E9E">stall→</text>
+
+<text x="592" y="218" font-size="11" fill="#5E81AC">W1:</text>
+<rect x="610" y="207" width="90" height="16" rx="2" fill="#5E81AC" opacity="0.6"/>
+<text x="655" y="219" font-size="10" fill="#FFF" text-anchor="middle">Walk C (800c)</text>
+<rect x="702" y="207" width="90" height="16" rx="2" fill="#5E81AC" opacity="0.4"/>
+<text x="747" y="219" font-size="10" fill="#FFF" text-anchor="middle">Walk D (800c)</text>
+
+<text x="721" y="240" font-size="11" fill="#BF616A" text-anchor="middle">All slots full — new misses queue</text>
+<text x="721" y="254" font-size="11" fill="#BF616A" text-anchor="middle">Throughput ceiling exceeded ✗</text>
+
+<!-- AMD 4-walker section -->
+<rect x="574" y="262" width="294" height="18" rx="3" fill="#4A8A99"/>
+<text x="721" y="275" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">AMD Zen 4 — 4 walker slots</text>
+
+<text x="592" y="294" font-size="11" fill="#4A8A99">W0:</text>
+<rect x="610" y="283" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.8"/>
+<text x="643" y="294" font-size="9" fill="#FFF" text-anchor="middle">Walk A</text>
+<rect x="678" y="283" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.6"/>
+<text x="711" y="294" font-size="9" fill="#FFF" text-anchor="middle">Walk E</text>
+
+<text x="592" y="310" font-size="11" fill="#4A8A99">W1:</text>
+<rect x="610" y="299" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.75"/>
+<text x="643" y="310" font-size="9" fill="#FFF" text-anchor="middle">Walk B</text>
+<rect x="678" y="299" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.55"/>
+<text x="711" y="310" font-size="9" fill="#FFF" text-anchor="middle">Walk F</text>
+
+<text x="592" y="326" font-size="11" fill="#4A8A99">W2:</text>
+<rect x="610" y="315" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.7"/>
+<text x="643" y="326" font-size="9" fill="#FFF" text-anchor="middle">Walk C</text>
+<rect x="678" y="315" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.5"/>
+<text x="711" y="326" font-size="9" fill="#FFF" text-anchor="middle">Walk G</text>
+
+<text x="592" y="342" font-size="11" fill="#4A8A99">W3:</text>
+<rect x="610" y="331" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.65"/>
+<text x="643" y="342" font-size="9" fill="#FFF" text-anchor="middle">Walk D</text>
+<rect x="678" y="331" width="66" height="14" rx="2" fill="#4A8A99" opacity="0.45"/>
+<text x="711" y="342" font-size="9" fill="#FFF" text-anchor="middle">Walk H</text>
+
+<text x="721" y="368" font-size="11" fill="#4A8A99" text-anchor="middle">2× throughput over Intel (LLC-hot)</text>
+<text x="721" y="382" font-size="11" fill="#4A8A99" text-anchor="middle">Still bottlenecked DRAM-cold ✗</text>
+
+<!-- ═══ PIPELINING WITHIN A WALK ═══ -->
+<rect x="22" y="414" width="856" height="158" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="432" font-size="14" font-weight="bold" fill="#212121">Intra-Walk Pipelining — Overlapping Stages Within a Single Walk</text>
+
+<!-- Pipeline strip -->
+<rect x="22" y="436" width="856" height="18" rx="3" fill="#34495E"/>
+<text x="450" y="449" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Walk stages: Issue L0 fetch → L0 arrives → Issue L1 fetch → L1 arrives → Issue L2 fetch → L2 arrives → Issue L3 fetch → L3 arrives → PFN returned</text>
+
+<!-- Stage cells -->
+<rect x="22" y="456" width="96" height="32" rx="2" fill="#5E81AC"/>
+<text x="70" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L0 issue</text>
+<rect x="120" y="456" width="96" height="32" rx="2" fill="#5E81AC" opacity="0.8"/>
+<text x="168" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L0 hit</text>
+<rect x="218" y="456" width="96" height="32" rx="2" fill="#4A8A99"/>
+<text x="266" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L1 issue</text>
+<rect x="316" y="456" width="96" height="32" rx="2" fill="#4A8A99" opacity="0.8"/>
+<text x="364" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L1 hit</text>
+<rect x="414" y="456" width="96" height="32" rx="2" fill="#4A8A99" opacity="0.65"/>
+<text x="462" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L2 issue</text>
+<rect x="512" y="456" width="96" height="32" rx="2" fill="#4A8A99" opacity="0.5"/>
+<text x="560" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L2 hit</text>
+<rect x="610" y="456" width="96" height="32" rx="2" fill="#34495E"/>
+<text x="658" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L3 issue</text>
+<rect x="708" y="456" width="96" height="32" rx="2" fill="#34495E" opacity="0.8"/>
+<text x="756" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">L3 hit</text>
+<rect x="806" y="456" width="72" height="32" rx="2" fill="#BF616A"/>
+<text x="842" y="477" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Done</text>
+
+<text x="35" y="510" font-size="12" fill="#34495E">LLC-hot walk (all levels in L3): ~150 cycles total. L2-hot: ~60 cycles.  L1-hot: ~5–10 cycles (partial walk cache hit).</text>
+<text x="35" y="526" font-size="12" fill="#34495E">DRAM-miss (cold): ~200 cycles per level × 4 levels = ~800 cycles. Pipelining between levels possible only if walker streams next level's fetch speculatively.</text>
+<text x="35" y="542" font-size="12" fill="#BF616A">Key insight: AMD doubling W from 2→4 gives 2× ceiling; reducing L from 800→150 (LLC-warm workload) gives 5.3× ceiling — cache warmth dominates over walker count.</text>
+<text x="35" y="558" font-size="12" fill="#34495E">Practical implication: for AI/ML workloads with huge working sets (terabytes), walks are nearly always DRAM-cold — walker count matters far less than page size (2 MB hugepages).</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">PTW throughput ceiling model and walker occupancy timelines. W/L ceiling in walks per cycle ×1000. Demand line at 30 represents a workload with TLB miss rate 0.01/instruction at IPC=3. AMD Zen 4's four-walker design meets LLC-hot demand; neither design meets demand under DRAM-cold conditions.</figcaption>
+</figure>
+
+
 <h3>Throughput ceiling analysis</h3>
 <p>Given W concurrent walkers and an average walk latency of L cycles, the maximum PTW throughput is W/L walks per cycle. For Intel's two-walker design with a worst-case cold walk of 800 cycles, the ceiling is 0.0025 walks per cycle. For AMD Zen 4's four-walker design with the same latency, the ceiling is 0.005 walks per cycle. LLC-hot walks (150 cycles) raise both ceilings by 5.3× to 0.013 and 0.027 walks per cycle respectively.</p>
 
@@ -1129,6 +1301,173 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <p>ARM64's Translation Table Walker (TTW) is a pure-hardware finite-state machine with no microcode involvement. The TTW is specified in the ARM Architecture Reference Manual (ARM DDI 0487) and implemented independently by each licensee — resulting in varying walker counts, pipeline depths, and speculative behaviour across implementations from Apple, Qualcomm, Amazon, Ampere, and others.</p>
 
+<figure id="fig-17-7" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 620" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+  <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34495E"/></marker>
+</defs>
+
+<!-- Background -->
+<rect width="900" height="620" fill="#FAFAFA"/>
+
+<!-- Title -->
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">ARM64 Translation Table Walk — TTBR Organisation and 4-Level Walk (4 KB granule, 48-bit VA)</text>
+
+<!-- ═══ TOP: VA SPLIT BAND ═══ -->
+<rect x="22" y="52" width="856" height="38" rx="5" fill="#34495E" filter="url(#sh)"/>
+<text x="450" y="67" font-size="13" fill="#AABBCC" text-anchor="middle">Virtual Address (48-bit)</text>
+<!-- VA bit fields -->
+<rect x="22" y="66" width="97" height="24" rx="0" fill="#5E81AC" opacity="0.85"/>
+<text x="70" y="83" font-size="13" font-weight="bold" fill="#FFFFFF" text-anchor="middle">VA[63]</text>
+
+<rect x="122" y="66" width="114" height="24" rx="0" fill="#5E81AC"/>
+<text x="179" y="83" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">VA[47:39] L0</text>
+
+<rect x="238" y="66" width="114" height="24" rx="0" fill="#4A8A99"/>
+<text x="295" y="83" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">VA[38:30] L1</text>
+
+<rect x="354" y="66" width="114" height="24" rx="0" fill="#4A8A99" opacity="0.8"/>
+<text x="411" y="83" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">VA[29:21] L2</text>
+
+<rect x="470" y="66" width="114" height="24" rx="0" fill="#4A8A99" opacity="0.6"/>
+<text x="527" y="83" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">VA[20:12] L3</text>
+
+<rect x="586" y="66" width="134" height="24" rx="0" fill="#34495E" opacity="0.7"/>
+<text x="653" y="83" font-size="12" fill="#DDD" text-anchor="middle">VA[11:0] page offset</text>
+
+<text x="740" y="68" font-size="11" fill="#888">bit63=0 → TTBR0</text>
+<text x="740" y="83" font-size="11" fill="#BF616A">bit63=1 → TTBR1</text>
+
+<!-- ═══ LEFT: TTBR REGISTERS ═══ -->
+<g id="ttbr-section">
+  <!-- TTBR0_EL1 -->
+  <rect x="22" y="118" width="200" height="80" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <text x="122" y="140" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">TTBR0_EL1</text>
+  <text x="122" y="158" font-size="12" fill="#CCE0F8" text-anchor="middle">User-space (VA[63]=0)</text>
+  <text x="122" y="175" font-size="11" fill="#CCE0F8" text-anchor="middle">ASID[15:0] | BADDR[47:1]</text>
+  <text x="122" y="192" font-size="11" fill="#CCE0F8" text-anchor="middle">Updated on context switch</text>
+
+  <!-- TTBR1_EL1 -->
+  <rect x="22" y="214" width="200" height="80" rx="6" fill="#34495E" filter="url(#sh)"/>
+  <text x="122" y="236" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">TTBR1_EL1</text>
+  <text x="122" y="254" font-size="12" fill="#AABBCC" text-anchor="middle">Kernel space (VA[63]=1)</text>
+  <text x="122" y="272" font-size="11" fill="#AABBCC" text-anchor="middle">ASID[15:0] | BADDR[47:1]</text>
+  <text x="122" y="288" font-size="11" fill="#AABBCC" text-anchor="middle">Constant across processes</text>
+
+  <!-- ASID note -->
+  <rect x="22" y="310" width="200" height="44" rx="5" fill="#F5F5F5" stroke="#BF616A" stroke-width="1.5"/>
+  <text x="122" y="326" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">ASID — 16-bit tag</text>
+  <text x="122" y="342" font-size="11" fill="#34495E" text-anchor="middle">Tags TLB/PTW cache entries</text>
+
+  <!-- Arrows from TTBRs to walk -->
+  <line x1="222" y1="158" x2="298" y2="185" stroke="#5E81AC" stroke-width="2" marker-end="url(#ab)"/>
+  <line x1="222" y1="254" x2="298" y2="245" stroke="#34495E" stroke-width="2" marker-end="url(#ag)"/>
+</g>
+
+<!-- ═══ CENTRE: 4-LEVEL WALK FSM ═══ -->
+<g id="walk-fsm">
+  <!-- Walk box label -->
+  <rect x="295" y="118" width="430" height="22" rx="4" fill="#34495E"/>
+  <text x="510" y="133" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Hardware Finite-State Machine — Page Table Walk</text>
+
+  <!-- L0 table -->
+  <rect x="295" y="148" width="148" height="60" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+  <text x="369" y="172" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">L0 Table</text>
+  <text x="369" y="190" font-size="12" fill="#CCE0F8" text-anchor="middle">PA from TTBR + VA[47:39]×8</text>
+  <text x="369" y="204" font-size="11" fill="#CCE0F8" text-anchor="middle">512 entries, each 8 B</text>
+
+  <!-- Arrow L0→L1 -->
+  <line x1="443" y1="178" x2="493" y2="178" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
+  <text x="468" y="172" font-size="11" fill="#5E81AC" text-anchor="middle">PPN</text>
+
+  <!-- L1 table -->
+  <rect x="493" y="148" width="148" height="60" rx="6" fill="#5E81AC" opacity="0.85" filter="url(#sh)"/>
+  <text x="567" y="172" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">L1 Table</text>
+  <text x="567" y="190" font-size="12" fill="#CCE0F8" text-anchor="middle">PPN×4096 + VA[38:30]×8</text>
+  <text x="567" y="204" font-size="11" fill="#CCE0F8" text-anchor="middle">1 GB block or L2 ptr</text>
+
+  <!-- Arrow L1→L2 -->
+  <line x1="641" y1="178" x2="691" y2="178" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
+  <text x="666" y="172" font-size="11" fill="#5E81AC" text-anchor="middle">PPN</text>
+
+  <!-- L2 table -->
+  <rect x="295" y="242" width="148" height="60" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+  <text x="369" y="266" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">L2 Table</text>
+  <text x="369" y="284" font-size="12" fill="#CCE8EC" text-anchor="middle">PPN×4096 + VA[29:21]×8</text>
+  <text x="369" y="298" font-size="11" fill="#CCE8EC" text-anchor="middle">2 MB block or L3 ptr</text>
+
+  <!-- L1 → L2 arrow (going down-left) -->
+  <line x1="691" y1="178" x2="720" y2="178" stroke="#5E81AC" stroke-width="2"/>
+  <line x1="720" y1="178" x2="720" y2="272" stroke="#5E81AC" stroke-width="2"/>
+  <line x1="720" y1="272" x2="443" y2="272" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
+  <text x="730" y="232" font-size="11" fill="#5E81AC">PPN</text>
+
+  <!-- L3 table -->
+  <rect x="493" y="242" width="148" height="60" rx="6" fill="#4A8A99" opacity="0.8" filter="url(#sh)"/>
+  <text x="567" y="266" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">L3 Table</text>
+  <text x="567" y="284" font-size="12" fill="#CCE8EC" text-anchor="middle">PPN×4096 + VA[20:12]×8</text>
+  <text x="567" y="298" font-size="11" fill="#CCE8EC" text-anchor="middle">4 KB page descriptor</text>
+
+  <!-- L2→L3 arrow -->
+  <line x1="443" y1="272" x2="493" y2="272" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
+  <text x="468" y="266" font-size="11" fill="#4A8A99" text-anchor="middle">PPN</text>
+
+  <!-- L3 → Physical page -->
+  <rect x="700" y="242" width="124" height="60" rx="6" fill="#BF616A" filter="url(#sh)"/>
+  <text x="762" y="264" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Physical</text>
+  <text x="762" y="280" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Page</text>
+  <text x="762" y="296" font-size="11" fill="#FFD0D0" text-anchor="middle">PPN×4096 + offset</text>
+
+  <line x1="641" y1="272" x2="700" y2="272" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="670" y="266" font-size="11" fill="#BF616A" text-anchor="middle">PFN</text>
+</g>
+
+<!-- ═══ GRANULE COMPARISON TABLE ═══ -->
+<rect x="22" y="378" width="856" height="110" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="397" font-size="14" font-weight="bold" fill="#212121">Granule vs VA Width — Walk Depth</text>
+<!-- header -->
+<rect x="22" y="401" width="856" height="22" rx="0" fill="#34495E"/>
+<text x="200" y="417" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Granule</text>
+<text x="400" y="417" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">VA Width</text>
+<text x="600" y="417" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Walk Levels</text>
+<text x="800" y="417" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">TCR_EL1.TnSZ</text>
+<!-- rows -->
+<text x="200" y="440" font-size="13" fill="#212121" text-anchor="middle">4 KB</text>
+<text x="400" y="440" font-size="13" fill="#212121" text-anchor="middle">48-bit (common)</text>
+<text x="600" y="440" font-size="13" fill="#5E81AC" font-weight="bold" text-anchor="middle">4 (L0→L1→L2→L3)</text>
+<text x="800" y="440" font-size="13" fill="#212121" text-anchor="middle">T0SZ=16</text>
+
+<line x1="22" y1="448" x2="878" y2="448" stroke="#CCC" stroke-width="1"/>
+<text x="200" y="464" font-size="13" fill="#212121" text-anchor="middle">4 KB + LPA2</text>
+<text x="400" y="464" font-size="13" fill="#212121" text-anchor="middle">52-bit (ARMv8.7)</text>
+<text x="600" y="464" font-size="13" fill="#BF616A" font-weight="bold" text-anchor="middle">5 (L−1→L0→L1→L2→L3)</text>
+<text x="800" y="464" font-size="13" fill="#212121" text-anchor="middle">T0SZ=12</text>
+
+<line x1="22" y1="472" x2="878" y2="472" stroke="#CCC" stroke-width="1"/>
+<text x="200" y="488" font-size="13" fill="#212121" text-anchor="middle">64 KB</text>
+<text x="400" y="488" font-size="13" fill="#212121" text-anchor="middle">48-bit</text>
+<text x="600" y="488" font-size="13" fill="#4A8A99" font-weight="bold" text-anchor="middle">3 (L1→L2→L3)</text>
+<text x="800" y="488" font-size="13" fill="#212121" text-anchor="middle">T0SZ=16</text>
+
+<!-- ═══ LICENSEE VARIATION NOTE ═══ -->
+<rect x="22" y="506" width="856" height="96" rx="6" fill="#FFF8F0" stroke="#BF616A" stroke-width="1.5"/>
+<text x="35" y="524" font-size="13" font-weight="bold" fill="#BF616A">Licensee-Specific Walker Variation (ARM DDI 0487 compliance points)</text>
+<text x="35" y="542" font-size="12" fill="#34495E">• Walker count: Apple M-series — 2 walkers/cluster; Qualcomm Oryon — est. 4; Amazon Graviton3 — 2 per core; Ampere Altra — 2 per core</text>
+<text x="35" y="558" font-size="12" fill="#34495E">• Pipeline depth: Apple deep-pipelined (4+ cycles/level fetch overlap); Cortex-A77 ref: 1 outstanding walk per thread</text>
+<text x="35" y="574" font-size="12" fill="#34495E">• Speculative walk: Apple pre-fetches PTEs on branch prediction; ARM spec does not mandate this — it is implementor discretion</text>
+<text x="35" y="590" font-size="12" fill="#34495E">• ASID width: defaults 8-bit; ARMv8.2+ supports 16-bit ASID (FEAT_ASID16) — must be enabled in TCR_EL1.AS</text>
+<text x="35" y="606" font-size="12" fill="#34495E">• Walk cache: PWC (Page Walk Cache) is optional per-level; Apple caches all intermediate levels; cortex-A710 caches L1/L2 descriptors</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">ARM64 Translation Table Walk. TTBR0_EL1 maps user-space (VA[63]=0); TTBR1_EL1 maps kernel space (VA[63]=1), eliminating full page-table swap at context switch. Walk depth depends on granule and VA width: 3 levels (64 KB granule), 4 levels (4 KB, 48-bit VA), or 5 levels (4 KB, 52-bit LPA2). Walker behaviour — count, pipeline depth, and speculative pre-fetch — is licensee-defined.</figcaption>
+</figure>
+
+
 <h3>TTW structure and TTBR organisation</h3>
 <p>ARM64 maintains two translation table base registers per exception level: TTBR0_EL1 for user-space mappings (VA[63]=0) and TTBR1_EL1 for kernel mappings (VA[63]=1). This split eliminates the need for separate page table trees at context switch — only TTBR0_EL1 must be updated when switching between user processes, while TTBR1_EL1 (the kernel mapping) remains constant. Each TTBR holds the base physical address of the L0 table and the ASID (Address Space Identifier), a 16-bit tag that identifies the address space for TLB and TTW cache entries.</p>
 
@@ -1153,6 +1492,147 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 <h2 id="section-17.9">17.9 RISC-V Software-Managed PTW</h2>
 
 <p>The base RISC-V privileged architecture specification (The RISC-V Instruction Set Manual, Volume II: Privileged Architecture, version 1.12) deliberately omits a hardware page table walker. This is a conscious design choice: the RISC-V philosophy favours a minimal, composable base specification with optional extensions, rather than mandating microarchitectural choices that may not suit all implementation targets. For embedded and real-time systems where TLB miss rate is low and code size is at a premium, a software-managed TLB is perfectly adequate. For server and cloud deployments, hardware walker extensions are available from multiple vendors.</p>
+
+<figure id="fig-17-8" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="auto" viewBox="0 0 900 600" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+  <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34495E"/></marker>
+  <marker id="agreen" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+</defs>
+
+<rect width="900" height="600" fill="#FAFAFA"/>
+
+<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">RISC-V Software-Managed PTW — TLB Miss Trap Path (Sv39/Sv48/Sv57)</text>
+<text x="22" y="52" font-size="13" fill="#616161">Base RISC-V: no hardware walker. TLB miss → supervisor exception → software walk → SFENCE.VMA → sret</text>
+
+<!-- PHASE 1: USER ACCESS + TLB MISS -->
+<rect x="22" y="68" width="856" height="20" rx="4" fill="#5E81AC"/>
+<text x="450" y="82" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 1 — User-mode load/store triggers TLB miss</text>
+
+<rect x="22" y="94" width="186" height="64" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+<text x="115" y="118" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">User Instruction</text>
+<text x="115" y="136" font-size="12" fill="#CCE0F8" text-anchor="middle">ld a0, 0(t0)</text>
+<text x="115" y="152" font-size="11" fill="#CCE0F8" text-anchor="middle">VPN not in TLB</text>
+
+<line x1="208" y1="126" x2="254" y2="126" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
+
+<rect x="254" y="94" width="186" height="64" rx="6" fill="#BF616A" filter="url(#sh)"/>
+<text x="347" y="116" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">TLB Miss</text>
+<text x="347" y="133" font-size="12" fill="#FFD0D0" text-anchor="middle">Hardware raises</text>
+<text x="347" y="149" font-size="12" fill="#FFD0D0" text-anchor="middle">page-fault exception</text>
+
+<line x1="440" y1="126" x2="486" y2="126" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+
+<!-- CSR state box -->
+<rect x="486" y="94" width="390" height="64" rx="6" fill="#34495E" filter="url(#sh)"/>
+<text x="681" y="114" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">CSR State Capture</text>
+<text x="681" y="132" font-size="12" fill="#AABBCC" text-anchor="middle">sepc ← faulting PC   |   stval ← faulting VA   |   scause ← 13 (load page fault)</text>
+<text x="681" y="149" font-size="12" fill="#AABBCC" text-anchor="middle">sstatus.SIE ← 0 (disable supervisor interrupts)   |   privilege → S-mode</text>
+
+<!-- Jump to stvec arrow -->
+<line x1="681" y1="158" x2="681" y2="182" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="695" y="175" font-size="11" fill="#BF616A">PC → stvec</text>
+
+<!-- PHASE 2: TRAP HANDLER -->
+<rect x="22" y="188" width="856" height="20" rx="4" fill="#4A8A99"/>
+<text x="450" y="202" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 2 — Supervisor trap handler (stvec) — software page table walk</text>
+
+<!-- Step boxes for the software walk -->
+<!-- Step 1 -->
+<rect x="22" y="218" width="192" height="72" rx="6" fill="#4A8A99" filter="url(#sh)"/>
+<text x="118" y="238" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">① Read satp</text>
+<text x="118" y="254" font-size="11" fill="#CCE8EC" text-anchor="middle">Extract MODE field</text>
+<text x="118" y="268" font-size="11" fill="#CCE8EC" text-anchor="middle">(Sv39/Sv48/Sv57)</text>
+<text x="118" y="282" font-size="11" fill="#CCE8EC" text-anchor="middle">root PPN ← satp.PPN</text>
+
+<line x1="214" y1="254" x2="246" y2="254" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
+
+<!-- Step 2 -->
+<rect x="246" y="218" width="192" height="72" rx="6" fill="#4A8A99" opacity="0.85" filter="url(#sh)"/>
+<text x="342" y="238" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">② Compute PA</text>
+<text x="342" y="254" font-size="11" fill="#CCE8EC" text-anchor="middle">pa = root_PPN × 4096</text>
+<text x="342" y="268" font-size="11" fill="#CCE8EC" text-anchor="middle">    + VPN[2] × 8</text>
+<text x="342" y="282" font-size="11" fill="#CCE8EC" text-anchor="middle">(ordinary load instr)</text>
+
+<line x1="438" y1="254" x2="470" y2="254" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
+
+<!-- Step 3 -->
+<rect x="470" y="218" width="192" height="72" rx="6" fill="#4A8A99" opacity="0.7" filter="url(#sh)"/>
+<text x="566" y="238" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">③ Validate PTE</text>
+<text x="566" y="254" font-size="11" fill="#CCE8EC" text-anchor="middle">Check V bit (valid)</text>
+<text x="566" y="268" font-size="11" fill="#CCE8EC" text-anchor="middle">Check R/W/X/U bits</text>
+<text x="566" y="282" font-size="11" fill="#CCE8EC" text-anchor="middle">Repeat L2→L1→L0</text>
+
+<line x1="662" y1="254" x2="694" y2="254" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#at)"/>
+
+<!-- Step 4 -->
+<rect x="694" y="218" width="184" height="72" rx="6" fill="#507B5E" filter="url(#sh)"/>
+<text x="786" y="238" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">④ Install TLB</text>
+<text x="786" y="254" font-size="11" fill="#CDE8D4" text-anchor="middle">Write PFN + perms</text>
+<text x="786" y="268" font-size="11" fill="#CDE8D4" text-anchor="middle">to TLB (privileged</text>
+<text x="786" y="282" font-size="11" fill="#CDE8D4" text-anchor="middle">instruction / CSR)</text>
+
+<!-- PHASE 3: SFENCE + SRET -->
+<rect x="22" y="308" width="856" height="20" rx="4" fill="#34495E"/>
+<text x="450" y="322" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 3 — Memory barrier + return to user</text>
+
+<rect x="22" y="334" width="268" height="68" rx="6" fill="#34495E" filter="url(#sh)"/>
+<text x="156" y="356" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">SFENCE.VMA</text>
+<text x="156" y="374" font-size="12" fill="#AABBCC" text-anchor="middle">Flush stale TLB entries</text>
+<text x="156" y="390" font-size="12" fill="#AABBCC" text-anchor="middle">for hart / ASID scope</text>
+
+<line x1="290" y1="368" x2="338" y2="368" stroke="#34495E" stroke-width="2.5" marker-end="url(#ag)"/>
+
+<rect x="338" y="334" width="226" height="68" rx="6" fill="#34495E" opacity="0.75" filter="url(#sh)"/>
+<text x="451" y="354" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">sret</text>
+<text x="451" y="372" font-size="12" fill="#AABBCC" text-anchor="middle">Restore sstatus.SPP</text>
+<text x="451" y="388" font-size="12" fill="#AABBCC" text-anchor="middle">PC ← sepc</text>
+
+<line x1="564" y1="368" x2="612" y2="368" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#ab)"/>
+
+<rect x="612" y="334" width="266" height="68" rx="6" fill="#5E81AC" filter="url(#sh)"/>
+<text x="745" y="354" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">Resume User Instruction</text>
+<text x="745" y="372" font-size="12" fill="#CCE0F8" text-anchor="middle">ld a0, 0(t0) — now hits TLB</text>
+<text x="745" y="388" font-size="12" fill="#CCE0F8" text-anchor="middle">execution continues</text>
+
+<!-- ═══ Recursive fault warning ═══ -->
+<rect x="22" y="418" width="856" height="58" rx="6" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5" filter="url(#sh)"/>
+<text x="35" y="436" font-size="13" font-weight="bold" fill="#BF616A">⚠  Recursive Fault Hazard</text>
+<text x="35" y="453" font-size="12" fill="#34495E">If the trap handler itself faults (e.g., its own code page is not TLB-resident), a nested page fault fires at supervisor privilege.</text>
+<text x="35" y="469" font-size="12" fill="#34495E">Handler must pin its code/stack pages in TLB before enabling nested exceptions, or use a dedicated locked TLB entry (implementation-defined).</text>
+
+<!-- ═══ Sv39/48/57 comparison ═══ -->
+<rect x="22" y="490" width="856" height="96" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="508" font-size="13" font-weight="bold" fill="#212121">satp.MODE Walk Depth (stval holds faulting VA)</text>
+<rect x="22" y="512" width="856" height="20" rx="0" fill="#34495E"/>
+<text x="200" y="527" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">MODE</text>
+<text x="420" y="527" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">VA Width</text>
+<text x="620" y="527" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Walk Levels</text>
+<text x="800" y="527" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PPN index bits per level</text>
+<text x="200" y="548" font-size="12" fill="#212121" text-anchor="middle">Sv39 (8)</text>
+<text x="420" y="548" font-size="12" fill="#212121" text-anchor="middle">39-bit</text>
+<text x="620" y="548" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">3 (VPN[2:0])</text>
+<text x="800" y="548" font-size="12" fill="#212121" text-anchor="middle">9 / 9 / 9 bits</text>
+<line x1="22" y1="554" x2="878" y2="554" stroke="#CCC" stroke-width="1"/>
+<text x="200" y="570" font-size="12" fill="#212121" text-anchor="middle">Sv48 (9)</text>
+<text x="420" y="570" font-size="12" fill="#212121" text-anchor="middle">48-bit</text>
+<text x="620" y="570" font-size="12" fill="#5E81AC" font-weight="bold" text-anchor="middle">4 (VPN[3:0])</text>
+<text x="800" y="570" font-size="12" fill="#212121" text-anchor="middle">9 / 9 / 9 / 9 bits</text>
+<line x1="22" y1="576" x2="878" y2="576" stroke="#CCC" stroke-width="1"/>
+<text x="200" y="592" font-size="12" fill="#212121" text-anchor="middle">Sv57 (10)</text>
+<text x="420" y="592" font-size="12" fill="#212121" text-anchor="middle">57-bit</text>
+<text x="620" y="592" font-size="12" fill="#BF616A" font-weight="bold" text-anchor="middle">5 (VPN[4:0])</text>
+<text x="800" y="592" font-size="12" fill="#212121" text-anchor="middle">9 / 9 / 9 / 9 / 9 bits</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;">RISC-V software-managed page table walk. TLB miss raises a page-fault exception; the supervisor handler at stvec walks the page table in software using ordinary load instructions, installs the translation, issues SFENCE.VMA, and returns via sret. Walk depth scales with satp.MODE: 3 levels (Sv39), 4 levels (Sv48), 5 levels (Sv57). Handler must pin its own code pages to avoid recursive faults.</figcaption>
+</figure>
+
 
 <h3>Base RISC-V TLB miss handling</h3>
 <p>When a TLB miss occurs in a RISC-V processor with satp.MODE set to Sv39, Sv48, or Sv57, the hardware raises a page-fault exception and transfers control to the supervisor exception handler at the address in stvec. The faulting virtual address is recorded in stval. The handler is responsible for walking the page table tree in software: loading satp to obtain the root PPN, computing the physical address of each page table entry using ordinary load instructions, validating the chain of entries, and installing the result into the TLB using a privileged instruction sequence followed by SFENCE.VMA.</p>

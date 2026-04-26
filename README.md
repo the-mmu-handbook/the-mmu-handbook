@@ -33,14 +33,14 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [11](chapters/chapter-11-WITH-FIGURES.html) | Virtual Memory Challenges in AI/ML Accelerators | 13 | 403 KB |
 | [12](chapters/chapter-12-WITH-FIGURES.html) | When MMU Architecture Breaks - AI at Scale | 9 | 264 KB |
 | [13](chapters/chapter-13-WITH-FIGURES.html) | Machine Learning for Memory Management - The False Hope | 7 | 130 KB |
-| [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for AI Workloads | 8 | 223 KB |
+| [14](chapters/chapter-14-WITH-FIGURES.html) | Software-Managed Memory for AI Workloads | 8 | 222 KB |
 | [15](chapters/chapter-15-WITH-FIGURES.html) | Beyond Traditional MMU - Alternative Translation Architectures | 9 | 187 KB |
-| [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 11 | 216 KB |
-| [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 8 | 148 KB |
-| [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 9 | 172 KB |
-| [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 11 | 175 KB |
+| [16](chapters/chapter-16-WITH-FIGURES.html) | Advanced TLB Optimization Techniques | 11 | 215 KB |
+| [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 11 | 183 KB |
+| [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 12 | 206 KB |
+| [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 13 | 198 KB |
 
-**Total: 200 embedded SVG figures across 19 chapters (~4.2 MB)**
+**Total: 208 embedded SVG figures across 19 chapters (~4.2 MB)**
 
 ---
 
