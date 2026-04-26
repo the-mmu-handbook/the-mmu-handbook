@@ -18,7 +18,7 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 
 ## Chapters
 
-| # | Title | Figures | Size |
+| # | Title | SVGs | Size |
 |---|-------|:-------:|-----:|
 | [01](chapters/chapter-01-WITH-FIGURES.html) | Memory Management Basics | 23 | 292 KB |
 | [02](chapters/chapter-02-WITH-FIGURES.html) | Virtual Memory Concepts | 10 | 230 KB |

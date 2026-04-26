@@ -713,9 +713,9 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arr1" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
-    <filter id="sh1"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="f191-arr1" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="f191-arr2" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+    <filter id="f191-sh1"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
   <text x="450" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">CXL Protocol Family and Device Taxonomy</text>
   <!-- Protocol columns header -->
@@ -723,40 +723,40 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="660" y="58" text-anchor="middle" font-size="14" font-weight="bold" fill="#4A8A99">Device Types</text>
   <line x1="450" y1="45" x2="450" y2="510" stroke="#E0E0E0" stroke-width="1.5" stroke-dasharray="4,3"/>
   <!-- CXL.io -->
-  <rect x="30" y="70" width="380" height="90" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh1)"/>
+  <rect x="30" y="70" width="380" height="90" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f191-sh1)"/>
   <text x="50" y="96" font-size="15" font-weight="bold" fill="#5E81AC">CXL.io</text>
   <text x="50" y="116" font-size="12" fill="#212121">PCIe-compatible I/O semantics</text>
   <text x="50" y="133" font-size="12" fill="#616161">Device enumeration · BAR mapping · Config space</text>
   <text x="50" y="150" font-size="12" fill="#616161">Used by ALL CXL device types</text>
   <!-- CXL.cache -->
-  <rect x="30" y="175" width="380" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh1)"/>
+  <rect x="30" y="175" width="380" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#f191-sh1)"/>
   <text x="50" y="201" font-size="15" font-weight="bold" fill="#4A8A99">CXL.cache</text>
   <text x="50" y="221" font-size="12" fill="#212121">Device-side caching of host memory</text>
   <text x="50" y="238" font-size="12" fill="#616161">Device TLB (DTLB) · ATS for VA→PA translation</text>
   <text x="50" y="255" font-size="12" fill="#616161">Back-Invalidation protocol (CXL 3.0)</text>
   <text x="50" y="272" font-size="12" fill="#BF616A">Used by Type 1 and Type 2 devices</text>
   <!-- CXL.mem -->
-  <rect x="30" y="290" width="380" height="100" rx="8" fill="#F8F4F0" stroke="#BF616A" stroke-width="2" filter="url(#sh1)"/>
+  <rect x="30" y="290" width="380" height="100" rx="8" fill="#F8F4F0" stroke="#BF616A" stroke-width="2" filter="url(#f191-sh1)"/>
   <text x="50" y="316" font-size="15" font-weight="bold" fill="#BF616A">CXL.mem</text>
   <text x="50" y="336" font-size="12" fill="#212121">Load/store access to device-attached memory</text>
   <text x="50" y="353" font-size="12" fill="#616161">Host-managed Device Memory (HDM)</text>
   <text x="50" y="370" font-size="12" fill="#616161">Memory appears in host physical address space</text>
   <text x="50" y="387" font-size="12" fill="#BF616A">Used by Type 2 and Type 3 devices</text>
   <!-- Type 1 -->
-  <rect x="490" y="70" width="380" height="90" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh1)"/>
+  <rect x="490" y="70" width="380" height="90" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f191-sh1)"/>
   <text x="510" y="96" font-size="15" font-weight="bold" fill="#5E81AC">Type 1 — Accelerator</text>
   <text x="510" y="116" font-size="12" fill="#212121">Compute device, no device-attached memory</text>
   <text x="510" y="133" font-size="12" fill="#616161">Uses CXL.io + CXL.cache</text>
   <text x="510" y="150" font-size="12" fill="#616161">Example: SmartNIC, DPU, FPGA accelerator</text>
   <!-- Type 2 -->
-  <rect x="490" y="175" width="380" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh1)"/>
+  <rect x="490" y="175" width="380" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#f191-sh1)"/>
   <text x="510" y="201" font-size="15" font-weight="bold" fill="#4A8A99">Type 2 — Accelerator + Memory</text>
   <text x="510" y="221" font-size="12" fill="#212121">Compute + device-attached memory</text>
   <text x="510" y="238" font-size="12" fill="#616161">Uses all three: CXL.io + CXL.cache + CXL.mem</text>
   <text x="510" y="255" font-size="12" fill="#616161">Example: GPU with CXL-attached HBM</text>
   <text x="510" y="272" font-size="12" fill="#616161">Most complex: simultaneous cache + memory protocols</text>
   <!-- Type 3 -->
-  <rect x="490" y="290" width="380" height="100" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh1)"/>
+  <rect x="490" y="290" width="380" height="100" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#f191-sh1)"/>
   <text x="510" y="316" font-size="15" font-weight="bold" fill="#BF616A">Type 3 — Memory Expander ★</text>
   <text x="510" y="336" font-size="12" fill="#212121">Pure memory device, no compute</text>
   <text x="510" y="353" font-size="12" fill="#616161">Uses CXL.io + CXL.mem only</text>
@@ -778,9 +778,9 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="720" y="470" text-anchor="middle" font-size="11" fill="#616161">128 GT/s (2× CXL 3.0)</text>
   <text x="720" y="485" text-anchor="middle" font-size="11" fill="#616161">Multi-rack pooling</text>
   <!-- Evolution arrows -->
-  <line x1="140" y1="465" x2="190" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr1)"/>
-  <line x1="345" y1="465" x2="400" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr1)"/>
-  <line x1="565" y1="465" x2="620" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#arr1)"/>
+  <line x1="140" y1="465" x2="190" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#f191-arr1)"/>
+  <line x1="345" y1="465" x2="400" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#f191-arr1)"/>
+  <line x1="565" y1="465" x2="620" y2="465" stroke="#9E9E9E" stroke-width="1.5" marker-end="url(#f191-arr1)"/>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
@@ -808,13 +808,13 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arrb" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
-    <filter id="sh2"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="f192-arrb" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <filter id="f192-sh2"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
   <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">CXL Physical Address Space Map</text>
 
   <!-- CPU Package -->
-  <rect x="30" y="45" width="220" height="160" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh2)"/>
+  <rect x="30" y="45" width="220" height="160" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f192-sh2)"/>
   <text x="140" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">CPU Package</text>
   <rect x="45" y="78" width="90" height="45" rx="5" fill="#5E81AC"/>
   <text x="90" y="99" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Cores</text>
@@ -829,26 +829,26 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="140" y="191" text-anchor="middle" font-size="11" fill="white">CXL Host Bridge</text>
 
   <!-- Local DRAM -->
-  <rect x="30" y="222" width="220" height="70" rx="8" fill="#4A8A99" stroke="#34495E" stroke-width="2" filter="url(#sh2)"/>
+  <rect x="30" y="222" width="220" height="70" rx="8" fill="#4A8A99" stroke="#34495E" stroke-width="2" filter="url(#f192-sh2)"/>
   <text x="140" y="246" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Local DRAM</text>
   <text x="140" y="263" text-anchor="middle" font-size="11" fill="#E0E0E0">PA: 0x0000_0000</text>
   <text x="140" y="278" text-anchor="middle" font-size="11" fill="#E0E0E0">→ 0x7FFF_FFFF (128 GB)</text>
 
   <!-- PCIe Root + CXL switch -->
-  <rect x="310" y="45" width="200" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh2)"/>
+  <rect x="310" y="45" width="200" height="100" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#f192-sh2)"/>
   <text x="410" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">PCIe Root Complex</text>
   <text x="410" y="90" text-anchor="middle" font-size="11" fill="#616161">CXL Host Bridge</text>
   <text x="410" y="107" text-anchor="middle" font-size="11" fill="#616161">ACPI SRAT / HMAT</text>
   <text x="410" y="124" text-anchor="middle" font-size="11" fill="#BF616A">Enumerates HDM ranges</text>
 
-  <rect x="310" y="160" width="200" height="80" rx="8" fill="#F0F4F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh2)"/>
+  <rect x="310" y="160" width="200" height="80" rx="8" fill="#F0F4F8" stroke="#5E81AC" stroke-width="2" filter="url(#f192-sh2)"/>
   <text x="410" y="184" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">CXL Switch</text>
   <text x="410" y="202" text-anchor="middle" font-size="11" fill="#616161">Fabric Manager</text>
   <text x="410" y="218" text-anchor="middle" font-size="11" fill="#616161">CXL 3.0: Snoop Filter</text>
   <text x="410" y="232" text-anchor="middle" font-size="11" fill="#BF616A">Back-Invalidate router</text>
 
   <!-- CXL Type 3 Devices -->
-  <rect x="580" y="45" width="290" height="115" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2" filter="url(#sh2)"/>
+  <rect x="580" y="45" width="290" height="115" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2" filter="url(#f192-sh2)"/>
   <text x="725" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">CXL Type 3 Memory Expanders</text>
   <rect x="595" y="80" width="120" height="68" rx="5" fill="#BF616A"/>
   <text x="655" y="103" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Expander A</text>
@@ -894,10 +894,10 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
   <text x="140" y="437" text-anchor="middle" font-size="11" fill="#212121">CXL = NUMA node 1 (cpuless)</text>
 
   <!-- Arrows -->
-  <line x1="250" y1="130" x2="308" y2="95" stroke="#5E81AC" stroke-width="2" marker-end="url(#arrb)"/>
-  <line x1="410" y1="145" x2="410" y2="158" stroke="#4A8A99" stroke-width="2" marker-end="url(#arrb)"/>
-  <line x1="510" y1="100" x2="578" y2="100" stroke="#BF616A" stroke-width="2" marker-end="url(#arrb)"/>
-  <line x1="510" y1="200" x2="578" y2="200" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrb)"/>
+  <line x1="250" y1="130" x2="308" y2="95" stroke="#5E81AC" stroke-width="2" marker-end="url(#f192-arrb)"/>
+  <line x1="410" y1="145" x2="410" y2="158" stroke="#4A8A99" stroke-width="2" marker-end="url(#f192-arrb)"/>
+  <line x1="510" y1="100" x2="578" y2="100" stroke="#BF616A" stroke-width="2" marker-end="url(#f192-arrb)"/>
+  <line x1="510" y1="200" x2="578" y2="200" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#f192-arrb)"/>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
@@ -911,123 +911,122 @@ h1,h2,h3,h4 { scroll-margin-top: 20px; }
 
 <figure id="fig-19-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
-<svg width="900" height="auto" viewBox="0 0 900 610" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<svg width="900" height="586" viewBox="0 0 900 586" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
 <defs>
-  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
-  <marker id="ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
-  <marker id="at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
-  <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
-  <marker id="ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34495E"/></marker>
+  <filter id="f193-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <marker id="f193-ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+  <marker id="f193-at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+  <marker id="f193-ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+  <marker id="f193-ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#34495E"/></marker>
 </defs>
 
-<rect width="900" height="610" fill="#FAFAFA"/>
-<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">CXL Type 3 Memory as a Linux NUMA Node — Discovery and Topology</text>
-<text x="22" y="52" font-size="13" fill="#616161">Firmware enumerates CXL HDM ranges in ACPI SRAT/HMAT → Linux builds NUMA topology → CXL appears as cpuless memory-only node</text>
+<rect width="900" height="586" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">CXL Type 3 Memory as a Linux NUMA Node — Discovery and Topology</text>
 
 <!-- ═══ PHASE 1: FIRMWARE / ACPI ═══ -->
-<rect x="22" y="64" width="856" height="20" rx="4" fill="#34495E"/>
-<text x="450" y="78" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 1 — Firmware: ACPI SRAT and HMAT enumeration</text>
+<rect x="22" y="40" width="856" height="20" rx="4" fill="#34495E"/>
+<text x="450" y="54" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 1 — Firmware: ACPI SRAT and HMAT enumeration</text>
 
 <!-- SRAT box -->
-<rect x="22" y="90" width="260" height="104" rx="6" fill="#34495E" filter="url(#sh)"/>
-<text x="152" y="112" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">ACPI SRAT</text>
-<text x="152" y="128" font-size="11" fill="#AABBCC" text-anchor="middle">System Resource Affinity Table</text>
-<rect x="34" y="136" width="236" height="14" rx="2" fill="#5E81AC" opacity="0.5"/>
-<text x="152" y="148" font-size="11" fill="#FFF" text-anchor="middle">MemAff[0]: PA 0x0–0x1FFFFFFFFFFF → Node 0</text>
-<rect x="34" y="152" width="236" height="14" rx="2" fill="#5E81AC" opacity="0.4"/>
-<text x="152" y="164" font-size="11" fill="#FFF" text-anchor="middle">MemAff[1]: PA 0x200…FFFF → Node 1</text>
-<rect x="34" y="168" width="236" height="14" rx="2" fill="#BF616A" opacity="0.6"/>
-<text x="152" y="180" font-size="11" fill="#FFF" text-anchor="middle">MemAff[2]: CXL HDM range → Node 2</text>
+<rect x="22" y="66" width="260" height="104" rx="6" fill="#34495E" filter="url(#f193-sh)"/>
+<text x="152" y="88" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">ACPI SRAT</text>
+<text x="152" y="104" font-size="11" fill="#AABBCC" text-anchor="middle">System Resource Affinity Table</text>
+<rect x="34" y="112" width="236" height="14" rx="2" fill="#5E81AC" opacity="0.5"/>
+<text x="152" y="124" font-size="11" fill="#FFF" text-anchor="middle">MemAff[0]: PA 0x0–0x1FFFFFFFFFFF → Node 0</text>
+<rect x="34" y="128" width="236" height="14" rx="2" fill="#5E81AC" opacity="0.4"/>
+<text x="152" y="140" font-size="11" fill="#FFF" text-anchor="middle">MemAff[1]: PA 0x200…FFFF → Node 1</text>
+<rect x="34" y="144" width="236" height="14" rx="2" fill="#BF616A" opacity="0.6"/>
+<text x="152" y="156" font-size="11" fill="#FFF" text-anchor="middle">MemAff[2]: CXL HDM range → Node 2</text>
 
 <!-- HMAT box -->
-<rect x="302" y="90" width="260" height="104" rx="6" fill="#34495E" opacity="0.85" filter="url(#sh)"/>
-<text x="432" y="112" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">ACPI HMAT</text>
-<text x="432" y="128" font-size="11" fill="#AABBCC" text-anchor="middle">Heterogeneous Memory Attribute Table</text>
-<text x="432" y="148" font-size="12" fill="#AABBCC" text-anchor="middle">Node 0 → Node 0:  10 ns  (local)</text>
-<text x="432" y="164" font-size="12" fill="#AABBCC" text-anchor="middle">Node 0 → Node 1:  20 ns  (xsocket)</text>
-<text x="432" y="180" font-size="12" fill="#BF616A" text-anchor="middle">Node 0 → Node 2:  40+ ns (CXL)</text>
+<rect x="302" y="66" width="260" height="104" rx="6" fill="#34495E" opacity="0.85" filter="url(#f193-sh)"/>
+<text x="432" y="88" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">ACPI HMAT</text>
+<text x="432" y="104" font-size="11" fill="#AABBCC" text-anchor="middle">Heterogeneous Memory Attribute Table</text>
+<text x="432" y="124" font-size="12" fill="#AABBCC" text-anchor="middle">Node 0 → Node 0:  10 ns  (local)</text>
+<text x="432" y="140" font-size="12" fill="#AABBCC" text-anchor="middle">Node 0 → Node 1:  20 ns  (xsocket)</text>
+<text x="432" y="156" font-size="12" fill="#BF616A" text-anchor="middle">Node 0 → Node 2:  40+ ns (CXL)</text>
 
 <!-- CXL device -->
-<rect x="582" y="90" width="296" height="104" rx="6" fill="#BF616A" opacity="0.7" filter="url(#sh)"/>
-<text x="730" y="112" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">CXL Type 3 Device</text>
-<text x="730" y="130" font-size="12" fill="#FFD0D0" text-anchor="middle">HDM (Host-managed Device Memory)</text>
-<text x="730" y="148" font-size="12" fill="#FFD0D0" text-anchor="middle">128 GB DDR5 on CXL 2.0 link</text>
-<text x="730" y="166" font-size="12" fill="#FFD0D0" text-anchor="middle">Link: PCIe 5.0 × 16 (64 GB/s)</text>
-<text x="730" y="184" font-size="12" fill="#FFD0D0" text-anchor="middle">Additional latency: 70–90 ns (Pond)</text>
+<rect x="582" y="66" width="296" height="104" rx="6" fill="#BF616A" opacity="0.7" filter="url(#f193-sh)"/>
+<text x="730" y="88" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">CXL Type 3 Device</text>
+<text x="730" y="106" font-size="12" fill="#FFD0D0" text-anchor="middle">HDM (Host-managed Device Memory)</text>
+<text x="730" y="124" font-size="12" fill="#FFD0D0" text-anchor="middle">128 GB DDR5 on CXL 2.0 link</text>
+<text x="730" y="142" font-size="12" fill="#FFD0D0" text-anchor="middle">Link: PCIe 5.0 × 16 (64 GB/s)</text>
+<text x="730" y="160" font-size="12" fill="#FFD0D0" text-anchor="middle">Additional latency: 70–90 ns (Pond)</text>
 
 <!-- Arrows firmware → kernel -->
-<line x1="152" y1="194" x2="152" y2="226" stroke="#34495E" stroke-width="2.5" marker-end="url(#ag)"/>
-<line x1="432" y1="194" x2="432" y2="226" stroke="#34495E" stroke-width="2.5" marker-end="url(#ag)"/>
-<line x1="730" y1="194" x2="600" y2="226" stroke="#BF616A" stroke-width="2.5" marker-end="url(#ar)"/>
+<line x1="152" y1="170" x2="152" y2="202" stroke="#34495E" stroke-width="2.5" marker-end="url(#f193-ag)"/>
+<line x1="432" y1="170" x2="432" y2="202" stroke="#34495E" stroke-width="2.5" marker-end="url(#f193-ag)"/>
+<line x1="730" y1="170" x2="600" y2="202" stroke="#BF616A" stroke-width="2.5" marker-end="url(#f193-ar)"/>
 
 <!-- ═══ PHASE 2: LINUX KERNEL NUMA ═══ -->
-<rect x="22" y="220" width="856" height="20" rx="4" fill="#5E81AC"/>
-<text x="450" y="234" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 2 — Linux kernel: NUMA topology construction</text>
+<rect x="22" y="196" width="856" height="20" rx="4" fill="#5E81AC"/>
+<text x="450" y="210" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 2 — Linux kernel: NUMA topology construction</text>
 
 <!-- Three NUMA nodes -->
 <!-- Node 0 -->
-<rect x="22" y="246" width="240" height="130" rx="6" fill="#5E81AC" filter="url(#sh)"/>
-<text x="142" y="268" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 0</text>
-<text x="142" y="286" font-size="12" fill="#CCE0F8" text-anchor="middle">CPUs: 0–55 (socket 0)</text>
-<text x="142" y="302" font-size="12" fill="#CCE0F8" text-anchor="middle">DRAM: 512 GB DDR5</text>
-<text x="142" y="318" font-size="12" fill="#CCE0F8" text-anchor="middle">Local latency: 10 ns</text>
-<rect x="34" y="328" width="216" height="36" rx="4" fill="#FFF" opacity="0.15"/>
-<text x="142" y="344" font-size="11" fill="#FFF" text-anchor="middle">Local alloc: ZONE_NORMAL</text>
-<text x="142" y="358" font-size="11" fill="#FFF" text-anchor="middle">Preferred: local pages first</text>
-<text x="142" y="372" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 0→0=10, 0→1=20, 0→2=40</text>
+<rect x="22" y="222" width="240" height="130" rx="6" fill="#5E81AC" filter="url(#f193-sh)"/>
+<text x="142" y="244" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 0</text>
+<text x="142" y="262" font-size="12" fill="#CCE0F8" text-anchor="middle">CPUs: 0–55 (socket 0)</text>
+<text x="142" y="278" font-size="12" fill="#CCE0F8" text-anchor="middle">DRAM: 512 GB DDR5</text>
+<text x="142" y="294" font-size="12" fill="#CCE0F8" text-anchor="middle">Local latency: 10 ns</text>
+<rect x="34" y="304" width="216" height="36" rx="4" fill="#FFF" opacity="0.15"/>
+<text x="142" y="320" font-size="11" fill="#FFF" text-anchor="middle">Local alloc: ZONE_NORMAL</text>
+<text x="142" y="334" font-size="11" fill="#FFF" text-anchor="middle">Preferred: local pages first</text>
+<text x="142" y="348" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 0→0=10, 0→1=20, 0→2=40</text>
 
 <!-- Node 1 -->
-<rect x="278" y="246" width="240" height="130" rx="6" fill="#5E81AC" opacity="0.8" filter="url(#sh)"/>
-<text x="398" y="268" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 1</text>
-<text x="398" y="286" font-size="12" fill="#CCE0F8" text-anchor="middle">CPUs: 56–111 (socket 1)</text>
-<text x="398" y="302" font-size="12" fill="#CCE0F8" text-anchor="middle">DRAM: 512 GB DDR5</text>
-<text x="398" y="318" font-size="12" fill="#CCE0F8" text-anchor="middle">Local latency: 10 ns</text>
-<rect x="290" y="328" width="216" height="36" rx="4" fill="#FFF" opacity="0.15"/>
-<text x="398" y="344" font-size="11" fill="#FFF" text-anchor="middle">Local alloc: ZONE_NORMAL</text>
-<text x="398" y="358" font-size="11" fill="#FFF" text-anchor="middle">Preferred: local pages first</text>
-<text x="398" y="372" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 1→0=20, 1→1=10, 1→2=40</text>
+<rect x="278" y="222" width="240" height="130" rx="6" fill="#5E81AC" opacity="0.8" filter="url(#f193-sh)"/>
+<text x="398" y="244" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 1</text>
+<text x="398" y="262" font-size="12" fill="#CCE0F8" text-anchor="middle">CPUs: 56–111 (socket 1)</text>
+<text x="398" y="278" font-size="12" fill="#CCE0F8" text-anchor="middle">DRAM: 512 GB DDR5</text>
+<text x="398" y="294" font-size="12" fill="#CCE0F8" text-anchor="middle">Local latency: 10 ns</text>
+<rect x="290" y="304" width="216" height="36" rx="4" fill="#FFF" opacity="0.15"/>
+<text x="398" y="320" font-size="11" fill="#FFF" text-anchor="middle">Local alloc: ZONE_NORMAL</text>
+<text x="398" y="334" font-size="11" fill="#FFF" text-anchor="middle">Preferred: local pages first</text>
+<text x="398" y="348" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 1→0=20, 1→1=10, 1→2=40</text>
 
 <!-- Node 2: CXL cpuless -->
-<rect x="534" y="246" width="344" height="130" rx="6" fill="#BF616A" filter="url(#sh)"/>
-<text x="706" y="268" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 2 — CXL (cpuless)</text>
-<text x="706" y="287" font-size="12" fill="#FFD0D0" text-anchor="middle">CPUs: (none) — memory-only node</text>
-<text x="706" y="303" font-size="12" fill="#FFD0D0" text-anchor="middle">CXL DRAM: 128 GB</text>
-<text x="706" y="319" font-size="12" fill="#FFD0D0" text-anchor="middle">CXL link latency: +70–90 ns (Pond)</text>
-<rect x="546" y="328" width="320" height="36" rx="4" fill="#FFF" opacity="0.12"/>
-<text x="706" y="344" font-size="11" fill="#FFF" text-anchor="middle">Accessed via: numactl --membind=2 / MPOL_BIND</text>
-<text x="706" y="358" font-size="11" fill="#FFF" text-anchor="middle">TLB walks: identical — physical address is physical address</text>
-<text x="706" y="372" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 2→0=40, 2→1=40, 2→2=10</text>
+<rect x="534" y="222" width="344" height="130" rx="6" fill="#BF616A" filter="url(#f193-sh)"/>
+<text x="706" y="244" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">NUMA Node 2 — CXL (cpuless)</text>
+<text x="706" y="263" font-size="12" fill="#FFD0D0" text-anchor="middle">CPUs: (none) — memory-only node</text>
+<text x="706" y="279" font-size="12" fill="#FFD0D0" text-anchor="middle">CXL DRAM: 128 GB</text>
+<text x="706" y="295" font-size="12" fill="#FFD0D0" text-anchor="middle">CXL link latency: +70–90 ns (Pond)</text>
+<rect x="546" y="304" width="320" height="36" rx="4" fill="#FFF" opacity="0.12"/>
+<text x="706" y="320" font-size="11" fill="#FFF" text-anchor="middle">Accessed via: numactl --membind=2 / MPOL_BIND</text>
+<text x="706" y="334" font-size="11" fill="#FFF" text-anchor="middle">TLB walks: identical — physical address is physical address</text>
+<text x="706" y="348" font-size="13" font-weight="bold" fill="#FFE" text-anchor="middle">Distance: 2→0=40, 2→1=40, 2→2=10</text>
 
 <!-- ═══ PHASE 3: SCHEDULER / ALLOCATOR VIEW ═══ -->
-<rect x="22" y="386" width="856" height="20" rx="4" fill="#4A8A99"/>
-<text x="450" y="400" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 3 — Scheduler and allocator awareness</text>
+<rect x="22" y="362" width="856" height="20" rx="4" fill="#4A8A99"/>
+<text x="450" y="376" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PHASE 3 — Scheduler and allocator awareness</text>
 
 <!-- Allocator -->
-<rect x="22" y="412" width="398" height="90" rx="6" fill="#4A8A99" opacity="0.15" stroke="#4A8A99" stroke-width="1.5"/>
-<text x="221" y="430" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Page Allocator (NUMA-aware)</text>
-<text x="221" y="448" font-size="12" fill="#34495E" text-anchor="middle">Default: allocate from the NUMA node of the</text>
-<text x="221" y="464" font-size="12" fill="#34495E" text-anchor="middle">requesting CPU. Falls back to Node 2 (CXL)</text>
-<text x="221" y="480" font-size="12" fill="#34495E" text-anchor="middle">only on local DRAM exhaustion (numa_node_distance</text>
-<text x="221" y="495" font-size="12" fill="#34495E" text-anchor="middle">policy or explicit MPOL_INTERLEAVE for tiering)</text>
+<rect x="22" y="388" width="398" height="90" rx="6" fill="#4A8A99" opacity="0.15" stroke="#4A8A99" stroke-width="1.5"/>
+<text x="221" y="406" font-size="13" font-weight="bold" fill="#4A8A99" text-anchor="middle">Page Allocator (NUMA-aware)</text>
+<text x="221" y="424" font-size="12" fill="#34495E" text-anchor="middle">Default: allocate from the NUMA node of the</text>
+<text x="221" y="440" font-size="12" fill="#34495E" text-anchor="middle">requesting CPU. Falls back to Node 2 (CXL)</text>
+<text x="221" y="456" font-size="12" fill="#34495E" text-anchor="middle">only on local DRAM exhaustion (numa_node_distance</text>
+<text x="221" y="471" font-size="12" fill="#34495E" text-anchor="middle">policy or explicit MPOL_INTERLEAVE for tiering)</text>
 
 <!-- Scheduler -->
-<rect x="436" y="412" width="442" height="90" rx="6" fill="#5E81AC" opacity="0.12" stroke="#5E81AC" stroke-width="1.5"/>
-<text x="657" y="430" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">Scheduler (NUMA balancing)</text>
-<text x="657" y="448" font-size="12" fill="#34495E" text-anchor="middle">CXL node has no CPUs — scheduler never places</text>
-<text x="657" y="464" font-size="12" fill="#34495E" text-anchor="middle">tasks on Node 2. Tasks on Node 0/1 may have</text>
-<text x="657" y="480" font-size="12" fill="#34495E" text-anchor="middle">working set in Node 2 → remote access cost is</text>
-<text x="657" y="495" font-size="12" fill="#34495E" text-anchor="middle">paid on every LLC miss (70–90 ns extra per fault)</text>
+<rect x="436" y="388" width="442" height="90" rx="6" fill="#5E81AC" opacity="0.12" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="657" y="406" font-size="13" font-weight="bold" fill="#5E81AC" text-anchor="middle">Scheduler (NUMA balancing)</text>
+<text x="657" y="424" font-size="12" fill="#34495E" text-anchor="middle">CXL node has no CPUs — scheduler never places</text>
+<text x="657" y="440" font-size="12" fill="#34495E" text-anchor="middle">tasks on Node 2. Tasks on Node 0/1 may have</text>
+<text x="657" y="456" font-size="12" fill="#34495E" text-anchor="middle">working set in Node 2 → remote access cost is</text>
+<text x="657" y="471" font-size="12" fill="#34495E" text-anchor="middle">paid on every LLC miss (70–90 ns extra per fault)</text>
 
 <!-- ═══ NUMACTL OUTPUT ═══ -->
-<rect x="22" y="512" width="856" height="88" rx="6" fill="#212121" filter="url(#sh)"/>
-<text x="36" y="530" font-size="13" font-weight="bold" fill="#4A8A99">$ numactl --hardware</text>
-<text x="36" y="546" font-size="12" fill="#9E9E9E">available: 3 nodes (0-2)</text>
-<text x="36" y="560" font-size="12" fill="#AABBCC">node 0 cpus: 0-55    size: 512000 MB    node 1 cpus: 56-111    size: 512000 MB</text>
-<text x="36" y="574" font-size="12" fill="#BF616A">node 2 cpus: (none)  size: 131072 MB   ← CXL memory-only node</text>
-<text x="36" y="590" font-size="12" fill="#9E9E9E">node distances:  0→0: 10   0→1: 20   0→2: <tspan fill="#BF616A">40</tspan>   1→2: <tspan fill="#BF616A">40</tspan>   2→2: 10</text>
+<rect x="22" y="488" width="856" height="88" rx="6" fill="#212121" filter="url(#f193-sh)"/>
+<text x="36" y="506" font-size="13" font-weight="bold" fill="#4A8A99">$ numactl --hardware</text>
+<text x="36" y="522" font-size="12" fill="#9E9E9E">available: 3 nodes (0-2)</text>
+<text x="36" y="536" font-size="12" fill="#AABBCC">node 0 cpus: 0-55    size: 512000 MB    node 1 cpus: 56-111    size: 512000 MB</text>
+<text x="36" y="550" font-size="12" fill="#BF616A">node 2 cpus: (none)  size: 131072 MB   ← CXL memory-only node</text>
+<text x="36" y="566" font-size="12" fill="#9E9E9E">node distances:  0→0: 10   0→1: 20   0→2: <tspan fill="#BF616A">40</tspan>   1→2: <tspan fill="#BF616A">40</tspan>   2→2: 10</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 19.3:</strong> CXL Type 3 memory as a Linux cpuless NUMA node. Firmware describes CXL HDM ranges in ACPI SRAT (physical address range to NUMA domain) and HMAT (per-pair latency and bandwidth). Linux constructs a NUMA topology with a memory-only node (node 2 in this example) with no CPUs. The CXL NUMA distance is typically 40 (vs. 10 local / 20 cross-socket), reflecting the additional 70–90 ns link latency measured in Azure Pond at 8–16 socket pool scale.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 19.3:</strong> CXL Type 3 memory as a Linux cpuless NUMA node. Firmware describes CXL HDM ranges in ACPI SRAT (physical address range to NUMA domain) and HMAT (per-pair latency and bandwidth). Linux constructs a NUMA topology with a memory-only node (node 2 in this example) with no CPUs. The CXL NUMA distance is typically 40 (vs. 10 local / 20 cross-socket), reflecting the additional 70–90 ns link latency measured in Azure Pond at 8–16 socket pool scale.</figcaption>
 </figure>
 
 
@@ -1192,12 +1191,12 @@ Total PTW:  ~2,000 ns  (6.25× worse than 320 ns baseline)
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <filter id="sh4"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <filter id="f195-sh4"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
   <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Page Table Walk Latency: Local DRAM vs CXL</text>
 
   <!-- Scenario 1: Normal DRAM PTW -->
-  <rect x="30" y="50" width="260" height="340" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh4)"/>
+  <rect x="30" y="50" width="260" height="340" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f195-sh4)"/>
   <text x="160" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Baseline: Page Tables in DRAM</text>
 
   <rect x="50" y="88" width="220" height="36" rx="5" fill="#5E81AC"/>
@@ -1222,7 +1221,7 @@ Total PTW:  ~2,000 ns  (6.25× worse than 320 ns baseline)
   <text x="160" y="373" text-anchor="middle" font-size="11" fill="#5E81AC" font-weight="bold">✅ Correct configuration</text>
 
   <!-- Scenario 2: Pinned page tables with CXL data -->
-  <rect x="320" y="50" width="260" height="340" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#sh4)"/>
+  <rect x="320" y="50" width="260" height="340" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2" filter="url(#f195-sh4)"/>
   <text x="450" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">Pinned PTables + CXL Data</text>
   <text x="450" y="85" text-anchor="middle" font-size="11" fill="#4A8A99">(correct CXL deployment)</text>
 
@@ -1248,7 +1247,7 @@ Total PTW:  ~2,000 ns  (6.25× worse than 320 ns baseline)
   <text x="450" y="383" text-anchor="middle" font-size="11" fill="#4A8A99" font-weight="bold">✅ Page tables pinned in DRAM</text>
 
   <!-- Scenario 3: Page tables migrated to CXL (danger) -->
-  <rect x="610" y="50" width="260" height="340" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh4)"/>
+  <rect x="610" y="50" width="260" height="340" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#f195-sh4)"/>
   <text x="740" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">⚠ Page Tables in CXL</text>
   <text x="740" y="85" text-anchor="middle" font-size="11" fill="#BF616A">(dangerous misconfiguration)</text>
 
@@ -1330,15 +1329,15 @@ $ cat /proc/sys/vm/demote_page_tables
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="arrf" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#212121"/></marker>
-    <marker id="arrg" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
-    <marker id="arrr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
-    <filter id="sh5"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="f196-arrf" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#212121"/></marker>
+    <marker id="f196-arrg" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+    <marker id="f196-arrr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="f196-sh5"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
   <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Memory Tiering State Machine Under CXL</text>
 
   <!-- HOT state -->
-  <rect x="60" y="80" width="200" height="130" rx="10" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2.5" filter="url(#sh5)"/>
+  <rect x="60" y="80" width="200" height="130" rx="10" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2.5" filter="url(#f196-sh5)"/>
   <text x="160" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#5E81AC">HOT</text>
   <text x="160" y="126" text-anchor="middle" font-size="12" fill="#212121">Local DRAM</text>
   <text x="160" y="143" text-anchor="middle" font-size="11" fill="#616161">~80 ns access</text>
@@ -1347,7 +1346,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="160" y="193" text-anchor="middle" font-size="11" fill="#5E81AC">ZONE_NORMAL</text>
 
   <!-- WARM state -->
-  <rect x="350" y="80" width="200" height="130" rx="10" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#sh5)"/>
+  <rect x="350" y="80" width="200" height="130" rx="10" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#f196-sh5)"/>
   <text x="450" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#34495E">WARM</text>
   <text x="450" y="126" text-anchor="middle" font-size="12" fill="#212121">Demoted — awaiting</text>
   <text x="450" y="143" text-anchor="middle" font-size="11" fill="#616161">Accessed bit cleared</text>
@@ -1356,7 +1355,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="450" y="193" text-anchor="middle" font-size="11" fill="#616161">~10–50 µs to migrate</text>
 
   <!-- COLD state -->
-  <rect x="640" y="80" width="200" height="130" rx="10" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh5)"/>
+  <rect x="640" y="80" width="200" height="130" rx="10" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#f196-sh5)"/>
   <text x="740" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#BF616A">COLD</text>
   <text x="740" y="126" text-anchor="middle" font-size="12" fill="#212121">CXL Memory Tier</text>
   <text x="740" y="143" text-anchor="middle" font-size="11" fill="#616161">~260–400 ns access</text>
@@ -1365,25 +1364,25 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="740" y="193" text-anchor="middle" font-size="11" fill="#BF616A">Never: page table pages</text>
 
   <!-- Hot → Warm (demotion) -->
-  <line x1="260" y1="130" x2="348" y2="130" stroke="#34495E" stroke-width="2" marker-end="url(#arrf)"/>
+  <line x1="260" y1="130" x2="348" y2="130" stroke="#34495E" stroke-width="2" marker-end="url(#f196-arrf)"/>
   <text x="304" y="118" text-anchor="middle" font-size="10" fill="#34495E" font-weight="bold">DEMOTE</text>
   <text x="304" y="131" text-anchor="middle" font-size="10" fill="#616161">kswapd pressure</text>
   <text x="304" y="144" text-anchor="middle" font-size="10" fill="#616161">access bit cleared</text>
 
   <!-- Warm → Cold (migrate to CXL) -->
-  <line x1="550" y1="130" x2="638" y2="130" stroke="#BF616A" stroke-width="2" marker-end="url(#arrr)"/>
+  <line x1="550" y1="130" x2="638" y2="130" stroke="#BF616A" stroke-width="2" marker-end="url(#f196-arrr)"/>
   <text x="594" y="118" text-anchor="middle" font-size="10" fill="#BF616A" font-weight="bold">MIGRATE → CXL</text>
   <text x="594" y="131" text-anchor="middle" font-size="10" fill="#616161">not re-accessed</text>
   <text x="594" y="144" text-anchor="middle" font-size="10" fill="#616161">~10–50 µs + shootdown</text>
 
   <!-- Cold → Hot (promotion) -->
-  <path d="M 640 170 Q 450 270 260 170" fill="none" stroke="#4A8A99" stroke-width="2" marker-end="url(#arrg)"/>
+  <path d="M 640 170 Q 450 270 260 170" fill="none" stroke="#4A8A99" stroke-width="2" marker-end="url(#f196-arrg)"/>
   <text x="450" y="255" text-anchor="middle" font-size="10" fill="#4A8A99" font-weight="bold">PROMOTE → DRAM</text>
   <text x="450" y="268" text-anchor="middle" font-size="10" fill="#616161">access detected (PEBS / autonuma)</text>
   <text x="450" y="281" text-anchor="middle" font-size="10" fill="#616161">copy 4 KB + PTE update + TLB shootdown</text>
 
   <!-- Warm → Hot (re-promote) -->
-  <path d="M 350 100 Q 305 60 260 100" fill="none" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrf)"/>
+  <path d="M 350 100 Q 305 60 260 100" fill="none" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#f196-arrf)"/>
   <text x="305" y="52" text-anchor="middle" font-size="10" fill="#5E81AC">re-accessed before eviction</text>
 
   <!-- Bottom detail boxes -->
@@ -1453,9 +1452,9 @@ $ cat /proc/sys/vm/demote_page_tables
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="520" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="ard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ardr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
-    <filter id="sh6"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="f197-ard" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="f197-ardr" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="f197-sh6"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
   <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">TLB Shootdown: Standard (OS-Initiated) vs CXL Back-Invalidation</text>
 
@@ -1480,22 +1479,22 @@ $ cat /proc/sys/vm/demote_page_tables
   <rect x="40" y="135" width="80" height="25" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
   <text x="80" y="152" text-anchor="middle" font-size="10" fill="#5E81AC">1. Modify PTE</text>
   <!-- Arrow to CPUs -->
-  <line x1="120" y1="165" x2="168" y2="178" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="120" y1="165" x2="168" y2="178" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#f197-ard)"/>
   <text x="145" y="162" text-anchor="middle" font-size="9" fill="#212121">IPI (x86: INVLPG)</text>
   <!-- CPU flush -->
   <rect x="170" y="175" width="80" height="25" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
   <text x="210" y="192" text-anchor="middle" font-size="10" fill="#5E81AC">2. INVLPG flush</text>
   <!-- Arrow to IOMMU -->
-  <line x1="250" y1="205" x2="298" y2="218" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="250" y1="205" x2="298" y2="218" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#f197-ard)"/>
   <text x="275" y="205" text-anchor="middle" font-size="9" fill="#212121">ATS INVALIDATE</text>
   <!-- IOMMU ACK -->
   <rect x="300" y="215" width="100" height="25" rx="3" fill="#F0F4F8" stroke="#34495E" stroke-width="1"/>
   <text x="350" y="232" text-anchor="middle" font-size="10" fill="#34495E">3. DTLB flush</text>
   <!-- Return ACK -->
-  <line x1="298" y1="250" x2="250" y2="263" stroke="#34495E" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="298" y1="250" x2="250" y2="263" stroke="#34495E" stroke-width="1.5" marker-end="url(#f197-ard)"/>
   <text x="275" y="250" text-anchor="middle" font-size="9" fill="#212121">ATS Completion</text>
   <!-- CPU ACK to OS -->
-  <line x1="168" y1="270" x2="120" y2="283" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="168" y1="270" x2="120" y2="283" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#f197-ard)"/>
   <text x="145" y="268" text-anchor="middle" font-size="9" fill="#212121">IPI ACK</text>
   <!-- OS proceeds -->
   <rect x="40" y="285" width="80" height="25" rx="3" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1"/>
@@ -1526,13 +1525,13 @@ $ cat /proc/sys/vm/demote_page_tables
   <rect x="480" y="135" width="100" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
   <text x="530" y="152" text-anchor="middle" font-size="10" fill="#BF616A">1. Trigger (realloc)</text>
   <!-- Arrow to CPU -->
-  <line x1="580" y1="165" x2="618" y2="178" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ardr)"/>
+  <line x1="580" y1="165" x2="618" y2="178" stroke="#BF616A" stroke-width="1.5" marker-end="url(#f197-ardr)"/>
   <text x="600" y="162" text-anchor="middle" font-size="9" fill="#BF616A">Back-Invalidate Req</text>
   <!-- CPU raises interrupt -->
   <rect x="620" y="175" width="80" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
   <text x="660" y="192" text-anchor="middle" font-size="10" fill="#BF616A">2. Interrupt raised</text>
   <!-- OS notified -->
-  <line x1="700" y1="205" x2="738" y2="218" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ardr)"/>
+  <line x1="700" y1="205" x2="738" y2="218" stroke="#BF616A" stroke-width="1.5" marker-end="url(#f197-ardr)"/>
   <text x="720" y="205" text-anchor="middle" font-size="9" fill="#BF616A">notify handler</text>
   <rect x="740" y="215" width="120" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
   <text x="800" y="232" text-anchor="middle" font-size="10" fill="#BF616A">3. IPI to all CPUs</text>
@@ -1540,7 +1539,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <rect x="620" y="255" width="80" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
   <text x="660" y="272" text-anchor="middle" font-size="10" fill="#BF616A">4. INVLPG all</text>
   <!-- ACK back to Fabric -->
-  <line x1="618" y1="295" x2="580" y2="308" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="618" y1="295" x2="580" y2="308" stroke="#5E81AC" stroke-width="1.5" marker-end="url(#f197-ard)"/>
   <text x="600" y="298" text-anchor="middle" font-size="9" fill="#212121">Completion ACK</text>
   <rect x="480" y="305" width="100" height="30" rx="3" fill="#FFF0F0" stroke="#BF616A" stroke-width="1.5"/>
   <text x="530" y="322" text-anchor="middle" font-size="10" fill="#BF616A">5. Realloc proceed</text>
@@ -1580,14 +1579,14 @@ $ cat /proc/sys/vm/demote_page_tables
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="540" viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <marker id="ar7" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
-    <marker id="ar7r" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
-    <filter id="sh7"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="f198-ar7" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <marker id="f198-ar7r" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+    <filter id="f198-sh7"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
   </defs>
   <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">CXL 3.0 Shared Memory: Two-Stage Address Translation</text>
 
   <!-- Host A -->
-  <rect x="20" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh7)"/>
+  <rect x="20" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f198-sh7)"/>
   <text x="140" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Host A (Server 1)</text>
   <rect x="35" y="82" width="100" height="40" rx="5" fill="#5E81AC"/>
   <text x="85" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">CPU / MMU</text>
@@ -1607,7 +1606,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="140" y="243" text-anchor="middle" font-size="10" fill="#BF616A">(CXL host bridge mapping)</text>
 
   <!-- Host B -->
-  <rect x="640" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh7)"/>
+  <rect x="640" y="50" width="240" height="210" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f198-sh7)"/>
   <text x="760" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#5E81AC">Host B (Server 2)</text>
   <rect x="655" y="82" width="100" height="40" rx="5" fill="#5E81AC"/>
   <text x="705" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">CPU / MMU</text>
@@ -1627,7 +1626,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="760" y="243" text-anchor="middle" font-size="10" fill="#BF616A">(same physical CXL location!)</text>
 
   <!-- CXL Switch + Snoop Filter -->
-  <rect x="310" y="100" width="280" height="170" rx="8" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#sh7)"/>
+  <rect x="310" y="100" width="280" height="170" rx="8" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#f198-sh7)"/>
   <text x="450" y="124" text-anchor="middle" font-size="13" font-weight="bold" fill="#34495E">CXL Switch</text>
   <rect x="325" y="134" width="250" height="50" rx="5" fill="#34495E"/>
   <text x="450" y="156" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Snoop Filter</text>
@@ -1644,7 +1643,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="450" y="316" text-anchor="middle" font-size="10" fill="white">Controls access permissions · Initiates Back-Invalidation</text>
 
   <!-- CXL Type 3 device -->
-  <rect x="330" y="350" width="240" height="90" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#sh7)"/>
+  <rect x="330" y="350" width="240" height="90" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2.5" filter="url(#f198-sh7)"/>
   <text x="450" y="374" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">CXL Type 3 Device</text>
   <text x="450" y="392" text-anchor="middle" font-size="12" fill="#212121">Unified Physical Address Space</text>
   <text x="450" y="408" text-anchor="middle" font-size="11" fill="#616161">CXL-PA 0x0000_0000 → DDR5 row 0</text>
@@ -1658,12 +1657,12 @@ $ cat /proc/sys/vm/demote_page_tables
 
   <!-- Arrows: Host A to switch -->
   <line x1="140" y1="270" x2="140" y2="325" stroke="#5E81AC" stroke-width="1.5"/>
-  <line x1="140" y1="325" x2="308" y2="220" stroke="#5E81AC" stroke-width="2" marker-end="url(#ar7)"/>
+  <line x1="140" y1="325" x2="308" y2="220" stroke="#5E81AC" stroke-width="2" marker-end="url(#f198-ar7)"/>
   <!-- Host B to switch -->
   <line x1="760" y1="270" x2="760" y2="325" stroke="#5E81AC" stroke-width="1.5"/>
-  <line x1="760" y1="325" x2="592" y2="220" stroke="#5E81AC" stroke-width="2" marker-end="url(#ar7)"/>
+  <line x1="760" y1="325" x2="592" y2="220" stroke="#5E81AC" stroke-width="2" marker-end="url(#f198-ar7)"/>
   <!-- Switch to device -->
-  <line x1="450" y1="325" x2="450" y2="348" stroke="#BF616A" stroke-width="2" marker-end="url(#ar7r)"/>
+  <line x1="450" y1="325" x2="450" y2="348" stroke="#BF616A" stroke-width="2" marker-end="url(#f198-ar7r)"/>
 </svg>
   </div>
   <figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;">
@@ -1749,21 +1748,21 @@ $ cat /proc/sys/vm/demote_page_tables
   <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
 <svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
   <defs>
-    <filter id="sh8"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
-    <marker id="ar8" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+    <filter id="f199-sh8"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.15"/></filter>
+    <marker id="f199-ar8" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
   </defs>
   <text x="450" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#212121">Pond Production CXL Pool Topology (Azure, ASPLOS 2023)</text>
 
   <!-- Servers (8-16 sockets) -->
   <!-- Server 1 -->
-  <rect x="20" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh8)"/>
+  <rect x="20" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f199-sh8)"/>
   <text x="85" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Server 1</text>
   <rect x="30" y="85" width="50" height="25" rx="3" fill="#5E81AC"/><text x="55" y="102" text-anchor="middle" font-size="9" fill="white">Socket 0</text>
   <rect x="88" y="85" width="50" height="25" rx="3" fill="#5E81AC" fill-opacity="0.7"/><text x="113" y="102" text-anchor="middle" font-size="9" fill="white">Socket 1</text>
   <rect x="30" y="117" width="110" height="18" rx="3" fill="#4A8A99"/><text x="85" y="130" text-anchor="middle" font-size="9" fill="white">Local DRAM: 512 GB</text>
 
   <!-- Server 2 -->
-  <rect x="160" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh8)"/>
+  <rect x="160" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f199-sh8)"/>
   <text x="225" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Server 2</text>
   <rect x="170" y="85" width="50" height="25" rx="3" fill="#5E81AC"/><text x="195" y="102" text-anchor="middle" font-size="9" fill="white">Socket 0</text>
   <rect x="228" y="85" width="50" height="25" rx="3" fill="#5E81AC" fill-opacity="0.7"/><text x="253" y="102" text-anchor="middle" font-size="9" fill="white">Socket 1</text>
@@ -1773,7 +1772,7 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="355" y="100" text-anchor="middle" font-size="18" fill="#9E9E9E">···</text>
 
   <!-- Server 8 -->
-  <rect x="400" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#sh8)"/>
+  <rect x="400" y="55" width="130" height="90" rx="7" fill="#EAF2F8" stroke="#5E81AC" stroke-width="2" filter="url(#f199-sh8)"/>
   <text x="465" y="78" text-anchor="middle" font-size="11" font-weight="bold" fill="#5E81AC">Server 8 (or 16)</text>
   <rect x="410" y="85" width="50" height="25" rx="3" fill="#5E81AC"/><text x="435" y="102" text-anchor="middle" font-size="9" fill="white">Socket 0</text>
   <rect x="468" y="85" width="50" height="25" rx="3" fill="#5E81AC" fill-opacity="0.7"/><text x="493" y="102" text-anchor="middle" font-size="9" fill="white">Socket 1</text>
@@ -1784,18 +1783,18 @@ $ cat /proc/sys/vm/demote_page_tables
   <text x="280" y="170" text-anchor="middle" font-size="10" fill="#212121">Local DRAM: ~80 ns access latency · 512 GB per 2-socket server · Page tables MUST stay here</text>
 
   <!-- EMC (External Memory Controller) -->
-  <rect x="580" y="45" width="300" height="80" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2.5" filter="url(#sh8)"/>
+  <rect x="580" y="45" width="300" height="80" rx="8" fill="#F0F8F8" stroke="#4A8A99" stroke-width="2.5" filter="url(#f199-sh8)"/>
   <text x="730" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#4A8A99">External Memory Controller (EMC)</text>
   <text x="730" y="88" text-anchor="middle" font-size="11" fill="#212121">Multi-headed · Connects 8–16 CPU sockets</text>
   <text x="730" y="104" text-anchor="middle" font-size="11" fill="#212121">and DDR5 DRAM channels (12 per 16-socket pool)</text>
 
   <!-- CXL switch below EMC -->
-  <rect x="620" y="145" width="220" height="55" rx="7" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#sh8)"/>
+  <rect x="620" y="145" width="220" height="55" rx="7" fill="#F0F4F8" stroke="#34495E" stroke-width="2" filter="url(#f199-sh8)"/>
   <text x="730" y="167" text-anchor="middle" font-size="12" font-weight="bold" fill="#34495E">CXL Switch Fabric</text>
   <text x="730" y="183" text-anchor="middle" font-size="11" fill="#616161">PCIe 5.0 · 128 lanes (16-socket)</text>
 
   <!-- Pool DRAM behind EMC -->
-  <rect x="560" y="220" width="320" height="110" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2" filter="url(#sh8)"/>
+  <rect x="560" y="220" width="320" height="110" rx="8" fill="#FFF0F0" stroke="#BF616A" stroke-width="2" filter="url(#f199-sh8)"/>
   <text x="720" y="244" text-anchor="middle" font-size="13" font-weight="bold" fill="#BF616A">CXL Pool Memory</text>
   <rect x="575" y="252" width="130" height="40" rx="5" fill="#BF616A"/>
   <text x="640" y="270" text-anchor="middle" font-size="11" fill="white" font-weight="bold">DDR5 Banks</text>
@@ -1816,8 +1815,8 @@ $ cat /proc/sys/vm/demote_page_tables
   <line x1="150" y1="100" x2="578" y2="85" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="5,3"/>
   <line x1="290" y1="100" x2="578" y2="85" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="5,3"/>
   <line x1="465" y1="100" x2="578" y2="85" stroke="#5E81AC" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <line x1="730" y1="125" x2="730" y2="143" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#ar8)"/>
-  <line x1="730" y1="200" x2="730" y2="218" stroke="#BF616A" stroke-width="1.5" marker-end="url(#ar8)"/>
+  <line x1="730" y1="125" x2="730" y2="143" stroke="#4A8A99" stroke-width="1.5" marker-end="url(#f199-ar8)"/>
+  <line x1="730" y1="200" x2="730" y2="218" stroke="#BF616A" stroke-width="1.5" marker-end="url(#f199-ar8)"/>
 
   <!-- Cost reduction annotation -->
   <rect x="20" y="350" width="520" height="120" rx="8" fill="#EAF2F8" stroke="#5E81AC" stroke-width="1.5"/>
@@ -1836,162 +1835,161 @@ $ cat /proc/sys/vm/demote_page_tables
 
 <figure id="fig-19-10" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
 <div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
-<svg width="900" height="auto" viewBox="0 0 900 590" style="max-width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<svg width="900" height="566" viewBox="0 0 900 566" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif">
 <defs>
-  <filter id="sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+  <filter id="f1910-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
 </defs>
 
-<rect width="900" height="590" fill="#FAFAFA"/>
-<text x="22" y="34" font-size="18" font-weight="bold" fill="#212121">CXL Production Deployments — Performance Engineering Comparison</text>
-<text x="22" y="52" font-size="13" fill="#616161">Three major production systems: latency overhead, workload fit, and cost/bandwidth tradeoffs (measured data from peer-reviewed publications)</text>
+<rect width="900" height="566" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">CXL Production Deployments — Performance Engineering Comparison</text>
 
 <!-- Column headers -->
-<rect x="22" y="64" width="856" height="22" rx="4" fill="#34495E"/>
-<text x="176" y="79" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Azure Pond (ASPLOS 2023)</text>
-<text x="470" y="79" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">DirectCXL (USENIX ATC 2022)</text>
-<text x="748" y="79" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Meta TPP (OSDI 2023)</text>
+<rect x="22" y="40" width="856" height="22" rx="4" fill="#34495E"/>
+<text x="176" y="55" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Azure Pond (ASPLOS 2023)</text>
+<text x="470" y="55" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">DirectCXL (USENIX ATC 2022)</text>
+<text x="748" y="55" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Meta TPP (OSDI 2023)</text>
 
 <!-- Vertical separators -->
-<line x1="330" y1="64" x2="330" y2="440" stroke="#9E9E9E" stroke-width="1"/>
-<line x1="616" y1="64" x2="616" y2="440" stroke="#9E9E9E" stroke-width="1"/>
+<line x1="330" y1="40" x2="330" y2="416" stroke="#9E9E9E" stroke-width="1"/>
+<line x1="616" y1="40" x2="616" y2="416" stroke="#9E9E9E" stroke-width="1"/>
 
 <!-- ─── Row 1: System type ─── -->
-<rect x="22" y="86" width="856" height="18" rx="0" fill="#5E81AC" opacity="0.15"/>
-<text x="35" y="99" font-size="11" font-weight="bold" fill="#34495E">SYSTEM TYPE</text>
+<rect x="22" y="62" width="856" height="18" rx="0" fill="#5E81AC" opacity="0.15"/>
+<text x="35" y="75" font-size="11" font-weight="bold" fill="#34495E">SYSTEM TYPE</text>
 
-<text x="176" y="99" font-size="12" fill="#212121" text-anchor="middle">CXL memory pooling</text>
-<text x="470" y="99" font-size="12" fill="#212121" text-anchor="middle">CXL load/store disaggregation</text>
-<text x="748" y="99" font-size="12" fill="#212121" text-anchor="middle">OS-level memory tiering</text>
+<text x="176" y="75" font-size="12" fill="#212121" text-anchor="middle">CXL memory pooling</text>
+<text x="470" y="75" font-size="12" fill="#212121" text-anchor="middle">CXL load/store disaggregation</text>
+<text x="748" y="75" font-size="12" fill="#212121" text-anchor="middle">OS-level memory tiering</text>
 
 <!-- ─── Row 2: Hardware ─── -->
-<rect x="22" y="104" width="856" height="36" rx="0" fill="#FAFAFA"/>
-<text x="35" y="116" font-size="11" font-weight="bold" fill="#34495E">HARDWARE</text>
-<text x="176" y="116" font-size="11" fill="#212121" text-anchor="middle">8–16 dual-socket servers</text>
-<text x="176" y="128" font-size="11" fill="#212121" text-anchor="middle">PCIe 5.0 CXL, DDR5 EMC pool</text>
-<text x="470" y="116" font-size="11" fill="#212121" text-anchor="middle">FPGA CXL 2.0 controller</text>
-<text x="470" y="128" font-size="11" fill="#212121" text-anchor="middle">Custom Type 3 device, PCIe 4.0</text>
-<text x="748" y="116" font-size="11" fill="#212121" text-anchor="middle">Meta production servers</text>
-<text x="748" y="128" font-size="11" fill="#212121" text-anchor="middle">CXL Type 3 + local DRAM tiering</text>
+<rect x="22" y="80" width="856" height="36" rx="0" fill="#FAFAFA"/>
+<text x="35" y="92" font-size="11" font-weight="bold" fill="#34495E">HARDWARE</text>
+<text x="176" y="92" font-size="11" fill="#212121" text-anchor="middle">8–16 dual-socket servers</text>
+<text x="176" y="104" font-size="11" fill="#212121" text-anchor="middle">PCIe 5.0 CXL, DDR5 EMC pool</text>
+<text x="470" y="92" font-size="11" fill="#212121" text-anchor="middle">FPGA CXL 2.0 controller</text>
+<text x="470" y="104" font-size="11" fill="#212121" text-anchor="middle">Custom Type 3 device, PCIe 4.0</text>
+<text x="748" y="92" font-size="11" fill="#212121" text-anchor="middle">Meta production servers</text>
+<text x="748" y="104" font-size="11" fill="#212121" text-anchor="middle">CXL Type 3 + local DRAM tiering</text>
 
 <!-- ─── Row 3: Latency ─── -->
-<rect x="22" y="140" width="856" height="52" rx="0" fill="#5E81AC" opacity="0.08"/>
-<text x="35" y="152" font-size="11" font-weight="bold" fill="#34495E">LATENCY OVERHEAD</text>
+<rect x="22" y="116" width="856" height="52" rx="0" fill="#5E81AC" opacity="0.08"/>
+<text x="35" y="128" font-size="11" font-weight="bold" fill="#34495E">LATENCY OVERHEAD</text>
 
 <!-- Pond latency bar -->
-<rect x="36" y="157" width="140" height="22" rx="3" fill="#5E81AC" opacity="0.6"/>
-<text x="106" y="173" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+70–90 ns (8–16 sockets)</text>
-<text x="176" y="186" font-size="11" fill="#BF616A" text-anchor="middle">+180 ns at rack scale (retimers)</text>
+<rect x="36" y="133" width="140" height="22" rx="3" fill="#5E81AC" opacity="0.6"/>
+<text x="106" y="149" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+70–90 ns (8–16 sockets)</text>
+<text x="176" y="162" font-size="11" fill="#BF616A" text-anchor="middle">+180 ns at rack scale (retimers)</text>
 
 <!-- DirectCXL latency bar -->
-<rect x="344" y="157" width="140" height="22" rx="3" fill="#4A8A99" opacity="0.6"/>
-<text x="414" y="173" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+100–120 ns (FPGA)</text>
-<text x="470" y="186" font-size="11" fill="#616161" text-anchor="middle">Load/store: lower overhead vs page</text>
+<rect x="344" y="133" width="140" height="22" rx="3" fill="#4A8A99" opacity="0.6"/>
+<text x="414" y="149" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+100–120 ns (FPGA)</text>
+<text x="470" y="162" font-size="11" fill="#616161" text-anchor="middle">Load/store: lower overhead vs page</text>
 
 <!-- Meta TPP latency bar -->
-<rect x="630" y="157" width="140" height="22" rx="3" fill="#BF616A" opacity="0.5"/>
-<text x="700" y="173" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+60–150 ns (tiered)</text>
-<text x="748" y="186" font-size="11" fill="#616161" text-anchor="middle">Hot pages promoted to local DRAM</text>
+<rect x="630" y="133" width="140" height="22" rx="3" fill="#BF616A" opacity="0.5"/>
+<text x="700" y="149" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">+60–150 ns (tiered)</text>
+<text x="748" y="162" font-size="11" fill="#616161" text-anchor="middle">Hot pages promoted to local DRAM</text>
 
 <!-- ─── Row 4: Workload fit ─── -->
-<rect x="22" y="192" width="856" height="62" rx="0" fill="#FAFAFA"/>
-<text x="35" y="204" font-size="11" font-weight="bold" fill="#34495E">WORKLOAD FIT</text>
+<rect x="22" y="168" width="856" height="62" rx="0" fill="#FAFAFA"/>
+<text x="35" y="180" font-size="11" font-weight="bold" fill="#34495E">WORKLOAD FIT</text>
 
-<text x="176" y="218" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">43% of 158 workloads within 5%</text>
-<text x="176" y="232" font-size="11" fill="#212121" text-anchor="middle">at +64 ns overhead</text>
-<text x="176" y="246" font-size="11" fill="#BF616A" text-anchor="middle">21% suffer &gt;25% degradation</text>
+<text x="176" y="194" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">43% of 158 workloads within 5%</text>
+<text x="176" y="208" font-size="11" fill="#212121" text-anchor="middle">at +64 ns overhead</text>
+<text x="176" y="222" font-size="11" fill="#BF616A" text-anchor="middle">21% suffer &gt;25% degradation</text>
 
-<text x="470" y="218" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">Pointer-chase: near-native BW</text>
-<text x="470" y="232" font-size="11" fill="#212121" text-anchor="middle">Sequential: line-rate saturation</text>
-<text x="470" y="246" font-size="11" fill="#BF616A" text-anchor="middle">Latency-sensitive: noticeable cost</text>
+<text x="470" y="194" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">Pointer-chase: near-native BW</text>
+<text x="470" y="208" font-size="11" fill="#212121" text-anchor="middle">Sequential: line-rate saturation</text>
+<text x="470" y="222" font-size="11" fill="#BF616A" text-anchor="middle">Latency-sensitive: noticeable cost</text>
 
-<text x="748" y="218" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">Memory-capacity workloads ideal</text>
-<text x="748" y="232" font-size="11" fill="#212121" text-anchor="middle">Inference serving, key-value stores</text>
-<text x="748" y="246" font-size="11" fill="#BF616A" text-anchor="middle">Real-time OLTP: local DRAM needed</text>
+<text x="748" y="194" font-size="12" fill="#4A8A99" text-anchor="middle" font-weight="bold">Memory-capacity workloads ideal</text>
+<text x="748" y="208" font-size="11" fill="#212121" text-anchor="middle">Inference serving, key-value stores</text>
+<text x="748" y="222" font-size="11" fill="#BF616A" text-anchor="middle">Real-time OLTP: local DRAM needed</text>
 
 <!-- ─── Row 5: TLB / MMU impact ─── -->
-<rect x="22" y="254" width="856" height="52" rx="0" fill="#5E81AC" opacity="0.08"/>
-<text x="35" y="266" font-size="11" font-weight="bold" fill="#34495E">TLB / MMU IMPACT</text>
+<rect x="22" y="230" width="856" height="52" rx="0" fill="#5E81AC" opacity="0.08"/>
+<text x="35" y="242" font-size="11" font-weight="bold" fill="#34495E">TLB / MMU IMPACT</text>
 
-<text x="176" y="284" font-size="12" fill="#212121" text-anchor="middle">TLB walk identical; physical</text>
-<text x="176" y="298" font-size="11" fill="#212121" text-anchor="middle">address cost: +70–90 ns on LLC miss</text>
+<text x="176" y="260" font-size="12" fill="#212121" text-anchor="middle">TLB walk identical; physical</text>
+<text x="176" y="274" font-size="11" fill="#212121" text-anchor="middle">address cost: +70–90 ns on LLC miss</text>
 
-<text x="470" y="284" font-size="12" fill="#212121" text-anchor="middle">No TLB involvement (load/store</text>
-<text x="470" y="298" font-size="11" fill="#212121" text-anchor="middle">bypasses page table for mapped ranges)</text>
+<text x="470" y="260" font-size="12" fill="#212121" text-anchor="middle">No TLB involvement (load/store</text>
+<text x="470" y="274" font-size="11" fill="#212121" text-anchor="middle">bypasses page table for mapped ranges)</text>
 
-<text x="748" y="284" font-size="12" fill="#212121" text-anchor="middle">Promotion/demotion involves TLB</text>
-<text x="748" y="298" font-size="11" fill="#212121" text-anchor="middle">shootdown on page migration</text>
+<text x="748" y="260" font-size="12" fill="#212121" text-anchor="middle">Promotion/demotion involves TLB</text>
+<text x="748" y="274" font-size="11" fill="#212121" text-anchor="middle">shootdown on page migration</text>
 
 <!-- ─── Row 6: Cost model ─── -->
-<rect x="22" y="306" width="856" height="50" rx="0" fill="#FAFAFA"/>
-<text x="35" y="318" font-size="11" font-weight="bold" fill="#34495E">COST MODEL</text>
+<rect x="22" y="282" width="856" height="50" rx="0" fill="#FAFAFA"/>
+<text x="35" y="294" font-size="11" font-weight="bold" fill="#34495E">COST MODEL</text>
 
-<text x="176" y="334" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">7–9% DRAM cost reduction</text>
-<text x="176" y="348" font-size="11" fill="#212121" text-anchor="middle">via pooling utilisation gains</text>
+<text x="176" y="310" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">7–9% DRAM cost reduction</text>
+<text x="176" y="324" font-size="11" fill="#212121" text-anchor="middle">via pooling utilisation gains</text>
 
-<text x="470" y="334" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">Eliminates stranded DRAM</text>
-<text x="470" y="348" font-size="11" fill="#212121" text-anchor="middle">disaggregation enables hot-swap</text>
+<text x="470" y="310" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">Eliminates stranded DRAM</text>
+<text x="470" y="324" font-size="11" fill="#212121" text-anchor="middle">disaggregation enables hot-swap</text>
 
-<text x="748" y="334" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">30–50% DRAM on CXL tier</text>
-<text x="748" y="348" font-size="11" fill="#212121" text-anchor="middle">large-capacity, lower-cost footprint</text>
+<text x="748" y="310" font-size="12" fill="#4A8A99" font-weight="bold" text-anchor="middle">30–50% DRAM on CXL tier</text>
+<text x="748" y="324" font-size="11" fill="#212121" text-anchor="middle">large-capacity, lower-cost footprint</text>
 
 <!-- ─── Row 7: Production status ─── -->
-<rect x="22" y="356" width="856" height="34" rx="0" fill="#5E81AC" opacity="0.08"/>
-<text x="35" y="368" font-size="11" font-weight="bold" fill="#34495E">STATUS</text>
+<rect x="22" y="332" width="856" height="34" rx="0" fill="#5E81AC" opacity="0.08"/>
+<text x="35" y="344" font-size="11" font-weight="bold" fill="#34495E">STATUS</text>
 
-<rect x="56" y="360" width="240" height="20" rx="10" fill="#4A8A99" opacity="0.7"/>
-<text x="176" y="374" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Production — Azure hyperscale fleet</text>
+<rect x="56" y="336" width="240" height="20" rx="10" fill="#4A8A99" opacity="0.7"/>
+<text x="176" y="350" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Production — Azure hyperscale fleet</text>
 
-<rect x="344" y="360" width="252" height="20" rx="10" fill="#5E81AC" opacity="0.7"/>
-<text x="470" y="374" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Research prototype — FPGA CXL 2.0</text>
+<rect x="344" y="336" width="252" height="20" rx="10" fill="#5E81AC" opacity="0.7"/>
+<text x="470" y="350" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Research prototype — FPGA CXL 2.0</text>
 
-<rect x="630" y="360" width="248" height="20" rx="10" fill="#4A8A99" opacity="0.7"/>
-<text x="754" y="374" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Production — Meta datacenters</text>
+<rect x="630" y="336" width="248" height="20" rx="10" fill="#4A8A99" opacity="0.7"/>
+<text x="754" y="350" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Production — Meta datacenters</text>
 
 <!-- ═══ WORKLOAD FIT HEAT CHART ═══ -->
-<rect x="22" y="400" width="856" height="28" rx="4" fill="#34495E"/>
-<text x="450" y="418" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Workload × Deployment Fit Matrix</text>
+<rect x="22" y="376" width="856" height="28" rx="4" fill="#34495E"/>
+<text x="450" y="394" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Workload × Deployment Fit Matrix</text>
 
-<rect x="22" y="428" width="856" height="154" rx="0" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
+<rect x="22" y="404" width="856" height="154" rx="0" fill="#FFF" stroke="#E0E0E0" stroke-width="1"/>
 
 <!-- Column headers -->
-<text x="250" y="446" font-size="11" font-weight="bold" fill="#5E81AC" text-anchor="middle">Azure Pond</text>
-<text x="470" y="446" font-size="11" font-weight="bold" fill="#4A8A99" text-anchor="middle">DirectCXL</text>
-<text x="690" y="446" font-size="11" font-weight="bold" fill="#BF616A" text-anchor="middle">Meta TPP</text>
-<line x1="22" y1="450" x2="878" y2="450" stroke="#E0E0E0" stroke-width="1"/>
+<text x="250" y="422" font-size="11" font-weight="bold" fill="#5E81AC" text-anchor="middle">Azure Pond</text>
+<text x="470" y="422" font-size="11" font-weight="bold" fill="#4A8A99" text-anchor="middle">DirectCXL</text>
+<text x="690" y="422" font-size="11" font-weight="bold" fill="#BF616A" text-anchor="middle">Meta TPP</text>
+<line x1="22" y1="426" x2="878" y2="426" stroke="#E0E0E0" stroke-width="1"/>
 
 <!-- Workload rows -->
-<text x="100" y="466" font-size="11" fill="#212121">LLM inference serving</text>
-<rect x="210" y="455" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="250" y="467" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
-<rect x="428" y="455" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.5"/><text x="470" y="467" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
-<rect x="648" y="455" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.9"/><text x="690" y="467" font-size="10" fill="#FFF" text-anchor="middle">✓✓ Ideal</text>
+<text x="100" y="442" font-size="11" fill="#212121">LLM inference serving</text>
+<rect x="210" y="431" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="250" y="443" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="428" y="431" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.5"/><text x="470" y="443" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="648" y="431" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.9"/><text x="690" y="443" font-size="10" fill="#FFF" text-anchor="middle">✓✓ Ideal</text>
 
-<text x="100" y="486" font-size="11" fill="#212121">Key-value store (Redis)</text>
-<rect x="210" y="475" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.5"/><text x="250" y="487" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
-<rect x="428" y="475" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="470" y="487" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
-<rect x="648" y="475" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="690" y="487" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<text x="100" y="462" font-size="11" fill="#212121">Key-value store (Redis)</text>
+<rect x="210" y="451" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.5"/><text x="250" y="463" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="428" y="451" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="470" y="463" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<rect x="648" y="451" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="690" y="463" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
 
-<text x="100" y="506" font-size="11" fill="#212121">OLTP / interactive DB</text>
-<rect x="210" y="495" width="80" height="16" rx="8" fill="#BF616A" opacity="0.6"/><text x="250" y="507" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
-<rect x="428" y="495" width="84" height="16" rx="8" fill="#BF616A" opacity="0.5"/><text x="470" y="507" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
-<rect x="648" y="495" width="84" height="16" rx="8" fill="#BF616A" opacity="0.4"/><text x="690" y="507" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<text x="100" y="482" font-size="11" fill="#212121">OLTP / interactive DB</text>
+<rect x="210" y="471" width="80" height="16" rx="8" fill="#BF616A" opacity="0.6"/><text x="250" y="483" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<rect x="428" y="471" width="84" height="16" rx="8" fill="#BF616A" opacity="0.5"/><text x="470" y="483" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<rect x="648" y="471" width="84" height="16" rx="8" fill="#BF616A" opacity="0.4"/><text x="690" y="483" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
 
-<text x="100" y="526" font-size="11" fill="#212121">Batch analytics / ETL</text>
-<rect x="210" y="515" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.9"/><text x="250" y="527" font-size="10" fill="#FFF" text-anchor="middle">✓✓ Ideal</text>
-<rect x="428" y="515" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="470" y="527" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
-<rect x="648" y="515" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.6"/><text x="690" y="527" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<text x="100" y="502" font-size="11" fill="#212121">Batch analytics / ETL</text>
+<rect x="210" y="491" width="80" height="16" rx="8" fill="#4A8A99" opacity="0.9"/><text x="250" y="503" font-size="10" fill="#FFF" text-anchor="middle">✓✓ Ideal</text>
+<rect x="428" y="491" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="470" y="503" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="648" y="491" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.6"/><text x="690" y="503" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
 
-<text x="100" y="546" font-size="11" fill="#212121">GPU/NPU model weights</text>
-<rect x="210" y="535" width="80" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="250" y="547" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
-<rect x="428" y="535" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="470" y="547" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
-<rect x="648" y="535" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="690" y="547" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<text x="100" y="522" font-size="11" fill="#212121">GPU/NPU model weights</text>
+<rect x="210" y="511" width="80" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="250" y="523" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<rect x="428" y="511" width="84" height="16" rx="8" fill="#4A8A99" opacity="0.7"/><text x="470" y="523" font-size="10" fill="#FFF" text-anchor="middle">✓ Good</text>
+<rect x="648" y="511" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="690" y="523" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
 
-<text x="100" y="572" font-size="11" fill="#212121">Real-time ML serving</text>
-<rect x="210" y="560" width="80" height="16" rx="8" fill="#BF616A" opacity="0.5"/><text x="250" y="572" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
-<rect x="428" y="560" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="470" y="572" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
-<rect x="648" y="560" width="84" height="16" rx="8" fill="#BF616A" opacity="0.4"/><text x="690" y="572" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<text x="100" y="548" font-size="11" fill="#212121">Real-time ML serving</text>
+<rect x="210" y="536" width="80" height="16" rx="8" fill="#BF616A" opacity="0.5"/><text x="250" y="548" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
+<rect x="428" y="536" width="84" height="16" rx="8" fill="#9E9E9E" opacity="0.5"/><text x="470" y="548" font-size="10" fill="#FFF" text-anchor="middle">~ Marginal</text>
+<rect x="648" y="536" width="84" height="16" rx="8" fill="#BF616A" opacity="0.4"/><text x="690" y="548" font-size="10" fill="#FFF" text-anchor="middle">✗ Poor</text>
 </svg>
 </div>
-<figcaption style="margin-top:0.75em;font-size:0.9em;color:#555;"><strong>Figure 19.10:</strong> Production CXL deployment comparison: Azure Pond (memory pooling at cloud scale), DirectCXL (load/store disaggregation, KAIST), and Meta TPP (OS-level memory tiering). Latency overhead, workload fit, TLB/MMU impact, and cost model differ substantially across approaches. Workload × deployment fit matrix shows that latency-sensitive OLTP performs poorly on all three, while batch analytics and LLM inference serving are well-suited candidates for CXL memory expansion.</figcaption>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 19.10:</strong> Production CXL deployment comparison: Azure Pond (memory pooling at cloud scale), DirectCXL (load/store disaggregation, KAIST), and Meta TPP (OS-level memory tiering). Latency overhead, workload fit, TLB/MMU impact, and cost model differ substantially across approaches. Workload × deployment fit matrix shows that latency-sensitive OLTP performs poorly on all three, while batch analytics and LLM inference serving are well-suited candidates for CXL memory expansion.</figcaption>
 </figure>
 
 
