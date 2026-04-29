@@ -3840,165 +3840,21 @@ wouldn't have identified page tables as the bottleneck.</p></li>
 </ol>
 <hr />
 <h2 id="section-9.10">9.10 Chapter Summary</h2>
-<p>This chapter explored advanced page table optimizations that go well
-beyond the basic mechanisms covered in earlier chapters. We've seen how
-modern operating systems employ sophisticated techniques to reduce
-memory overhead, improve concurrency, and extract maximum performance
-from the memory management hardware.</p>
-<h3 id="key-techniques-recap">Key Techniques Recap</h3>
-<p><strong>Memory Deduplication (KSM)</strong> merges identical pages
-across processes and VMs, achieving 30-60% memory savings in virtualized
-environments. The trade-off is CPU overhead (2-5%) and potential
-security concerns (timing side channels). Best used for: -
-Virtualization with similar guest OSes - Container orchestration running
-replicated services - Read-heavy workloads where COW penalty is rare -
-Memory-constrained systems where the savings justify overhead</p>
-<p><strong>Page Table Locking and Concurrency</strong> addresses the
-fundamental challenge of safely modifying shared page tables on
-many-core systems. Fine-grained locking (per page table page rather than
-per process) and RCU-based lockless walks provide 7-15× scalability
-improvements on 128-core systems. Critical for: - Database servers with
-hundreds of threads - HPC applications with massive parallelism - Any
-workload where perf shows mmap_lock contention</p>
-<p><strong>NUMA-Aware Page Table Management</strong> prevents the 30-50%
-performance penalty of remote memory access by ensuring page tables
-reside on the same node as the accessing CPU. Requires: - Explicit NUMA
-binding (numactl –membind) - Awareness of process migration patterns -
-Monitoring with numastat and perf - Critical for 2+ socket servers</p>
-<p><strong>Advanced Huge Page Strategies</strong> go beyond basic THP by
-addressing fragmentation, compaction latency, and selective application.
-Deferred compaction eliminates 95%+ of compaction stalls while
-maintaining 80-90% THP coverage. Production deployment requires: -
-<code>defer+madvise</code> defrag mode for latency-sensitive workloads -
-Explicit huge pages (HugeTLB) for known large allocations -
-<code>MADV_NOHUGEPAGE</code> for metadata and frequently-modified
-regions - Monitoring via /proc/vmstat thp_* counters</p>
-<p><strong>Page Table Compaction and Sharing</strong> reduces overhead
-by reclaiming empty page table structures and sharing PTEs for read-only
-mappings. While Linux doesn't fully implement these (due to complexity),
-they demonstrate potential for 50-90% overhead reduction in future
-kernels. Container density applications benefit most.</p>
-<p><strong>Parallel Page Table Operations</strong> enable lock-free page
-faults and batched TLB shootdowns, providing 7-37× speedups for
-operations that traditionally serialized. Essential for: -
-High-frequency DMA operations (RDMA, NVMe) - Applications with
-allocation/deallocation churn - Many-core systems (64+ cores)</p>
-<p><strong>Memory Compression (zswap)</strong> extends effective memory
-capacity by 30-50% at the cost of 3-5% CPU overhead. The 2000× latency
-advantage over disk swap makes it nearly invisible to applications. Use
-when: - Memory pressure is frequent but not severe - Workload tolerates
-3-5% CPU overhead - SSD wear is a concern (compression reduces
-writes)</p>
-<h3 id="choosing-optimizations-for-your-workload">Choosing Optimizations
-for Your Workload</h3>
-<p>Not every optimization suits every workload. Use this decision
-framework:</p>
-<p><strong>For Virtualization/Container Platforms:</strong></p>
-<pre><code>Primary: KSM (dense similar workloads)
-Secondary: THP with defer (reduce page table overhead)
-Tertiary: zswap (handle burst memory usage)
+<p>This chapter examined four advanced page table optimisations deployed in production Linux systems: kernel samepage merging, NUMA-aware page table placement, fine-grained page table locking, and advanced huge-page strategies. Each targets a distinct bottleneck that emerges at scale — memory capacity, remote access latency, lock contention, and TLB coverage — and each involves trade-offs that must be measured rather than assumed.</p>
 
-Expected gains: 40-70% density improvement
-CPU cost: 4-7%</code></pre>
-<p><strong>For HPC/Scientific Computing:</strong></p>
-<pre><code>Primary: Huge pages (reduce TLB pressure)
-Secondary: NUMA binding (optimize memory locality)
-Tertiary: Parallel operations (scale to many cores)
+<p>Kernel Samepage Merging (KSM) identifies physically identical anonymous pages across processes and VMs, merges them onto a single copy-on-write physical page, and reclaims the duplicates. In virtualised environments running similar guest images, KSM achieves 30–60% memory reduction with 2–5% CPU overhead from the scanning daemon. The failure mode is predictable: workloads with high write rates or security requirements that disallow timing side-channels should disable KSM explicitly via madvise(MADV_UNMERGEABLE).</p>
 
-Expected gains: 30-50% performance improvement
-Complexity: Medium (requires application tuning)</code></pre>
-<p><strong>For Databases:</strong></p>
-<pre><code>Primary: Explicit huge pages for buffer cache
-Secondary: THP with defer for heap
-Tertiary: NUMA binding
+<p>NUMA-aware page table management addresses a subtler overhead: page tables that reside on a NUMA node different from the CPU executing the walk. A four-level page table walk touching four cache lines incurs an additional 50–150 ns penalty per cache line if fetched from a remote node, and at TLB-miss rates typical of server workloads this compounds to a 30–50% throughput degradation. The fix — binding both the application heap and its page tables to the same NUMA node — requires awareness of process migration patterns and is best enforced with automated NUMA balancing metrics from numastat.</p>
 
-Expected gains: 20-40% throughput improvement, 50% latency reduction
-Fragmentation risk: Managed via defer mode</code></pre>
-<p><strong>For Web Servers:</strong></p>
-<pre><code>Primary: THP for process heap
-Secondary: KSM if running many similar workers
-Tertiary: zswap for burst handling
+<p>Page table locking evolved from a single per-process mmap_lock to per-page-table-page locks and RCU-based lockless walks, enabling 7–15× scalability improvement on 128-core systems where the old lock became a serialisation point for concurrent mmap operations. The critical diagnostic is perf showing mmap_lock contention — at which point migrating anonymous memory to huge pages or splitting the process address space across multiple processes resolves the bottleneck.</p>
 
-Expected gains: 15-30% request throughput
-Latency impact: Minimal with proper tuning</code></pre>
-<p><strong>For Real-Time Systems:</strong></p>
-<pre><code>Primary: Disable THP (predictable latency)
-Secondary: Explicit huge pages if needed
-Tertiary: NUMA binding
+<p>Advanced huge-page strategies go beyond the binary THP enabled/disabled setting. Deferred compaction (defrag mode defer+madvise) eliminates over 95% of compaction stalls while maintaining 80–90% huge-page coverage by attempting compaction asynchronously rather than synchronously at fault time. Explicit HugeTLB pages, allocated at boot and mapped via hugetlbfs, are appropriate for known large allocations that must not incur compaction latency. MADV_NOHUGEPAGE suppresses THP for memory regions where sub-page granularity is required.</p>
 
-Goal: Minimize variance, not maximize throughput
-Sacrifice: Some performance for predictability</code></pre>
-<h3 id="common-pitfalls-to-avoid">Common Pitfalls to Avoid</h3>
-<p><strong>Enabling THP without monitoring</strong>: Set
-<code>defrag=always</code> and wonder why latency spiked. Always use
-<code>defer</code> or <code>defer+madvise</code> for production.</p>
-<p><strong>Ignoring NUMA on multi-socket systems</strong>: Assume memory
-is uniform. Measure with <code>numastat</code>—you might find 40%+
-remote accesses.</p>
-<p><strong>Using KSM in security-critical multi-tenant
-environments</strong>: Side channels are real. Either disable KSM or
-ensure tenant isolation.</p>
-<p><strong>Over-tuning</strong>: Adjusting 10+ tunables without
-understanding interactions. Start with defaults, change one variable at
-a time, measure.</p>
-<p><strong>Forgetting to account for overhead</strong>: KSM + zswap +
-kcompactd might consume 8% CPU. Fine if memory-bound, problematic if
-CPU-bound.</p>
-<h3 id="measurement-and-monitoring">Measurement and Monitoring</h3>
-<p>Before optimizing, establish baselines:</p>
-<div class="sourceCode" id="cb143"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Page table overhead</span></span>
-<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> PageTables /proc/meminfo</span>
-<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb143-4"><a href="#cb143-4" aria-hidden="true" tabindex="-1"></a><span class="co"># THP effectiveness</span></span>
-<span id="cb143-5"><a href="#cb143-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;thp_fault|thp_collapse&#39;</span> /proc/vmstat</span>
-<span id="cb143-6"><a href="#cb143-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb143-7"><a href="#cb143-7" aria-hidden="true" tabindex="-1"></a><span class="co"># NUMA locality</span></span>
-<span id="cb143-8"><a href="#cb143-8" aria-hidden="true" tabindex="-1"></a><span class="ex">numastat</span> <span class="at">-m</span> <span class="at">-p</span> <span class="va">$(</span><span class="fu">pidof</span> application<span class="va">)</span></span>
-<span id="cb143-9"><a href="#cb143-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb143-10"><a href="#cb143-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Lock contention</span></span>
-<span id="cb143-11"><a href="#cb143-11" aria-hidden="true" tabindex="-1"></a><span class="ex">perf</span> record <span class="at">-e</span> lock:lock_acquire <span class="at">-g</span> ./workload</span>
-<span id="cb143-12"><a href="#cb143-12" aria-hidden="true" tabindex="-1"></a><span class="ex">perf</span> report <span class="at">--sort</span><span class="op">=</span>symbol</span>
-<span id="cb143-13"><a href="#cb143-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb143-14"><a href="#cb143-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Compaction activity</span></span>
-<span id="cb143-15"><a href="#cb143-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> compact_ /proc/vmstat</span></code></pre></div>
-<p>Set up continuous monitoring:</p>
-<div class="sourceCode" id="cb144"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collect metrics every 60 seconds</span></span>
-<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="fu">true</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span> <span class="op">&gt;&gt;</span> metrics.log</span>
-<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;PageTables|AnonHugePages&#39;</span> /proc/meminfo <span class="op">&gt;&gt;</span> metrics.log</span>
-<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grep</span> thp_ /proc/vmstat <span class="op">&gt;&gt;</span> metrics.log</span>
-<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sleep</span> 60</span>
-<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
-<p>Alert on anomalies: - Page table overhead &gt; 5% of total RAM - THP
-fault fallback rate &gt; 50% - Compact stalls &gt; 1000/day with
-<code>defrag=defer</code> - NUMA remote access &gt; 20% on
-multi-socket</p>
-<h3 id="looking-forward">Looking Forward</h3>
-<p>The next two chapters extend our exploration beyond CPU page
-tables:</p>
-<p><strong>Chapter 10: Hardware Accelerators and External MMU
-Access</strong> examines how non-CPU devices (GPUs, NICs, FPGAs, DPUs)
-access the MMU via IOMMU, PCIe ATS, and RDMA. We'll see how these
-devices cache translations and handle page faults, and how multi-device
-coherency works.</p>
-<p><strong>Chapter 11: AI/ML Accelerator Memory Systems</strong> dives
-deep into specialized memory architectures for machine learning—Google
-TPU with its systolic arrays, NVIDIA's Unified Memory with automatic
-migration, Intel Habana's RDMA-integrated design, and Apple's unified
-memory approach. These systems push memory bandwidth to 3-5 TB/s and
-capacity to 192 GB per device.</p>
-<p><strong>Chapter 12: Performance Analysis &amp; Benchmarking</strong>
-provides systematic methodology for measuring page table and MMU
-performance, profiling tools (perf, eBPF, PMU counters), and complete
-case studies showing the full optimization process from problem
-identification through validation.</p>
-<p>The techniques in this chapter form the foundation for modern memory
-management optimization. Combined with hardware understanding from
-earlier chapters and the accelerator insights coming in the next two
-chapters, you'll have a complete picture of how modern systems manage
-virtual memory at scale.</p><script>
+<p>Architecturally, ARM64's support for 16 KB and 64 KB granules changes the optimisation calculus: a 64 KB page provides comparable TLB coverage to a 2 MB huge page on x86-64 for workloads with moderate locality, without requiring compaction. RISC-V Sv39 and Sv48 support 2 MB and 1 GB pages via the level-skip mechanism, but hardware support for deferred A/D bit management varies by implementation.</p>
+
+<p>Chapter 10 shifts from CPU-side optimisations to the IOMMU — the device-facing MMU that provides memory translation and isolation for DMA-capable peripherals, where TLB miss costs and page table management differ fundamentally from the CPU path.</p>
+
+<script>
 
 
 (function() {
@@ -5091,7 +4947,6 @@ virtual memory at scale.</p><script>
 })();
 
 </script>
-
 <h2 id="references">References</h2>
 <ol type="1">
 <li><p>Arcangeli, A. and Iftimie, I. "Kernel Samepage Merging (KSM)." Linux kernel documentation, 2009. https://www.kernel.org/doc/html/latest/admin-guide/mm/ksm.html</p></li>

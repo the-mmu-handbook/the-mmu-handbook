@@ -3389,137 +3389,20 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb142-1"><a href
 <span id="cb142-19"><a href="#cb142-19" aria-hidden="true" tabindex="-1"></a><span class="ex">TLB</span> miss rate: 8% → 0.3% <span class="er">(</span><span class="ex">27×</span> improvement<span class="kw">)</span></span></code></pre></div>
 <hr />
 <h2 id="section-8.9">8.9 Chapter Summary</h2>
-<p>We began this chapter with a mystery: a PostgreSQL instance killed by
-the OOM killer despite 17 GB of "available" memory. Now we can explain
-exactly what happened:</p>
-<pre><code>The PostgreSQL OOM Mystery - Solved:
+<p>This chapter examined the internal mechanisms by which Linux manages virtual memory under realistic production conditions — where processes have complex, fragmented address spaces and available physical memory is perpetually contested. The central insight is that the visible memory statistics reported by the kernel routinely mislead operators, and understanding the implementation is the only reliable defence against a class of OOM failures that cannot be diagnosed from surface-level monitoring alone.</p>
 
-System: 64 GB RAM, 3 postgres processes
+<p>The chapter opened with a case study that exposes the core problem precisely: a PostgreSQL instance killed by the OOM killer despite seventeen gigabytes of reported available memory. The resolution required tracing the page table overhead of three processes with 45,000 virtual memory areas each — a total of 8.1 GB consumed by page tables alone, which MemAvailable does not subtract because that field counts only reclaimable memory. Enabling transparent huge pages reduced page table consumption from 8 GB to 512 MB, restoring genuine availability and eliminating the OOM condition.</p>
 
-Problem:
-  - Each process: 16 GB shared_buffers + memory-mapped files
-  - Virtual address space per process: 48 GB
-  - Fragmented mappings: 45,000 VMAs each
-  
-Page table overhead calculation:
-  - Dense regions: 16 GB → 32 MB PTs each
-  - Sparse regions: 32 GB → 64 MB PTs each
-  - Total per process: 96 MB
-  - Total for 3 processes: 288 MB
-  - But with 45,000 VMAs: 2.7 GB per process
-  - Grand total: 8.1 GB in page tables!
+<p>Virtual memory areas are the kernel's unit of address space management. Each VMA records a contiguous range of virtual addresses with uniform permissions, a backing object (anonymous, file-backed, or device-mapped), and flags governing copy-on-write, huge-page eligibility, and numa policy. VMA fragmentation — driven by partial unmaps, differing permissions on adjacent regions, and mprotect splitting — directly governs page table overhead. A process with 45,000 VMAs occupies 90× more page table memory than the same working set represented as 500 VMAs.</p>
 
-The math:
-  MemTotal: 64 GB
-  Used for data: 48 GB (3 × 16 GB)
-  Used for PTs: 8 GB (un-reclaimable!)
-  File cache: 6 GB
-  Kernel/other: 2 GB
-  Total: 64 GB (exactly full!)
-  
-  MemAvailable reported: 17 GB (file cache + free)
-  But PageTables: 8 GB (cannot evict!)
-  Actually available: 17 - 8 = 9 GB
-  
-  New allocation: 10 GB request
-  9 GB &lt; 10 GB → OOM!
+<p>Memory reclaim operates through two paths. The kswapd kernel thread reclaims asynchronously when free memory falls below the low watermark, scanning the active and inactive LRU lists and writing dirty pages back to their backing stores. Direct reclaim activates synchronously inside the allocating process when kswapd cannot keep pace, adding allocation latency directly proportional to reclaim work. The access and dirty bits in PTEs are the sole signal the kernel has for identifying cold pages — a fact that drives the well-known anti-pattern of pinning working sets by disabling hardware-managed A/D bits in VM workloads.</p>
 
-Solution applied:
-  Enable huge pages:
-    - PageTables: 8 GB → 512 MB (16× reduction)
-    - Now actually available: 17 GB - 0.5 GB = 16.5 GB
-    - 10 GB allocation succeeds
-    - Plus: 15% performance improvement from TLB efficiency</code></pre>
-<h3 id="integration-with-previous-chapters">Integration with Previous
-Chapters</h3>
-<p>This capstone chapter brings together concepts from throughout the
-book:</p>
-<p><strong>Chapter 1 (Virtual Memory Abstraction)</strong> introduced
-process address spaces. We now understand the <strong>overhead</strong>
-of that abstraction—page tables consume memory to enable the
-mapping.</p>
-<p><strong>Chapter 2 (Demand Paging)</strong> showed how processes don't
-need all pages in RAM. We now know <strong>which</strong> pages to evict
-(A/D bits) and <strong>how</strong> to free them (kswapd, direct
-reclaim).</p>
-<p><strong>Chapter 3 (Page Tables)</strong> explained multi-level
-hierarchies. We now understand <strong>when</strong> to allocate those
-levels (lazy allocation) and <strong>when</strong> to free them
-(reclamation under pressure).</p>
-<p><strong>Chapter 4 (TLB)</strong> showed translation caching. We now
-know the cost when TLB fails (page table walks) and why huge pages
-matter (512× better coverage).</p>
-<p><strong>Chapter 7 (Page Faults)</strong> covered fault handling. We
-now understand <strong>nested</strong> faults in VMs (cascading EPT
-violations) and <strong>A/D bit</strong> faults on RISC-V.</p>
-<p>Together, these chapters form a complete understanding of the
-hardware-software contract for memory management.</p>
-<h3 id="practical-takeaways-1">Practical Takeaways</h3>
-<p><strong>For System Administrators:</strong></p>
-<pre><code>Monitoring checklist:
-  ✓ Check PageTables in /proc/meminfo weekly
-  ✓ Set up alerts for si/so in vmstat
-  ✓ Configure OOM killer to protect critical services
-  ✓ Tune swappiness for your workload type
-  ✓ Consider huge pages for large-memory services
+<p>Architecture differences surface in reclaim policy. x86-64 and ARMv8.1+ set the Accessed bit in PTEs automatically on every TLB fill via hardware dirty-bit management. RISC-V requires software-managed A/D bits in the base specification, placing the burden of working-set tracking entirely on the OS and reducing reclaim accuracy on platforms without hardware extensions.</p>
 
-Configuration:
-  - Database servers: swappiness=10, huge pages on
-  - File servers: swappiness=150, keep file cache hot
-  - Desktops: swappiness=60 (default)
-  - VMs: Pre-populate EPT, use huge pages in both guest and host</code></pre>
-<p><strong>For Application Developers:</strong></p>
-<pre><code>Best practices:
-  ✓ Use madvise(MADV_HUGEPAGE) for large allocations
-  ✓ Avoid fragmented allocations (many small mmaps)
-  ✓ Consider memory-mapped files vs read/write tradeoffs
-  ✓ Profile with perf to find TLB thrashing
-  ✓ Structure data for spatial locality
+<p>The OOM killer is the reclaim path of last resort. Its scoring function combines process RSS, swap usage, memory policy, and oom_score_adj, producing a score from which the highest-scoring process is selected for SIGKILL. Operators running memory-intensive services must set oom_score_adj explicitly and instrument /proc/vmstat for oom_kill events rather than relying on default selection.</p>
 
-Red flags:
-  ✗ Allocating millions of small objects (page table overhead)
-  ✗ Random access patterns (TLB thrashing)
-  ✗ Frequent mmap/munmap (page table churn)
-  ✗ Large sparse mappings (wasted page tables)</code></pre>
-<p><strong>For Hypervisor Operators:</strong></p>
-<pre><code>Optimization checklist:
-  ✓ Pre-populate EPT during VM creation
-  ✓ Use 2MB EPT pages when possible
-  ✓ Reserve huge page pool at host boot
-  ✓ Enable huge pages in both guest and host
-  ✓ Monitor EPT fault rate with perf
+<p>Chapter 9 extends this foundation into advanced page table optimisations — kernel samepage merging, NUMA-aware placement, fine-grained locking, and huge-page compaction — that reduce overhead and improve throughput beyond what the baseline mechanisms provide.</p>
 
-VM density calculation:
-  Account for:
-    - Guest RAM
-    - Guest page tables (~0.2% of RAM)
-    - Host EPT (~0.2% of RAM)
-    - Total: ~1.004 × guest RAM
-  
-  Example: 16 VMs × 8 GB
-    - Guest usage: 128 GB
-    - Metadata: 512 MB
-    - Total needed: 128.5 GB</code></pre>
-<h3 id="the-big-picture-1">The Big Picture</h3>
-<p>Memory management in modern systems involves a complex dance
-between:</p>
-<ul>
-<li><strong>Hardware</strong> providing mechanisms (A/D bits, TLB, page
-faults)</li>
-<li><strong>Hypervisors</strong> multiplexing physical memory (EPT,
-nested translation)</li>
-<li><strong>Operating systems</strong> implementing policies (MGLRU,
-kswapd, OOM)</li>
-<li><strong>Applications</strong> consuming resources (carefully or
-carelessly)</li>
-</ul>
-<p>Understanding all four layers is essential for: - Debugging
-production mysteries - Optimizing performance - Scaling systems
-efficiently - Avoiding catastrophic failures</p>
-<p>The PostgreSQL mystery we solved demonstrates this. The problem
-wasn't in any single layer—it was the <strong>interaction</strong>
-between application behavior (fragmented mappings), OS bookkeeping (page
-table overhead), and hardware constraints (physical RAM limits).</p>
 <script>
 
 
@@ -4613,7 +4496,6 @@ table overhead), and hardware constraints (physical RAM limits).</p>
 })();
 
 </script>
-
 <h2 id="references">References</h2>
 <ol type="1">
 <li><p>Denning, P.J. "Virtual Memory." <em>ACM Computing Surveys</em>, 2(3):153–189, 1970.

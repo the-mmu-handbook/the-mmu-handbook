@@ -6922,113 +6922,21 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb189-1"><a href
 <span id="cb189-16"><a href="#cb189-16" aria-hidden="true" tabindex="-1"></a><span class="co"># → Consider using calloc() or mmap(MAP_ANONYMOUS) to avoid faults</span></span></code></pre></div>
 <hr />
 <h2 id="section-7.15">7.15 Chapter Summary</h2>
-<h3 id="asynchronous-page-faults-virtualization">7.15.1 Asynchronous
-Page Faults (Virtualization)</h3>
-<p>In virtualized environments, guest page faults can be made
-asynchronous:</p>
-<div class="sourceCode" id="cb190"><pre
-class="sourceCode c"><code class="sourceCode c"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Traditional: Guest page fault blocks VM</span></span>
-<span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a>Guest<span class="op">:</span> Access page → Fault → VM Exit → Host handles → VM Entry → Retry</span>
-<span id="cb190-3"><a href="#cb190-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-4"><a href="#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Asynchronous: Guest continues on other vCPUs</span></span>
-<span id="cb190-5"><a href="#cb190-5" aria-hidden="true" tabindex="-1"></a>Guest vCPU <span class="dv">0</span><span class="op">:</span> Access page → Async fault injected</span>
-<span id="cb190-6"><a href="#cb190-6" aria-hidden="true" tabindex="-1"></a>Guest vCPU <span class="dv">0</span><span class="op">:</span> Switches to other task</span>
-<span id="cb190-7"><a href="#cb190-7" aria-hidden="true" tabindex="-1"></a>Guest vCPU <span class="dv">1</span><span class="op">:</span> Continues running  <span class="co">// No blocking!</span></span>
-<span id="cb190-8"><a href="#cb190-8" aria-hidden="true" tabindex="-1"></a><span class="op">...</span>later<span class="op">...</span></span>
-<span id="cb190-9"><a href="#cb190-9" aria-hidden="true" tabindex="-1"></a>Host<span class="op">:</span> Page ready → Interrupt guest</span>
-<span id="cb190-10"><a href="#cb190-10" aria-hidden="true" tabindex="-1"></a>Guest vCPU <span class="dv">0</span><span class="op">:</span> Returns to original task → Retry succeeds</span>
-<span id="cb190-11"><a href="#cb190-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-12"><a href="#cb190-12" aria-hidden="true" tabindex="-1"></a><span class="co">/* Based on KVM async page fault mechanism</span></span>
-<span id="cb190-13"><a href="#cb190-13" aria-hidden="true" tabindex="-1"></a><span class="co">   Reference: Linux kernel virt/kvm/async_pf.c */</span></span></code></pre></div>
-<h3 id="user-space-page-fault-handling-userfaultfd">7.15.2 User-Space
-Page Fault Handling (userfaultfd)</h3>
-<p>Linux <code>userfaultfd</code> lets user-space handle page
-faults:</p>
-<div class="sourceCode" id="cb191"><pre
-class="sourceCode c"><code class="sourceCode c"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Create userfaultfd</span></span>
-<span id="cb191-2"><a href="#cb191-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> uffd <span class="op">=</span> syscall<span class="op">(</span>__NR_userfaultfd<span class="op">,</span> O_CLOEXEC <span class="op">|</span> O_NONBLOCK<span class="op">);</span></span>
-<span id="cb191-3"><a href="#cb191-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-4"><a href="#cb191-4" aria-hidden="true" tabindex="-1"></a><span class="co">// Register region</span></span>
-<span id="cb191-5"><a href="#cb191-5" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> uffdio_register reg<span class="op">;</span></span>
-<span id="cb191-6"><a href="#cb191-6" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>range<span class="op">.</span>start <span class="op">=</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">long</span><span class="op">)</span>addr<span class="op">;</span></span>
-<span id="cb191-7"><a href="#cb191-7" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>range<span class="op">.</span>len <span class="op">=</span> len<span class="op">;</span></span>
-<span id="cb191-8"><a href="#cb191-8" aria-hidden="true" tabindex="-1"></a>reg<span class="op">.</span>mode <span class="op">=</span> UFFDIO_REGISTER_MODE_MISSING<span class="op">;</span></span>
-<span id="cb191-9"><a href="#cb191-9" aria-hidden="true" tabindex="-1"></a>ioctl<span class="op">(</span>uffd<span class="op">,</span> UFFDIO_REGISTER<span class="op">,</span> <span class="op">&amp;</span>reg<span class="op">);</span></span>
-<span id="cb191-10"><a href="#cb191-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-11"><a href="#cb191-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Wait for page faults</span></span>
-<span id="cb191-12"><a href="#cb191-12" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> uffd_msg msg<span class="op">;</span></span>
-<span id="cb191-13"><a href="#cb191-13" aria-hidden="true" tabindex="-1"></a>read<span class="op">(</span>uffd<span class="op">,</span> <span class="op">&amp;</span>msg<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>msg<span class="op">));</span></span>
-<span id="cb191-14"><a href="#cb191-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-15"><a href="#cb191-15" aria-hidden="true" tabindex="-1"></a><span class="co">// msg contains:</span></span>
-<span id="cb191-16"><a href="#cb191-16" aria-hidden="true" tabindex="-1"></a><span class="co">//   msg.arg.pagefault.address = faulting address</span></span>
-<span id="cb191-17"><a href="#cb191-17" aria-hidden="true" tabindex="-1"></a><span class="co">//   msg.arg.pagefault.flags = read/write</span></span>
-<span id="cb191-18"><a href="#cb191-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-19"><a href="#cb191-19" aria-hidden="true" tabindex="-1"></a><span class="co">// Handle fault in user-space!</span></span>
-<span id="cb191-20"><a href="#cb191-20" aria-hidden="true" tabindex="-1"></a><span class="co">// (e.g., fetch from network, decompress, decrypt)</span></span>
-<span id="cb191-21"><a href="#cb191-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-22"><a href="#cb191-22" aria-hidden="true" tabindex="-1"></a><span class="co">// Provide page</span></span>
-<span id="cb191-23"><a href="#cb191-23" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> uffdio_copy copy<span class="op">;</span></span>
-<span id="cb191-24"><a href="#cb191-24" aria-hidden="true" tabindex="-1"></a>copy<span class="op">.</span>dst <span class="op">=</span> msg<span class="op">.</span>arg<span class="op">.</span>pagefault<span class="op">.</span>address<span class="op">;</span></span>
-<span id="cb191-25"><a href="#cb191-25" aria-hidden="true" tabindex="-1"></a>copy<span class="op">.</span>src <span class="op">=</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">long</span><span class="op">)</span>source_buffer<span class="op">;</span></span>
-<span id="cb191-26"><a href="#cb191-26" aria-hidden="true" tabindex="-1"></a>copy<span class="op">.</span>len <span class="op">=</span> PAGE_SIZE<span class="op">;</span></span>
-<span id="cb191-27"><a href="#cb191-27" aria-hidden="true" tabindex="-1"></a>ioctl<span class="op">(</span>uffd<span class="op">,</span> UFFDIO_COPY<span class="op">,</span> <span class="op">&amp;</span>copy<span class="op">);</span></span>
-<span id="cb191-28"><a href="#cb191-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-29"><a href="#cb191-29" aria-hidden="true" tabindex="-1"></a><span class="co">/* Use cases:</span></span>
-<span id="cb191-30"><a href="#cb191-30" aria-hidden="true" tabindex="-1"></a><span class="co">   - Live migration</span></span>
-<span id="cb191-31"><a href="#cb191-31" aria-hidden="true" tabindex="-1"></a><span class="co">   - Checkpoint/restore</span></span>
-<span id="cb191-32"><a href="#cb191-32" aria-hidden="true" tabindex="-1"></a><span class="co">   - Post-copy migration</span></span>
-<span id="cb191-33"><a href="#cb191-33" aria-hidden="true" tabindex="-1"></a><span class="co">   - Custom paging (e.g., from network storage) */</span></span></code></pre></div>
-<h3 id="memory-error-handling">7.15.3 Memory Error Handling</h3>
-<p>Modern CPUs can detect memory errors during page access:</p>
-<div class="sourceCode" id="cb192"><pre
-class="sourceCode c"><code class="sourceCode c"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Hardware memory error (ECC detected)</span></span>
-<span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="co">// → Machine Check Exception (x86)</span></span>
-<span id="cb192-3"><a href="#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="co">// → Synchronous External Abort (ARM)</span></span>
-<span id="cb192-4"><a href="#cb192-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-5"><a href="#cb192-5" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> handle_memory_error<span class="op">(</span><span class="dt">unsigned</span> <span class="dt">long</span> addr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb192-6"><a href="#cb192-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">struct</span> page <span class="op">*</span>page <span class="op">=</span> virt_to_page<span class="op">(</span>addr<span class="op">);</span></span>
-<span id="cb192-7"><a href="#cb192-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb192-8"><a href="#cb192-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Mark page as poisoned</span></span>
-<span id="cb192-9"><a href="#cb192-9" aria-hidden="true" tabindex="-1"></a>    SetPageHWPoison<span class="op">(</span>page<span class="op">);</span></span>
-<span id="cb192-10"><a href="#cb192-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb192-11"><a href="#cb192-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// If page is in use:</span></span>
-<span id="cb192-12"><a href="#cb192-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>page_mapped<span class="op">(</span>page<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb192-13"><a href="#cb192-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Send SIGBUS to all processes using this page</span></span>
-<span id="cb192-14"><a href="#cb192-14" aria-hidden="true" tabindex="-1"></a>        collect_procs<span class="op">(</span>page<span class="op">,</span> <span class="op">&amp;</span>tokill<span class="op">,</span> <span class="op">&amp;</span>extra_flags<span class="op">);</span></span>
-<span id="cb192-15"><a href="#cb192-15" aria-hidden="true" tabindex="-1"></a>        unmap_mapping_pages<span class="op">(</span>page<span class="op">-&gt;</span>mapping<span class="op">,</span> page<span class="op">-&gt;</span>index<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
-<span id="cb192-16"><a href="#cb192-16" aria-hidden="true" tabindex="-1"></a>        kill_procs<span class="op">(&amp;</span>tokill<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> extra_flags<span class="op">);</span></span>
-<span id="cb192-17"><a href="#cb192-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb192-18"><a href="#cb192-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb192-19"><a href="#cb192-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Retire the page (never use again)</span></span>
-<span id="cb192-20"><a href="#cb192-20" aria-hidden="true" tabindex="-1"></a>    retire_page<span class="op">(</span>page<span class="op">);</span></span>
-<span id="cb192-21"><a href="#cb192-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb192-22"><a href="#cb192-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-23"><a href="#cb192-23" aria-hidden="true" tabindex="-1"></a><span class="co">/* Based on Linux kernel mm/memory-failure.c</span></span>
-<span id="cb192-24"><a href="#cb192-24" aria-hidden="true" tabindex="-1"></a><span class="co">   Reference: Linux kernel v6.5, memory_failure() */</span></span></code></pre></div>
-<h3 id="summary">7.15.4 Summary</h3>
-<p>This chapter covered page faults and exception handling across modern
-and historical architectures:</p>
-<p><strong>Key Takeaways:</strong></p>
-<ol type="1">
-<li><p><strong>Page faults are features, not bugs:</strong> They enable
-demand paging, COW, memory protection, and dynamic memory
-management.</p></li>
-<li><p><strong>Architecture diversity:</strong> x86-64, ARM64, and
-RISC-V each take different approaches—hardware walkers vs software,
-detailed vs simple error codes, TLB management strategies.</p></li>
-<li><p><strong>Performance matters:</strong> Minor faults cost ~1 µs,
-major faults cost ~1-10 ms. Even 0.1% page fault rate can cause 10×
-slowdowns if swapping to disk.</p></li>
-<li><p><strong>Security implications:</strong> SMEP, SMAP, PAN, and NX
-bits work by generating page faults on security violations.
-Understanding fault handling is essential for system security.</p></li>
-<li><p><strong>Historical context:</strong> SPARC and MIPS pioneered
-software TLB management. PowerPC's hash tables showed the limits of that
-approach. Modern architectures learned from these experiments.</p></li>
-<li><p><strong>Debugging is essential:</strong> Kernel oops messages,
-GDB, and performance profiling tools help diagnose crashes and
-performance issues related to page faults.</p></li>
-</ol><script>
+<p>Page faults are the operating system's primary mechanism for implementing virtual memory — the bridge between a program's flat address space and the physical realities of limited RAM. This chapter examined how page faults are raised, classified, and resolved, and why the implementation details of that resolution have profound consequences for system performance and reliability.</p>
+
+<p>The fault handling pipeline begins the moment the CPU detects an unmapped or protected access. On x86-64 the processor raises a #PF exception, saves the faulting address in CR2, and encodes the fault reason in an error code — distinguishing present-bit faults from protection faults, and distinguishing user-mode from kernel-mode accesses. ARM64 uses a Data Abort or Instruction Abort with a Fault Status Code, while RISC-V raises load-page-fault (exception code 13) or store-page-fault (code 15) and exposes the faulting address via stval. Despite the architectural variation, all three converge on the same OS-level entry point: the page fault handler, which classifies the fault, allocates physical pages if needed, updates the page table, and returns to the faulting instruction.</p>
+
+<p>Three fault types dominate normal operation. Minor faults resolve without disk I/O — anonymous pages allocated on first write (demand paging), copy-on-write breaks on fork, and stack growth. Major faults require page-in from backing storage and dominate application latency during cold starts and working-set transitions. Invalid faults — accesses to unmapped regions or privilege violations — are either programming errors delivered as SIGSEGV or kernel-internal expected faults resolved by fixup tables.</p>
+
+<p>Copy-on-write is the single most impactful fault-driven optimisation in modern systems. By marking forked pages read-only and deferring physical duplication until a write fault fires, the kernel reduces fork latency from O(address-space size) to O(1). The same mechanism underpins memory-mapped files, snapshot semantics in databases, and container image layering.</p>
+
+<p>Three advanced fault handling extensions have growing production relevance. Asynchronous page faults in KVM allow guest vCPUs to continue executing while the host resolves a page-in, eliminating the blocking VM exit that previously serialised virtualised I/O. The userfaultfd interface extends this philosophy to user space, enabling application-managed paging for live migration, checkpoint-restore, and memory-mapped remote storage without kernel modification. Hardware memory error handling via Machine Check Exceptions (x86) and Synchronous External Aborts (ARM) integrates ECC-detected DRAM faults into the fault handling pipeline, allowing the kernel to poison affected pages and deliver SIGBUS rather than silently propagating corrupted data.</p>
+
+<p>For systems programmers, the practical takeaway is that fault rate and fault latency are independent variables. Profiling must distinguish minor from major faults — perf stat reports page-faults and major-faults separately, and /proc/vmstat exposes pgfault and pgmajfault counters. Reducing major faults requires prefetching or larger working sets; reducing minor fault cost requires huge pages and madvise hints.</p>
+
+<p>Chapter 8 builds on this foundation by examining how the kernel manages virtual memory areas under memory pressure, including the reclaim and OOM kill paths that activate when fault resolution exhausts available physical memory.</p>
+
+<script>
 
 
 (function() {
@@ -8121,7 +8029,6 @@ performance issues related to page faults.</p></li>
 })();
 
 </script>
-
 <h2 id="references">References</h2>
 <ol type="1">
 <li><p>Intel Corporation. <em>Intel 64 and IA-32 Architectures Software Developer's Manual, Volume 3A: System Programming Guide, Part 1</em>. Chapter 6: Interrupt and Exception Handling. Intel Corporation, 2023.</p></li>
