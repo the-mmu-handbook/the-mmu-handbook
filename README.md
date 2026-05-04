@@ -40,7 +40,8 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 12 | 206 KB |
 | [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 13 | 198 KB |
 
-**Total: 208 embedded SVG figures across 19 chapters (~4.2 MB)**
+| [20](chapters/chapter-20-WITH-FIGURES.html) | Confidential Computing and the Untrusted Hypervisor | 8 | 125 KB |
+**Total: 216 embedded SVG figures across 21 chapters (~4.2 MB)**
 
 ---
 

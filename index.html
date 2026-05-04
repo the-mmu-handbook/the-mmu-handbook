@@ -352,7 +352,7 @@ body.sb-collapsed { margin-left: 44px; }
     </p>
     <div class="hero-stats">
       <div class="stat"><span class="stat-num">19</span><span class="stat-label">Chapters</span></div>
-      <div class="stat"><span class="stat-num">208</span><span class="stat-label">SVG Figures</span></div>
+      <div class="stat"><span class="stat-num">216</span><span class="stat-label">SVG Figures</span></div>
       <div class="stat"><span class="stat-num">3</span><span class="stat-label">Architectures</span></div>
       <div class="stat"><span class="stat-num">~198K</span><span class="stat-label">Words</span></div>
     </div>
@@ -515,6 +515,103 @@ body.sb-collapsed { margin-left: 44px; }
       <div class="ch-body">
         <div class="ch-title">CXL and the Disaggregated Address Space</div>
         <div class="ch-meta"><span>13 SVGs</span><span>198 KB</span></div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Reading paths -->
+  <div class="section-title">Reading Paths</div>
+  <div class="reading-grid">
+    <div class="path-card">
+      <div class="path-icon">🖥️</div>
+      <h4>Systems / OS Developers</h4>
+      <p>Chapters 1–9 form a complete foundation covering paging, faults, reclaim, and optimizations.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-icon">⚙️</div>
+      <h4>Hardware Architects</h4>
+      <p>Chapters 4, 5, 10, 15, 16, 17, 18 cover translation hardware, IOMMUs, advanced TLB design, PTW microarchitecture, and paging-level vulnerabilities.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-icon">🤖</div>
+      <h4>AI/ML Infrastructure</h4>
+      <p>Chapters 11–14 address GPU and accelerator memory, LLM serving, and ML-based optimization.</p>
+    </div>
+    <div class="path-card">
+      <div class="path-icon">🔒</div>
+      <h4>Security Researchers</h4>
+      <p>Chapter 6 covers the full protection model; Chapters 5 and 12 cover device and multi-tenant isolation; Chapter 18 covers MMU-level vulnerabilities including Meltdown, Spectre, L1TF/Foreshadow, and MDS in depth.</p>
+    </div>
+  </div>
+
+  <!-- Architecture coverage -->
+  <div class="section-title">Architecture Coverage</div>
+  <table class="arch-table">
+    <thead>
+      <tr>
+        <th>Processor Family</th>
+        <th>Key Structures Covered</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>x86-64 (Intel / AMD)</strong></td>
+        <td>CR3, PML4/PDPT/PD/PT, PCID, INVPCID, INVLPG, KPTI, SGX, VT-d, EPT, AMD NPT</td>
+      </tr>
+      <tr>
+        <td><strong>ARM64 (ARMv8 / v9)</strong></td>
+        <td>TTBR0/TTBR1_EL1, ASID, TLBI, TrustZone, Stage-2 (IPA→PA), SMMUv3</td>
+      </tr>
+      <tr>
+        <td><strong>RISC-V</strong></td>
+        <td>satp, Sv39/Sv48/Sv57, ASID, SFENCE.VMA, VMID in hgatp, G-stage translation</td>
+      </tr>
+      <tr>
+        <td><strong>GPU / AI Accelerators</strong></td>
+        <td>NVIDIA UVM, NVLink/NVSwitch peer-to-peer, TPU HBM, Intel Gaudi2, PagedAttention</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- About -->
+  <div class="info-grid">
+    <div class="info-box">
+      <h3>Format</h3>
+      <p>Each chapter is a self-contained HTML file with:</p>
+      <ul>
+        <li>All SVG diagrams embedded inline</li>
+        <li>Print-optimised CSS with page-break controls</li>
+        <li>Linked Table of Contents</li>
+        <li>Pandoc-standard typography</li>
+        <li>Sidebar navigation (this sidebar)</li>
+      </ul>
+      <p style="margin-top:10px; font-size:12px; color:#7A92AA;">
+        Open any chapter directly in a browser, print to PDF, or host as GitHub Pages.
+      </p>
+    </div>
+    <div class="info-box">
+      <h3>Citations</h3>
+      <p>Content cites peer-reviewed literature, processor architecture manuals, and production system papers:</p>
+      <ul>
+        <li>Intel SDM, AMD64 APM, ARM ARM, RISC-V Privileged Spec</li>
+        <li>ISCA, MICRO, ASPLOS, USENIX papers</li>
+        <li>IEEE-style references in every chapter</li>
+        <li>Minimum 8 references per chapter; AI chapters ≥ 12</li>
+      </ul>
+      <p style="margin-top:10px; font-size:12px; color:#7A92AA;">
+        Speculative claims about proprietary implementations are avoided.
+      </p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Memory Management Units and TLBs — Architecture, Implementation, and AI Workloads</span>
+    <span><a class="ch-card" href="chapters/chapter-20-WITH-FIGURES.html">
+      <div class="ch-badge">19</div>
+      <div class="ch-body">
+        <div class="ch-title">Confidential Computing and the Untrusted Hypervisor</div>
+        <div class="ch-meta"><span>8 SVGs</span><span>125 KB</span></div>
       </div>
     </a>
 

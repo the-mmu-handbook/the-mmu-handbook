@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Chapter 19: CXL and the Disaggregated Address Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  
+  
+    figure{page-break-inside:avoid;}
+    figure svg{max-width:100%;height:auto;}
+    @media print{figure{page-break-inside:avoid;margin:1.5em 0;}figcaption{font-size:9pt;}}
+  
+
+/* ── Sidebar (injected) ── */
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION — MMU Handbook (v2)
+══════════════════════════════════════════════════════════ */
+:root {
+  --sidebar-w: 280px;
+  --sidebar-bg: #1E2533;
+  --sidebar-border: #2E3A4E;
+  --sidebar-text: #CBD8E8;
+  --sidebar-muted: #7B92B0;
+  --sidebar-accent: #5E81AC;
+  --sidebar-hover-bg: #28324A;
+  --sidebar-active-bg: #2E3A4E;
+  --sidebar-active-text: #DDEAF5;
+  --toc-indent: #4A8A99;
+}
+
+/* Override Pandoc base body constraints */
+body {
+  margin: 0 !important;
+  margin-left: calc(var(--sidebar-w) + 40px) !important;
+  margin-right: 40px !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 40px !important;
+  transition: margin-left 0.28s cubic-bezier(.4,0,.2,1);
+  box-sizing: border-box;
+}
+body.sidebar-collapsed {
+  margin-left: 56px !important;
+}
+
+/* Scroll offset so headings aren't cut off */
+h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: 24px;
+}
+
+/* ── Sidebar shell ── */
+#mmu-sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  transition: width 0.28s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  font-size: 13.5px;
+}
+#mmu-sidebar.collapsed { width: 44px; }
+
+/* CRITICAL: override Pandoc a/a:visited inside sidebar */
+#mmu-sidebar a,
+#mmu-sidebar a:visited,
+#mmu-sidebar a:active,
+#mmu-sidebar a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* ── Header ── */
+#sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+  min-height: 52px;
+}
+#sidebar-logo { display: flex; align-items: center; gap: 10px; overflow: hidden; white-space: nowrap; }
+#sidebar-logo-icon {
+  width: 28px; height: 28px;
+  background: var(--sidebar-accent);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px; font-weight: 700; color: #fff;
+}
+#sidebar-logo-text {
+  color: var(--sidebar-active-text);
+  font-size: 11.5px; font-weight: 600;
+  line-height: 1.3; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 1; transition: opacity 0.2s;
+}
+#mmu-sidebar.collapsed #sidebar-logo-text { opacity: 0; pointer-events: none; }
+
+#sidebar-toggle {
+  background: none; border: none; cursor: pointer;
+  padding: 5px; border-radius: 4px;
+  color: var(--sidebar-muted);
+  display: flex; align-items: center; flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+#sidebar-toggle:hover { color: var(--sidebar-active-text); background: var(--sidebar-hover-bg); }
+#sidebar-toggle svg { width: 18px; height: 18px; }
+
+/* ── Scroll area ── */
+#sidebar-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 8px 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-border) transparent;
+}
+#sidebar-scroll::-webkit-scrollbar { width: 4px; }
+#sidebar-scroll::-webkit-scrollbar-thumb { background: var(--sidebar-border); border-radius: 2px; }
+#mmu-sidebar.collapsed #sidebar-scroll { overflow: hidden; }
+
+/* ── Chapter item ── */
+.ch-item { border-bottom: 1px solid var(--sidebar-border); }
+
+.ch-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px;
+  cursor: pointer; user-select: none;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+.ch-header:hover { background: var(--sidebar-hover-bg); }
+.ch-item.active > .ch-header { background: var(--sidebar-active-bg); }
+
+.ch-num {
+  font-size: 10px; font-weight: 700;
+  color: var(--sidebar-accent);
+  background: rgba(94,129,172,0.15);
+  border-radius: 3px; padding: 1px 5px;
+  flex-shrink: 0; letter-spacing: 0.04em;
+  min-width: 26px; text-align: center;
+}
+.ch-item.active .ch-num { background: var(--sidebar-accent); color: #fff; }
+
+.ch-title-link {
+  color: var(--sidebar-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.35;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.ch-header:hover .ch-title-link { color: var(--sidebar-active-text) !important; }
+.ch-item.active .ch-title-link { color: var(--sidebar-active-text) !important; font-weight: 500; }
+
+.ch-arrow {
+  margin-left: auto; flex-shrink: 0;
+  color: var(--sidebar-muted);
+  transition: transform 0.22s, color 0.12s;
+  width: 14px; height: 14px;
+}
+.ch-item.open .ch-arrow { transform: rotate(90deg); color: var(--sidebar-accent); }
+
+/* ── TOC list ── */
+.ch-toc {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,0.12);
+}
+.ch-item.open .ch-toc { max-height: 2000px; }
+#mmu-sidebar.collapsed .ch-toc { max-height: 0 !important; }
+
+.toc-entry {
+  display: block;
+  padding: 5px 14px 5px 28px;
+  color: var(--sidebar-muted) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  cursor: pointer;
+}
+.toc-entry:hover {
+  color: var(--sidebar-active-text) !important;
+  background: var(--sidebar-hover-bg);
+  border-left-color: var(--toc-indent);
+}
+.toc-entry.active-section {
+  color: #8BBFD4 !important;
+  border-left-color: var(--toc-indent);
+  background: rgba(74,138,153,0.12);
+  font-weight: 500;
+}
+
+/* ── Collapsed ── */
+#mmu-sidebar.collapsed .ch-header { justify-content: center; padding: 9px 0; }
+#mmu-sidebar.collapsed .ch-title-link,
+#mmu-sidebar.collapsed .ch-arrow { display: none; }
+
+/* ── Mobile ── */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 260px; }
+  body { margin-left: 52px !important; }
+  #mmu-sidebar { width: 44px; }
+  #mmu-sidebar.mobile-open { width: var(--sidebar-w); }
+}
+@media print {
+  #mmu-sidebar { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+
+/* ═══ Sidebar v3 ═══ */
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR NAVIGATION — MMU Handbook v3
+   Uses Pandoc IDs for reliable anchor navigation
+══════════════════════════════════════════════════════════ */
+:root {
+  --sb-w: 280px;
+  --sb-bg: #F5F7FA;
+  --sb-border: #DDE4EE;
+  --sb-text: #3A5070;
+  --sb-muted: #7A92AA;
+  --sb-accent: #4A7BAC;
+  --sb-hover-bg: #EAF0F8;
+  --sb-active-bg: #DDE8F4;
+  --sb-active-text: #1E3A5A;
+  --sb-toc-active: #B05A00;
+  --sb-toc-inactive: #5A7A9C;
+}
+
+/* ── Reset Pandoc body constraints ── */
+body {
+  margin: 0 !important;
+  margin-left: calc(var(--sb-w) + 36px) !important;
+  margin-right: 40px !important;
+  max-width: none !important;
+  width: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 36px !important;
+  transition: margin-left 0.26s cubic-bezier(.4,0,.2,1);
+  box-sizing: border-box;
+}
+body.sb-collapsed { margin-left: 52px !important; }
+
+/* Heading scroll offset */
+h1,h2,h3,h4 { scroll-margin-top: 20px; }
+
+/* ── Sidebar shell ── */
+#sb {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sb-w);
+  background: var(--sb-bg);
+  border-right: 1px solid var(--sb-border);
+  display: flex; flex-direction: column;
+  z-index: 1000; overflow: hidden;
+  transition: width 0.26s cubic-bezier(.4,0,.2,1);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+#sb.collapsed { width: 44px; }
+
+/* ── Override ALL link colours inside sidebar ── */
+#sb a,
+#sb a:link,
+#sb a:visited,
+#sb a:hover,
+#sb a:active,
+#sb a:focus {
+  color: inherit !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+/* ── Header ── */
+#sb-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 12px; border-bottom: 1px solid var(--sb-border);
+  flex-shrink: 0; min-height: 50px;
+}
+#sb-logo { display: flex; align-items: center; gap: 9px; overflow: hidden; }
+#sb-icon {
+  width: 28px; height: 28px; background: var(--sb-accent);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -0.5px;
+}
+#sb-wordmark {
+  color: #4A6882; font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; line-height: 1.3; white-space: nowrap;
+  opacity: 1; transition: opacity 0.2s;
+}
+#sb.collapsed #sb-wordmark { opacity: 0; pointer-events: none; }
+
+#sb-btn {
+  background: none; border: none; cursor: pointer; padding: 5px;
+  border-radius: 4px; color: #8AADCC; flex-shrink: 0;
+  display: flex; align-items: center;
+  transition: color 0.14s, background 0.14s;
+}
+#sb-btn:hover { color: var(--sb-active-text); background: var(--sb-hover-bg); }
+#sb-btn svg { width: 17px; height: 17px; }
+
+/* ── Scroll area ── */
+#sb-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden; padding: 6px 0 20px;
+  scrollbar-width: thin; scrollbar-color: var(--sb-border) transparent;
+}
+#sb-scroll::-webkit-scrollbar { width: 4px; }
+#sb-scroll::-webkit-scrollbar-thumb { background: var(--sb-border); border-radius: 2px; }
+#sb.collapsed #sb-scroll { overflow: hidden; }
+
+/* ── Chapter row ── */
+.sb-ch { border-bottom: 1px solid var(--sb-border); }
+
+.sb-ch-head {
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 11px; cursor: pointer; user-select: none;
+  transition: background 0.12s; white-space: nowrap;
+}
+.sb-ch-head:hover { background: var(--sb-hover-bg); }
+.sb-ch.active > .sb-ch-head { background: var(--sb-active-bg); }
+
+.sb-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  color: #4A7BAC; background: rgba(74,123,172,0.1);
+  border-radius: 3px; padding: 1px 5px; flex-shrink: 0;
+  min-width: 24px; text-align: center;
+}
+.sb-ch.active .sb-num { background: var(--sb-accent); color: #fff; }
+
+.sb-ch-link {
+  color: var(--sb-text) !important;
+  flex: 1; font-size: 12.5px; line-height: 1.3;
+  overflow: hidden; text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+.sb-ch-head:hover .sb-ch-link { color: var(--sb-active-text) !important; }
+.sb-ch.active .sb-ch-link { color: var(--sb-active-text) !important; font-weight: 500; }
+
+.sb-arrow {
+  margin-left: auto; flex-shrink: 0; color: #4E6B8C;
+  transition: transform 0.2s, color 0.12s; width: 13px; height: 13px;
+}
+.sb-ch.open .sb-arrow { transform: rotate(90deg); color: var(--sb-accent); }
+
+/* ── TOC ── */
+.sb-toc {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(.4,0,.2,1);
+  background: rgba(0,0,0,0.03);
+}
+.sb-ch.open .sb-toc { max-height: 2400px; }
+#sb.collapsed .sb-toc { max-height: 0 !important; }
+
+.sb-sec {
+  display: block; padding: 5px 12px 5px 26px;
+  color: var(--sb-toc-inactive) !important;
+  font-size: 11.5px; line-height: 1.35;
+  border-left: 2px solid transparent;
+  transition: color 0.1s, background 0.1s, border-color 0.1s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sb-sec:hover {
+  color: var(--sb-active-text) !important;
+  background: rgba(74,123,172,0.1);
+  border-left-color: var(--sb-accent);
+}
+.sb-sec.here {
+  color: var(--sb-toc-active) !important;
+  border-left-color: var(--sb-toc-active);
+  background: rgba(176,90,0,0.08);
+  font-weight: 500;
+}
+
+
+/* ── Home link ── */
+#sb-home-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; cursor: pointer;
+  border-bottom: 1px solid var(--sb-border);
+  white-space: nowrap; color: var(--sb-text) !important;
+  font-size: 12px; font-weight: 500;
+  transition: background 0.12s;
+}
+#sb-home-link:hover { background: var(--sb-hover-bg); color: var(--sb-active-text) !important; }
+#sb.collapsed #sb-home-link span { display: none; }
+#sb.collapsed #sb-home-link { justify-content: center; padding: 9px 0; }
+
+/* ── Collapsed mode ── */
+#sb.collapsed .sb-ch-head { justify-content: center; padding: 8px 0; }
+#sb.collapsed .sb-ch-link,
+#sb.collapsed .sb-arrow { display: none; }
+
+/* ── Mobile / print ── */
+@media (max-width: 860px) {
+  :root { --sb-w: 250px; }
+  body { margin-left: 50px !important; }
+  #sb { width: 44px; }
+  #sb.mob-open { width: var(--sb-w); }
+}
+@media print {
+  #sb { display: none !important; }
+  body { margin-left: 0 !important; }
+}
+
+</style>
+<style>
+
+      body {
+          max-width: 900px;
+          margin: 40px auto;
+          padding: 20px;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          background-color: #f5f5f5;
+      }
+      .container {
+          background: white;
+          padding: 40px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      h1 {
+          color: #2c3e50;
+          border-bottom: 3px solid #3498db;
+          padding-bottom: 10px;
+      }
+      h2 {
+          color: #34495e;
+          border-bottom: 2px solid #e0e0e0;
+          padding-bottom: 8px;
+          margin-top: 40px;
+      }
+      h3 {
+          color: #555;
+          margin-top: 30px;
+      }
+      code {
+          background-color: #f4f4f4;
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 0.9em;
+      }
+      pre {
+          background-color: #f8f8f8;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 15px;
+          overflow-x: auto;
+      }
+      pre code {
+          background-color: transparent;
+          padding: 0;
+      }
+      blockquote {
+          border-left: 4px solid #3498db;
+          padding-left: 20px;
+          margin-left: 0;
+          color: #555;
+          font-style: italic;
+          background-color: #f9f9f9;
+          padding: 15px 20px;
+          border-radius: 4px;
+      }
+      table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 20px 0;
+      }
+      th, td {
+          border: 1px solid #ddd;
+          padding: 12px;
+          text-align: left;
+      }
+      th {
+          background-color: #3498db;
+          color: white;
+      }
+      tr:nth-child(even) {
+          background-color: #f9f9f9;
+      }
+      #TOC {
+          background-color: #f0f7ff;
+          border: 1px solid #3498db;
+          border-radius: 8px;
+          padding: 20px;
+          margin-bottom: 40px;
+      }
+      #TOC ul {
+          list-style-type: none;
+          padding-left: 20px;
+      }
+      #TOC > ul {
+          padding-left: 0;
+      }
+      #TOC a {
+          color: #2980b9;
+          text-decoration: none;
+      }
+      #TOC a:hover {
+          text-decoration: underline;
+      }
+  
+  </style>
+</head>
+<body>
+
+<header id="title-block-header">
+<h1 class="title">Chapter 20: Confidential Computing and the Untrusted Hypervisor</h1>
+</header>
+
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#section-20.1">20.1 Introduction: When the Hypervisor Is the Attacker</a></li>
+<li><a href="#section-20.2">20.2 The Conventional Virtualisation Trust Model and Its Limits</a></li>
+<li><a href="#section-20.3">20.3 Intel TDX: Trust Domain Extensions — MMU Microarchitecture</a></li>
+<li><a href="#section-20.4">20.4 AMD SEV-SNP: Secure Encrypted Virtualisation — Secure Nested Paging</a></li>
+<li><a href="#section-20.5">20.5 ARM Confidential Compute Architecture: The Realm Management Extension</a></li>
+<li><a href="#section-20.6">20.6 GPU Confidential Computing — The New Frontier</a></li>
+<li><a href="#section-20.7">20.7 Confidential CXL: The Open Problem</a></li>
+<li><a href="#section-20.8">20.8 Performance: What Confidential Computing Costs in Production</a></li>
+<li><a href="#section-20.9">20.9 OS and Hypervisor Support: Linux CC Architecture</a></li>
+<li><a href="#section-20.10">20.10 Chapter Summary</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</nav>
+
+<h2 id="section-20.1">20.1 Introduction: When the Hypervisor Is the Attacker</h2>
+
+<p>The threat model that motivates this chapter differs fundamentally from everything examined so far. Chapter 18 assumed a malicious external attacker — an adversary attempting to exploit CPU microarchitectural leaks through carefully crafted code running as an unprivileged process. Chapter 20 assumes the attacker is the infrastructure operator itself: a rogue cloud employee, a compromised virtual machine monitor, or a state actor who has obtained hypervisor-level access to a production server running thousands of tenant VMs.</p>
+
+<p>This is not a theoretical concern. In 2023, Google Project Zero demonstrated that a fully-compromised hypervisor can read the entire memory contents of any guest VM in under two minutes on an unprotected x86-64 system using direct physical address access. This is not a bug — it is the intended design of conventional virtualisation. Every Extended Page Table entry maps a guest physical address to a host physical address, and the hypervisor controls all of them. The hypervisor is trusted by architectural design. In the datacentre era, where the hypervisor belongs to a third-party cloud provider, this trust may be misplaced.</p>
+
+<p>Confidential computing is the hardware industry's answer: make the hypervisor's access to guest memory physically impossible at the silicon level, not merely restricted by software policy. Three major implementations have reached production: Intel Trust Domain Extensions (TDX), AMD Secure Encrypted Virtualisation — Secure Nested Paging (SEV-SNP), and ARM Confidential Compute Architecture (CCA) with the Realm Management Extension. Each implements this guarantee through fundamentally different MMU modifications — a new CPU mode and ownership table (TDX), a hardware reverse-map check performed before every nested page table walk (SEV-SNP), and a new privilege world with a hardware granule protection check enforced by the memory subsystem (CCA).</p>
+
+<p>This chapter examines each implementation at the microarchitecture level, then extends the analysis to GPU confidential computing — where NVIDIA H100 and AMD Instinct GPUs now support encrypted memory with measured performance characteristics — and to the emerging problem of confidential CXL memory, where the disaggregated physical address space of Chapter 19 requires new key management architecture that neither TDX, SEV-SNP, nor CCA fully specifies as of 2025.</p>
+
+<figure id="fig-20-1" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif"><defs>
+<filter id="f201-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="f201-ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="f201-ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="f201-ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+<marker id="f201-at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+</defs>
+<rect width="900" height="500" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">Conventional vs Confidential Computing — Trust Hierarchy</text>
+<rect x="22" y="44" width="390" height="26" rx="4" fill="#34495E"/>
+<text x="217" y="62" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">Conventional Virtualisation (Hypervisor Trusted)</text>
+<rect x="22" y="78" width="390" height="50" rx="6" fill="#5E81AC" filter="url(#f201-sh)"/>
+<text x="217" y="104" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Hardware (CPU + DRAM)</text>
+<text x="217" y="120" font-size="11" fill="#CCE0F8" text-anchor="middle">Trust anchor</text>
+<rect x="22" y="138" width="390" height="50" rx="6" fill="#507B5E" filter="url(#f201-sh)"/>
+<text x="217" y="162" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Hypervisor / VMM (KVM)</text>
+<text x="217" y="178" font-size="11" fill="#CDE8D4" text-anchor="middle">TRUSTED — full memory visibility, controls all EPT/NPT</text>
+<rect x="22" y="198" width="390" height="50" rx="6" fill="#4A8A99" filter="url(#f201-sh)"/>
+<text x="217" y="222" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Guest OS (Linux, Windows)</text>
+<text x="217" y="238" font-size="11" fill="#CCE8EC" text-anchor="middle">Trusted by applications only</text>
+<rect x="22" y="258" width="390" height="50" rx="6" fill="#9E9E9E" filter="url(#f201-sh)"/>
+<text x="217" y="282" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Guest Application</text>
+<text x="217" y="298" font-size="11" fill="#FFF" text-anchor="middle">Memory visible to all layers above</text>
+<rect x="60" y="322" width="314" height="44" rx="6" fill="#BF616A" opacity="0.15" stroke="#BF616A" stroke-width="1.5"/>
+<text x="217" y="342" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">Compromised VMM reads all guest DRAM</text>
+<text x="217" y="358" font-size="11" fill="#8B2020" text-anchor="middle">Not a bug — intended architecture</text>
+<rect x="488" y="44" width="390" height="26" rx="4" fill="#34495E"/>
+<text x="683" y="62" font-size="14" font-weight="bold" fill="#FFF" text-anchor="middle">Confidential Computing (Hypervisor Untrusted)</text>
+<rect x="488" y="78" width="390" height="50" rx="6" fill="#5E81AC" filter="url(#f201-sh)"/>
+<text x="683" y="104" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Hardware + CC Enforcement Layer</text>
+<text x="683" y="120" font-size="11" fill="#CCE0F8" text-anchor="middle">PAM (TDX) · RMP (SEV-SNP) · GPT (CCA) — silicon trust anchor</text>
+<rect x="488" y="138" width="390" height="50" rx="6" fill="#507B5E" filter="url(#f201-sh)"/>
+<text x="683" y="156" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">CC Firmware (TDX Module / AMD-SP / RMM)</text>
+<text x="683" y="172" font-size="11" fill="#CDE8D4" text-anchor="middle">Measured + attested — mediates memory ownership</text>
+<text x="683" y="186" font-size="11" fill="#CDE8D4" text-anchor="middle">TRUSTED — enforces isolation against VMM</text>
+<rect x="488" y="198" width="390" height="50" rx="6" fill="#BF616A" opacity="0.7" filter="url(#f201-sh)"/>
+<text x="683" y="222" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Hypervisor / VMM — UNTRUSTED</text>
+<text x="683" y="238" font-size="11" fill="#FFD0D0" text-anchor="middle">Cannot read CC guest memory — hardware prevents it</text>
+<rect x="488" y="258" width="390" height="50" rx="6" fill="#4A8A99" filter="url(#f201-sh)"/>
+<text x="683" y="282" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Confidential VM / TD / Realm</text>
+<text x="683" y="298" font-size="11" fill="#CCE8EC" text-anchor="middle">Encrypted · integrity-protected · attested</text>
+<rect x="530" y="322" width="310" height="44" rx="6" fill="#507B5E" opacity="0.15" stroke="#507B5E" stroke-width="1.5"/>
+<text x="685" y="342" font-size="12" font-weight="bold" fill="#507B5E" text-anchor="middle">VMM compromise cannot read guest DRAM</text>
+<text x="685" y="358" font-size="11" fill="#2C5F54" text-anchor="middle">Hardware enforcement — not policy</text>
+<line x1="450" y1="44" x2="450" y2="380" stroke="#9E9E9E" stroke-width="1.5" stroke-dasharray="6,4"/>
+<rect x="22" y="384" width="856" height="72" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="404" font-size="12" font-weight="bold" fill="#212121">Architectural shift: The VMM retains control of page tables for resource management — but loses memory visibility.</text>
+<text x="35" y="422" font-size="12" fill="#34495E">Conventional: VMM controls EPT/NPT entirely. Page table says "allow" — hardware allows. No check exists below the VMM.</text>
+<text x="35" y="440" font-size="12" fill="#BF616A">CC: hardware checks PAM/RMP/GPT on every access. Even a valid EPT entry is vetoed by the ownership table. Silicon enforces this.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 20.1:</strong> Conventional virtualisation trusts the hypervisor with full guest memory visibility. Confidential computing hardware — through the PAM table (TDX), Reverse Map Table (SEV-SNP), or Granule Protection Table (CCA) — drops the trust boundary to the silicon level, making guest memory physically inaccessible to a compromised VMM regardless of page table state.</figcaption>
+</figure>
+
+<h2 id="section-20.2">20.2 The Conventional Virtualisation Trust Model and Its Limits</h2>
+
+<p>Conventional virtualised systems rest on a carefully structured hierarchy of trust. Hardware — the CPU and its memory controller — forms the unconditional trust anchor. The hypervisor, running at the highest software privilege level (VMX root on x86-64, EL2 on ARM64), is trusted by the hardware to manage all resources on behalf of guest VMs. Guest operating systems trust the hypervisor to provide them with an accurate view of a machine. Guest applications trust the guest operating system. This hierarchy functions correctly as long as the hypervisor is not compromised.</p>
+
+<p>The structural weakness emerges from how the hypervisor exercises its trust. On x86-64, the hypervisor controls the Extended Page Table — the data structure that maps every guest physical address (GPA) to a host physical address (HPA). By writing EPT entries, the hypervisor can redirect any GPA to any HPA it controls, including pages not belonging to that guest. By reading EPT mappings, the hypervisor can determine the HPA of any guest page and read it directly through its own virtual address space without triggering any guest-visible fault. There is no hardware mechanism in conventional x86-64 or ARM64 that prevents a hypervisor from doing this — it is, from the hardware's perspective, entirely correct behaviour.</p>
+
+<p>A compromised hypervisor has several concrete attack vectors beyond simple memory reading. It can modify guest page tables (the hypervisor can write to the guest's page tables by remapping them into its own address space), inject code by remapping a guest code page to an attacker-controlled physical frame, intercept all guest VMEXIT events (system calls, I/O operations, and memory faults all pass through the hypervisor), and remap guest DMA buffers to redirect device writes to arbitrary guest memory. CVE-2021-26318 demonstrated one such attack against AMD SEV-ES — which encrypted guest register state but not memory — by having the hypervisor manipulate the VMCB save state area before VMSAVE, corrupting the guest's control registers in a way that bypassed the guest's own integrity checks.</p>
+
+<p>Conventional software-based mitigations address symptoms rather than the root cause. Encrypted storage protects data at rest but not in use. vTPM measures software at boot but provides no runtime integrity. Memory scrubbing removes data after use but does not prevent reads during execution. The structural problem is that memory confidentiality and integrity require enforcement below the hypervisor — at the hardware level — not above it.</p>
+
+<h2 id="section-20.3">20.3 Intel TDX: Trust Domain Extensions — MMU Microarchitecture</h2>
+
+<p>Intel Trust Domain Extensions addresses the hypervisor trust problem by introducing a new CPU operating mode and a software module that mediates all memory ownership operations. Rather than changing the EPT structure that exists between hypervisor and guest, TDX adds a layer below the hypervisor — a small, hardware-measured firmware component called the TDX Module — that the hypervisor cannot access or modify.</p>
+
+<p>The new CPU operating mode is called SEAM, for Secure Arbitration Mode. SEAM is entered via a SEAMCALL instruction and exited via SEAMRET. Only the TDX Module is permitted to run in SEAM mode; neither the VMM nor any guest OS can enter it. The CPU verifies the TDX Module's cryptographic measurement at boot and records it in a hardware register that guest software can read via attestation. The TDX Module acts as a minimal hypervisor for Trust Domains (TDs): it manages the Private EPT that maps TD guest physical addresses to host physical addresses, and it maintains the Physical Address Metadata (PAM) table that records ownership of every physical page.</p>
+
+<p>The PAM table is the central innovation. Every 4 KB physical page has a PAM entry recording: which TD owns this page (a 16-bit TD identifier), the expected GPA mapping within that TD, the page's KeyID (used to select the encryption key), and an epoch counter used for secure page reclamation. When a TD accesses a private page — identified by GPA bit 51 being zero — the CPU walks the Private EPT to resolve the HPA, then performs a PAM check: it verifies that the resolved HPA's PAM entry matches the expected owner and GPA. If the PAM check fails, a fault is raised to the TDX Module, not to the VMM. The VMM has no ability to suppress or redirect this fault. A VMM attempting to map a TD-owned physical page into another TD or into its own address space will have the PAM check fail regardless of what EPT entries it creates, because it cannot modify PAM entries — only the TDX Module can do so, and the TDX Module enforces ownership invariants in software running in SEAM mode.</p>
+
+<figure id="fig-20-2" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif"><defs>
+<filter id="f202-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="f202-ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="f202-ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="f202-ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+<marker id="f202-at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+</defs>
+<rect width="900" height="480" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">Intel TDX: Trust Domain Private Memory Access Pipeline</text>
+<rect x="22" y="48" width="130" height="56" rx="6" fill="#5E81AC" filter="url(#f202-sh)"/>
+<text x="87" y="72" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">TD Load</text>
+<text x="87" y="88" font-size="11" fill="#CCE0F8" text-anchor="middle">GVA instruction</text>
+<text x="87" y="102" font-size="11" fill="#CCE0F8" text-anchor="middle">GPA[51]=0 private</text>
+<line x1="152" y1="76" x2="184" y2="76" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#f202-ab)"/>
+<rect x="184" y="48" width="136" height="56" rx="6" fill="#5E81AC" opacity="0.85" filter="url(#f202-sh)"/>
+<text x="252" y="72" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Guest PT Walk</text>
+<text x="252" y="88" font-size="11" fill="#CCE0F8" text-anchor="middle">4-level (CR3→PML4)</text>
+<text x="252" y="102" font-size="11" fill="#CCE0F8" text-anchor="middle">GVA → GPA</text>
+<line x1="320" y1="76" x2="352" y2="76" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#f202-ab)"/>
+<rect x="352" y="48" width="144" height="56" rx="6" fill="#4A8A99" filter="url(#f202-sh)"/>
+<text x="424" y="72" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Private EPT Walk</text>
+<text x="424" y="88" font-size="11" fill="#CCE8EC" text-anchor="middle">TDX Module owned</text>
+<text x="424" y="102" font-size="11" fill="#CCE8EC" text-anchor="middle">GPA → HPA</text>
+<line x1="496" y1="76" x2="528" y2="76" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#f202-ab)"/>
+<rect x="528" y="40" width="148" height="72" rx="6" fill="#BF616A" filter="url(#f202-sh)"/>
+<text x="602" y="64" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">PAM Check</text>
+<text x="602" y="80" font-size="11" fill="#FFD0D0" text-anchor="middle">Physical Address</text>
+<text x="602" y="96" font-size="11" fill="#FFD0D0" text-anchor="middle">Metadata Table</text>
+<text x="602" y="108" font-size="10" fill="#FFD0D0" text-anchor="middle">owner · GPA · epoch</text>
+<line x1="676" y1="76" x2="708" y2="76" stroke="#507B5E" stroke-width="2.5" marker-end="url(#f202-ag)"/>
+<text x="692" y="68" font-size="10" fill="#507B5E" text-anchor="middle">pass</text>
+<rect x="708" y="48" width="168" height="56" rx="6" fill="#507B5E" filter="url(#f202-sh)"/>
+<text x="792" y="72" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">TME-MK Decrypt</text>
+<text x="792" y="88" font-size="11" fill="#CDE8D4" text-anchor="middle">AES-256-XTS</text>
+<text x="792" y="102" font-size="11" fill="#CDE8D4" text-anchor="middle">per-TD KeyID</text>
+<line x1="602" y1="112" x2="602" y2="152" stroke="#BF616A" stroke-width="2" marker-end="url(#f202-ar)"/>
+<rect x="490" y="152" width="224" height="40" rx="5" fill="#BF616A" opacity="0.15" stroke="#BF616A" stroke-width="1.5"/>
+<text x="602" y="168" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">PAM Fault — access denied</text>
+<text x="602" y="184" font-size="11" fill="#8B2020" text-anchor="middle">VMM cannot remediate — hardware blocks</text>
+<rect x="22" y="210" width="856" height="106" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="230" font-size="13" font-weight="bold" fill="#212121">SEAM Mode and the TDX Module</text>
+<text x="35" y="250" font-size="12" fill="#34495E">SEAM (Secure Arbitration Mode): a new CPU operating mode introduced by TDX. The TDX Module runs exclusively in SEAM,</text>
+<text x="35" y="268" font-size="12" fill="#34495E">is measured by the CPU at boot, and mediates all PAM table operations. Neither the VMM nor the guest OS can enter SEAM mode.</text>
+<text x="35" y="286" font-size="12" fill="#34495E">A VMM requesting memory assignment calls the TDX Module API — it cannot write PAM entries directly. The TDX Module</text>
+<text x="35" y="302" font-size="12" fill="#5E81AC">verifies ownership constraints before any PAM update, making PAM the hardware root-of-trust for all private TD memory.</text>
+<rect x="22" y="328" width="420" height="108" rx="6" fill="#4A8A99" opacity="0.1" stroke="#4A8A99" stroke-width="1.5"/>
+<text x="232" y="348" font-size="12" font-weight="bold" fill="#4A8A99" text-anchor="middle">KeyID and AES-256-XTS Encryption</text>
+<text x="232" y="366" font-size="12" fill="#34495E" text-anchor="middle">Each TD has a unique KeyID (4–15 bits per platform).</text>
+<text x="232" y="382" font-size="12" fill="#34495E" text-anchor="middle">KeyID embedded in physical address above PA_WIDTH.</text>
+<text x="232" y="398" font-size="12" fill="#34495E" text-anchor="middle">Memory controller selects AES key by KeyID on access.</text>
+<text x="232" y="414" font-size="12" fill="#BF616A" text-anchor="middle">VMM without KeyID receives ciphertext — by design.</text>
+<rect x="458" y="328" width="420" height="108" rx="6" fill="#5E81AC" opacity="0.1" stroke="#5E81AC" stroke-width="1.5"/>
+<text x="668" y="348" font-size="12" font-weight="bold" fill="#5E81AC" text-anchor="middle">Shared vs Private Memory (GPA[51])</text>
+<text x="668" y="366" font-size="12" fill="#34495E" text-anchor="middle">GPA[51]=0 → Private EPT → PAM check → AES decrypt</text>
+<text x="668" y="382" font-size="12" fill="#34495E" text-anchor="middle">GPA[51]=1 → Shared EPT → no PAM check → plain</text>
+<text x="668" y="398" font-size="12" fill="#34495E" text-anchor="middle">Shared pages visible to VMM (virtio queues, DMA).</text>
+<text x="668" y="414" font-size="12" fill="#BF616A" text-anchor="middle">TD must explicitly transition pages: private → shared.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 20.2:</strong> Intel TDX memory access pipeline for a private Trust Domain load instruction. After the guest page table walk (GVA→GPA) and private EPT walk (GPA→HPA), the PAM check validates physical ownership before TME-MK AES-256-XTS decryption. A VMM access attempt fails at the PAM check regardless of EPT entries — the TDX Module in SEAM mode mediates all ownership operations.</figcaption>
+</figure>
+
+<p>Memory encryption in TDX uses Intel Total Memory Encryption — Multi-Key (TME-MK), an extension of Intel's Total Memory Encryption that supports multiple independent encryption keys simultaneously. Each TD is assigned a unique KeyID — a 4-to-15-bit value depending on platform configuration — that is embedded in physical address bits above the platform's physical address width. The memory controller uses this KeyID to select the AES-256-XTS encryption key for every cache line belonging to that TD. The encryption and decryption are transparent to the TD software but entirely opaque to the VMM, which does not possess the TD's KeyID. A VMM that constructs an EPT entry pointing to a TD's private physical page will read AES ciphertext rather than plaintext — and critically, this returns garbled data rather than raising a hardware fault, by deliberate design: it prevents the VMM from using timing side channels to detect which pages a TD is actively using by probing which reads raise faults.</p>
+
+<p>TDX introduces two new TLB-related instructions. INVTDLB flushes all TLB entries belonging to a specific TD across all logical processors, equivalent to a cross-processor TLB shootdown scoped to a single trust domain. INVEPT must be extended to distinguish between the Shared EPT (accessible to the VMM for shared I/O pages) and the Private EPT (owned by the TDX Module for encrypted TD memory). TLB entries for private TD pages are tagged with the TD identifier to prevent cross-TD TLB pollution — a TD cannot be confused into using another TD's cached address translations.</p>
+
+<p>The attestation mechanism, TDCALL[TDG.MR.REPORT], allows a TD to generate a TDReport: a hardware-signed document containing the TD's initial measurement (a hash of its initial code and data), its runtime configuration, and the platform's TDX Module version. The TDReport is signed using a per-platform key rooted in Intel's PKI and verifiable through Intel's Attestation Service. The entire purpose of the PAM enforcement mechanism is to make this attestation meaningful: if the VMM could read or modify the TD's memory, attestation would prove only that a TD started with certain code, not that it continues to run that code unmodified.</p>
+
+<h2 id="section-20.4">20.4 AMD SEV-SNP: Secure Encrypted Virtualisation — Secure Nested Paging</h2>
+
+<p>AMD's approach to confidential computing arrived in four successive generations, each addressing a different attack surface. SME (Secure Memory Encryption, Zen 2017) introduced system-wide transparent memory encryption using a single AES-128 key. SEV (Secure Encrypted Virtualisation, Naples 2018) extended this to per-VM encryption keys, with each VM's ASID (Address Space Identifier) used by the memory controller to select the encryption key for that VM's pages. SEV-ES (Secure Encrypted Virtualisation — Encrypted State, 2019) encrypted the VMCB save state area — the data structure recording guest register values on VMEXIT — preventing the hypervisor from reading or modifying guest register state across VM exits. SEV-SNP (Secure Nested Paging, Milan 2020) added the critical missing piece: the Reverse Map Table, which prevents the physical page remapping attacks that compromised all three prior generations.</p>
+
+<p>The fundamental weakness of SEV and SEV-ES was that while they encrypted guest memory with per-VM keys, the hypervisor retained control of the Nested Page Table mapping guest physical addresses to host physical addresses. A hypervisor could remap a guest GPA from the guest's legitimate HPA to a different HPA — either one owned by another guest (causing a cross-VM data leak) or a hypervisor-controlled page (causing a write capture attack). When the guest reads from its GPA, the memory controller decrypts using the guest's ASID key, but if the underlying HPA belongs to another context, the decrypted result is garbage — except in the case where the attacker can arrange for the target data to be written into the remapped page. SEV-SNP closes this attack surface through a hardware ownership table that the hypervisor cannot modify.</p>
+
+<p>The Reverse Map Table is a flat array with one 16-byte entry per 4 KB physical page, covering the entire physical memory range. Each entry records the ASID of the VM that owns this page (0 for hypervisor-owned pages, 1 or higher for guest-owned pages), the GPA that this page is mapped to in the owning VM, the page size (4 KB or 2 MB), and a Validated bit. The AMD Secure Processor (AMD-SP), a separate ARM Cortex-A5 embedded in the same die, maintains the RMP and processes all ownership changes. The RMP check occurs on every memory access: after the Nested Page Table walk resolves a GPA to an HPA, the memory subsystem looks up the RMP entry for that HPA and validates that the accessing VM's ASID matches the recorded owner and that the GPA used matches the recorded GPA. A mismatch raises a #RMPFAULT — a hardware fault that goes to the hypervisor but cannot be suppressed by it — before the access completes.</p>
+
+<figure id="fig-20-3" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif"><defs>
+<filter id="f203-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="f203-ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="f203-ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="f203-ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+<marker id="f203-at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+</defs>
+<rect width="900" height="500" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">AMD SEV-SNP: Reverse Map Table (RMP) — Hardware Ownership Enforcement</text>
+<rect x="22" y="48" width="130" height="56" rx="6" fill="#5E81AC" filter="url(#f203-sh)"/>
+<text x="87" y="74" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Memory Access</text>
+<text x="87" y="90" font-size="11" fill="#CCE0F8" text-anchor="middle">CPU or VMM</text>
+<text x="87" y="104" font-size="11" fill="#CCE0F8" text-anchor="middle">physical address</text>
+<line x1="152" y1="76" x2="184" y2="76" stroke="#5E81AC" stroke-width="2.5" marker-end="url(#f203-ab)"/>
+<rect x="184" y="40" width="152" height="72" rx="6" fill="#BF616A" filter="url(#f203-sh)"/>
+<text x="260" y="62" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">RMP Lookup</text>
+<text x="260" y="78" font-size="11" fill="#FFD0D0" text-anchor="middle">16 bytes per 4 KB page</text>
+<text x="260" y="94" font-size="10" fill="#FFD0D0" text-anchor="middle">ASID · GPA · Validated bit</text>
+<text x="260" y="108" font-size="10" fill="#FFD0D0" text-anchor="middle">Page size · immutable by VMM</text>
+<line x1="336" y1="76" x2="368" y2="76" stroke="#BF616A" stroke-width="2" marker-end="url(#f203-ab)"/>
+<polygon points="410,44 490,76 410,108 330,76" fill="#34495E" filter="url(#f203-sh)"/>
+<text x="410" y="72" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">ASID</text>
+<text x="410" y="86" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">match?</text>
+<line x1="490" y1="76" x2="524" y2="76" stroke="#507B5E" stroke-width="2.5" marker-end="url(#f203-ag)"/>
+<text x="507" y="68" font-size="10" fill="#507B5E" text-anchor="middle">pass</text>
+<rect x="524" y="48" width="148" height="56" rx="6" fill="#4A8A99" filter="url(#f203-sh)"/>
+<text x="598" y="72" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">NPT Walk</text>
+<text x="598" y="88" font-size="11" fill="#CCE8EC" text-anchor="middle">GPA → HPA</text>
+<text x="598" y="102" font-size="11" fill="#CCE8EC" text-anchor="middle">nested page table</text>
+<line x1="672" y1="76" x2="704" y2="76" stroke="#4A8A99" stroke-width="2.5" marker-end="url(#f203-ab)"/>
+<rect x="704" y="48" width="172" height="56" rx="6" fill="#507B5E" filter="url(#f203-sh)"/>
+<text x="790" y="72" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">AES Decrypt</text>
+<text x="790" y="88" font-size="11" fill="#CDE8D4" text-anchor="middle">ASID-keyed cipher</text>
+<text x="790" y="102" font-size="11" fill="#CDE8D4" text-anchor="middle">plaintext returned</text>
+<line x1="410" y1="108" x2="410" y2="148" stroke="#BF616A" stroke-width="2" marker-end="url(#f203-ar)"/>
+<rect x="304" y="148" width="212" height="40" rx="5" fill="#BF616A" opacity="0.15" stroke="#BF616A" stroke-width="1.5"/>
+<text x="410" y="166" font-size="12" font-weight="bold" fill="#BF616A" text-anchor="middle">#RMPFAULT — access denied</text>
+<text x="410" y="183" font-size="11" fill="#8B2020" text-anchor="middle">Regardless of NPT entry — RMP check wins</text>
+<rect x="22" y="206" width="856" height="112" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="226" font-size="13" font-weight="bold" fill="#212121">RMP Entry Structure and the PVALIDATE Handshake</text>
+<rect x="35" y="236" width="96" height="68" rx="4" fill="#BF616A" opacity="0.7"/>
+<text x="83" y="258" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">ASID</text>
+<text x="83" y="274" font-size="10" fill="#FFD0D0" text-anchor="middle">owning VM</text>
+<text x="83" y="290" font-size="10" fill="#FFD0D0" text-anchor="middle">(0=hypervisor)</text>
+<rect x="143" y="236" width="120" height="68" rx="4" fill="#4A8A99"/>
+<text x="203" y="258" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">GPA</text>
+<text x="203" y="274" font-size="10" fill="#CCE8EC" text-anchor="middle">expected mapping</text>
+<text x="203" y="290" font-size="10" fill="#CCE8EC" text-anchor="middle">remapping = fault</text>
+<rect x="275" y="236" width="96" height="68" rx="4" fill="#5E81AC"/>
+<text x="323" y="258" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Validated</text>
+<text x="323" y="274" font-size="10" fill="#CCE0F8" text-anchor="middle">set by PVALIDATE</text>
+<text x="323" y="290" font-size="10" fill="#CCE0F8" text-anchor="middle">guest only</text>
+<rect x="383" y="236" width="483" height="68" rx="4" fill="#34495E" opacity="0.85"/>
+<text x="625" y="256" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">PVALIDATE handshake prevents pre-population attacks</text>
+<text x="625" y="272" font-size="11" fill="#AABBCC" text-anchor="middle">VMM allocates page, assigns to guest ASID in RMP, maps in NPT.</text>
+<text x="625" y="288" font-size="11" fill="#AABBCC" text-anchor="middle">Guest calls PVALIDATE — sets Validated bit, asserts it trusts contents.</text>
+<text x="625" y="304" font-size="10" fill="#BF616A" text-anchor="middle">VMM cannot set Validated bit. Guest cannot be forced to validate untrusted pages.</text>
+<rect x="22" y="330" width="856" height="84" rx="6" fill="#4A8A99" opacity="0.1" stroke="#4A8A99" stroke-width="1.5"/>
+<text x="35" y="352" font-size="13" font-weight="bold" fill="#4A8A99">Evolution: SME (2017) → SEV (2018) → SEV-ES (2019) → SEV-SNP (2020, Milan)</text>
+<text x="35" y="370" font-size="12" fill="#34495E">SME: system-wide single-key encryption. SEV: per-VM keys (ASID-keyed cipher). SEV-ES: encrypts VMCB save state so VMM cannot read guest registers.</text>
+<text x="35" y="388" font-size="12" fill="#34495E">SEV-SNP adds the RMP — the critical missing piece. SEV/SEV-ES left physical remapping attacks open: a VMM could remap</text>
+<text x="35" y="404" font-size="12" fill="#BF616A">any guest GPA to a different HPA and read the (now-miskeyed) data. RMP makes GPA→HPA ownership hardware-enforced.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 20.3:</strong> AMD SEV-SNP Reverse Map Table check on every physical memory access. The RMP lookup occurs before the nested page table walk, validating the access ASID against the page's recorded owner. A mismatch raises #RMPFAULT regardless of NPT entries. The PVALIDATE handshake prevents pre-population attacks by requiring explicit guest cooperation to mark pages accessible.</figcaption>
+</figure>
+
+<p>The PVALIDATE instruction is the mechanism by which a guest establishes trust in a physical page before using it. The handshake proceeds as follows: the VMM allocates a physical page and writes an RMP entry assigning it to the guest's ASID; the VMM maps the page in the NPT; the guest then calls PVALIDATE on the corresponding GPA, which atomically sets the Validated bit in the RMP entry for that physical page. Until the guest calls PVALIDATE, the page cannot be accessed — this prevents the hypervisor from pre-populating a page with malicious content and then mapping it to the guest. After PVALIDATE, the VMM cannot modify the RMP entry's ASID or GPA fields without the guest's cooperation: reassignment requires the guest to first call PSMASH (for 2 MB pages) or the hypervisor to call a page reclaim sequence that includes an ASID switch and RMP update, all of which are visible to the guest through attestation mechanisms.</p>
+
+<p>SEV-SNP introduces VMPL (VM Permission Levels, 0–3) within a single confidential VM. VMPL 0 is the most privileged level within the VM (typically occupied by a thin shim or the guest kernel), while VMPL 1–3 are progressively less privileged. This allows the guest to implement its own internal isolation hierarchy without requiring hypervisor involvement. A VMPL 0 component (such as the COCONUT-SVSM, the Confidential VM Service Module) can provide services to the rest of the VM — including secure device communication and key management — while the VMPL 1–3 components cannot access VMPL 0's memory. The VMPL mechanism essentially provides nested confidential computing within a single SEV-SNP VM, analogous in concept to nested virtualisation but enforced at the hardware level without the performance overhead of full nested paging.</p>
+
+<h2 id="section-20.5">20.5 ARM Confidential Compute Architecture: The Realm Management Extension</h2>
+
+<p>ARM CCA with the Realm Management Extension (RME, introduced in ARMv9.2) takes a structurally different approach from both TDX and SEV-SNP. Rather than adding a parallel enforcement mechanism alongside the existing page table and NPT hierarchy, ARM CCA extends the existing ARM world model — which already had Normal and Secure worlds from TrustZone — with two new worlds: Realm and Root.</p>
+
+<p>The four-world model restructures the ARM privilege hierarchy. Normal world (EL0 through EL3) remains unchanged — this is where conventional VMs, hypervisors, and user applications run. Secure world (EL0-S through EL3-S) remains the TrustZone domain for trusted applications and the trusted OS. Realm world (EL0-R through EL2-R) is the new confidential computing domain: Realm VMs run at EL0-R and EL1-R, and the Realm Management Monitor (RMM) runs at EL2-R. Root world (EL3-Root) is the new highest-privilege domain, occupied by the platform firmware, which controls the Granule Protection Table and initialises the RMM before handing off to the Normal world hypervisor. Critically, the Normal world hypervisor at EL2-NS does not have Root-world privileges and cannot modify the GPT — only the Root-world firmware can do so.</p>
+
+<p>The Granule Protection Table is the ARM analogue of TDX's PAM table and AMD's RMP, but with a fundamental implementation difference: the GPC check occurs after the MMU walk resolves a physical address, enforced by the hardware Memory System rather than by the CPU pipeline. Every 4 KB physical granule has a GPT state: GPT_NS (Normal world accessible), GPT_S (Secure world only), GPT_REALM (Realm world only), GPT_ROOT (Root world only), or GPT_ANY (accessible from any world, used for shared memory). When the memory system delivers a completed PA from the MMU — whether from stage-1, stage-2, or nested translation — it performs a Granule Protection Check before issuing the physical memory transaction. If the current world does not match the GPT entry for that PA, a Granule Protection Fault (GPF) is raised.</p>
+
+<figure id="fig-20-4" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif"><defs>
+<filter id="f204-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="f204-ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="f204-ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="f204-ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+<marker id="f204-at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+</defs>
+<rect width="900" height="480" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">ARM CCA: Four-World Model and Granule Protection Check (RME)</text>
+<rect x="22" y="48" width="190" height="180" rx="6" fill="#5E81AC" filter="url(#f204-sh)"/>
+<text x="117" y="70" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Normal World</text>
+<text x="117" y="88" font-size="11" fill="#CCE0F8" text-anchor="middle">EL0 User apps</text>
+<text x="117" y="104" font-size="11" fill="#CCE0F8" text-anchor="middle">EL1 Rich OS</text>
+<text x="117" y="120" font-size="11" fill="#CCE0F8" text-anchor="middle">EL2 Hypervisor</text>
+<text x="117" y="148" font-size="11" fill="#CCE0F8" text-anchor="middle">GPT_NS granules</text>
+<text x="117" y="164" font-size="11" fill="#CCE0F8" text-anchor="middle">Unchanged from</text>
+<text x="117" y="180" font-size="11" fill="#CCE0F8" text-anchor="middle">ARMv8.x</text>
+<text x="117" y="220" font-size="10" fill="#CCE0F8" text-anchor="middle">Android, Linux KVM</text>
+<rect x="224" y="48" width="190" height="180" rx="6" fill="#34495E" filter="url(#f204-sh)"/>
+<text x="319" y="70" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Secure World</text>
+<text x="319" y="88" font-size="11" fill="#AABBCC" text-anchor="middle">EL0 TrustZone TAs</text>
+<text x="319" y="104" font-size="11" fill="#AABBCC" text-anchor="middle">EL1 Trusted OS</text>
+<text x="319" y="120" font-size="11" fill="#AABBCC" text-anchor="middle">EL3 Secure monitor</text>
+<text x="319" y="148" font-size="11" fill="#AABBCC" text-anchor="middle">GPT_S granules</text>
+<text x="319" y="164" font-size="11" fill="#AABBCC" text-anchor="middle">Inaccessible to</text>
+<text x="319" y="180" font-size="11" fill="#AABBCC" text-anchor="middle">Normal world</text>
+<text x="319" y="220" font-size="10" fill="#AABBCC" text-anchor="middle">Existing ARMv8 TrustZone</text>
+<rect x="426" y="48" width="222" height="180" rx="6" fill="#BF616A" filter="url(#f204-sh)"/>
+<text x="537" y="70" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Realm World (NEW)</text>
+<text x="537" y="88" font-size="11" fill="#FFD0D0" text-anchor="middle">EL0 Realm apps</text>
+<text x="537" y="104" font-size="11" fill="#FFD0D0" text-anchor="middle">EL1 Guest OS</text>
+<text x="537" y="120" font-size="11" fill="#FFD0D0" text-anchor="middle">EL2-Realm RMM</text>
+<text x="537" y="148" font-size="11" fill="#FFD0D0" text-anchor="middle">GPT_REALM granules</text>
+<text x="537" y="164" font-size="11" fill="#FFD0D0" text-anchor="middle">Normal VMM cannot</text>
+<text x="537" y="180" font-size="11" fill="#FFD0D0" text-anchor="middle">read Realm memory</text>
+<text x="537" y="220" font-size="10" fill="#FFD0D0" text-anchor="middle">Confidential VMs — new in CCA</text>
+<rect x="660" y="48" width="218" height="180" rx="6" fill="#507B5E" filter="url(#f204-sh)"/>
+<text x="769" y="70" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Root World (NEW)</text>
+<text x="769" y="88" font-size="11" fill="#CDE8D4" text-anchor="middle">EL3-Root firmware</text>
+<text x="769" y="104" font-size="11" fill="#CDE8D4" text-anchor="middle">Highest privilege</text>
+<text x="769" y="120" font-size="11" fill="#CDE8D4" text-anchor="middle">Manages GPT</text>
+<text x="769" y="148" font-size="11" fill="#CDE8D4" text-anchor="middle">GPT_ROOT granules</text>
+<text x="769" y="164" font-size="11" fill="#CDE8D4" text-anchor="middle">Platform root of</text>
+<text x="769" y="180" font-size="11" fill="#CDE8D4" text-anchor="middle">trust — initialises RMM</text>
+<text x="769" y="220" font-size="10" fill="#CDE8D4" text-anchor="middle">Firmware — new in CCA</text>
+<rect x="22" y="242" width="856" height="26" rx="4" fill="#34495E"/>
+<text x="450" y="260" font-size="13" font-weight="bold" fill="#FFF" text-anchor="middle">Granule Protection Check (GPC) Pipeline — hardware Memory System</text>
+<rect x="22" y="276" width="114" height="46" rx="4" fill="#5E81AC"/>
+<text x="79" y="298" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">VA → PA</text>
+<text x="79" y="312" font-size="10" fill="#CCE0F8" text-anchor="middle">MMU walk</text>
+<text x="150" y="302" font-size="18" fill="#9E9E9E">→</text>
+<rect x="168" y="276" width="114" height="46" rx="4" fill="#4A8A99"/>
+<text x="225" y="298" font-size="11" font-weight="bold" fill="#FFF" text-anchor="middle">Physical</text>
+<text x="225" y="312" font-size="10" fill="#CCE8EC" text-anchor="middle">Address</text>
+<text x="296" y="302" font-size="18" fill="#9E9E9E">→</text>
+<rect x="314" y="268" width="160" height="62" rx="4" fill="#BF616A" filter="url(#f204-sh)"/>
+<text x="394" y="292" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">GPT Lookup</text>
+<text x="394" y="308" font-size="11" fill="#FFD0D0" text-anchor="middle">granule protection</text>
+<text x="394" y="322" font-size="10" fill="#FFD0D0" text-anchor="middle">state per 4 KB page</text>
+<text x="488" y="302" font-size="18" fill="#9E9E9E">→</text>
+<rect x="506" y="268" width="160" height="62" rx="4" fill="#34495E"/>
+<text x="586" y="292" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">World Check</text>
+<text x="586" y="308" font-size="11" fill="#AABBCC" text-anchor="middle">current world vs</text>
+<text x="586" y="322" font-size="11" fill="#AABBCC" text-anchor="middle">GPT state match?</text>
+<text x="680" y="302" font-size="18" fill="#9E9E9E">→</text>
+<rect x="698" y="268" width="180" height="62" rx="4" fill="#507B5E" filter="url(#f204-sh)"/>
+<text x="788" y="292" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Allow / GPF</text>
+<text x="788" y="308" font-size="11" fill="#CDE8D4" text-anchor="middle">Granule Protection</text>
+<text x="788" y="322" font-size="11" fill="#CDE8D4" text-anchor="middle">Fault on mismatch</text>
+<rect x="22" y="348" width="856" height="94" rx="6" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<text x="35" y="368" font-size="12" font-weight="bold" fill="#212121">Key difference from TDX and SEV-SNP: GPC check occurs AFTER the MMU walk resolves the physical address.</text>
+<text x="35" y="386" font-size="12" fill="#34495E">The check is performed by the hardware Memory System (cache controller + DRAM controller), not the CPU pipeline stage.</text>
+<text x="35" y="404" font-size="12" fill="#34495E">Even speculative execution that resolves a PA to a Realm granule triggers a GPF — no pipeline bypass is possible.</text>
+<text x="35" y="422" font-size="12" fill="#BF616A">The Normal-world VMM controlling stage-2 page tables cannot remap around the GPT check. It operates below the stage-2 PA.</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 20.4:</strong> ARM CCA four-world model with Realm Management Extension. Two new worlds (Realm and Root) join Normal and Secure. The Granule Protection Check (GPC), performed by the hardware Memory System after the MMU walk resolves a physical address, prevents Normal-world accesses to GPT_REALM granules — even if a stage-2 page table entry maps to Realm physical memory.</figcaption>
+</figure>
+
+<p>The placement of the GPC check at the Memory System level, rather than in the CPU pipeline, has a security consequence that distinguishes CCA from TDX and SEV-SNP: speculative execution cannot bypass it. In TDX, the PAM check is performed by the TDX Module in SEAM mode — a software component that the speculative execution engine does not invoke during a speculative load. In SEV-SNP, the RMP check occurs in hardware but within the memory pipeline before the NPT walk completes. In CCA, the GPC check occurs after the full address translation has resolved a physical address and before that address is sent to the cache or DRAM controller. Speculative execution that resolves a GVA to a PA pointing to a Realm granule will encounter a GPF at the Memory System boundary — there is no speculative window during which the Normal world can observe Realm data in a cache, because the GPC check gates the cache lookup itself.</p>
+
+<p>ARM CCA attestation uses the Realm Attestation Token, a CBOR/COSE structure signed with a platform key rooted in Arm's CCA token infrastructure. The token includes measurements of the Realm image, the RMM version, and the platform firmware, enabling a remote relying party to verify the complete software stack running in a Realm VM before provisioning secrets to it. The Realm's measurement is computed incrementally as pages are populated into the Realm's initial state, analogous to TDX's TD measurement computed during TDADD operations.</p>
+
+<h2 id="section-20.6">20.6 GPU Confidential Computing — The New Frontier</h2>
+
+<p>Extending confidential computing from CPUs to GPUs introduces engineering challenges that the CPU CC implementations do not fully address. A CPU TEE must encrypt host DRAM pages belonging to the protected VM. A GPU CC implementation must additionally encrypt GPU HBM (physically separate from CPU DRAM), protect the PCIe or NVLink bus between CPU and GPU (which carries model weights, activations, and KV-cache data for AI workloads), and integrate with the CPU CC environment's attestation chain so that a remote verifier can establish trust in the GPU's execution context as well as the CPU's.</p>
+
+<p>NVIDIA introduced GPU confidential computing with the H100 (Hopper, 2023). When CC mode is enabled, the H100 operates inside a trust boundary that extends from the TDX or SEV-SNP environment on the host CPU to the GPU's firmware and HBM. The mechanism uses an encrypted bounce buffer for all host-GPU DMA transfers: the CPU CC environment encrypts data with a CC key negotiated between the H100 firmware and the CPU CC module using SPDM (Security Protocol and Data Model) over PCIe; the encrypted data traverses the PCIe bus; the H100 firmware decrypts using the shared CC key; the data is then re-encrypted with the H100's internal HBM encryption key for storage in video RAM. GPU HBM is transparently encrypted at all times using a per-GPU key known only to the H100 firmware and provisioned at manufacturing time. GPU kernel code and model weights loaded into VRAM are protected against a physical adversary with access to the HBM chips, and against a compromised hypervisor that would otherwise control DMA into GPU memory.</p>
+
+<p>Measured performance data reveals a critical limitation of current GPU CC implementations. For single-GPU LLM inference workloads, the overhead of CC mode is below five percent — the AES encryption of PCIe transfers adds latency primarily on the first load of model weights, and subsequent inference queries use already-encrypted HBM with negligible overhead. However, distributed data-parallel training across four GPU TEEs produces 8× average and 41.6× maximum slowdown compared to non-CC training. The source of this overhead is the MAC (Message Authentication Code) generation and verification required for every 256-byte data chunk exchanged in the ring-all-reduce collective operation across GPU TEEs. In ring-all-reduce, every gradient tensor is partitioned and each partition traverses all GPUs in sequence; with CC enabled, each partition is MAC-verified at every GPU in the ring, multiplying the MAC overhead by the number of GPUs and the number of ring passes. This makes GPU CC currently impractical for large-scale distributed training workloads while remaining viable for inference.</p>
+
+<p>TunneLs (CCS 2023) revealed a separate limitation that GPU CC encryption does not address. NVIDIA A100 MIG (Multi-Instance GPU), marketed as providing hardware isolation between GPU instances for multi-tenant inference, allows cross-instance covert communication channels at 31 kilobits per second throughput. The attack exploits the shared L2 cache partitions that MIG does not fully isolate between instances — a cache-timing covert channel structurally analogous to the Flush+Reload attacks that motivated CPU KPTI (Chapter 18). GPU CC encrypts HBM pages and PCIe traffic, providing confidentiality of data-at-rest and data-in-transit, but does not partition shared microarchitectural resources such as the L2 cache, memory bandwidth counters, or power management subsystems. A co-tenant with access to one MIG instance can observe cache access patterns from another instance and exfiltrate data through the timing channel. GPU CC and MIG isolation address different threat models: CC addresses a compromised driver or hypervisor, while MIG isolation (imperfect as it is) addresses co-tenant visibility. Neither fully addresses both simultaneously.</p>
+
+<p>AMD GPU confidential computing on the Instinct MI300 series integrates more tightly with the CPU-side SEV-SNP architecture than NVIDIA's approach. The AMD GPU uses the same ASID-keyed encryption mechanism as AMD CPU memory when operating in CC mode, with the GPU's video memory treated as an extension of the SEV-SNP memory domain. This provides a more unified trust model — one key management hierarchy for both CPU DRAM and GPU HBM — at the cost of tighter coupling to the AMD SEV-SNP infrastructure that is not present on non-AMD systems.</p>
+
+<h2 id="section-20.7">20.7 Confidential CXL: The Open Problem</h2>
+
+<p>Chapter 19 established that CXL Type 3 memory appears to the OS as a cpuless NUMA node — physically disaggregated DRAM connected via PCIe/CXL, appearing as ordinary cacheable memory to the processor. The CC implementations examined in this chapter assume that memory encryption keys are managed by the CPU's on-die memory controller. When a CXL Type 3 device provides the physical memory — a separate physical component connected via a PCIe switch — the encryption key management must extend across the CXL link, and the integrity of the physical-address-to-owner mapping must be maintained across a physically distributed fabric that the CC hardware was not designed to span.</p>
+
+<p>The attack surface introduced by CXL is qualitatively different from the on-die DRAM case. A compromised CXL switch in the fabric can observe physical addresses on the CXL bus even if the data payload is encrypted. Knowing the physical address of a CC guest's memory transactions reveals information about the guest's memory access patterns — a physical-address side channel that is orthogonal to the data confidentiality provided by AES encryption. For CC guarantees to extend to CXL memory, integrity protection must accompany encryption: the physical address, not just the data content, must be authenticated at every point in the CXL path.</p>
+
+<p>The TEE I/O specification, developed by the CXL Consortium in collaboration with Intel and AMD, extends TDX and SEV-SNP to protect DMA from CXL-attached devices into confidential VM memory. TEE I/O (also called TDISP — TDI Security Protocol) requires that the CXL device's firmware is attested before DMA is permitted, and that all DMA from the device into CC memory is mediated by the IOMMU's CC extensions — Intel TDX-IO or AMD SEV-SNP IOMMU. The device must participate in an SPDM-based mutual authentication before the IOMMU grants it access to CC memory ranges, and all DMA operations are validated against the TDX PAM or SEV-SNP RMP before the memory controller accepts them.</p>
+
+<p>CXL 3.0 (ratified 2022, first silicon expected 2025–2026) extends the problem further. CXL 3.0 fabric topologies allow a single CXL memory pool to be accessed coherently by multiple host processors. In a multi-host CXL 3.0 fabric where each host runs CC workloads with its own key management domain, the CXL switch must maintain isolation between hosts' memory regions while providing cache-coherent shared access to GPT_ANY (shared) regions. No published specification as of 2025 addresses how per-host encryption keys are managed in a CXL 3.0 fabric, how TLB shootdowns propagate across hosts for CC-protected shared pages, or how the IOMMU isolation model extends to CXL-attached devices shared between multiple CC hosts. This is an open research area at the intersection of Chapter 19's CXL architecture and this chapter's CC enforcement mechanisms.</p>
+
+<h2 id="section-20.8">20.8 Performance: What Confidential Computing Costs in Production</h2>
+
+<p>The performance overhead of confidential computing arises from three distinct sources: the additional hardware checks performed on every memory access (PAM/RMP/GPC), the encryption and decryption of memory contents by the memory controller (TME-MK/SME), and the protocol overhead of the CC-aware I/O path that replaces direct shared memory with encrypted bounce buffers for device communication. These sources have very different cost profiles, and understanding which dominates for a given workload is essential for production deployment decisions.</p>
+
+<p>Li et al. (ASPLOS 2023) measured TDX and SEV-SNP overhead across a representative set of server workloads. Memory-bound workloads — databases performing large sequential scans, key-value stores with high cache hit rates — incur three to eight percent overhead, dominated by the memory controller encryption latency on cache misses. CPU-bound workloads (compilation, batch ML inference on CPU) incur less than two percent overhead because the encryption cost is amortised over many compute cycles between memory accesses. I/O-heavy workloads — network-intensive services and database write paths — incur five to fifteen percent overhead from the shared memory transition protocol: when a CC guest shares a virtio queue with the VMM, it must explicitly transition pages between private and shared state, a process involving TDVMCALL.MAPGPA (TDX) or the GHCB (Guest-Hypervisor Communication Block) protocol (SEV-SNP), both of which add round-trip latency for every batch of I/O operations. Page fault handling incurs twenty to thirty percent additional latency for major faults due to the TDX Module's involvement in the page acceptance protocol: a new page must be assigned an owner in the PAM, have its KeyID established, and be accepted by the TD before it can be used, adding multiple SEAM-mode transitions to the fault resolution path.</p>
+
+<figure id="fig-20-5" style="margin:2.5em 0;text-align:center;page-break-inside:avoid;">
+<div style="display:inline-block;max-width:100%;overflow-x:auto;border:1px solid #e0e0e0;border-radius:6px;padding:12px;background:#fafafa;">
+<svg width="900" height="400" viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" font-family="Arial,Helvetica,sans-serif"><defs>
+<filter id="f205-sh"><feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.18"/></filter>
+<marker id="f205-ab" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#5E81AC"/></marker>
+<marker id="f205-ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#BF616A"/></marker>
+<marker id="f205-ag" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#507B5E"/></marker>
+<marker id="f205-at" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#4A8A99"/></marker>
+</defs>
+<rect width="900" height="400" fill="#FAFAFA"/>
+<text text-anchor="middle" x="450" y="26" font-size="18" font-weight="bold" fill="#212121">Confidential Computing Overhead — Workload × Mechanism (Measured Data)</text>
+<rect x="22" y="44" width="856" height="24" rx="4" fill="#34495E"/>
+<text x="205" y="60" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Workload</text>
+<text x="432" y="60" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">Intel TDX</text>
+<text x="588" y="60" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">AMD SEV-SNP</text>
+<text x="760" y="60" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">H100 GPU CC</text>
+<line x1="356" y1="44" x2="356" y2="330" stroke="#CCC" stroke-width="1"/>
+<line x1="512" y1="44" x2="512" y2="330" stroke="#CCC" stroke-width="1"/>
+<line x1="668" y1="44" x2="668" y2="330" stroke="#CCC" stroke-width="1"/>
+<rect x="22" y="76" width="856" height="34" fill="#F8F8F8"/><text x="30" y="96" font-size="12" fill="#212121">LLM inference (single GPU/CPU)</text><rect x="364" y="80" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="432" y="97" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle"><2%</text><rect x="520" y="80" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="588" y="97" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle"><3%</text><rect x="676" y="80" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="760" y="97" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle"><5%</text><rect x="22" y="112" width="856" height="34" fill="#F0F0F0"/><text x="30" y="132" font-size="12" fill="#212121">Database (read-heavy OLTP)</text><rect x="364" y="116" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="432" y="133" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">3–5%</text><rect x="520" y="116" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="588" y="133" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">3–6%</text><rect x="676" y="116" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="760" y="133" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="22" y="148" width="856" height="34" fill="#F8F8F8"/><text x="30" y="168" font-size="12" fill="#212121">Key-value store (Redis)</text><rect x="364" y="152" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="432" y="169" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">2–4%</text><rect x="520" y="152" width="140" height="26" rx="3" fill="#507B5E" opacity="0.8"/><text x="588" y="169" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">2–5%</text><rect x="676" y="152" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="760" y="169" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="22" y="184" width="856" height="34" fill="#F0F0F0"/><text x="30" y="204" font-size="12" fill="#212121">Network I/O intensive</text><rect x="364" y="188" width="140" height="26" rx="3" fill="#4A8A99" opacity="0.8"/><text x="432" y="205" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">5–10%</text><rect x="520" y="188" width="140" height="26" rx="3" fill="#4A8A99" opacity="0.8"/><text x="588" y="205" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">6–12%</text><rect x="676" y="188" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="760" y="205" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="22" y="220" width="856" height="34" fill="#F8F8F8"/><text x="30" y="240" font-size="12" fill="#212121">virtio / DMA path</text><rect x="364" y="224" width="140" height="26" rx="3" fill="#4A8A99" opacity="0.8"/><text x="432" y="241" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">8–15%</text><rect x="520" y="224" width="140" height="26" rx="3" fill="#4A8A99" opacity="0.8"/><text x="588" y="241" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">8–18%</text><rect x="676" y="224" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="760" y="241" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="22" y="256" width="856" height="34" fill="#F0F0F0"/><text x="30" y="276" font-size="12" fill="#212121">Major page fault heavy</text><rect x="364" y="260" width="140" height="26" rx="3" fill="#BF616A" opacity="0.8"/><text x="432" y="277" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">20–30%</text><rect x="520" y="260" width="140" height="26" rx="3" fill="#BF616A" opacity="0.8"/><text x="588" y="277" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">15–25%</text><rect x="676" y="260" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="760" y="277" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="22" y="292" width="856" height="34" fill="#F8F8F8"/><text x="30" y="312" font-size="12" fill="#212121">DDP training 4 GPU TEE</text><rect x="364" y="296" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="432" y="313" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="520" y="296" width="140" height="26" rx="3" fill="#9E9E9E" opacity="0.8"/><text x="588" y="313" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">N/A</text><rect x="676" y="296" width="140" height="26" rx="3" fill="#BF616A" opacity="0.8"/><text x="760" y="313" font-size="12" font-weight="bold" fill="#FFF" text-anchor="middle">8–41×</text>
+<rect x="22" y="336" width="856" height="28" rx="4" fill="#F5F5F5" stroke="#9E9E9E" stroke-width="1"/>
+<rect x="30" y="344" width="12" height="12" fill="#507B5E" opacity="0.8"/>
+<text x="48" y="355" font-size="10" fill="#212121">Low (&lt;5%) — CC viable</text>
+<rect x="180" y="344" width="12" height="12" fill="#4A8A99" opacity="0.8"/>
+<text x="198" y="355" font-size="10" fill="#212121">Moderate (5–20%) — workload dependent</text>
+<rect x="390" y="344" width="12" height="12" fill="#BF616A" opacity="0.8"/>
+<text x="408" y="355" font-size="10" fill="#212121">High — currently impractical for production</text>
+<rect x="620" y="344" width="12" height="12" fill="#9E9E9E" opacity="0.8"/>
+<text x="638" y="355" font-size="10" fill="#212121">N/A for this CC type</text>
+<rect x="22" y="372" width="856" height="24" rx="4" fill="#34495E" opacity="0.1"/>
+<text x="450" y="388" font-size="11" fill="#34495E" text-anchor="middle">Sources: Li et al. ASPLOS 2023 (CPU CC overhead); Zhu et al. arXiv 2409.03992 2024 (H100 inference); Lee et al. arXiv 2501.11771 2025 (DDP 8–41× from MAC generation/verification per 256-byte chunk)</text>
+</svg>
+</div>
+<figcaption style="margin-top:0.7em;font-size:0.88em;color:#444;text-align:left;max-width:920px;margin-left:auto;margin-right:auto;"><strong>Figure 20.5:</strong> Confidential computing performance overhead by workload type and CC mechanism, from peer-reviewed production measurements. Most single-process workloads incur less than 5% overhead. virtio/DMA paths and major-fault-heavy workloads show moderate overhead (8–20%). Distributed data-parallel GPU training across four H100 TEEs incurs 8–41× overhead from per-chunk MAC generation and verification — making CC currently impractical for large-scale distributed training.</figcaption>
+</figure>
+
+<p>Attestation adds a one-time cost at VM startup. Remote attestation — verifying the TD's or Realm's identity before a key management server will provision secrets — requires a network round-trip to an attestation service (Intel Attestation Service, AMD SEV Attestation Service, or Arm's equivalent) plus certificate chain validation, typically totalling 150–300 milliseconds. For long-running VMs this is negligible. For serverless functions with sub-second lifetimes, attestation cost can exceed total execution time — a fundamental architectural tension between CC security guarantees and the ephemeral, high-frequency invocation model of serverless computing.</p>
+
+<p>The memory overhead from CC enforcement tables is modest but non-zero. TDX's PAM table consumes approximately 8 bytes per 4 KB physical page, totalling 0.2 percent of physical memory (256 MB on a 128 GB system). AMD's RMP table consumes 16 bytes per 4 KB page, totalling 0.4 percent (512 MB on 128 GB). ARM's GPT size varies by granule configuration but is comparable. All three tables occupy physical memory not available to guest VMs — a security tax that compounds at hyperscale: a 1,000-VM deployment with SEV-SNP consumes approximately 4 GB in RMP table overhead before provisioning a single guest page.</p>
+
+<h2 id="section-20.9">20.9 OS and Hypervisor Support: Linux CC Architecture</h2>
+
+<p>A Linux kernel running inside a TDX Trust Domain or SEV-SNP confidential VM must be significantly modified from its conventional counterpart. The standard Linux boot sequence, memory allocator, hypercall interface, and I/O subsystem all assume a trusted hypervisor — assumptions that are structurally false in a CC environment. The Linux CC support, merged progressively from kernel 5.19 through 6.7, rewrites these assumptions one component at a time.</p>
+
+<p>CC detection occurs early in the boot sequence, before the memory allocator is initialised. For TDX guests, the kernel reads CPUID leaf 0x21 to detect the TDX environment and queries the TD attributes via TDCALL[TDG.VP.INFO]. For SEV-SNP guests, the kernel reads a Model Specific Register (MSR C001_0010h) and checks the SEV_STATUS bits. Once CC is detected, the kernel switches to a CC-aware memory allocator: every anonymous page allocated must be validated before use. In SEV-SNP, this means calling PVALIDATE on every newly assigned page (adding a single instruction per 4 KB allocation but amortised across the fill operation). In TDX, new pages must be accepted via TDVMCALL[TDG.MEM.PAGE.ACCEPT] before the TD can use them.</p>
+
+<p>The hypercall interface is replaced entirely. In conventional Linux, the guest invokes hypercalls via VMCALL (x86-64) with arguments in registers, which the hypervisor reads directly from the guest's register state on VMEXIT. In a CC environment, the hypervisor cannot read guest registers (SEV-ES encrypts the VMCB save state; TDX passes only a limited set of synthetic VMEXIT reasons). Linux CC guests use GHCB (Guest-Hypervisor Communication Block) — a shared, unencrypted memory page through which the guest communicates with the hypervisor for hypercall arguments — for SEV-SNP, and TDVMCALL for TDX. Both protocols are explicitly designed so that the arguments passed through the interface do not reveal sensitive guest data, since both the GHCB page and the TDVMCALL interface are visible to the (untrusted) hypervisor.</p>
+
+<p>Device I/O presents the most complex integration challenge. Virtio queues — the standard paravirtualised I/O mechanism between Linux guests and KVM — require shared memory between the guest and the hypervisor. In a CC environment, the guest's memory is private and cannot be read by the hypervisor. The solution is an explicit shared page protocol: the guest calls the CC transition interface to mark the virtio ring pages as GPT_ANY or Shared-EPT (depending on CC mechanism), making them visible to the hypervisor. The guest must then copy I/O data between its private memory and the shared virtio pages — a software bounce buffer that adds a memory copy on every I/O operation. Hardware support for this copy (CC-aware DMA engines that can encrypt/decrypt on the DMA path) is under active development as of 2025 and will significantly reduce this overhead for I/O-intensive CC workloads.</p>
+
+<h2 id="section-20.10">20.10 Chapter Summary</h2>
+
+<p>Confidential computing represents a fundamental restructuring of the trust hierarchy that has governed virtualised systems since the introduction of hardware-assisted virtualisation in 2005. The conventional model trusted the hypervisor with full memory visibility — appropriate when the hypervisor was an operator-controlled component on dedicated hardware. In the public cloud era, where the hypervisor belongs to a third-party provider running workloads from mutually untrusting tenants, this trust assumption is increasingly difficult to sustain.</p>
+
+<p>Three hardware implementations have reached production deployment, each choosing a different point in the design space. TDX delegates memory ownership tracking to a software module (the TDX Module) running in a new CPU mode (SEAM), keeping hardware changes minimal while introducing a small trusted computing base in firmware. SEV-SNP embeds ownership directly in a hardware table (RMP) checked by the memory subsystem on every physical access, eliminating the need for any trusted software component at the cost of 16 bytes per physical page and AMD-SP integration. ARM CCA adds a new privilege level (Realm world) and hardware check (GPC) enforced by the Memory System after address resolution, integrating with the existing ARM world model and providing the strongest speculative-execution safety guarantees of the three implementations.</p>
+
+<p>GPU confidential computing (NVIDIA H100 CC, AMD Instinct CC) extends these protections to the GPU compute path, providing confidentiality of GPU HBM and PCIe data transfers with less than five percent overhead for single-GPU inference workloads. Distributed training across GPU TEEs currently incurs 8–41× overhead from per-chunk MAC verification in ring-all-reduce collectives, making GPU CC viable for inference but not yet for large-scale training. The TunneLs attack (31 kbps covert channel across MIG instances through shared L2 cache) confirms that CC encryption addresses data confidentiality but not cache-based microarchitectural side channels — an open problem that neither GPU CC nor MIG isolation fully resolves.</p>
+
+<p>CXL memory confidentiality is the next open frontier. The CC enforcement mechanisms examined in this chapter — PAM, RMP, GPT — were designed for on-die DRAM and have partial extensions (TDX-IO, TDISP) for attached devices. Extending key management and ownership enforcement to CXL 3.0 fabric topologies where multiple hosts share coherent physical memory across a PCIe switch remains an unspecified open problem as of 2025. Chapter 21 extends the hardware security story to capability-based memory safety through CHERI and ARM MTE — mechanisms that address intra-process memory safety rather than the inter-VM isolation that confidential computing targets.</p>
+
+<hr/>
+
+<h2 id="references">References</h2>
+
+<ol>
+<li><p>Intel Corporation. <em>Intel TDX Module Architecture Specification, Version 1.5.</em> Intel Corporation, 2023. Available: https://www.intel.com/content/dam/develop/external/us/en/documents/tdx-module-1.5-abi-spec.pdf</p></li>
+<li><p>AMD. <em>AMD SEV-SNP: Strengthening VM Isolation with Integrity Protection and More.</em> AMD White Paper, 2020 (updated 2023). Available: https://www.amd.com/system/files/TechDocs/SEV-SNP-strengthening-vm-isolation-with-integrity-protection-and-more.pdf</p></li>
+<li><p>ARM Limited. <em>Arm CCA Security Model, DEN0096.</em> ARM Architecture Reference, Issue B, 2022. Available: https://developer.arm.com/documentation/den0096</p></li>
+<li><p>ARM Limited. <em>Arm Architecture Reference Manual Supplement — Realm Management Extension (RME), for Armv9-A architecture profile.</em> ARM DDI 0615A, 2022.</p></li>
+<li><p>Li, M., Zhang, Y., Zhu, H., Liu, M., and Chen, H. "Understanding the Overheads of Hardware-Based Memory Isolation Mechanisms." In <em>Proceedings of the 28th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '23).</em> ACM, 2023, pp. 1–16.</p></li>
+<li><p>Wang, Q., and Oswald, D. "Confidential Computing on Heterogeneous CPU-GPU Systems: Survey and Future Directions." <em>arXiv preprint arXiv:2408.11601,</em> 2024.</p></li>
+<li><p>Zhu, J., Yin, H., Deng, P., and Zhou, S. "Confidential Computing on NVIDIA H100 GPU: A Performance Benchmark Study." <em>arXiv preprint arXiv:2409.03992,</em> 2024.</p></li>
+<li><p>Lee, J., Kim, S., Park, J., and Ahn, J. "Characterization of GPU TEE Overheads in Distributed Data Parallel ML Training." <em>arXiv preprint arXiv:2501.11771,</em> 2025.</p></li>
+<li><p>Deng, S., Guo, H., Ran, L., and Zheng, X. "TunneLs for Bootlegging: Undermining User Privacy in Multi-Tenant GPU Environments." In <em>Proceedings of the 2023 ACM SIGSAC Conference on Computer and Communications Security (CCS '23).</em> ACM, 2023, pp. 1–18. doi:10.1145/3576915.3616609</p></li>
+<li><p>Morbitzer, M., Huber, M., Horauer, J., and Stumpf, S. "SEVurity: No Security Without Integrity — Breaking Integrity-Free Memory Encryption with Minimal Assumptions." In <em>Proceedings of the 41st IEEE Symposium on Security and Privacy (S&amp;P '20).</em> IEEE, 2020, pp. 1483–1496. doi:10.1109/SP40000.2020.00013</p></li>
+<li><p>Buhren, R., Werling, C., and Seifert, J.-P. "Insecure Until Proven Updated: Analyzing AMD SEV's Remote Attestation." In <em>Proceedings of the 2019 ACM SIGSAC Conference on Computer and Communications Security (CCS '19).</em> ACM, 2019, pp. 1087–1099. doi:10.1145/3319535.3354216</p></li>
+<li><p>NVIDIA Corporation. <em>NVIDIA Hopper H100 Tensor Core GPU Architecture.</em> NVIDIA Whitepaper, WP-10184-001, 2022. Available: https://resources.nvidia.com/en-us-tensor-core/gtc22-whitepaper-hopper</p></li>
+<li><p>NVIDIA Corporation. <em>NVIDIA Confidential Computing: Protecting Data In Use.</em> NVIDIA Whitepaper, 2023. Available: https://www.nvidia.com/en-us/data-center/solutions/confidential-computing/</p></li>
+<li><p>CXL Consortium. <em>CXL TEE I/O (TDISP) Specification, Revision 1.0.</em> CXL Consortium, 2023. Available: https://www.computeexpresslink.org/</p></li>
+<li><p>AMD. <em>AMD I/O Virtualization Technology (IOMMU) Specification for SEV-SNP, Revision 3.00.</em> AMD Publication 48882, 2022.</p></li>
+<li><p>Radev, M., Schneider, T., and Brasser, F. "CAGE: Complementing Arm's CCA with GPU Extensions." In <em>Proceedings of the 45th IEEE Symposium on Security and Privacy (S&amp;P '24).</em> IEEE, 2024.</p></li>
+<li><p>Deng, S., Zhao, N., Xu, W., and Ma, Z. "IOTLB-SC: An IOMMU-based Side-Channel Attack." In <em>Proceedings of the 44th IEEE Symposium on Security and Privacy (S&amp;P '23).</em> IEEE, 2023.</p></li>
+<li><p>Intel Corporation. <em>Intel TDX Security Analysis.</em> Intel White Paper, Document 347931-002, 2023. Available: https://cdrdv2.intel.com/v1/dl/getContent/601292</p></li>
+<li><p>COCONUT-SVSM Project. <em>Coconut SVSM: A Virtual Machine Service Module for AMD SEV-SNP.</em> Linux Foundation Confidential Computing Consortium, 2023. Available: https://github.com/coconut-svsm/svsm</p></li>
+<li><p>Wilke, L., Wichelmann, J., Morbitzer, M., and Eisenbarth, T. "SEVurity: Attacks on SEV-ES via VMCB State Corruption." <em>arXiv preprint arXiv:2105.13824,</em> 2021.</p></li>
+<li><p>McCoyd, M., Kaur, G., and Sadeghi, A.-R. "Attestation Chains for Confidential Cloud Computing." In <em>Proceedings of the 19th Workshop on Hot Topics in Operating Systems (HotOS '23).</em> ACM, 2023.</p></li>
+<li><p>Shen, Y., Tian, Y., Chen, H., and Narayanan, D. "DejaVu: Oblivious Guest Execution for Confidential Virtual Machines." In <em>Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS '24).</em> ACM, 2024.</p></li>
+</ol>
+
+<script>
+
+
+(function() {
+  var CHAPTERS = [
+    {
+        "num": 1,
+        "file": "chapter-01-WITH-FIGURES.html",
+        "short": "Memory Management Basics",
+        "sections": [
+            {
+                "text": "1.1 Introduction: Why\nVirtual Memory Exists",
+                "id": "section-1.1"
+            },
+            {
+                "text": "1.2 What is Memory Management?",
+                "id": "section-1.2"
+            },
+            {
+                "text": "1.3 The Evolution of Memory\nManagement",
+                "id": "section-1.3"
+            },
+            {
+                "text": "1.4 Hierarchical\nLevels of Memory Management",
+                "id": "section-1.4"
+            },
+            {
+                "text": "1.5 The Virtual Memory\nAbstraction",
+                "id": "section-1.5"
+            },
+            {
+                "text": "1.6 Key Concepts and\nTerminology",
+                "id": "section-1.6"
+            },
+            {
+                "text": "1.7 A Concrete Example:\nAddress Translation",
+                "id": "section-1.7"
+            },
+            {
+                "text": "1.8 The Translation\nLookaside Buffer (TLB)",
+                "id": "section-1.8"
+            },
+            {
+                "text": "1.9 Multi-Level Page Tables",
+                "id": "section-1.9"
+            },
+            {
+                "text": "1.10 Why MMU Matters:\nReal-World Impact",
+                "id": "section-1.10"
+            },
+            {
+                "text": "1.11 Chapter Summary",
+                "id": "section-1.11"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 2,
+        "file": "chapter-02-WITH-FIGURES.html",
+        "short": "Virtual Memory Concepts",
+        "sections": [
+            {
+                "text": "2.1 Introduction:\nThe Illusion of Unlimited Memory",
+                "id": "section-2.1"
+            },
+            {
+                "text": "2.2 Demand Paging:\nLoading Pages on Demand",
+                "id": "section-2.2"
+            },
+            {
+                "text": "2.3 Page Replacement\nAlgorithms",
+                "id": "section-2.3"
+            },
+            {
+                "text": "2.4 Thrashing and the\nWorking Set Model",
+                "id": "section-2.4"
+            },
+            {
+                "text": "2.5 Copy-on-Write (COW)",
+                "id": "section-2.5"
+            },
+            {
+                "text": "2.6 Memory-Mapped Files",
+                "id": "section-2.6"
+            },
+            {
+                "text": "2.7 Advanced Topics",
+                "id": "section-2.7"
+            },
+            {
+                "text": "2.8 Performance\nOptimization Strategies",
+                "id": "section-2.8"
+            },
+            {
+                "text": "2.9 Chapter Summary",
+                "id": "section-2.9"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 3,
+        "file": "chapter-03-WITH-FIGURES.html",
+        "short": "Page Table Structures and Implementation",
+        "sections": [
+            {
+                "text": "3.1 Introduction",
+                "id": "section-3.1"
+            },
+            {
+                "text": "3.2 Single-Level Page Tables: The Simplest Approach",
+                "id": "section-3.2"
+            },
+            {
+                "text": "3.3 Two-Level Page Tables",
+                "id": "section-3.3"
+            },
+            {
+                "text": "3.4 Multi-Level Page Tables (3+ Levels)",
+                "id": "section-3.4"
+            },
+            {
+                "text": "3.5 Virtualization: Two-Stage Address Translation",
+                "id": "section-3.5"
+            },
+            {
+                "text": "3.6 What Gets Cached: TLB and Page Walk Caches",
+                "id": "section-3.6"
+            },
+            {
+                "text": "3.7 Hardware Page Table Walker",
+                "id": "section-3.7"
+            },
+            {
+                "text": "3.8 Page Table Management from the OS Perspective",
+                "id": "section-3.8"
+            },
+            {
+                "text": "3.9 Design Trade-offs",
+                "id": "section-3.9"
+            },
+            {
+                "text": "3.10 Chapter Summary",
+                "id": "section-3.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 4,
+        "file": "chapter-04-WITH-FIGURES.html",
+        "short": "Translation Lookaside Buffer (TLB) - Deep Dive",
+        "sections": [
+            {
+                "text": "4.1\nIntroduction: The Most Critical Cache You've Never Heard Of",
+                "id": "section-4.1"
+            },
+            {
+                "text": "4.2 TLB Architecture and\nOrganization",
+                "id": "section-4.2"
+            },
+            {
+                "text": "4.3 TLB Management:\nHardware vs Software",
+                "id": "section-4.3"
+            },
+            {
+                "text": "4.4 Address Space\nIdentifiers: ASID, PCID, and VMID",
+                "id": "section-4.4"
+            },
+            {
+                "text": "4.5 TLB Operations and\nInstructions",
+                "id": "section-4.5"
+            },
+            {
+                "text": "4.6 Large Pages and TLB\nCoverage",
+                "id": "section-4.6"
+            },
+            {
+                "text": "4.7 Multicore TLB Coherency",
+                "id": "section-4.7"
+            },
+            {
+                "text": "4.8 Platform-Specific TLB\nImplementations",
+                "id": "section-4.8"
+            },
+            {
+                "text": "4.9\nAlternative Page Table Structures and TLB Implications",
+                "id": "section-4.9"
+            },
+            {
+                "text": "4.10\nSelf-Modifying Code and Instruction/Data Coherency",
+                "id": "section-4.10"
+            },
+            {
+                "text": "4.11 Multithreading and TLB\nSharing",
+                "id": "section-4.11"
+            },
+            {
+                "text": "4.12 Virtualization\nwith Mismatched Page Sizes",
+                "id": "section-4.12"
+            },
+            {
+                "text": "4.13 GPU and Hardware\nAccelerator MMUs",
+                "id": "section-4.13"
+            },
+            {
+                "text": "4.14 Chapter Summary",
+                "id": "section-4.14"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 5,
+        "file": "chapter-05-WITH-FIGURES.html",
+        "short": "IOMMU and DMA Remapping - Deep Dive",
+        "sections": [
+            {
+                "text": "5.1\nIntroduction: The I/O Device Memory Access Problem",
+                "id": "section-5.1"
+            },
+            {
+                "text": "5.2 IOMMU Architecture\nFundamentals",
+                "id": "section-5.2"
+            },
+            {
+                "text": "5.3 Intel\nVT-d (Virtualization Technology for Directed I/O)",
+                "id": "section-5.3"
+            },
+            {
+                "text": "5.4 AMD IOMMU (AMD-Vi)",
+                "id": "section-5.4"
+            },
+            {
+                "text": "5.5 ARM SMMU (System\nMemory Management Unit)",
+                "id": "section-5.5"
+            },
+            {
+                "text": "5.6 IOMMU Page\nTables: Cross-Platform Analysis",
+                "id": "section-5.6"
+            },
+            {
+                "text": "5.7 IOTLB Performance and\nOptimization",
+                "id": "section-5.7"
+            },
+            {
+                "text": "5.8 Device Assignment and\nSR-IOV",
+                "id": "section-5.8"
+            },
+            {
+                "text": "5.9 IOMMU in Operating Systems",
+                "id": "section-5.9"
+            },
+            {
+                "text": "5.10 Performance\nOptimization and Best Practices",
+                "id": "section-5.10"
+            },
+            {
+                "text": "5.11 Chapter Summary",
+                "id": "section-5.11"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 6,
+        "file": "chapter-06-WITH-FIGURES.html",
+        "short": "Memory Protection and Access Control",
+        "sections": [
+            {
+                "text": "6.1 Introduction: Memory Protection Fundamentals",
+                "id": "section-6.1"
+            },
+            {
+                "text": "6.2 Page-Level Protection Bits",
+                "id": "section-6.2"
+            },
+            {
+                "text": "6.3 The No-Execute (NX) Bit",
+                "id": "section-6.3"
+            },
+            {
+                "text": "6.4 Privilege Levels and Protection Rings",
+                "id": "section-6.4"
+            },
+            {
+                "text": "6.5 User vs Supervisor Pages",
+                "id": "section-6.5"
+            },
+            {
+                "text": "6.6 Advanced Protection Features",
+                "id": "section-6.6"
+            },
+            {
+                "text": "6.7 Protection Keys and Domains",
+                "id": "section-6.7"
+            },
+            {
+                "text": "6.8 Trusted Execution Environments (TEE) - Deep Dive",
+                "id": "section-6.8"
+            },
+            {
+                "text": "6.9 Copy-On-Write (COW)",
+                "id": "section-6.9"
+            },
+            {
+                "text": "6.10 Memory Access Ordering and Protection",
+                "id": "section-6.10"
+            },
+            {
+                "text": "6.11 Confidential Computing: Hardware-Based VM Isolation",
+                "id": "section-6.11"
+            },
+            {
+                "text": "6.12 AMD Memory Guard and Memory Encryption",
+                "id": "section-6.12"
+            },
+            {
+                "text": "6.13 RISC-V Security Extensions",
+                "id": "section-6.13"
+            },
+            {
+                "text": "6.14 GPU and Accelerator Security",
+                "id": "section-6.14"
+            },
+            {
+                "text": "6.15 Heterogeneous Computing Security",
+                "id": "section-6.15"
+            },
+            {
+                "text": "6.16 Performance vs Security Trade-offs",
+                "id": "section-6.16"
+            },
+            {
+                "text": "6.17 Best Practices and Guidelines",
+                "id": "section-6.17"
+            },
+            {
+                "text": "6.18 Common Pitfalls and How to Avoid Them",
+                "id": "section-6.18"
+            },
+            {
+                "text": "6.19 Chapter Summary",
+                "id": "section-6.19"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 7,
+        "file": "chapter-07-WITH-FIGURES.html",
+        "short": "Page Faults and Exception Handling",
+        "sections": [
+            {
+                "text": "7.1 Introduction:\nWhen Address Translation Fails",
+                "id": "section-7.1"
+            },
+            {
+                "text": "7.2 Page Fault Fundamentals",
+                "id": "section-7.2"
+            },
+            {
+                "text": "7.3 x86-64 Page Faults (#PF)",
+                "id": "section-7.3"
+            },
+            {
+                "text": "7.4 ARM64 Data and\nInstruction Aborts",
+                "id": "section-7.4"
+            },
+            {
+                "text": "7.5 RISC-V Page Faults",
+                "id": "section-7.5"
+            },
+            {
+                "text": "7.6 TLB-Related Exceptions",
+                "id": "section-7.6"
+            },
+            {
+                "text": "7.7 Page Table Walk Failures",
+                "id": "section-7.7"
+            },
+            {
+                "text": "7.8 Page Overlapping and\nAliasing Faults",
+                "id": "section-7.8"
+            },
+            {
+                "text": "7.9 Permission Violations",
+                "id": "section-7.9"
+            },
+            {
+                "text": "7.10 Page Fault Handling Flow",
+                "id": "section-7.10"
+            },
+            {
+                "text": "7.11 Performance Implications",
+                "id": "section-7.11"
+            },
+            {
+                "text": "7.12 Historical\nArchitectures: SPARC, MIPS, PowerPC",
+                "id": "section-7.12"
+            },
+            {
+                "text": "7.13 Architecture Comparison",
+                "id": "section-7.13"
+            },
+            {
+                "text": "7.14 Debugging Page Faults",
+                "id": "section-7.14"
+            },
+            {
+                "text": "7.15 Chapter Summary",
+                "id": "section-7.15"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 8,
+        "file": "chapter-08-WITH-FIGURES.html",
+        "short": "Advanced MMU Topics - System Integration and Optimization",
+        "sections": [
+            {
+                "text": "8.1 Introduction: The Crisis Point",
+                "id": "section-8.1"
+            },
+            {
+                "text": "8.2 Nested Page Tables: Beyond the Basics",
+                "id": "section-8.2"
+            },
+            {
+                "text": "8.3 Architecture Differences in Nested Fault Handling",
+                "id": "section-8.3"
+            },
+            {
+                "text": "8.4 Accessed and Dirty Bits: Hardware–Software Cooperation",
+                "id": "section-8.4"
+            },
+            {
+                "text": "8.5 Page\nReplacement Algorithms: From Theory to Practice",
+                "id": "section-8.5"
+            },
+            {
+                "text": "8.6 Memory Reclaim:\nWhen and How to Free Pages",
+                "id": "section-8.6"
+            },
+            {
+                "text": "8.7 Page Table\nManagement: The Meta-Problem",
+                "id": "section-8.7"
+            },
+            {
+                "text": "8.8 Performance Analysis and\nTuning",
+                "id": "section-8.8"
+            },
+            {
+                "text": "8.9 Chapter Summary",
+                "id": "section-8.9"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 9,
+        "file": "chapter-09-WITH-FIGURES.html",
+        "short": "Advanced Page Table Optimizations",
+        "sections": [
+            {
+                "text": "9.1 Introduction: The\nContainer Crisis",
+                "id": "section-9.1"
+            },
+            {
+                "text": "9.2 Memory\nDeduplication: Kernel Samepage Merging",
+                "id": "section-9.2"
+            },
+            {
+                "text": "9.3 Page Table Locking and\nConcurrency",
+                "id": "section-9.3"
+            },
+            {
+                "text": "9.4 NUMA-Aware Page Table\nManagement",
+                "id": "section-9.4"
+            },
+            {
+                "text": "9.5 Advanced Huge Page\nStrategies",
+                "id": "section-9.5"
+            },
+            {
+                "text": "9.6 Page Table Compaction and\nSharing",
+                "id": "section-9.6"
+            },
+            {
+                "text": "9.7 Parallel Page Table\nOperations",
+                "id": "section-9.7"
+            },
+            {
+                "text": "9.8 Memory Compression\nIntegration",
+                "id": "section-9.8"
+            },
+            {
+                "text": "9.9\nProduction Case Study: Cloud Provider Memory Optimization Stack",
+                "id": "section-9.9"
+            },
+            {
+                "text": "9.10 Chapter Summary",
+                "id": "section-9.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 10,
+        "file": "chapter-10-WITH-FIGURES.html",
+        "short": "Hardware Accelerators and External MMU Access",
+        "sections": [
+            {
+                "text": "10.1 Introduction: Beyond the\nCPU Core",
+                "id": "section-10.1"
+            },
+            {
+                "text": "10.2 IOMMU Architecture Deep\nDive",
+                "id": "section-10.2"
+            },
+            {
+                "text": "10.3 PCIe ATS and\nAddress Translation Services",
+                "id": "section-10.3"
+            },
+            {
+                "text": "10.4 RDMA and Memory\nRegistration",
+                "id": "section-10.4"
+            },
+            {
+                "text": "10.5 Smart NICs and Data\nProcessing Units",
+                "id": "section-10.5"
+            },
+            {
+                "text": "10.6 Video and Media\nAccelerators",
+                "id": "section-10.6"
+            },
+            {
+                "text": "10.7 Multi-Device\nCoherency and Coordination",
+                "id": "section-10.7"
+            },
+            {
+                "text": "10.8 Chapter Summary",
+                "id": "section-10.8"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 11,
+        "file": "chapter-11-WITH-FIGURES.html",
+        "short": "Virtual Memory Challenges in AI/ML Accelerators",
+        "sections": [
+            {
+                "text": "11.1 Introduction: Scale\nChanges Everything",
+                "id": "section-11.1"
+            },
+            {
+                "text": "11.2 Google TPU: Compiler-Managed Memory",
+                "id": "section-11.2"
+            },
+            {
+                "text": "11.3 NVIDIA GPU Unified Virtual Memory",
+                "id": "section-11.3"
+            },
+            {
+                "text": "11.4 Multi-GPU TLB Synchronization: NVLink and NVSwitch",
+                "id": "section-11.4"
+            },
+            {
+                "text": "11.5 Page Size Strategy for AI Workloads",
+                "id": "section-11.5"
+            },
+            {
+                "text": "11.6 AMD MI300X: Chiplet Architecture and Unified Memory",
+                "id": "section-11.6"
+            },
+            {
+                "text": "11.7 Intel Gaudi 2 and RDMA Integration",
+                "id": "section-11.7"
+            },
+            {
+                "text": "11.8 Apple M-Series Unified Memory Architecture",
+                "id": "section-11.8"
+            },
+            {
+                "text": "11.9 Common Pitfalls and Production Best Practices",
+                "id": "section-11.9"
+            },
+            {
+                "text": "11.10 Chapter Summary",
+                "id": "section-11.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 12,
+        "file": "chapter-12-WITH-FIGURES.html",
+        "short": "When MMU Architecture Breaks - AI at Scale",
+        "sections": [
+            {
+                "text": "12.1 The Six Drivers of AI Memory Systems",
+                "id": "section-12.1"
+            },
+            {
+                "text": "12.2 The Architectural Cost of Runtime Address Translation",
+                "id": "section-12.2"
+            },
+            {
+                "text": "12.3 Introduction - When Good Architecture Faces New Constraints",
+                "id": "section-12.3"
+            },
+            {
+                "text": "12.4 Multi-GPU TLB Coordination - The O(N) Scaling Problem",
+                "id": "section-12.4"
+            },
+            {
+                "text": "12.5 Multi-Tenancy - Isolation vs Performance Trade-Offs",
+                "id": "section-12.5"
+            },
+            {
+                "text": "12.6 Virtualization - The Page Fault Challenge",
+                "id": "section-12.6"
+            },
+            {
+                "text": "12.7 Chapter Summary",
+                "id": "section-12.7"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 13,
+        "file": "chapter-13-WITH-FIGURES.html",
+        "short": "Machine Learning for Memory Management - The False Hope",
+        "sections": [
+            {
+                "text": "13.1 Introduction: The ML Seduction",
+                "id": "section-13.1"
+            },
+            {
+                "text": "13.2 Pythia: Why Hardware RL Failed",
+                "id": "section-13.2"
+            },
+            {
+                "text": "13.3 LVM: Can Learned Indexes Save Page Tables?",
+                "id": "section-13.3"
+            },
+            {
+                "text": "13.4 LeCaR: The Rare Success (And Why)",
+                "id": "section-13.4"
+            },
+            {
+                "text": "13.5 Chapter Summary",
+                "id": "section-13.5"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 14,
+        "file": "chapter-14-WITH-FIGURES.html",
+        "short": "Software-Managed Memory for AI Workloads",
+        "sections": [
+            {
+                "text": "14.1 Introduction: Hardware MMU Limitations for Large-Scale LLM Serving",
+                "id": "section-14.1"
+            },
+            {
+                "text": "14.2 Memory Management Failure Modes",
+                "id": "section-14.2"
+            },
+            {
+                "text": "14.3 Software-Managed Memory: The vLLM System",
+                "id": "section-14.3"
+            },
+            {
+                "text": "14.4 Translation-Bypass Mechanisms: Direct Segment Addressing",
+                "id": "section-14.4"
+            },
+            {
+                "text": "14.5 Comparative Analysis and Design Trade-offs",
+                "id": "section-14.5"
+            },
+            {
+                "text": "14.6 Future Research Directions",
+                "id": "section-14.6"
+            },
+            {
+                "text": "14.7 Chapter Summary",
+                "id": "section-14.7"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 15,
+        "file": "chapter-15-WITH-FIGURES.html",
+        "short": "Beyond Traditional MMU - Alternative Translation Architectures",
+        "sections": [
+            {
+                "text": "15.1 Introduction",
+                "id": "section-15.1"
+            },
+            {
+                "text": "15.2 Network-Level Translation",
+                "id": "section-15.2"
+            },
+            {
+                "text": "15.3 Processing-in-Memory Translation (PIM-TLB)",
+                "id": "section-15.3"
+            },
+            {
+                "text": "15.4 Utopia: Hybrid Radix-Segments Architecture",
+                "id": "section-15.4"
+            },
+            {
+                "text": "15.5 Comparative Analysis",
+                "id": "section-15.5"
+            },
+            {
+                "text": "15.6 Chapter Summary",
+                "id": "section-15.6"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 16,
+        "file": "chapter-16-WITH-FIGURES.html",
+        "short": "Advanced TLB Optimization Techniques",
+        "sections": [
+            {
+                "text": "16.1 Introduction: The TLB Reach Crisis",
+                "id": "section-16.1"
+            },
+            {
+                "text": "16.2 Entry-Level Coalescing: COLT and Production Implementations",
+                "id": "section-16.2"
+            },
+            {
+                "text": "16.3 Request-Level Coalescing: Pichai's Page Walk Optimization",
+                "id": "section-16.3"
+            },
+            {
+                "text": "16.4 Speculative Translation: SpecTLB and Avatar",
+                "id": "section-16.4"
+            },
+            {
+                "text": "16.5 Predictive Prefetching: SnakeByte Markov Model",
+                "id": "section-16.5"
+            },
+            {
+                "text": "16.6 Hashing-Based Compression: Mosaic Pages",
+                "id": "section-16.6"
+            },
+            {
+                "text": "16.7 Range-Based Translation: FlexPointer",
+                "id": "section-16.7"
+            },
+            {
+                "text": "16.8 Hierarchical Translation: Intermediate Address Space (IAS)",
+                "id": "section-16.8"
+            },
+            {
+                "text": "16.9 Comparative Analysis: When to Use Each Technique",
+                "id": "section-16.9"
+            },
+            {
+                "text": "16.10 Chapter Summary",
+                "id": "section-16.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 17,
+        "file": "chapter-17-WITH-FIGURES.html",
+        "short": "Page Table Walker Microarchitecture",
+        "sections": [
+            {
+                "text": "17.1 Introduction: The Hidden Machine Inside the MMU",
+                "id": "section-17.1"
+            },
+            {
+                "text": "17.2 PTW Pipeline Stages and Latency",
+                "id": "section-17.2"
+            },
+            {
+                "text": "17.3 Page Walk Caches",
+                "id": "section-17.3"
+            },
+            {
+                "text": "17.4 Miss-Status Holding Registers and Concurrent Walks",
+                "id": "section-17.4"
+            },
+            {
+                "text": "17.5 Speculative Page Table Walks",
+                "id": "section-17.5"
+            },
+            {
+                "text": "17.6 PTW Parallelism and Throughput",
+                "id": "section-17.6"
+            },
+            {
+                "text": "17.7 x86-64 PTW Microarchitecture",
+                "id": "section-17.7"
+            },
+            {
+                "text": "17.8 ARM64 Translation Table Walk",
+                "id": "section-17.8"
+            },
+            {
+                "text": "17.9 RISC-V Software-Managed PTW",
+                "id": "section-17.9"
+            },
+            {
+                "text": "17.10 Chapter Summary",
+                "id": "section-17.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 18,
+        "file": "chapter-18-WITH-FIGURES.html",
+        "short": "MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits",
+        "sections": [
+            {
+                "text": "18.1 Introduction: When the Memory Map Becomes a Weapon",
+                "id": "section-18.1"
+            },
+            {
+                "text": "18.2 The Paging Model's Trust Assumptions",
+                "id": "section-18.2"
+            },
+            {
+                "text": "18.3 Meltdown: Speculative PTE Permission Checks",
+                "id": "section-18.3"
+            },
+            {
+                "text": "18.4 Spectre v1: Bounds Bypass via Virtual Address Speculation",
+                "id": "section-18.4"
+            },
+            {
+                "text": "18.5 Spectre v2: Branch Target Injection and the PTW Control Path",
+                "id": "section-18.5"
+            },
+            {
+                "text": "18.6 L1TF and Foreshadow: P=0 PTEs as Physical Address Leaks",
+                "id": "section-18.6"
+            },
+            {
+                "text": "18.7 Microarchitectural Data Sampling: Buffers the PTW Shares",
+                "id": "section-18.7"
+            },
+            {
+                "text": "18.8 KPTI: Splitting the Page Table as an Architectural Fix",
+                "id": "section-18.8"
+            },
+            {
+                "text": "18.9 Mitigation Costs and Production Deployment Trade-offs",
+                "id": "section-18.9"
+            },
+            {
+                "text": "18.10 Chapter Summary",
+                "id": "section-18.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 19,
+        "file": "chapter-19-WITH-FIGURES.html",
+        "short": "CXL and the Disaggregated Address Space",
+        "sections": [
+            {
+                "text": "19.1 Introduction: When Physical Memory Leaves the Socket",
+                "id": "section-19.1"
+            },
+            {
+                "text": "19.2 CXL Protocol Architecture: .io, .cache, .mem",
+                "id": "section-19.2"
+            },
+            {
+                "text": "19.3 CXL as a NUMA Node: How Linux Sees Disaggregated Memory",
+                "id": "section-19.3"
+            },
+            {
+                "text": "19.4 The Unchanged Mechanism, the Changed Cost",
+                "id": "section-19.4"
+            },
+            {
+                "text": "19.5 The Page Table Pinning Constraint",
+                "id": "section-19.5"
+            },
+            {
+                "text": "19.6 Memory Tiering: The OS Page Allocator Under CXL",
+                "id": "section-19.6"
+            },
+            {
+                "text": "19.7 TLB Shootdown Inverted: CXL Back-Invalidation",
+                "id": "section-19.7"
+            },
+            {
+                "text": "19.8 CXL 3.0 Shared Memory: Two-Stage Translation Returns",
+                "id": "section-19.8"
+            },
+            {
+                "text": "19.9 Production Deployments and Performance Engineering",
+                "id": "section-19.9"
+            },
+            {
+                "text": "19.10 Chapter Summary",
+                "id": "section-19.10"
+            },
+            {
+                "text": "References",
+                "id": "references"
+            }
+        ]
+    },
+    {
+        "num": 20,
+        "title": "Chapter 20: Confidential Computing and the Untrusted Hypervisor",
+        "file": "chapter-20-WITH-FIGURES.html",
+        "sections": [
+            {
+                "text": "20.1 Introduction: When the Hypervisor Is the Attacker",
+                "id": "section-20.1"
+            },
+            {
+                "text": "20.2 The Conventional Virtualisation Trust Model and Its Limits",
+                "id": "section-20.2"
+            },
+            {
+                "text": "20.3 Intel TDX: Trust Domain Extensions — MMU Microarchitecture",
+                "id": "section-20.3"
+            },
+            {
+                "text": "20.4 AMD SEV-SNP: Secure Encrypted Virtualisation — Secure Nested Paging",
+                "id": "section-20.4"
+            },
+            {
+                "text": "20.5 ARM Confidential Compute Architecture: The Realm Management Extension",
+                "id": "section-20.5"
+            },
+            {
+                "text": "20.6 GPU Confidential Computing — The New Frontier",
+                "id": "section-20.6"
+            },
+            {
+                "text": "20.7 Confidential CXL: The Open Problem",
+                "id": "section-20.7"
+            },
+            {
+                "text": "20.8 Performance: What Confidential Computing Costs in Production",
+                "id": "section-20.8"
+            },
+            {
+                "text": "20.9 OS and Hypervisor Support: Linux CC Architecture",
+                "id": "section-20.9"
+            },
+            {
+                "text": "20.10 Chapter Summary",
+                "id": "section-20.10"
+            }
+        ]
+    }
+];
+
+
+  var file = location.pathname.split('/').pop() || 'chapter-01-WITH-FIGURES.html';
+  var curCh = CHAPTERS.find(function(c) { return c.file === file; }) || CHAPTERS[0];
+
+  /* Build HTML */
+  var html = '';
+  CHAPTERS.forEach(function(ch) {
+    var isCur = ch.num === curCh.num;
+    var toc = '';
+    ch.sections.forEach(function(s) {
+      var href = isCur ? '#' + s.id : ch.file + '#' + s.id;
+      toc += '<a class="sb-sec" href="' + href + '" title="' + s.text.replace(/"/g,'&quot;') + '">'
+           + s.text + '</a>';
+    });
+    var n = ch.num < 10 ? '0' + ch.num : '' + ch.num;
+    var arrow = ch.sections.length
+      ? '<svg class="sb-arrow" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="4,2 8,6 4,10"/></svg>'
+      : '';
+    html += '<div class="sb-ch' + (isCur?' active open':'') + '" data-c="' + ch.num + '">'
+      + '<div class="sb-ch-head" onclick=\"sbChClick(' + ch.num + ',\'' + ch.file + '\')\">'
+      + '<span class="sb-num">' + n + '</span>'
+      + (isCur
+        ? '<span class="sb-ch-link">' + ch.short + '</span>'
+        : '<a class="sb-ch-link" href="' + ch.file + '">' + ch.short + '</a>')
+      + arrow + '</div>'
+      + (toc ? '<div class="sb-toc">' + toc + '</div>' : '')
+      + '</div>';
+  });
+
+  var nav = document.createElement('nav');
+  nav.id = 'sb';
+  nav.innerHTML =
+    '<div id="sb-head">'
+    + '<div id="sb-logo"><div id="sb-icon">M</div>'
+    + '<div id="sb-wordmark">MMU<br>Handbook</div></div>'
+    + '<button id="sb-btn" onclick="sbCollapse()" title="Toggle sidebar [\\]">'
+    + '<svg viewBox="0 0 18 18" fill="currentColor">'
+    + '<rect x="1" y="3" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="8" width="16" height="2" rx="1"/>'
+    + '<rect x="1" y="13" width="16" height="2" rx="1"/>'
+    + '</svg></button></div>'
+    + '<div id="sb-scroll">' + html + '</div>';
+  document.body.insertBefore(nav, document.body.firstChild);
+
+
+  /* Inject Home link before scroll area */
+  var homeLink = document.createElement('a');
+  homeLink.id = 'sb-home-link';
+  homeLink.href = '../index.html';
+  homeLink.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0;opacity:0.7"><path d="M8 1L1 7v8h5v-5h4v5h5V7z"/></svg><span>Home</span>';
+  nav.insertBefore(homeLink, document.getElementById('sb-scroll'));
+
+  /* Restore state */
+  if (localStorage.getItem('sb-off') === '1') {
+    nav.classList.add('collapsed');
+    document.body.classList.add('sb-collapsed');
+  }
+
+  /* Scroll current chapter into view */
+  var el = nav.querySelector('.sb-ch.active');
+  if (el) setTimeout(function() { el.scrollIntoView({block:'center',behavior:'smooth'}); }, 100);
+
+  /* Active-section tracking — uses Pandoc IDs directly */
+  var links = Array.from(nav.querySelectorAll('.sb-ch.active .sb-sec'));
+  var map = links.map(function(a) {
+    var id = a.getAttribute('href').replace(/^.*#/, '');
+    return { a: a, el: document.getElementById(id) };
+  }).filter(function(h) { return h.el; });
+
+  function tick() {
+    if (!map.length) return;
+    var y = window.scrollY + 90;
+    var cur = map[0];
+    map.forEach(function(h) { if (h.el.offsetTop <= y) cur = h; });
+    links.forEach(function(a) { a.classList.remove('here'); });
+    cur.a.classList.add('here');
+  }
+  var pending = false;
+  window.addEventListener('scroll', function() {
+    if (!pending) { pending = true; requestAnimationFrame(function() { tick(); pending = false; }); }
+  });
+  tick();
+
+  /* Keyboard shortcut */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === '\\' && !e.ctrlKey && !e.metaKey && e.target.tagName !== 'INPUT') sbCollapse();
+  });
+
+  window.sbCollapse = function() {
+    var s = document.getElementById('sb');
+    s.classList.toggle('collapsed');
+    document.body.classList.toggle('sb-collapsed');
+    localStorage.setItem('sb-off', s.classList.contains('collapsed') ? '1' : '0');
+  };
+  window.sbChClick = function(n, file) {
+    var s = document.getElementById('sb');
+    if (s.classList.contains('collapsed')) {
+      location.href = file;
+      return;
+    }
+    var item = document.querySelector('.sb-ch[data-c="' + n + '"]');
+    if (!item) return;
+    if (item.classList.contains('active')) {
+      /* Current chapter — toggle expand/collapse in place */
+      item.classList.toggle('open');
+    } else {
+      /* Different chapter — toggle its TOC preview, then navigate */
+      item.classList.toggle('open');
+      location.href = file;
+    }
+  };
+  window.sbToggle = window.sbChClick;
+})();
+
+
+
+
+</script>
+</body>
+</html>
