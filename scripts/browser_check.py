@@ -99,7 +99,7 @@ def check_chapter(browser, path, N, pdf_dir):
         if pdf_kb < PDF_MIN_KB:
             issues.append(f"B2: PDF too small ({pdf_kb} KB, expected >{PDF_MIN_KB} KB)")
 
-        # B3: Active chapter highlight
+        # B3: Active chapter highlight (data-c attribute)
         active = page.evaluate(f'''() => {{
             const block = document.querySelector(".sb-ch.active");
             const active_num = block ? parseInt(block.getAttribute("data-c")) : null;
@@ -107,6 +107,23 @@ def check_chapter(browser, path, N, pdf_dir):
         }}''')
         if not active['correct']:
             issues.append(f"B3: Active chapter wrong — got {active['active_num']}, expected {chnum}")
+
+        # B3b: Active chapter sidebar text must not be "undefined"
+        # Uses .sb-ch-link selector (the actual display text, NOT .sb-num which is the number badge)
+        sb_link_text = page.evaluate(
+            '''() => document.querySelector(".sb-ch.active .sb-ch-link")?.textContent?.trim()'''
+        )
+        if sb_link_text == 'undefined' or sb_link_text is None:
+            issues.append(f"B3b: Active chapter sidebar text is {sb_link_text!r} — missing 'short' field in CHAPTERS entry")
+
+        # B3c: document.title must contain current chapter number
+        title_ok = page.evaluate(f'''() => {{
+            const title = document.title;
+            return title.includes("Chapter {chnum}") || title.includes("chapter {chnum}");
+        }}''')
+        if not title_ok:
+            doc_title = page.evaluate("() => document.title")
+            issues.append(f"B3c: document.title does not reference Chapter {chnum} — got: {doc_title!r}"[:120])
 
         # B4: TOC broken anchors
         toc_broken = page.evaluate('''() =>
@@ -153,6 +170,16 @@ def check_chapter(browser, path, N, pdf_dir):
         if real_errors:
             issues.append(f"B8: JS errors: {real_errors[:2]}")
 
+        # B11: No sidebar entry renders as "undefined"
+        # Scans ALL .sb-ch-link elements — catches missing "short" field in any CHAPTERS entry
+        undefined_entries = page.evaluate('''() =>
+            [...document.querySelectorAll(".sb-ch-link")]
+            .filter(el => el.textContent.trim() === "undefined")
+            .map(el => el.closest(".sb-ch")?.getAttribute("data-c"))
+        ''')
+        if undefined_entries:
+            issues.append(f"B11: Sidebar has 'undefined' text for chapters: {undefined_entries}")
+
     finally:
         page.close()
 
@@ -190,7 +217,7 @@ def check_cross_navigation(browser, chapter_files):
 
 
 def check_index(browser, N):
-    """B10: index.html card count == N."""
+    """B10-B12: index.html chapter count, hero stats, badges, CHAPTERS array."""
     issues = []
     index_path = REPO_DIR / 'index.html'
     if not index_path.exists():
@@ -202,18 +229,68 @@ def check_index(browser, N):
     page.wait_for_load_state('load')
 
     try:
-        # Count chapter cards — look for chapter links
-        card_count = page.evaluate('''() =>
-            document.querySelectorAll('a[href*="chapter-"][href*=".html"]').length
-        ''')
-        # Deduplicate (each chapter link might appear once)
+        # B10: unique chapter card count == N
         unique_chapters = page.evaluate('''() => {
-            const links = [...document.querySelectorAll('a[href*="chapter-"][href*=".html"]')];
-            return new Set(links.map(a => a.getAttribute('href').match(/chapter-(\d+)/)?.[1]))
-                   .size;
+            const hrefs = [...document.querySelectorAll('a[href*="chapter-"]')]
+                .map(a => a.getAttribute('href'));
+            return new Set(hrefs.map(h => {
+                const m = h.match(/chapter-(\d+)/);
+                return m ? m[1] : null;
+            }).filter(Boolean)).size;
         }''')
         if unique_chapters != N:
-            issues.append(f"B10: index.html shows {unique_chapters} chapter links, expected {N}")
+            issues.append(f"B10: index.html shows {unique_chapters} chapter cards, expected {N}")
+
+        # B12a: hero stat-num chapters count == N
+        hero_count = page.evaluate(
+            '''() => {
+                const el = [...document.querySelectorAll(".stat-num")]
+                    .find(e => e.nextElementSibling?.textContent?.trim() === "Chapters");
+                return el ? parseInt(el.textContent) : null;
+            }'''
+        )
+        if hero_count != N:
+            issues.append(f"B12a: index.html hero stat shows {hero_count} chapters, expected {N}")
+
+        # B12b: eyebrow/technical ref text contains N
+        eyebrow_ok = page.evaluate(f'''() => {{
+            const el = document.querySelector('.hero-eyebrow, [class*="eyebrow"]');
+            return el ? el.textContent.includes(String({N})) : null;
+        }}''')
+        if eyebrow_ok is False:
+            eyebrow_text = page.evaluate(
+                '''() => document.querySelector('.hero-eyebrow, [class*="eyebrow"]')?.textContent?.trim()'''
+            )
+            issues.append(f"B12b: index.html eyebrow text wrong: {eyebrow_text!r}")
+
+        # B12c: each ch-badge value must equal its chapter number
+        badge_mismatches = page.evaluate('''() => {
+            const cards = document.querySelectorAll('.ch-card, a[href*="chapter-"]');
+            const bad = [];
+            for (const card of cards) {
+                const href = card.getAttribute("href") || "";
+                const chMatch = href.match(/chapter-(\d+)/);
+                if (!chMatch) continue;
+                const chNum = parseInt(chMatch[1]);
+                const badge = card.querySelector(".ch-badge");
+                if (badge && parseInt(badge.textContent) !== chNum) {
+                    bad.push(`Ch${chNum} badge shows ${badge.textContent}`);
+                }
+            }
+            return bad;
+        }''')
+        if badge_mismatches:
+            issues.append(f"B12c: index.html badge mismatches: {badge_mismatches}")
+
+        # B12d: no sidebar .sb-ch-link shows "undefined" on index page
+        undefined_sb = page.evaluate(
+            '''() => [...document.querySelectorAll(".sb-ch-link")]
+                .filter(el => el.textContent.trim() === "undefined")
+                .map(el => el.closest(".sb-ch")?.getAttribute("data-c"))'''
+        )
+        if undefined_sb:
+            issues.append(f"B12d: index.html sidebar has 'undefined' for chapters: {undefined_sb}")
+
     finally:
         page.close()
 
@@ -262,7 +339,7 @@ def main():
 
         # B10: index.html
         idx_issues = check_index(browser, N)
-        print(f"\n{'✅' if not idx_issues else '❌'}  index.html (B10)")
+        print(f"\n{'✅' if not idx_issues else '❌'}  index.html (B10-B12)")
         for i in idx_issues:
             print(f"     ⚠  {i}")
             total_issues += 1

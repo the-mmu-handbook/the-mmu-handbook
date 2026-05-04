@@ -41,7 +41,7 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 13 | 198 KB |
 
 | [20](chapters/chapter-20-WITH-FIGURES.html) | Confidential Computing and the Untrusted Hypervisor | 8 | 125 KB |
-**Total: 216 embedded SVG figures across 21 chapters (~4.2 MB)**
+**Total: 216 embedded SVG figures across 20 chapters (~4.2 MB)**
 
 ---
 
