@@ -39,7 +39,6 @@ All diagrams are inline SVG — fully scalable, print-ready, and self-contained 
 | [17](chapters/chapter-17-WITH-FIGURES.html) | Page Table Walker Microarchitecture | 11 | 183 KB |
 | [18](chapters/chapter-18-WITH-FIGURES.html) | MMU-Level Vulnerabilities: Spectre, Meltdown, and Paging Exploits | 12 | 206 KB |
 | [19](chapters/chapter-19-WITH-FIGURES.html) | CXL and the Disaggregated Address Space | 13 | 198 KB |
-
 | [20](chapters/chapter-20-WITH-FIGURES.html) | Confidential Computing and the Untrusted Hypervisor | 8 | 125 KB |
 
 **Total: 216 embedded SVG figures across 20 chapters (~4.2 MB)**
@@ -105,6 +104,9 @@ How speculative execution converts the paging model's five protection bits (P, U
 **Chapter 19 — CXL and the Disaggregated Address Space**
 CXL Type 3 memory expanders, the CXL .io/.cache/.mem protocol stack, and how HDM appears in the host physical address space. How Linux presents CXL as a cpuless NUMA node, the critical page table pinning constraint, memory tiering mechanics, TLB shootdown inversion via CXL 3.0 Back-Invalidation, and the two-stage address translation structure of CXL Shared Memory. Production measurements from Azure Pond, DirectCXL, and Meta TPP.
 
+**Chapter 20 — Confidential Computing and the Untrusted Hypervisor**
+The structural vulnerability of conventional virtualisation: how a compromised VMM can read all guest DRAM through direct EPT/NPT control — by design. Intel TDX: SEAM mode, the TDX Module, Physical Address Metadata (PAM) table, AES-256-XTS per-TD KeyID encryption, and INVTDLB shootdown semantics. AMD SEV-SNP: the Reverse Map Table (RMP) checked on every physical memory access, PVALIDATE handshake preventing pre-population attacks, and VMPL intra-VM isolation. ARM CCA with RME: four-world privilege model (Normal, Secure, Realm, Root), the Granule Protection Table, and hardware GPC enforcement at the memory subsystem after MMU walk resolution. GPU confidential computing: NVIDIA H100 CC encrypted bounce buffer, <5% inference overhead vs 8–41× distributed training overhead from MAC verification. Confidential CXL as an open research problem. Linux CC architecture: CC-aware boot, GHCB/TDVMCALL hypercall replacement, virtio bounce buffer protocol.
+
 ---
 
 ## Architecture Coverage
@@ -120,13 +122,13 @@ CXL Type 3 memory expanders, the CXL .io/.cache/.mem protocol stack, and how HDM
 
 ## Reading Guide
 
-**Systems / OS developers** → Chapters 1–9 form a complete foundation.
+**Systems / OS developers** → Chapters 1–9 form a complete foundation. Chapter 19 extends this to CXL-attached memory and disaggregated address spaces.
 
-**Hardware architects** → Chapters 4, 5, 10, 15, 16, 17, 18 cover translation hardware, IOMMUs, advanced TLB design, PTW microarchitecture, and paging-level security vulnerabilities in depth.
+**Hardware architects** → Chapters 4, 5, 10, 15, 16, 17, 18 cover translation hardware, IOMMUs, advanced TLB design, PTW microarchitecture, and paging-level security vulnerabilities in depth. Chapter 19 covers CXL disaggregation.
 
-**AI/ML infrastructure engineers** → Chapters 11–14 directly address GPU/accelerator memory challenges.
+**AI/ML infrastructure engineers** → Chapters 11–14 directly address GPU/accelerator memory challenges. Chapter 20 covers confidential computing for AI workloads including GPU TEEs and H100 CC.
 
-**Security researchers** → Chapter 6 covers the full protection model; Chapters 5 and 12 cover isolation at device and multi-tenant GPU scale; Chapter 18 covers Meltdown, Spectre, L1TF/Foreshadow, MDS, and KPTI in full depth (CVE-2017-5754, CVE-2017-5753/5715, CVE-2018-3615/3620/3646, CVE-2018-12126/12127/12130).
+**Security researchers** → Chapter 6 covers the full protection model; Chapters 5 and 12 cover isolation at device and multi-tenant GPU scale; Chapter 18 covers Meltdown, Spectre, L1TF/Foreshadow, MDS, and KPTI in full depth (CVE-2017-5754, CVE-2017-5753/5715, CVE-2018-3615/3620/3646, CVE-2018-12126/12127/12130); Chapter 20 covers confidential computing — TDX, SEV-SNP, ARM CCA, and GPU TEEs.
 
 ---
 
