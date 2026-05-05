@@ -291,6 +291,45 @@ def check_index(browser, N):
         if undefined_sb:
             issues.append(f"B12d: index.html sidebar has 'undefined' for chapters: {undefined_sb}")
 
+        # B12e: No duplicate section-title text (catches double Reading Paths / Architecture)
+        section_titles = page.evaluate(
+            '''() => [...document.querySelectorAll(".section-title")].map(el => el.textContent.trim())'''
+        )
+        seen = {}
+        for t in section_titles:
+            seen[t] = seen.get(t, 0) + 1
+        dupe_titles = [t for t, cnt in seen.items() if cnt > 1]
+        if dupe_titles:
+            issues.append(f"B12e: Duplicate section-titles in rendered index.html: {dupe_titles}")
+
+        # B12f: Every ch-card is inside .chapter-grid (not footer or elsewhere)
+        misplaced_cards = page.evaluate('''() => {
+            const grid = document.querySelector(".chapter-grid");
+            if (!grid) return ["chapter-grid not found"];
+            const allCards = [...document.querySelectorAll(".ch-card")];
+            const gridCards = new Set([...grid.querySelectorAll(".ch-card")].map(c => c.getAttribute("href")));
+            return allCards
+                .filter(c => !gridCards.has(c.getAttribute("href")))
+                .map(c => {
+                    const m = (c.getAttribute("href") || "").match(/chapter-(\\d+)/);
+                    const parent = c.closest("[class]");
+                    return `Ch${m?.[1] || "?"} in .${parent?.className?.split(" ")[0] || "unknown"}`;
+                });
+        }''')
+        if misplaced_cards:
+            issues.append(f"B12f: ch-card(s) outside .chapter-grid: {misplaced_cards}")
+
+        # B12g: Reading paths mention the two most recent chapters
+        # Get N from sidebar count
+        n_chapters = page.evaluate('()=> document.querySelectorAll(".sb-ch").length')
+        if n_chapters and n_chapters > 0:
+            reading_text = page.evaluate(
+                '''() => document.querySelector(".reading-grid")?.innerText || ""'''
+            )
+            for ch_num in [n_chapters, n_chapters - 1]:
+                if str(ch_num) not in reading_text:
+                    issues.append(f"B12g: Reading paths do not mention Chapter {ch_num}")
+
     finally:
         page.close()
 
