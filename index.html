@@ -343,7 +343,7 @@ body.sb-collapsed { margin-left: 44px; }
 
   <!-- Hero -->
   <div class="hero">
-    <div class="hero-eyebrow">Technical Reference — 20 Chapters</div>
+    <div class="hero-eyebrow">Technical Reference — 21 Chapters</div>
     <h1>Memory Management Units<br>and TLBs</h1>
     <p class="hero-sub">
       A rigorous, implementation-level guide to address translation — from foundational virtual memory
@@ -351,8 +351,8 @@ body.sb-collapsed { margin-left: 44px; }
       hardware architects, and ML infrastructure teams.
     </p>
     <div class="hero-stats">
-      <div class="stat"><span class="stat-num">20</span><span class="stat-label">Chapters</span></div>
-      <div class="stat"><span class="stat-num">216</span><span class="stat-label">SVG Figures</span></div>
+      <div class="stat"><span class="stat-num">21</span><span class="stat-label">Chapters</span></div>
+      <div class="stat"><span class="stat-num">224</span><span class="stat-label">SVG Figures</span></div>
       <div class="stat"><span class="stat-num">3</span><span class="stat-label">Architectures</span></div>
       <div class="stat"><span class="stat-num">~198K</span><span class="stat-label">Words</span></div>
     </div>
@@ -526,6 +526,16 @@ body.sb-collapsed { margin-left: 44px; }
       </div>
     </a>
 
+  
+
+    <a class="ch-card" href="chapters/chapter-21-WITH-FIGURES.html">
+      <div class="ch-badge">21</div>
+      <div class="ch-body">
+        <div class="ch-title">Hardware Memory Safety — CHERI, MTE, and Capability-Based Addressing</div>
+        <div class="ch-meta"><span>8 SVGs</span><span>127 KB</span></div>
+      </div>
+    </a>
+
   </div>
 
   <!-- Reading paths -->
@@ -544,12 +554,12 @@ body.sb-collapsed { margin-left: 44px; }
     <div class="path-card">
       <div class="path-icon">🤖</div>
       <h4>AI/ML Infrastructure</h4>
-      <p>Chapters 11–14 address GPU and accelerator memory, LLM serving, and ML-based optimization. Chapter 20 covers confidential computing for AI workloads.</p>
+      <p>Chapters 11–14 address GPU and accelerator memory, LLM serving, and ML-based optimization. Chapter 20 covers confidential computing for AI workloads. Chapter 21 covers hardware memory safety relevant to AI system integrity.</p>
     </div>
     <div class="path-card">
       <div class="path-icon">🔒</div>
       <h4>Security Researchers</h4>
-      <p>Chapter 6 covers the full protection model; Chapters 5 and 12 cover device and multi-tenant isolation; Chapter 18 covers MMU-level vulnerabilities including Meltdown, Spectre, L1TF/Foreshadow, and MDS in depth; Chapter 20 covers confidential computing, TDX, SEV-SNP, and ARM CCA.</p>
+      <p>Chapter 6 covers the full protection model; Chapters 5 and 12 cover device and multi-tenant isolation; Chapter 18 covers MMU-level vulnerabilities including Meltdown, Spectre, L1TF/Foreshadow, and MDS in depth; Chapter 20 covers confidential computing, TDX, SEV-SNP, and ARM CCA; Chapter 21 covers hardware memory safety — CHERI, ARM MTE, and capability-based addressing.</p>
     </div>
   </div>
 
@@ -1636,6 +1646,53 @@ body.sb-collapsed { margin-left: 44px; }
             {
                 "text": "20.10 Chapter Summary",
                 "id": "section-20.10"
+            }
+        ]
+    },
+    {
+        "num": 21,
+        "file": "chapters/chapter-21-WITH-FIGURES.html",
+        "short": "Hardware Memory Safety — CHERI, MTE, and Capability-Based Addressing",
+        "sections": [
+            {
+                "text": "21.1 Introduction: The Memory Safety Gap Below the Page Boundary",
+                "id": "section-21.1"
+            },
+            {
+                "text": "21.2 A Taxonomy of Memory Safety Violations",
+                "id": "section-21.2"
+            },
+            {
+                "text": "21.3 Software Mitigations and Their Limits",
+                "id": "section-21.3"
+            },
+            {
+                "text": "21.4 Memory Tagging: Lock-and-Key Protection",
+                "id": "section-21.4"
+            },
+            {
+                "text": "21.5 ARM MTE: Architecture, Modes, and MMU Interaction",
+                "id": "section-21.5"
+            },
+            {
+                "text": "21.6 CHERI Capabilities: Fat Pointers with Hardware Enforcement",
+                "id": "section-21.6"
+            },
+            {
+                "text": "21.7 CHERI ISA: Bounds Compression, Permissions, and Sealing",
+                "id": "section-21.7"
+            },
+            {
+                "text": "21.8 Morello, CheriBSD, and CHERIoT",
+                "id": "section-21.8"
+            },
+            {
+                "text": "21.9 CHERI and the MMU: Two Orthogonal Gates",
+                "id": "section-21.9"
+            },
+            {
+                "text": "21.10 Chapter Summary",
+                "id": "section-21.10"
             }
         ]
     }
