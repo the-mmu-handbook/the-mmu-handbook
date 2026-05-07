@@ -31,8 +31,10 @@ def stamp(check_only: bool = False) -> int:
     canonical = CSS_SRC.read_text()
     target_fp = css_fingerprint(canonical)
 
+    # index.html has its own distinct CSS (hero, cards, reading paths).
+    # stamp_css.py MUST NOT touch index.html — only chapter files.
     chapters = sorted((REPO / 'chapters').glob('chapter-*-WITH-FIGURES.html'))
-    targets  = chapters + [REPO / 'index.html']
+    targets  = chapters  # index.html excluded intentionally
 
     out_of_sync = []
     stamped     = 0
